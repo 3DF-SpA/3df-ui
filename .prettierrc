@@ -21,7 +21,7 @@
   "importOrderSortSpecifiers": true,
   "overrides": [
     {
-      "files": ["*.html", "*.json"],
+      "files": ["*.html", "*.json", "*.css"],
       "options": {
         "singleQuote": false
       }
