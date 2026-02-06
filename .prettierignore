@@ -1,0 +1,20 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build outputs
+dist
+.output
+.vite
+coverage
+
+# Cache
+.cache
+.eslintcache
+
+# Env files
+.env
+.env.*
+
+# Logs
+*.log
