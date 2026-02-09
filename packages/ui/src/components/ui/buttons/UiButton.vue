@@ -4,7 +4,7 @@ import { type Component, computed, useAttrs } from 'vue';
 import type { VariantProps } from 'class-variance-authority';
 import type { ClassValue } from 'clsx';
 
-import { cn } from '../../lib/utils';
+import { cn } from '../../../lib/utils';
 import { buttonVariants } from './button-variants';
 
 defineOptions({ name: 'UiButton', inheritAttrs: false });

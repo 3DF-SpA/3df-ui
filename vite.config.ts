@@ -12,6 +12,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@3df/ui/theme.css': fileURLToPath(
+        new URL('./packages/ui/src/styles/theme.css', import.meta.url),
+      ),
+      '@3df/ui': fileURLToPath(new URL('./packages/ui/src/index.ts', import.meta.url)),
     },
   },
 });
