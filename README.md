@@ -30,6 +30,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
     - [Checkbox](#checkbox)
     - [Radio](#radio)
     - [Switch](#switch)
+  - [Card](#card)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -1181,6 +1182,378 @@ const notifications = ref(true);
 
 ---
 
+### Card
+
+Sistema de cards compuesto por 6 sub-componentes que se combinan libremente para crear tarjetas de contenido, pricing, productos, dashboards, etc.
+
+#### Importación
+
+```ts
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@3df/ui';
+```
+
+#### Sub-componentes
+
+| Componente        | Elemento por defecto | Descripción                                         |
+| ----------------- | -------------------- | --------------------------------------------------- |
+| `Card`            | `<div>`              | Contenedor principal — fondo, borde, sombra, radio  |
+| `CardHeader`      | `<div>`              | Zona superior — padding `p-6`, flex column          |
+| `CardTitle`       | `<h3>`               | Título — `text-lg font-semibold`, tracking tight    |
+| `CardDescription` | `<p>`                | Subtítulo — `text-sm text-muted-foreground`         |
+| `CardContent`     | `<div>`              | Contenido principal — `p-6 pt-0`                    |
+| `CardFooter`      | `<div>`              | Zona inferior — `p-6 pt-0`, flex con `items-center` |
+
+> `Card` y `CardTitle` son **polimórficos** — usa la prop `as` para cambiar el elemento renderizado (ej: `as="article"`, `as="a"`, `as="h2"`).
+>
+> Todos aceptan `class` para override de estilos vía `cn()` / `tailwind-merge`.
+
+---
+
+#### Uso básico
+
+```vue
+<template>
+  <Card>
+    <CardHeader>
+      <CardTitle>Título de la card</CardTitle>
+      <CardDescription>Una descripción breve del contenido.</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p class="text-sm">Contenido principal de la card.</p>
+    </CardContent>
+    <CardFooter>
+      <Button size="sm">Acción</Button>
+    </CardFooter>
+  </Card>
+</template>
+```
+
+---
+
+#### Card con formulario
+
+```vue
+<template>
+  <Card>
+    <CardHeader>
+      <CardTitle>Crear proyecto</CardTitle>
+      <CardDescription>Configura tu nuevo proyecto en un click.</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <form class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+          <Label for="name">Nombre</Label>
+          <Input id="name" placeholder="Mi proyecto" />
+        </div>
+        <div class="flex flex-col gap-2">
+          <Label for="fw">Framework</Label>
+          <Select id="fw" v-model="framework" placeholder="Selecciona">
+            <SelectItem value="vue">Vue</SelectItem>
+            <SelectItem value="react">React</SelectItem>
+          </Select>
+        </div>
+      </form>
+    </CardContent>
+    <CardFooter class="justify-between">
+      <Button variant="ghost">Cancelar</Button>
+      <Button>Crear</Button>
+    </CardFooter>
+  </Card>
+</template>
+```
+
+---
+
+#### Cards de dashboard (métricas)
+
+Usa `CardTitle` con `as="h4"` y `class="text-base"` para títulos más compactos:
+
+```vue
+<template>
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <Card>
+      <CardHeader>
+        <div class="flex items-center justify-between">
+          <CardTitle as="h4" class="text-base">Ingresos</CardTitle>
+          <!-- icono -->
+        </div>
+      </CardHeader>
+      <CardContent>
+        <p class="text-2xl font-bold">$45,231.89</p>
+        <p class="text-muted-foreground text-xs">+20.1% respecto al mes pasado</p>
+      </CardContent>
+    </Card>
+    <!-- más cards... -->
+  </div>
+</template>
+```
+
+---
+
+#### Cards de pricing (planes)
+
+Destaca el plan recomendado con `border-primary border-2` y un badge posicionado arriba:
+
+```vue
+<template>
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <!-- Free -->
+    <Card>
+      <CardHeader>
+        <CardTitle>Free</CardTitle>
+        <CardDescription>Para proyectos personales.</CardDescription>
+        <div class="mt-2">
+          <span class="text-3xl font-bold">$0</span>
+          <span class="text-muted-foreground text-sm">/mes</span>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li class="flex items-center gap-2">✓ 1 proyecto</li>
+          <li class="flex items-center gap-2">✓ 100 MB</li>
+          <li class="text-muted-foreground">✗ Dominio custom</li>
+        </ul>
+      </CardContent>
+      <CardFooter>
+        <Button variant="outline" class="w-full">Empezar gratis</Button>
+      </CardFooter>
+    </Card>
+
+    <!-- Pro (destacado) -->
+    <Card class="border-primary relative border-2">
+      <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+        <Badge>Más popular</Badge>
+      </div>
+      <CardHeader>
+        <CardTitle>Pro</CardTitle>
+        <CardDescription>Para equipos pequeños.</CardDescription>
+        <div class="mt-2">
+          <span class="text-3xl font-bold">$19</span>
+          <span class="text-muted-foreground text-sm">/mes</span>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <ul class="flex flex-col gap-3 text-sm">
+          <li class="flex items-center gap-2">✓ 10 proyectos</li>
+          <li class="flex items-center gap-2">✓ 10 GB</li>
+          <li class="flex items-center gap-2">✓ Dominio custom</li>
+        </ul>
+      </CardContent>
+      <CardFooter>
+        <Button class="w-full">Suscribirse</Button>
+      </CardFooter>
+    </Card>
+
+    <!-- Enterprise -->
+    <Card>
+      <!-- ... -->
+    </Card>
+  </div>
+</template>
+```
+
+---
+
+#### Cards de producto (con imagen)
+
+Usa `overflow-hidden` en la Card para que la imagen respete el `border-radius`:
+
+```vue
+<template>
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <Card class="overflow-hidden">
+      <img
+        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=400&fit=crop"
+        alt="Reloj"
+        class="aspect-[3/2] w-full object-cover"
+      />
+      <CardHeader>
+        <div class="flex items-center justify-between">
+          <CardTitle class="text-base">Reloj Classic</CardTitle>
+          <Badge variant="secondary" size="sm">Nuevo</Badge>
+        </div>
+        <CardDescription>Reloj minimalista con correa de cuero.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div class="flex items-baseline gap-2">
+          <span class="text-lg font-bold">$129.00</span>
+          <span class="text-muted-foreground text-sm line-through">$159.00</span>
+        </div>
+      </CardContent>
+      <CardFooter>
+        <Button class="w-full" size="sm">Agregar al carrito</Button>
+      </CardFooter>
+    </Card>
+  </div>
+</template>
+```
+
+---
+
+#### Card de producto horizontal
+
+Usa `flex-row` para layout horizontal (apilable en móvil):
+
+```vue
+<template>
+  <Card class="flex flex-col overflow-hidden sm:flex-row">
+    <img
+      src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400&h=400&fit=crop"
+      alt="Cámara"
+      class="aspect-square w-full object-cover sm:w-48"
+    />
+    <div class="flex flex-1 flex-col">
+      <CardHeader>
+        <div class="flex items-center gap-2">
+          <CardTitle class="text-base">Cámara Instant</CardTitle>
+          <Badge variant="orange" size="sm">Oferta</Badge>
+        </div>
+        <CardDescription>Cámara instantánea con flash integrado.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div class="flex items-baseline gap-2">
+          <span class="text-lg font-bold">$69.00</span>
+          <span class="text-muted-foreground text-sm line-through">$99.00</span>
+        </div>
+      </CardContent>
+      <CardFooter class="mt-auto gap-2">
+        <Button size="sm">Comprar ahora</Button>
+        <Button variant="outline" size="sm">Ver detalles</Button>
+      </CardFooter>
+    </div>
+  </Card>
+</template>
+```
+
+> **Tip:** Usa `mt-auto` en el CardFooter para empujar los botones al fondo cuando la card tiene altura variable.
+
+---
+
+#### Card interactiva (hover)
+
+Agrega hover manualmente vía `class`:
+
+```vue
+<template>
+  <Card class="cursor-pointer transition-shadow duration-200 hover:shadow-md">
+    <CardHeader>
+      <CardTitle>Documentación</CardTitle>
+      <CardDescription>Guías y ejemplos interactivos.</CardDescription>
+    </CardHeader>
+  </Card>
+</template>
+```
+
+---
+
+#### Card solo contenido
+
+Si no usas `CardHeader`, agrega `pt-6` al `CardContent` para compensar el padding:
+
+```vue
+<template>
+  <Card>
+    <CardContent class="pt-6">
+      <p class="text-sm">Card sin header ni footer.</p>
+    </CardContent>
+  </Card>
+</template>
+```
+
+---
+
+#### Override de estilos
+
+```vue
+<template>
+  <!-- Sin sombra -->
+  <Card class="shadow-none">...</Card>
+
+  <!-- Borde más grueso y color custom -->
+  <Card class="border-primary border-2">...</Card>
+
+  <!-- Sin borde -->
+  <Card class="border-0">...</Card>
+
+  <!-- Fondo custom -->
+  <Card class="bg-muted">...</Card>
+
+  <!-- Como artículo semántico -->
+  <Card as="article">...</Card>
+</template>
+```
+
+---
+
+#### Cards tipo feature (landing page)
+
+Cards estilo marketing/landing con fondo de color sutil, sin borde ni sombra, y una "mini UI" decorativa arriba con título y descripción abajo:
+
+```vue
+<template>
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <Card class="border-0 bg-amber-50 shadow-none dark:bg-amber-950/30">
+      <CardContent class="pt-6">
+        <!-- Mini UI decorativa -->
+        <div
+          class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
+        >
+          <!-- Tu ilustración, screenshot o mockup aquí -->
+        </div>
+      </CardContent>
+      <CardHeader class="pt-0">
+        <CardTitle class="text-xl font-bold">Analiza interacciones en segundos.</CardTitle>
+        <CardDescription>
+          Visualiza el panorama completo de cada interacción de un vistazo.
+        </CardDescription>
+      </CardHeader>
+    </Card>
+
+    <Card class="border-0 bg-teal-50 shadow-none dark:bg-teal-950/30">
+      <CardContent class="pt-6">
+        <div
+          class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
+        >
+          <!-- Mockup de training plan -->
+        </div>
+      </CardContent>
+      <CardHeader class="pt-0">
+        <CardTitle class="text-xl font-bold">Genera entrenamientos personalizados.</CardTitle>
+        <CardDescription>
+          Entrena agentes con simulaciones IA que replican escenarios reales.
+        </CardDescription>
+      </CardHeader>
+    </Card>
+
+    <Card class="border-0 bg-emerald-50 shadow-none dark:bg-emerald-950/30">
+      <CardContent class="pt-6">
+        <div
+          class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
+        >
+          <!-- Gráfico de barras decorativo -->
+        </div>
+      </CardContent>
+      <CardHeader class="pt-0">
+        <CardTitle class="text-xl font-bold">Observa la satisfacción crecer.</CardTitle>
+        <CardDescription>
+          QA y entrenamiento trabajan juntos para mejorar cada conversación.
+        </CardDescription>
+      </CardHeader>
+    </Card>
+  </div>
+</template>
+```
+
+**Patrón clave:**
+
+- `border-0 shadow-none` — elimina borde y sombra de la card base.
+- `bg-{color}-50 dark:bg-{color}-950/30` — fondo sutil de color que funciona en light y dark.
+- `CardContent` va **antes** de `CardHeader` — la ilustración arriba, el texto abajo.
+- `pt-0` en `CardHeader` y `pt-6` en `CardContent` — invierte el padding predeterminado.
+- El panel blanco interior (`bg-white rounded-lg shadow-sm`) crea la ilusión de una "mini interfaz" flotante.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -1261,8 +1634,15 @@ packages/ui/
 │   │   │   └── UiCheckbox.vue            # Componente Checkbox (animado)
 │   │   ├── radio/
 │   │   │   └── UiRadio.vue               # Componente Radio
-│   │   └── switch/
-│   │       └── UiSwitch.vue              # Componente Switch (toggle)
+│   │   ├── switch/
+│   │   │   └── UiSwitch.vue              # Componente Switch (toggle)
+│   │   └── card/
+│   │       ├── UiCard.vue                # Contenedor principal
+│   │       ├── UiCardHeader.vue          # Header de la card
+│   │       ├── UiCardTitle.vue           # Título (polimórfico)
+│   │       ├── UiCardDescription.vue     # Descripción
+│   │       ├── UiCardContent.vue         # Contenido principal
+│   │       └── UiCardFooter.vue          # Footer de la card
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
