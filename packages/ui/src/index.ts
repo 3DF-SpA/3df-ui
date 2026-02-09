@@ -36,3 +36,7 @@ export type {
   ToastPosition,
   ToastInput,
 } from './components/ui/sonner/toast-state';
+export { default as Alert } from './components/ui/alert/UiAlert.vue';
+export { default as AlertTitle } from './components/ui/alert/UiAlertTitle.vue';
+export { default as AlertDescription } from './components/ui/alert/UiAlertDescription.vue';
+export { alertVariants } from './components/ui/alert/alert-variants';

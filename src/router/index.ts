@@ -51,6 +51,12 @@ const router = createRouter({
           name: 'MySonner',
           component: () => import('@/modules/ui/views/MySonner.vue'),
         },
+
+        {
+          path: '/alerts',
+          name: 'MyAlerts',
+          component: () => import('@/modules/ui/views/MyAlerts.vue'),
+        },
       ],
     },
   ],

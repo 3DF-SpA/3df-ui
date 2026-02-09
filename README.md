@@ -34,6 +34,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Dropdown Menu](#dropdown-menu)
   - [Popover](#popover)
   - [Sonner (Toast)](#sonner-toast)
+  - [Alert](#alert)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -2051,6 +2052,105 @@ export type ToastInput = Partial<Omit<Toast, 'id' | 'createdAt' | 'variant'>> & 
 
 ---
 
+## Alert
+
+Componente estático inline para mostrar mensajes importantes al usuario. A diferencia de los toasts (Sonner), las alerts **no se cierran solas** — permanecen visibles hasta que el usuario las descarta o el componente se desmonta.
+
+### Importación
+
+```ts
+import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
+```
+
+### Componentes
+
+| Componente         | Descripción                           |
+| ------------------ | ------------------------------------- |
+| `Alert`            | Contenedor principal (`role="alert"`) |
+| `AlertTitle`       | Título (`<h5>`)                       |
+| `AlertDescription` | Contenido descriptivo                 |
+
+### Uso básico
+
+```vue
+<Alert variant="success">
+  <svg><!-- icono opcional --></svg>
+  <AlertTitle>¡Éxito!</AlertTitle>
+  <AlertDescription>
+    La operación se completó correctamente.
+  </AlertDescription>
+</Alert>
+```
+
+### Props de `<Alert>`
+
+| Prop      | Tipo           | Default     | Descripción             |
+| --------- | -------------- | ----------- | ----------------------- |
+| `variant` | `AlertVariant` | `'default'` | Estilo visual del alert |
+| `class`   | `string`       | —           | Clases adicionales      |
+
+### Variantes
+
+| Variante      | Colores                                               |
+| ------------- | ----------------------------------------------------- |
+| `default`     | `bg-background` / `text-foreground` / `border-border` |
+| `destructive` | Red — fondo claro, texto oscuro, icono rojo           |
+| `success`     | Emerald — fondo claro, texto oscuro, icono verde      |
+| `warning`     | Amber — fondo claro, texto oscuro, icono ámbar        |
+| `info`        | Blue — fondo claro, texto oscuro, icono azul          |
+
+Todas las variantes soportan **dark mode** automáticamente.
+
+### Iconos
+
+Los iconos se posicionan automáticamente con CSS (`[&>svg]`). Coloca un `<svg>` como primer hijo del `<Alert>` y el contenido se desplazará a la derecha:
+
+```vue
+<Alert variant="warning">
+  <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" ...>
+    <!-- icono -->
+  </svg>
+  <AlertTitle>Advertencia</AlertTitle>
+  <AlertDescription>Ten cuidado con esta acción.</AlertDescription>
+</Alert>
+```
+
+Si no se incluye un `<svg>`, el alert se renderiza sin padding izquierdo extra.
+
+### Contenido rico
+
+El `<AlertDescription>` acepta cualquier contenido HTML:
+
+```vue
+<Alert variant="destructive">
+  <AlertTitle>Errores de validación</AlertTitle>
+  <AlertDescription>
+    <p>Se encontraron los siguientes errores:</p>
+    <ul class="mt-2 list-inside list-disc space-y-1">
+      <li>El campo email es requerido</li>
+      <li>La contraseña debe tener al menos 8 caracteres</li>
+    </ul>
+  </AlertDescription>
+</Alert>
+```
+
+### Accesibilidad
+
+- `role="alert"` en el contenedor principal
+- Compatible con lectores de pantalla
+- Los iconos usan `text-current` para heredar el color de la variante
+
+### Alert vs Sonner (Toast)
+
+| Característica | Alert                               | Sonner (Toast)                  |
+| -------------- | ----------------------------------- | ------------------------------- |
+| Persistencia   | **No se cierra sola**               | Se cierra sola (4s default)     |
+| Posición       | **Inline** — fluye con el contenido | Flotante en esquina de pantalla |
+| Uso            | Validaciones, mensajes estáticos    | Notificaciones temporales       |
+| Interactividad | Solo lectura                        | Dismiss, acción, hover pausa    |
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -2152,10 +2252,15 @@ packages/ui/
 │   │   │   ├── UiPopover.vue             # Contenedor raíz
 │   │   │   ├── UiPopoverTrigger.vue      # Trigger
 │   │   │   └── UiPopoverContent.vue      # Panel flotante (fixed + Teleport)
-│   │   └── sonner/
-│   │       ├── toast-state.ts            # Estado reactivo global + función toast()
-│   │       ├── UiToast.vue               # Toast individual (animación, icono, acción)
-│   │       └── UiToaster.vue             # Contenedor global (Teleport + posición)
+│   │   ├── sonner/
+│   │   │   ├── toast-state.ts            # Estado reactivo global + función toast()
+│   │   │   ├── UiToast.vue               # Toast individual (animación, icono, acción)
+│   │   │   └── UiToaster.vue             # Contenedor global (Teleport + posición)
+│   │   └── alert/
+│   │       ├── alert-variants.ts         # Variantes CVA del Alert
+│   │       ├── UiAlert.vue               # Contenedor principal (role="alert")
+│   │       ├── UiAlertTitle.vue          # Título
+│   │       └── UiAlertDescription.vue    # Descripción
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

@@ -3,7 +3,6 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 
 import { cn } from '../../../lib/utils';
 import type { Toast } from './toast-state';
-import { toast as toastFn } from './toast-state';
 
 defineOptions({ name: 'UiToast' });
 
