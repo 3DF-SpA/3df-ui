@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import UiLayout from '@/modules/ui/UiLayout.vue';
 import MyBadges from '@/modules/ui/views/MyBadges.vue';
 import MyButton from '@/modules/ui/views/MyButton.vue';
+import MyCards from '@/modules/ui/views/MyCards.vue';
 import MyForms from '@/modules/ui/views/MyForms.vue';
 
 const router = createRouter({
@@ -29,6 +30,12 @@ const router = createRouter({
           path: '/forms',
           name: 'MyForms',
           component: MyForms,
+        },
+
+        {
+          path: '/cards',
+          name: 'MyCards',
+          component: MyCards,
         },
       ],
     },
