@@ -54,7 +54,7 @@ function onClick() {
     :data-select-value="value"
     :class="
       cn(
-        'relative flex cursor-pointer items-center rounded-[var(--radius-sm)] px-2 py-1.5 text-sm',
+        'relative flex cursor-pointer items-center rounded-sm px-2 py-1.5 text-sm',
         'transition-colors duration-100',
         'select-none',
         isFocused && 'bg-accent text-accent-foreground',

@@ -30,7 +30,7 @@ const restAttrs = computed(() => {
 const classes = computed(() =>
   cn(
     [
-      'flex w-full min-h-[80px] rounded-[var(--radius-md)] bg-background text-sm text-foreground',
+      'flex w-full min-h-[80px] rounded-md bg-background text-sm text-foreground',
       'border border-input px-3 py-2',
       'transition-[color,border-color,box-shadow] duration-200',
       'placeholder:text-muted-foreground',

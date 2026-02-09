@@ -24,10 +24,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn(
-    'bg-card text-card-foreground rounded-[var(--radius-xl)] border border-border shadow-sm',
-    attrs.class,
-  ),
+  cn('bg-card text-card-foreground rounded-xl border border-border shadow-sm', attrs.class),
 );
 </script>
 

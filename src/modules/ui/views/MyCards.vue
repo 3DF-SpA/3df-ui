@@ -724,9 +724,7 @@ const framework = ref('vue');
         <!-- Feature 1 -->
         <Card class="border-0 bg-amber-50 shadow-none dark:bg-amber-950/30">
           <CardContent class="pt-6">
-            <div
-              class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
-            >
+            <div class="mb-4 overflow-hidden rounded-lg bg-white p-4 shadow-sm dark:bg-white/10">
               <div class="flex flex-col gap-3">
                 <div class="flex gap-2">
                   <div class="h-2 w-16 rounded-full bg-amber-300/60"></div>
@@ -741,7 +739,7 @@ const framework = ref('vue');
                   <div class="h-2 w-14 rounded-full bg-amber-200/40"></div>
                 </div>
                 <div
-                  class="mt-2 flex items-center justify-between rounded-[var(--radius-md)] border border-amber-200 bg-white px-3 py-2 dark:border-amber-800 dark:bg-white/5"
+                  class="mt-2 flex items-center justify-between rounded-md border border-amber-200 bg-white px-3 py-2 dark:border-amber-800 dark:bg-white/5"
                 >
                   <span class="text-xs font-medium">Auto QA score</span>
                   <div class="flex items-center gap-1.5">
@@ -767,9 +765,7 @@ const framework = ref('vue');
         <!-- Feature 2 -->
         <Card class="border-0 bg-teal-50 shadow-none dark:bg-teal-950/30">
           <CardContent class="pt-6">
-            <div
-              class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
-            >
+            <div class="mb-4 overflow-hidden rounded-lg bg-white p-4 shadow-sm dark:bg-white/10">
               <div class="flex flex-col gap-2">
                 <p class="text-xs font-semibold">Training Plan</p>
                 <div class="flex items-center gap-2">
@@ -783,7 +779,7 @@ const framework = ref('vue');
                 </div>
                 <div class="mt-1 flex flex-col gap-1.5">
                   <div
-                    class="flex items-center gap-2 rounded-[var(--radius-sm)] bg-teal-50 px-2 py-1.5 dark:bg-teal-900/30"
+                    class="flex items-center gap-2 rounded-sm bg-teal-50 px-2 py-1.5 dark:bg-teal-900/30"
                   >
                     <span
                       class="flex size-4 items-center justify-center rounded-full bg-teal-500 text-[8px] text-white"
@@ -792,7 +788,7 @@ const framework = ref('vue');
                     <span class="truncate text-[11px]">Resolving Login Issues with Emp...</span>
                   </div>
                   <div
-                    class="flex items-center gap-2 rounded-[var(--radius-sm)] bg-teal-50 px-2 py-1.5 dark:bg-teal-900/30"
+                    class="flex items-center gap-2 rounded-sm bg-teal-50 px-2 py-1.5 dark:bg-teal-900/30"
                   >
                     <span
                       class="flex size-4 items-center justify-center rounded-full bg-teal-400 text-[8px] text-white"
@@ -816,9 +812,7 @@ const framework = ref('vue');
         <!-- Feature 3 -->
         <Card class="border-0 bg-emerald-50 shadow-none dark:bg-emerald-950/30">
           <CardContent class="pt-6">
-            <div
-              class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
-            >
+            <div class="mb-4 overflow-hidden rounded-lg bg-white p-4 shadow-sm dark:bg-white/10">
               <div class="flex flex-col gap-2">
                 <p class="text-xs font-semibold">Conversation performance</p>
                 <div class="mb-1 flex items-center gap-3">

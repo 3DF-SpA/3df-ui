@@ -267,10 +267,7 @@ const disabledInput = ref('No puedes editar esto');
     <!-- Complete form example -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Formulario completo</h2>
-      <form
-        class="border-border grid max-w-md gap-5 rounded-[var(--radius-lg)] border p-6"
-        @submit.prevent
-      >
+      <form class="border-border grid max-w-md gap-5 rounded-lg border p-6" @submit.prevent>
         <div class="flex flex-col gap-2">
           <Label for="form-name">Nombre completo</Label>
           <Input id="form-name" placeholder="Juan Pérez" />
