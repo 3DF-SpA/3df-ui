@@ -57,6 +57,11 @@ const router = createRouter({
           name: 'MyAlerts',
           component: () => import('@/modules/ui/views/MyAlerts.vue'),
         },
+        {
+          path: '/tooltip',
+          name: 'MyTooltip',
+          component: () => import('@/modules/ui/views/MyTooltip.vue'),
+        },
       ],
     },
   ],

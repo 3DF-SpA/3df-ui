@@ -35,6 +35,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Popover](#popover)
   - [Sonner (Toast)](#sonner-toast)
   - [Alert](#alert)
+  - [Tooltip](#tooltip)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -2151,6 +2152,113 @@ El `<AlertDescription>` acepta cualquier contenido HTML:
 
 ---
 
+## Tooltip
+
+Tooltip flotante que aparece al pasar el mouse o al hacer focus sobre un elemento. A diferencia del Popover, el tooltip se activa por **hover/focus** (no por click), se posiciona por defecto **arriba**, y soporta las 4 direcciones.
+
+### Importación
+
+```ts
+import { Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
+```
+
+### Componentes
+
+| Componente       | Descripción                                          |
+| ---------------- | ---------------------------------------------------- |
+| `Tooltip`        | Contenedor raíz (provide/inject). Controla delay.    |
+| `TooltipTrigger` | Elemento que activa el tooltip (hover + focus).      |
+| `TooltipContent` | Panel flotante (`role="tooltip"`, Teleport + fixed). |
+
+### Uso básico
+
+```vue
+<Tooltip>
+  <TooltipTrigger>
+    <Button variant="outline">Hover sobre mí</Button>
+  </TooltipTrigger>
+  <TooltipContent>
+    Este es un tooltip básico
+  </TooltipContent>
+</Tooltip>
+```
+
+### Props de `<Tooltip>`
+
+| Prop         | Tipo     | Default | Descripción                  |
+| ------------ | -------- | ------- | ---------------------------- |
+| `delay`      | `number` | `300`   | Delay en ms antes de mostrar |
+| `closeDelay` | `number` | `150`   | Delay en ms antes de cerrar  |
+
+### Props de `<TooltipContent>`
+
+| Prop              | Tipo                                     | Default    | Descripción                         |
+| ----------------- | ---------------------------------------- | ---------- | ----------------------------------- |
+| `side`            | `'top' \| 'bottom' \| 'left' \| 'right'` | `'top'`    | Dirección preferida                 |
+| `align`           | `'start' \| 'center' \| 'end'`           | `'center'` | Alineación respecto al trigger      |
+| `sideOffset`      | `number`                                 | `6`        | Separación del trigger (px)         |
+| `viewportPadding` | `number`                                 | `8`        | Margen mínimo al borde del viewport |
+| `class`           | `string`                                 | —          | Clases adicionales                  |
+
+### Comportamiento
+
+| Característica      | Descripción                                                |
+| ------------------- | ---------------------------------------------------------- |
+| Activación          | `mouseenter` / `focusin` en el trigger                     |
+| Cierre              | `mouseleave` / `focusout` en el trigger                    |
+| Hover sobre tooltip | Cancela el cierre (puedes pasar el mouse al contenido)     |
+| Auto-flip           | Cambia de lado si no hay espacio en la dirección preferida |
+| Viewport clamping   | Se reposiciona para no salirse de la pantalla              |
+| Cierre en scroll    | Se cierra al hacer scroll                                  |
+| Delay               | Configurable: `delay` para abrir, `closeDelay` para cerrar |
+
+### Accesibilidad
+
+- `role="tooltip"` en el contenido
+- `aria-describedby` en el trigger, vinculado al ID del tooltip
+- Se activa por **focus** además de hover (navegación por teclado)
+
+### Tooltip vs Popover
+
+| Característica     | Tooltip                        | Popover                             |
+| ------------------ | ------------------------------ | ----------------------------------- |
+| Activación         | **Hover + focus**              | Click                               |
+| Propósito          | Texto de ayuda, atajos         | Contenido interactivo (forms, info) |
+| Side default       | `top`                          | `bottom`                            |
+| Direcciones        | **4** (top/bottom/left/right)  | 2 (top/bottom)                      |
+| ARIA role          | `tooltip` + `aria-describedby` | `dialog` + `aria-labelledby`        |
+| Delay              | 300ms (configurable)           | Instantáneo                         |
+| Hover en contenido | Cancela cierre                 | —                                   |
+
+### Ejemplo con delay instantáneo
+
+```vue
+<Tooltip :delay="0">
+  <TooltipTrigger>
+    <Button variant="outline">Instantáneo</Button>
+  </TooltipTrigger>
+  <TooltipContent>¡Aparezco al instante!</TooltipContent>
+</Tooltip>
+```
+
+### Ejemplo con contenido rico
+
+```vue
+<Tooltip>
+  <TooltipTrigger>
+    <Button variant="outline" size="icon">⌘</Button>
+  </TooltipTrigger>
+  <TooltipContent class="max-w-xs">
+    <p class="font-semibold">Atajo de teclado</p>
+    <p class="text-xs text-muted-foreground">
+      Presiona <kbd>Ctrl+S</kbd> para guardar.
+    </p>
+  </TooltipContent>
+</Tooltip>
+```
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -2256,11 +2364,15 @@ packages/ui/
 │   │   │   ├── toast-state.ts            # Estado reactivo global + función toast()
 │   │   │   ├── UiToast.vue               # Toast individual (animación, icono, acción)
 │   │   │   └── UiToaster.vue             # Contenedor global (Teleport + posición)
-│   │   └── alert/
-│   │       ├── alert-variants.ts         # Variantes CVA del Alert
-│   │       ├── UiAlert.vue               # Contenedor principal (role="alert")
-│   │       ├── UiAlertTitle.vue          # Título
-│   │       └── UiAlertDescription.vue    # Descripción
+│   │   ├── alert/
+│   │   │   ├── alert-variants.ts         # Variantes CVA del Alert
+│   │   │   ├── UiAlert.vue               # Contenedor principal (role="alert")
+│   │   │   ├── UiAlertTitle.vue          # Título
+│   │   │   └── UiAlertDescription.vue    # Descripción
+│   │   └── tooltip/
+│   │       ├── UiTooltip.vue             # Contenedor raíz (provide/inject, delay)
+│   │       ├── UiTooltipTrigger.vue      # Trigger (hover + focus)
+│   │       └── UiTooltipContent.vue      # Panel flotante (fixed + Teleport)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
