@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build:ui": "pnpm --filter @3df/ui build",
+    "build": "pnpm build:ui && run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
@@ -18,7 +19,11 @@
   },
   "dependencies": {
     "@3df/ui": "workspace:*",
-    "vue": "^3.5.27"
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.4.0",
+    "vue": "^3.5.27",
+    "vue-router": "^5.0.2"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",

@@ -1,54 +1,483 @@
-# 3df-ui
+# @3df/ui
 
-This template should help get you started developing with Vue 3 in Vite.
+Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-variance-authority](https://cva.style). Inspirada en [shadcn/ui](https://ui.shadcn.com) — componentes minimalistas, accesibles y completamente personalizables a través de design tokens.
 
-## Recommended IDE Setup
+## Características
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Vue 3.5+** con `<script setup>` y TypeScript
+- **Tailwind CSS v4** con sistema de tokens vía `@theme`
+- **Tree-shakeable** — solo pagas por lo que importas
+- **Dark mode** integrado vía clase `.dark`
+- **Polimórfico** — renderiza como `<button>`, `<a>`, o cualquier componente
+- **Override de clases** — sobrescribe cualquier estilo con Tailwind gracias a `tailwind-merge`
+- **Tipos incluidos** — `.d.ts` generados automáticamente
 
-## Recommended Browser Setup
+---
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Instalación
 
-## Type Support for `.vue` Imports in TS
+### 1. Instalar el paquete y sus peer dependencies
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
+```bash
+pnpm add @3df/ui class-variance-authority clsx tailwind-merge
 ```
 
-### Compile and Hot-Reload for Development
+> `vue` ya debe estar instalado en tu proyecto.
 
-```sh
-pnpm dev
+### 2. Configurar el CSS
+
+En tu archivo CSS principal (por ejemplo `src/assets/main.css` o `src/styles/global.css`):
+
+```css
+@import 'tailwindcss';
+@import '@3df/ui/theme.css';
+@source '@3df/ui';
 ```
 
-### Type-Check, Compile and Minify for Production
+| Línea                         | Qué hace                                                            |
+| ----------------------------- | ------------------------------------------------------------------- |
+| `@import "tailwindcss"`       | Carga Tailwind CSS v4                                               |
+| `@import "@3df/ui/theme.css"` | Importa los design tokens (colores, radios, dark mode)              |
+| `@source "@3df/ui"`           | Le dice a Tailwind que escanee las clases usadas dentro del paquete |
 
-```sh
-pnpm build
+### 3. Importar el CSS en tu app
+
+**Vue** — en `main.ts`:
+
+```ts
+import './assets/main.css';
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+**Astro** — en tu layout principal:
 
-```sh
-pnpm test:unit
+```astro
+---
+import '../styles/global.css';
+---
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+> Astro extrae el CSS automáticamente al `<head>` como render-blocking. En Vue + Vite, el build de producción hace lo mismo.
 
-```sh
-pnpm lint
+---
+
+## Integración por framework
+
+### Vue
+
+```vue
+<script setup lang="ts">
+import { Button } from '@3df/ui';
+</script>
+
+<template>
+  <Button variant="outline">Click me</Button>
+</template>
 ```
+
+### Astro
+
+```astro
+---
+import { Button } from '@3df/ui';
+---
+
+<Button client:load variant="destructive">
+  Eliminar
+</Button>
+```
+
+> En Astro necesitas `client:load` (o `client:visible`, `client:idle`) para que el componente Vue sea interactivo.
+
+---
+
+## Dark mode
+
+El tema soporta light y dark mode a través de la clase `dark` en el elemento `<html>`:
+
+```html
+<!-- Light mode (por defecto) -->
+<html lang="es">
+  <!-- Dark mode -->
+  <html class="dark" lang="es"></html>
+</html>
+```
+
+Para toggle dinámico con persistencia:
+
+```ts
+// Leer preferencia guardada o del sistema
+const theme =
+  localStorage.getItem('theme') ??
+  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+document.documentElement.classList.toggle('dark', theme === 'dark');
+
+// Guardar al cambiar
+function setTheme(value: 'light' | 'dark') {
+  localStorage.setItem('theme', value);
+  document.documentElement.classList.toggle('dark', value === 'dark');
+}
+```
+
+---
+
+## Componentes
+
+### Button
+
+Botón versátil con variantes, tamaños y renderizado polimórfico.
+
+#### Importación
+
+```ts
+import { Button } from '@3df/ui';
+```
+
+#### Props
+
+| Prop      | Tipo                                                                          | Default     | Descripción                        |
+| --------- | ----------------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `variant` | `'default' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive' \| 'link'` | `'default'` | Estilo visual del botón            |
+| `size`    | `'default' \| 'xs' \| 'sm' \| 'lg' \| 'icon'`                                 | `'default'` | Tamaño del botón                   |
+| `as`      | `string \| Component`                                                         | `'button'`  | Elemento o componente a renderizar |
+
+> Además acepta todos los atributos nativos del elemento (`type`, `disabled`, `href`, `target`, etc.) vía `$attrs`.
+
+---
+
+#### Variantes
+
+```vue
+<template>
+  <Button>Default</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="outline">Outline</Button>
+  <Button variant="ghost">Ghost</Button>
+  <Button variant="destructive">Destructive</Button>
+  <Button variant="link">Link</Button>
+</template>
+```
+
+| Variante      | Uso recomendado                                                                      |
+| ------------- | ------------------------------------------------------------------------------------ |
+| `default`     | Acción principal (CTA). Fondo sólido, alto contraste.                                |
+| `secondary`   | Acción secundaria. Fondo sutil.                                                      |
+| `outline`     | Acción terciaria. Borde visible, fondo transparente.                                 |
+| `ghost`       | Acciones dentro de toolbars, menús, o áreas con poco espacio. Sin borde ni fondo.    |
+| `destructive` | Acciones peligrosas (eliminar, desconectar). Rojo.                                   |
+| `link`        | Navegación inline que se comporta como un enlace. Sin fondo, con subrayado en hover. |
+
+---
+
+#### Tamaños
+
+```vue
+<template>
+  <Button size="xs">Extra small</Button>
+  <Button size="sm">Small</Button>
+  <Button>Default</Button>
+  <Button size="lg">Large</Button>
+  <Button size="icon">
+    <MyIcon name="settings" />
+  </Button>
+</template>
+```
+
+| Tamaño    | Altura        | Uso                                           |
+| --------- | ------------- | --------------------------------------------- |
+| `xs`      | `h-7` (28px)  | Acciones compactas, tags, badges interactivos |
+| `sm`      | `h-9` (36px)  | Formularios densos, toolbars                  |
+| `default` | `h-10` (40px) | Uso general                                   |
+| `lg`      | `h-11` (44px) | CTAs prominentes, hero sections               |
+| `icon`    | `h-10 w-10`   | Botones de solo icono (cuadrado)              |
+
+---
+
+#### Estado disabled
+
+```vue
+<template>
+  <Button disabled>No puedes hacer click</Button>
+  <Button variant="destructive" disabled>Eliminar</Button>
+</template>
+```
+
+Los botones deshabilitados aplican `opacity: 0.5` y `pointer-events: none` automáticamente.
+
+---
+
+#### Como enlace
+
+Usa la prop `as` para renderizar como `<a>`:
+
+```vue
+<template>
+  <Button as="a" href="https://example.com" target="_blank"> Visitar sitio </Button>
+
+  <Button as="a" href="/docs" variant="outline"> Documentación </Button>
+</template>
+```
+
+#### Con componente de router
+
+```vue
+<script setup lang="ts">
+import { Button } from '@3df/ui';
+import { RouterLink } from 'vue-router';
+</script>
+
+<template>
+  <Button :as="RouterLink" to="/dashboard"> Ir al dashboard </Button>
+</template>
+```
+
+---
+
+#### Con iconos
+
+```vue
+<template>
+  <!-- Icono a la izquierda -->
+  <Button>
+    <MyIcon name="plus" :size="16" />
+    Crear nuevo
+  </Button>
+
+  <!-- Icono a la derecha -->
+  <Button variant="outline">
+    Siguiente
+    <MyIcon name="arrow-right" :size="16" />
+  </Button>
+
+  <!-- Solo icono -->
+  <Button size="icon" variant="ghost">
+    <MyIcon name="settings" />
+  </Button>
+</template>
+```
+
+> El componente incluye `gap-2` por defecto, así que los iconos y el texto se separan automáticamente.
+
+---
+
+#### Ancho completo
+
+```vue
+<template>
+  <Button class="w-full">Confirmar pedido</Button>
+</template>
+```
+
+---
+
+#### Override de estilos
+
+Puedes sobrescribir cualquier clase de Tailwind pasando `class`. Gracias a `tailwind-merge`, tus clases ganan sobre las del componente sin conflictos:
+
+```vue
+<template>
+  <!-- Bordes redondeados completos -->
+  <Button class="rounded-full">Pill button</Button>
+
+  <!-- Color personalizado -->
+  <Button class="bg-indigo-600 hover:bg-indigo-700">Custom color</Button>
+
+  <!-- Tamaño personalizado -->
+  <Button class="h-14 px-8 text-lg">Extra grande</Button>
+</template>
+```
+
+---
+
+#### Acceso a las variantes (headless)
+
+Si necesitas los estilos del botón sin el componente (por ejemplo para un `<a>` nativo o un componente de otra librería):
+
+```ts
+import { buttonVariants } from '@3df/ui';
+
+const classes = buttonVariants({ variant: 'outline', size: 'sm' });
+// → "inline-flex items-center justify-center ... border border-border ..."
+```
+
+```vue
+<template>
+  <a :class="buttonVariants({ variant: 'link' })" href="/docs"> Ver documentación </a>
+</template>
+```
+
+---
+
+## Utilidades
+
+### `cn(...classes)`
+
+Helper para combinar clases de Tailwind sin conflictos. Usa `clsx` + `tailwind-merge` internamente.
+
+```ts
+import { cn } from '@3df/ui';
+
+cn('px-4 py-2', 'px-6'); // → 'py-2 px-6' (px-6 gana)
+cn('rounded-md', 'rounded-full'); // → 'rounded-full' (gana la última)
+cn('text-sm', false && 'hidden'); // → 'text-sm' (ignora falsy)
+```
+
+---
+
+## Personalización del tema
+
+Los design tokens se definen en `@3df/ui/theme.css` usando CSS custom properties. Para sobrescribirlos en tu proyecto, redefine las variables **después** del import:
+
+```css
+@import 'tailwindcss';
+@import '@3df/ui/theme.css';
+@source '@3df/ui';
+
+/* Tus overrides */
+@theme {
+  --color-primary: hsl(220 90% 56%);
+  --color-primary-foreground: hsl(0 0% 100%);
+}
+```
+
+### Tokens disponibles
+
+| Token                                                         | Descripción                   |
+| ------------------------------------------------------------- | ----------------------------- |
+| `--color-background` / `--color-foreground`                   | Fondo y texto principales     |
+| `--color-primary` / `--color-primary-foreground`              | Color de acción principal     |
+| `--color-secondary` / `--color-secondary-foreground`          | Color de acción secundaria    |
+| `--color-muted` / `--color-muted-foreground`                  | Fondos y textos sutiles       |
+| `--color-accent` / `--color-accent-foreground`                | Resaltados (hover, selección) |
+| `--color-destructive` / `--color-destructive-foreground`      | Acciones peligrosas           |
+| `--color-card` / `--color-card-foreground`                    | Fondos de tarjetas            |
+| `--color-popover` / `--color-popover-foreground`              | Fondos de popovers/dropdowns  |
+| `--color-border`                                              | Bordes                        |
+| `--color-input`                                               | Bordes de inputs              |
+| `--color-ring`                                                | Color del focus ring          |
+| `--radius-sm` / `--radius-md` / `--radius-lg` / `--radius-xl` | Border radius                 |
+
+Cada token tiene su equivalente dark mode en la clase `.dark`.
+
+---
+
+## Estructura del proyecto
+
+```
+packages/ui/
+├── src/
+│   ├── index.ts                      # Barrel — exports públicos
+│   ├── components/ui/
+│   │   ├── UiButton.vue              # Componente Button
+│   │   └── button-variants.ts        # Variantes CVA del Button
+│   ├── lib/
+│   │   └── utils.ts                  # Helper cn()
+│   └── styles/
+│       └── theme.css                 # Design tokens (light + dark)
+├── dist/                             # Build output (generado)
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
+```
+
+---
+
+## Scripts de desarrollo
+
+Desde la raíz del monorepo:
+
+| Script            | Descripción                     |
+| ----------------- | ------------------------------- |
+| `pnpm dev`        | Dev server de la app playground |
+| `pnpm build:ui`   | Compila el paquete `@3df/ui`    |
+| `pnpm build`      | Compila el paquete + la app     |
+| `pnpm preview`    | Sirve el build de producción    |
+| `pnpm lint`       | Linter (oxlint + eslint)        |
+| `pnpm format`     | Formatea con Prettier           |
+| `pnpm type-check` | Chequeo de tipos con vue-tsc    |
+
+Desde `packages/ui/`:
+
+| Script       | Descripción                                         |
+| ------------ | --------------------------------------------------- |
+| `pnpm build` | Build de producción del paquete                     |
+| `pnpm dev`   | Build en watch mode (rebuild automático al guardar) |
+
+---
+
+## Contribución interna
+
+### Agregar un nuevo componente
+
+1. Crear el archivo del componente en `packages/ui/src/components/ui/`:
+
+```
+packages/ui/src/components/ui/
+├── UiInput.vue
+└── input-variants.ts    # (si usa CVA)
+```
+
+2. Exportar desde `packages/ui/src/index.ts`:
+
+```ts
+export { default as Input } from './components/ui/UiInput.vue';
+```
+
+3. Rebuild: `pnpm build:ui`
+
+4. Crear una página de demo en `src/modules/ui/views/` y agregarla al router.
+
+### Convenciones
+
+- Los archivos de componentes se nombran `Ui[Nombre].vue` (ej: `UiButton.vue`)
+- Se exportan sin el prefijo `Ui` (ej: `export { default as Button }`)
+- Las variantes CVA van en archivos separados `[nombre]-variants.ts`
+- Los componentes usan `inheritAttrs: false` y manejan attrs manualmente
+- Clases de Tailwind se aplican vía `cn()` para permitir overrides del consumidor
+
+---
+
+## Buenas prácticas
+
+### ✅ Hacer
+
+```vue
+<!-- Usar las props del componente para variantes -->
+<Button variant="outline" size="sm">OK</Button>
+
+<!-- Override de clases cuando necesites algo específico -->
+<Button class="w-full rounded-full">Custom</Button>
+
+<!-- buttonVariants() cuando no necesitas el componente Vue -->
+<a :class="buttonVariants({ variant: 'link' })">Link</a>
+```
+
+### ❌ Evitar
+
+```vue
+<!-- No uses !important — cn() ya maneja la prioridad -->
+<Button class="!bg-red-500">Mal</Button>
+
+<!-- No mezcles estilos inline con clases de Tailwind -->
+<Button :style="{ backgroundColor: 'red' }">Mal</Button>
+
+<!-- No pases variant como clase, usa la prop -->
+<Button class="bg-destructive text-destructive-foreground">Mal</Button>
+```
+
+---
+
+## Peer dependencies
+
+| Paquete                    | Versión  | Por qué                                   |
+| -------------------------- | -------- | ----------------------------------------- |
+| `vue`                      | `^3.0.0` | Framework base                            |
+| `class-variance-authority` | `^0.7.1` | Sistema de variantes type-safe            |
+| `clsx`                     | `^2.1.1` | Composición condicional de clases         |
+| `tailwind-merge`           | `^3.4.0` | Resolución inteligente de clases Tailwind |
+
+---
+
+## Licencia
+
+ISC — Uso interno de 3DF.
