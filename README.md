@@ -31,6 +31,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
     - [Radio](#radio)
     - [Switch](#switch)
   - [Card](#card)
+  - [Dropdown Menu](#dropdown-menu)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -734,7 +735,7 @@ const name = ref('');
 import { inputVariants } from '@3df/ui';
 
 const classes = inputVariants({ size: 'sm' });
-// → "flex w-full rounded-[var(--radius-md)] ... h-9 px-3 py-1 text-xs"
+// → "flex w-full rounded-md ... h-9 px-3 py-1 text-xs"
 ```
 
 ---
@@ -1495,9 +1496,7 @@ Cards estilo marketing/landing con fondo de color sutil, sin borde ni sombra, y 
     <Card class="border-0 bg-amber-50 shadow-none dark:bg-amber-950/30">
       <CardContent class="pt-6">
         <!-- Mini UI decorativa -->
-        <div
-          class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
-        >
+        <div class="mb-4 overflow-hidden rounded-lg bg-white p-4 shadow-sm dark:bg-white/10">
           <!-- Tu ilustración, screenshot o mockup aquí -->
         </div>
       </CardContent>
@@ -1511,9 +1510,7 @@ Cards estilo marketing/landing con fondo de color sutil, sin borde ni sombra, y 
 
     <Card class="border-0 bg-teal-50 shadow-none dark:bg-teal-950/30">
       <CardContent class="pt-6">
-        <div
-          class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
-        >
+        <div class="mb-4 overflow-hidden rounded-lg bg-white p-4 shadow-sm dark:bg-white/10">
           <!-- Mockup de training plan -->
         </div>
       </CardContent>
@@ -1527,9 +1524,7 @@ Cards estilo marketing/landing con fondo de color sutil, sin borde ni sombra, y 
 
     <Card class="border-0 bg-emerald-50 shadow-none dark:bg-emerald-950/30">
       <CardContent class="pt-6">
-        <div
-          class="mb-4 overflow-hidden rounded-[var(--radius-lg)] bg-white p-4 shadow-sm dark:bg-white/10"
-        >
+        <div class="mb-4 overflow-hidden rounded-lg bg-white p-4 shadow-sm dark:bg-white/10">
           <!-- Gráfico de barras decorativo -->
         </div>
       </CardContent>
@@ -1551,6 +1546,208 @@ Cards estilo marketing/landing con fondo de color sutil, sin borde ni sombra, y 
 - `CardContent` va **antes** de `CardHeader` — la ilustración arriba, el texto abajo.
 - `pt-0` en `CardHeader` y `pt-6` en `CardContent` — invierte el padding predeterminado.
 - El panel blanco interior (`bg-white rounded-lg shadow-sm`) crea la ilusión de una "mini interfaz" flotante.
+
+---
+
+### Dropdown Menu
+
+Sistema compound de menú desplegable con navegación por teclado completa, accesibilidad WAI-ARIA, posicionamiento inteligente (auto-flip + viewport clamping), y `Teleport` al `<body>` para evitar recortes por `overflow: hidden`.
+
+#### Importación
+
+```ts
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from '@3df/ui';
+```
+
+#### Sub-componentes
+
+| Componente              | Descripción                                               |
+| ----------------------- | --------------------------------------------------------- |
+| `DropdownMenu`          | Contenedor raíz. Provee estado via `provide`/`inject`     |
+| `DropdownMenuTrigger`   | Wrapper del elemento que abre/cierra el menú              |
+| `DropdownMenuContent`   | Panel flotante (`position: fixed` + `Teleport to="body"`) |
+| `DropdownMenuItem`      | Opción clickeable dentro del menú                         |
+| `DropdownMenuSeparator` | Línea divisoria entre secciones                           |
+| `DropdownMenuLabel`     | Encabezado de sección (no interactivo)                    |
+| `DropdownMenuShortcut`  | Texto de atajo de teclado (alineado a la derecha)         |
+
+#### Props
+
+**DropdownMenuContent:**
+
+| Prop              | Tipo                           | Default    | Descripción                                  |
+| ----------------- | ------------------------------ | ---------- | -------------------------------------------- |
+| `align`           | `'start' \| 'center' \| 'end'` | `'start'`  | Alineación horizontal del panel              |
+| `side`            | `'top' \| 'bottom'`            | `'bottom'` | Dirección de apertura preferida              |
+| `sideOffset`      | `number`                       | `4`        | Gap en px entre el trigger y el panel        |
+| `viewportPadding` | `number`                       | `8`        | Distancia mínima al borde del viewport en px |
+| `class`           | `string`                       | —          | Clases CSS adicionales                       |
+
+**DropdownMenuItem:**
+
+| Prop          | Tipo      | Default | Descripción                          |
+| ------------- | --------- | ------- | ------------------------------------ |
+| `disabled`    | `boolean` | `false` | Deshabilita la opción                |
+| `destructive` | `boolean` | `false` | Estilo rojo para acciones peligrosas |
+
+**DropdownMenuLabel:**
+
+| Prop    | Tipo      | Default | Descripción                            |
+| ------- | --------- | ------- | -------------------------------------- |
+| `inset` | `boolean` | `false` | Agrega padding-left (`pl-8`) adicional |
+
+#### Eventos
+
+| Componente         | Evento    | Descripción                       |
+| ------------------ | --------- | --------------------------------- |
+| `DropdownMenuItem` | `@select` | Se emite al seleccionar la opción |
+
+#### Scoped slot
+
+`DropdownMenuTrigger` expone un scoped slot con `{ open: boolean }` para personalizar el trigger según el estado:
+
+```vue
+<DropdownMenuTrigger v-slot="{ open }">
+  <Button>{{ open ? 'Cerrar' : 'Abrir' }}</Button>
+</DropdownMenuTrigger>
+```
+
+#### Navegación por teclado
+
+| Tecla             | Acción                                           |
+| ----------------- | ------------------------------------------------ |
+| `↓`               | Abre el menú / Mueve foco al siguiente item      |
+| `↑`               | Abre el menú / Mueve foco al item anterior       |
+| `Enter` / `Space` | Abre el menú / Ejecuta la acción del item focado |
+| `Escape`          | Cierra el menú y regresa el foco al trigger      |
+| `Tab`             | Cierra el menú                                   |
+| `Home`            | Mueve foco al primer item habilitado             |
+| `End`             | Mueve foco al último item habilitado             |
+
+#### Comportamiento automático
+
+| Comportamiento              | Descripción                                                                             |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| **Auto-flip vertical**      | Si no cabe abajo, se abre arriba (y viceversa)                                          |
+| **Auto-flip horizontal**    | Si `align="start"` se sale por la derecha, cambia a `end` (y viceversa)                 |
+| **Viewport clamping**       | Después del flip, se desplaza los px necesarios para no salirse del viewport            |
+| **Cierre al scroll**        | El menú se cierra automáticamente al hacer scroll                                       |
+| **Cierre al click outside** | Se cierra al hacer clic fuera del menú o el trigger                                     |
+| **Teleport al body**        | El panel se renderiza fuera del DOM del padre — nunca se recorta por `overflow: hidden` |
+| **Reposición al resize**    | Se recalcula la posición al redimensionar la ventana                                    |
+
+#### Accesibilidad
+
+- `role="button"` + `tabindex="0"` en el trigger
+- `aria-haspopup="menu"` + `aria-expanded` en el trigger
+- `role="menu"` + `aria-labelledby` en el content (vinculado al trigger)
+- `role="menuitem"` + `aria-disabled` en cada item
+- `role="separator"` en los separadores
+- Navegación completa por teclado (ver tabla arriba)
+
+#### Uso básico
+
+```vue
+<DropdownMenu>
+  <DropdownMenuTrigger>
+    <Button variant="outline">Opciones</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem @select="handleEdit">Editar</DropdownMenuItem>
+    <DropdownMenuItem @select="handleDuplicate">Duplicar</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem :destructive="true" @select="handleDelete">
+      Eliminar
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+#### Con labels, iconos y shortcuts
+
+```vue
+<DropdownMenu>
+  <DropdownMenuTrigger>
+    <Button variant="outline">Mi cuenta</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent class="w-56">
+    <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>
+      <UserIcon />
+      Perfil
+      <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuItem>
+      <SettingsIcon />
+      Configuración
+      <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem :disabled="true">
+      Ayuda (próximamente)
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem :destructive="true">
+      Cerrar sesión
+      <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+#### Alineación y dirección
+
+```vue
+<!-- Alineado al final -->
+<DropdownMenuContent align="end">
+  <!-- ... -->
+</DropdownMenuContent>
+
+<!-- Abre hacia arriba (si hay espacio, si no auto-flips) -->
+<DropdownMenuContent side="top">
+  <!-- ... -->
+</DropdownMenuContent>
+
+<!-- Combinado con offset personalizado -->
+<DropdownMenuContent align="end" side="top" :side-offset="8">
+  <!-- ... -->
+</DropdownMenuContent>
+```
+
+#### Menú de acciones (botón icono)
+
+Ideal para tablas — el dropdown se renderiza sobre cualquier contenedor sin recortarse:
+
+```vue
+<DropdownMenu>
+  <DropdownMenuTrigger>
+    <Button variant="ghost" size="icon">
+      <MoreVerticalIcon />
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent align="end">
+    <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem>Editar</DropdownMenuItem>
+    <DropdownMenuItem>Duplicar</DropdownMenuItem>
+    <DropdownMenuItem>Compartir</DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem :destructive="true">
+      Eliminar
+      <DropdownMenuShortcut>⌫</DropdownMenuShortcut>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
 
 ---
 
@@ -1636,13 +1833,21 @@ packages/ui/
 │   │   │   └── UiRadio.vue               # Componente Radio
 │   │   ├── switch/
 │   │   │   └── UiSwitch.vue              # Componente Switch (toggle)
-│   │   └── card/
-│   │       ├── UiCard.vue                # Contenedor principal
-│   │       ├── UiCardHeader.vue          # Header de la card
-│   │       ├── UiCardTitle.vue           # Título (polimórfico)
-│   │       ├── UiCardDescription.vue     # Descripción
-│   │       ├── UiCardContent.vue         # Contenido principal
-│   │       └── UiCardFooter.vue          # Footer de la card
+│   │   ├── card/
+│   │   │   ├── UiCard.vue                # Contenedor principal
+│   │   │   ├── UiCardHeader.vue          # Header de la card
+│   │   │   ├── UiCardTitle.vue           # Título (polimórfico)
+│   │   │   ├── UiCardDescription.vue     # Descripción
+│   │   │   ├── UiCardContent.vue         # Contenido principal
+│   │   │   └── UiCardFooter.vue          # Footer de la card
+│   │   └── dropdown-menu/
+│   │       ├── UiDropdownMenu.vue        # Contenedor raíz (provide/inject)
+│   │       ├── UiDropdownMenuTrigger.vue # Trigger (role="button")
+│   │       ├── UiDropdownMenuContent.vue # Panel flotante (fixed + Teleport)
+│   │       ├── UiDropdownMenuItem.vue    # Opción clickeable
+│   │       ├── UiDropdownMenuSeparator.vue # Divisor visual
+│   │       ├── UiDropdownMenuLabel.vue   # Encabezado de sección
+│   │       └── UiDropdownMenuShortcut.vue # Texto de atajo
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

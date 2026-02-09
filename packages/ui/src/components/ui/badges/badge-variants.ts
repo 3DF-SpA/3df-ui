@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 export const badgeVariants = cva(
   [
     'inline-flex items-center gap-1 whitespace-nowrap',
-    'rounded-[var(--radius-md)] text-xs font-semibold',
+    'rounded-md text-xs font-semibold',
     'select-none',
     'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
     '[&>svg]:size-3 [&>svg]:pointer-events-none',
