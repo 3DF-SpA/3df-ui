@@ -32,6 +32,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
     - [Switch](#switch)
   - [Card](#card)
   - [Dropdown Menu](#dropdown-menu)
+  - [Popover](#popover)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -1751,6 +1752,117 @@ Ideal para tablas — el dropdown se renderiza sobre cualquier contenedor sin re
 
 ---
 
+### Popover
+
+Panel flotante genérico para mostrar contenido contextual: formularios, información adicional, perfiles, tooltips ricos, etc. Usa `position: fixed` + `Teleport` al `<body>` con auto-positioning inteligente (misma lógica que DropdownMenu).
+
+#### Importación
+
+```ts
+import { Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
+```
+
+#### Sub-componentes
+
+| Componente       | Descripción                                               |
+| ---------------- | --------------------------------------------------------- |
+| `Popover`        | Contenedor raíz. Provee estado via `provide`/`inject`     |
+| `PopoverTrigger` | Wrapper del elemento que abre/cierra el popover           |
+| `PopoverContent` | Panel flotante (`position: fixed` + `Teleport to="body"`) |
+
+#### Props
+
+**PopoverContent:**
+
+| Prop              | Tipo                           | Default    | Descripción                                  |
+| ----------------- | ------------------------------ | ---------- | -------------------------------------------- |
+| `align`           | `'start' \| 'center' \| 'end'` | `'center'` | Alineación horizontal respecto al trigger    |
+| `side`            | `'top' \| 'bottom'`            | `'bottom'` | Dirección de apertura preferida              |
+| `sideOffset`      | `number`                       | `4`        | Gap en px entre trigger y panel              |
+| `viewportPadding` | `number`                       | `8`        | Distancia mínima al borde del viewport en px |
+| `class`           | `string`                       | —          | Clases CSS adicionales (ancho, etc.)         |
+
+#### Scoped slot
+
+`PopoverTrigger` expone `{ open: boolean }` para personalizar el trigger:
+
+```vue
+<PopoverTrigger v-slot="{ open }">
+  <Button :variant="open ? 'secondary' : 'outline'">
+    {{ open ? 'Cerrar' : 'Abrir' }}
+  </Button>
+</PopoverTrigger>
+```
+
+#### Comportamiento
+
+- **Auto-flip**: si no cabe abajo se abre arriba (y viceversa)
+- **Viewport clamping**: se desplaza para no salirse del viewport
+- **Cierre al scroll**: se cierra al hacer scroll de la página (no del contenido propio)
+- **Cierre al click outside**: se cierra al hacer clic fuera
+- **Escape**: cierra y devuelve el foco al trigger
+- **Teleport al body**: nunca se recorta por `overflow: hidden` de ancestros
+
+#### Accesibilidad
+
+- `aria-haspopup="dialog"` + `aria-expanded` en el trigger
+- `role="dialog"` + `aria-labelledby` en el content
+- Cierre con `Escape`
+
+#### Uso básico
+
+```vue
+<Popover>
+  <PopoverTrigger>
+    <Button variant="outline">Abrir</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <h3 class="text-sm font-medium">Título</h3>
+    <p class="text-muted-foreground text-sm">Contenido del popover.</p>
+  </PopoverContent>
+</Popover>
+```
+
+#### Con formulario
+
+```vue
+<Popover>
+  <PopoverTrigger>
+    <Button variant="outline">Configuración</Button>
+  </PopoverTrigger>
+  <PopoverContent class="w-80">
+    <div class="flex flex-col gap-4">
+      <div>
+        <h3 class="text-sm font-medium">Dimensiones</h3>
+        <p class="text-muted-foreground text-sm">Configura las dimensiones.</p>
+      </div>
+      <div class="grid gap-3">
+        <div class="grid grid-cols-3 items-center gap-4">
+          <Label class="text-right">Ancho</Label>
+          <Input class="col-span-2 h-8" value="100%" />
+        </div>
+        <div class="grid grid-cols-3 items-center gap-4">
+          <Label class="text-right">Alto</Label>
+          <Input class="col-span-2 h-8" value="25px" />
+        </div>
+      </div>
+    </div>
+  </PopoverContent>
+</Popover>
+```
+
+#### Popover vs DropdownMenu
+
+| Característica     | Popover                          | DropdownMenu                       |
+| ------------------ | -------------------------------- | ---------------------------------- |
+| Propósito          | Contenido genérico (forms, info) | Lista de acciones/opciones         |
+| ARIA role          | `dialog`                         | `menu` + `menuitem`                |
+| Keyboard nav       | Solo `Escape`                    | ↑↓ Enter Space Escape Tab Home End |
+| Ancho default      | `w-72` (288px)                   | `min-w-[8rem]` (128px)             |
+| Alineación default | `center`                         | `start`                            |
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -1840,14 +1952,18 @@ packages/ui/
 │   │   │   ├── UiCardDescription.vue     # Descripción
 │   │   │   ├── UiCardContent.vue         # Contenido principal
 │   │   │   └── UiCardFooter.vue          # Footer de la card
-│   │   └── dropdown-menu/
-│   │       ├── UiDropdownMenu.vue        # Contenedor raíz (provide/inject)
-│   │       ├── UiDropdownMenuTrigger.vue # Trigger (role="button")
-│   │       ├── UiDropdownMenuContent.vue # Panel flotante (fixed + Teleport)
-│   │       ├── UiDropdownMenuItem.vue    # Opción clickeable
-│   │       ├── UiDropdownMenuSeparator.vue # Divisor visual
-│   │       ├── UiDropdownMenuLabel.vue   # Encabezado de sección
-│   │       └── UiDropdownMenuShortcut.vue # Texto de atajo
+│   │   ├── dropdown-menu/
+│   │   │   ├── UiDropdownMenu.vue        # Contenedor raíz (provide/inject)
+│   │   │   ├── UiDropdownMenuTrigger.vue # Trigger (role="button")
+│   │   │   ├── UiDropdownMenuContent.vue # Panel flotante (fixed + Teleport)
+│   │   │   ├── UiDropdownMenuItem.vue    # Opción clickeable
+│   │   │   ├── UiDropdownMenuSeparator.vue # Divisor visual
+│   │   │   ├── UiDropdownMenuLabel.vue   # Encabezado de sección
+│   │   │   └── UiDropdownMenuShortcut.vue # Texto de atajo
+│   │   └── popover/
+│   │       ├── UiPopover.vue             # Contenedor raíz
+│   │       ├── UiPopoverTrigger.vue      # Trigger
+│   │       └── UiPopoverContent.vue      # Panel flotante (fixed + Teleport)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

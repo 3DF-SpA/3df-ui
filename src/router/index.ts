@@ -39,6 +39,12 @@ const router = createRouter({
           name: 'MyDropdown',
           component: () => import('@/modules/ui/views/MyDrapdown.vue'),
         },
+
+        {
+          path: '/popover',
+          name: 'MyPopover',
+          component: () => import('@/modules/ui/views/MyPopover.vue'),
+        },
       ],
     },
   ],

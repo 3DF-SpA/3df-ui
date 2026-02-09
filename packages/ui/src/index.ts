@@ -25,3 +25,6 @@ export { default as DropdownMenuItem } from './components/ui/dropdown-menu/UiDro
 export { default as DropdownMenuSeparator } from './components/ui/dropdown-menu/UiDropdownMenuSeparator.vue';
 export { default as DropdownMenuLabel } from './components/ui/dropdown-menu/UiDropdownMenuLabel.vue';
 export { default as DropdownMenuShortcut } from './components/ui/dropdown-menu/UiDropdownMenuShortcut.vue';
+export { default as Popover } from './components/ui/popover/UiPopover.vue';
+export { default as PopoverTrigger } from './components/ui/popover/UiPopoverTrigger.vue';
+export { default as PopoverContent } from './components/ui/popover/UiPopoverContent.vue';

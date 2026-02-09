@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { type Ref, inject, ref, watchEffect } from 'vue';
 
-defineOptions({ name: 'UiDropdownMenuTrigger' });
+defineOptions({ name: 'UiPopoverTrigger' });
 
-const menu = inject<{
+const popover = inject<{
   isOpen: Ref<boolean>;
   triggerRef: Ref<HTMLElement | undefined>;
   triggerId: string;
   toggle: () => void;
-}>('dropdown-menu')!;
+}>('popover')!;
 
 const el = ref<HTMLElement>();
 
 watchEffect(() => {
   if (el.value) {
-    menu.triggerRef.value = el.value;
+    popover.triggerRef.value = el.value;
   }
 });
 </script>
@@ -22,13 +22,12 @@ watchEffect(() => {
 <template>
   <div
     ref="el"
-    :id="menu.triggerId"
+    :id="popover.triggerId"
     class="inline-flex outline-none"
-    role="button"
-    :aria-expanded="menu.isOpen.value"
-    aria-haspopup="menu"
-    @click="menu.toggle()"
+    :aria-expanded="popover.isOpen.value"
+    aria-haspopup="dialog"
+    @click="popover.toggle()"
   >
-    <slot :open="menu.isOpen.value" />
+    <slot :open="popover.isOpen.value" />
   </div>
 </template>

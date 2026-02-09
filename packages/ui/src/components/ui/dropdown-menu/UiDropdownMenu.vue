@@ -130,11 +130,11 @@ function onClickOutside(event: MouseEvent) {
 }
 
 onMounted(() => {
-  document.addEventListener('click', onClickOutside);
+  document.addEventListener('click', onClickOutside, true);
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', onClickOutside);
+  document.removeEventListener('click', onClickOutside, true);
 });
 
 provide('dropdown-menu', {
