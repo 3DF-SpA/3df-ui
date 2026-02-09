@@ -184,7 +184,7 @@ onBeforeUnmount(() => {
         :style="positionStyle"
         :class="
           cn(
-            'z-50 min-w-[8rem]',
+            'z-50 max-w-[calc(100vw-1rem)] min-w-[8rem]',
             'border-border bg-popover text-popover-foreground border',
             'rounded-md p-1 shadow-md',
             'max-h-[var(--dropdown-max-h,20rem)] overflow-auto',

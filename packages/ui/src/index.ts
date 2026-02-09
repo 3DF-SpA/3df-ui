@@ -43,3 +43,5 @@ export { alertVariants } from './components/ui/alert/alert-variants';
 export { default as Tooltip } from './components/ui/tooltip/UiTooltip.vue';
 export { default as TooltipTrigger } from './components/ui/tooltip/UiTooltipTrigger.vue';
 export { default as TooltipContent } from './components/ui/tooltip/UiTooltipContent.vue';
+export { default as Toggle } from './components/ui/toggle/UiToggle.vue';
+export { toggleVariants } from './components/ui/toggle/toggle-variants';

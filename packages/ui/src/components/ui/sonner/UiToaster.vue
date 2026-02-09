@@ -50,7 +50,7 @@ function onDismiss(id: string) {
       v-if="visibleToasts.length"
       :class="
         cn(
-          'pointer-events-none fixed z-[9999] flex w-[360px] max-w-[calc(100vw-2rem)] flex-col gap-2',
+          'pointer-events-none fixed z-[9999] flex w-full flex-col gap-2 sm:w-[360px]',
           positionClasses,
           props.class,
         )

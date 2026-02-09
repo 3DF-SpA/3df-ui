@@ -62,6 +62,12 @@ const router = createRouter({
           name: 'MyTooltip',
           component: () => import('@/modules/ui/views/MyTooltip.vue'),
         },
+
+        {
+          path: '/toggle',
+          name: 'MyToggle',
+          component: () => import('@/modules/ui/views/MyToggle.vue'),
+        },
       ],
     },
   ],

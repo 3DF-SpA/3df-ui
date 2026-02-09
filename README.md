@@ -36,6 +36,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Sonner (Toast)](#sonner-toast)
   - [Alert](#alert)
   - [Tooltip](#tooltip)
+  - [Toggle](#toggle)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -2259,6 +2260,109 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
 
 ---
 
+## Toggle
+
+Botón con estado activado/desactivado. Similar a un checkbox pero con apariencia de botón. Ideal para toolbars, opciones de formato, y preferencias on/off.
+
+### Importación
+
+```ts
+import { Toggle, toggleVariants } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<script setup>
+import { ref } from 'vue';
+
+import { Toggle } from '@3df/ui';
+
+const bold = ref(false);
+</script>
+
+<template>
+  <Toggle v-model:pressed="bold">
+    <BoldIcon />
+  </Toggle>
+</template>
+```
+
+### Props
+
+| Prop       | Tipo            | Default     | Descripción                     |
+| ---------- | --------------- | ----------- | ------------------------------- |
+| `pressed`  | `boolean`       | `false`     | Estado actual (v-model:pressed) |
+| `variant`  | `ToggleVariant` | `'default'` | Estilo visual                   |
+| `size`     | `ToggleSize`    | `'default'` | Tamaño del toggle               |
+| `disabled` | `boolean`       | `false`     | Desactiva la interacción        |
+| `class`    | `string`        | —           | Clases adicionales              |
+
+### Eventos
+
+| Evento           | Payload   | Descripción                   |
+| ---------------- | --------- | ----------------------------- |
+| `update:pressed` | `boolean` | Se emite al cambiar el estado |
+
+### Variantes
+
+| Variante  | Descripción                                               |
+| --------- | --------------------------------------------------------- |
+| `default` | Fondo transparente, se resalta con `bg-accent` al activar |
+| `outline` | Con borde, fondo transparente, `bg-accent` al activar     |
+
+### Tamaños
+
+| Tamaño    | Altura | Padding  |
+| --------- | ------ | -------- |
+| `sm`      | `h-9`  | `px-2.5` |
+| `default` | `h-10` | `px-3`   |
+| `lg`      | `h-11` | `px-5`   |
+
+### Scoped slot
+
+El slot expone `{ pressed }` para renderizado condicional:
+
+```vue
+<Toggle v-model:pressed="muted">
+  <template #default="{ pressed }">
+    <VolumeIcon v-if="!pressed" />
+    <VolumeOffIcon v-else />
+    {{ pressed ? 'Muted' : 'Sound' }}
+  </template>
+</Toggle>
+```
+
+### Grupo de toggles (toolbar)
+
+Puedes componer toggles en un grupo estilo toolbar usando clases de Tailwind:
+
+```vue
+<div class="flex">
+  <Toggle :pressed="left" variant="outline" class="rounded-r-none border-r-0"
+    @update:pressed="setAlign('left')">
+    <AlignLeftIcon />
+  </Toggle>
+  <Toggle :pressed="center" variant="outline" class="rounded-none border-r-0"
+    @update:pressed="setAlign('center')">
+    <AlignCenterIcon />
+  </Toggle>
+  <Toggle :pressed="right" variant="outline" class="rounded-l-none"
+    @update:pressed="setAlign('right')">
+    <AlignRightIcon />
+  </Toggle>
+</div>
+```
+
+### Accesibilidad
+
+- `aria-pressed` refleja el estado actual
+- `data-state="on"` / `data-state="off"` para estilos via atributo
+- Activable con `Enter` y `Space`
+- Soporta `disabled`
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -2369,10 +2473,13 @@ packages/ui/
 │   │   │   ├── UiAlert.vue               # Contenedor principal (role="alert")
 │   │   │   ├── UiAlertTitle.vue          # Título
 │   │   │   └── UiAlertDescription.vue    # Descripción
-│   │   └── tooltip/
-│   │       ├── UiTooltip.vue             # Contenedor raíz (provide/inject, delay)
-│   │       ├── UiTooltipTrigger.vue      # Trigger (hover + focus)
-│   │       └── UiTooltipContent.vue      # Panel flotante (fixed + Teleport)
+│   │   ├── tooltip/
+│   │   │   ├── UiTooltip.vue             # Contenedor raíz (provide/inject, delay)
+│   │   │   ├── UiTooltipTrigger.vue      # Trigger (hover + focus)
+│   │   │   └── UiTooltipContent.vue      # Panel flotante (fixed + Teleport)
+│   │   └── toggle/
+│   │       ├── toggle-variants.ts        # Variantes CVA del Toggle
+│   │       └── UiToggle.vue              # Botón toggle (aria-pressed)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
