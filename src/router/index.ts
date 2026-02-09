@@ -45,6 +45,12 @@ const router = createRouter({
           name: 'MyPopover',
           component: () => import('@/modules/ui/views/MyPopover.vue'),
         },
+
+        {
+          path: '/sonner',
+          name: 'MySonner',
+          component: () => import('@/modules/ui/views/MySonner.vue'),
+        },
       ],
     },
   ],

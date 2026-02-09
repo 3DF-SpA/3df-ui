@@ -28,3 +28,11 @@ export { default as DropdownMenuShortcut } from './components/ui/dropdown-menu/U
 export { default as Popover } from './components/ui/popover/UiPopover.vue';
 export { default as PopoverTrigger } from './components/ui/popover/UiPopoverTrigger.vue';
 export { default as PopoverContent } from './components/ui/popover/UiPopoverContent.vue';
+export { default as Toaster } from './components/ui/sonner/UiToaster.vue';
+export { toast } from './components/ui/sonner/toast-state';
+export type {
+  Toast,
+  ToastVariant,
+  ToastPosition,
+  ToastInput,
+} from './components/ui/sonner/toast-state';

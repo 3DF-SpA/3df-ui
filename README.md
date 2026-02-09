@@ -33,6 +33,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Card](#card)
   - [Dropdown Menu](#dropdown-menu)
   - [Popover](#popover)
+  - [Sonner (Toast)](#sonner-toast)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -1863,6 +1864,193 @@ import { Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
 
 ---
 
+## Sonner (Toast)
+
+Sistema de notificaciones tipo toast inspirado en [Sonner](https://sonner.emilkowal.dev). Los toasts se **cierran solos** después de un tiempo configurable (4s por defecto) y se apilan en una esquina de la pantalla.
+
+### Instalación
+
+Coloca `<Toaster />` una sola vez en tu layout raíz (normalmente `App.vue`):
+
+```vue
+<script setup>
+import { Toaster } from '@3df/ui';
+</script>
+
+<template>
+  <RouterView />
+  <Toaster />
+</template>
+```
+
+Luego usa la función `toast()` desde cualquier parte de tu app:
+
+```vue
+<script setup>
+import { Button, toast } from '@3df/ui';
+</script>
+
+<template>
+  <Button @click="toast('Guardado correctamente')">Guardar</Button>
+</template>
+```
+
+### Componentes exportados
+
+| Componente | Descripción                                                                                     |
+| ---------- | ----------------------------------------------------------------------------------------------- |
+| `Toaster`  | Contenedor global. Se renderiza con `<Teleport to="body">`. Colócalo una vez en el layout raíz. |
+
+### Función `toast()`
+
+Función reactiva global que crea notificaciones. No requiere provide/inject.
+
+```ts
+import { toast } from '@3df/ui';
+
+// Uso simple — solo descripción
+toast('Archivo guardado');
+
+// Variantes
+toast.success('Operación completada');
+toast.error('Algo salió mal');
+toast.warning('Ten cuidado con esta acción');
+toast.info('Aquí tienes información útil');
+
+// Con opciones completas
+toast.success({
+  title: 'Guardado',
+  description: 'Tus cambios han sido guardados correctamente.',
+  duration: 5000,
+});
+
+// Control programático
+const id = toast('Procesando...');
+toast.dismiss(id); // Cierra uno específico
+toast.dismissAll(); // Cierra todos
+```
+
+### Opciones de `toast()`
+
+| Opción        | Tipo                                     | Default | Descripción                                          |
+| ------------- | ---------------------------------------- | ------- | ---------------------------------------------------- |
+| `title`       | `string`                                 | —       | Título en negrita del toast                          |
+| `description` | `string`                                 | —       | Texto descriptivo                                    |
+| `duration`    | `number`                                 | `4000`  | Tiempo en ms antes de auto-cerrar. `0` = persistente |
+| `dismissible` | `boolean`                                | `true`  | Muestra/oculta el botón ✕                            |
+| `action`      | `{ label: string; onClick: () => void }` | —       | Botón de acción dentro del toast                     |
+| `onDismiss`   | `() => void`                             | —       | Callback al cerrarse                                 |
+
+### Variantes
+
+| Variante  | Icono | Colores                             |
+| --------- | ----- | ----------------------------------- |
+| `default` | —     | `bg-background` / `text-foreground` |
+| `success` | ✓     | Emerald (fondo claro, texto oscuro) |
+| `error`   | ✕     | Red (fondo claro, texto oscuro)     |
+| `warning` | ⚠     | Amber (fondo claro, texto oscuro)   |
+| `info`    | ℹ     | Blue (fondo claro, texto oscuro)    |
+
+Todas las variantes soportan **dark mode** automáticamente.
+
+### Props de `<Toaster>`
+
+| Prop         | Tipo            | Default          | Descripción                        |
+| ------------ | --------------- | ---------------- | ---------------------------------- |
+| `position`   | `ToastPosition` | `'bottom-right'` | Posición en la pantalla            |
+| `maxVisible` | `number`        | `5`              | Máximo de toasts visibles a la vez |
+| `class`      | `string`        | —                | Clases adicionales al contenedor   |
+
+**Posiciones disponibles:**
+
+`top-left` · `top-center` · `top-right` · `bottom-left` · `bottom-center` · `bottom-right`
+
+### Comportamiento
+
+| Característica       | Comportamiento                                         |
+| -------------------- | ------------------------------------------------------ |
+| Auto-cierre          | Sí, después de `duration` ms (default 4s)              |
+| Hover pausa          | Al pasar el mouse, el temporizador se pausa            |
+| Persistente          | `duration: 0` — solo se cierra manualmente             |
+| Animación            | Entrada/salida con translate + opacity + scale (300ms) |
+| Stacking             | Se apilan con gap, máximo `maxVisible`                 |
+| Dismiss programático | `toast.dismiss(id)` o `toast.dismissAll()`             |
+
+### Accesibilidad
+
+- `role="status"` y `aria-live="polite"` en cada toast
+- `aria-atomic="true"` para lectores de pantalla
+- `aria-label="Notificaciones"` en el contenedor
+- Botón de cerrar con `aria-label="Cerrar notificación"`
+
+### Ejemplo con acción
+
+```vue
+<Button
+  @click="
+    toast.error({
+      title: 'Archivo eliminado',
+      description: 'El archivo ha sido eliminado permanentemente.',
+      action: {
+        label: 'Deshacer',
+        onClick: () => toast.success('Archivo restaurado'),
+      },
+    })
+  "
+>
+  Eliminar archivo
+</Button>
+```
+
+### Ejemplo persistente
+
+```vue
+<Button
+  @click="
+    toast({
+      title: 'Procesando...',
+      description: 'Solo se cierra manualmente.',
+      duration: 0,
+    })
+  "
+>
+  Toast persistente
+</Button>
+```
+
+### Tipos exportados
+
+```ts
+export type ToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
+
+export type ToastPosition =
+  | 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right';
+
+export interface Toast {
+  id: string;
+  title?: string;
+  description?: string;
+  variant: ToastVariant;
+  duration: number;
+  dismissible: boolean;
+  action?: { label: string; onClick: () => void };
+  onDismiss?: () => void;
+  createdAt: number;
+}
+
+export type ToastInput = Partial<Omit<Toast, 'id' | 'createdAt' | 'variant'>> & {
+  title?: string;
+  description?: string;
+};
+```
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -1960,10 +2148,14 @@ packages/ui/
 │   │   │   ├── UiDropdownMenuSeparator.vue # Divisor visual
 │   │   │   ├── UiDropdownMenuLabel.vue   # Encabezado de sección
 │   │   │   └── UiDropdownMenuShortcut.vue # Texto de atajo
-│   │   └── popover/
-│   │       ├── UiPopover.vue             # Contenedor raíz
-│   │       ├── UiPopoverTrigger.vue      # Trigger
-│   │       └── UiPopoverContent.vue      # Panel flotante (fixed + Teleport)
+│   │   ├── popover/
+│   │   │   ├── UiPopover.vue             # Contenedor raíz
+│   │   │   ├── UiPopoverTrigger.vue      # Trigger
+│   │   │   └── UiPopoverContent.vue      # Panel flotante (fixed + Teleport)
+│   │   └── sonner/
+│   │       ├── toast-state.ts            # Estado reactivo global + función toast()
+│   │       ├── UiToast.vue               # Toast individual (animación, icono, acción)
+│   │       └── UiToaster.vue             # Contenedor global (Teleport + posición)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
