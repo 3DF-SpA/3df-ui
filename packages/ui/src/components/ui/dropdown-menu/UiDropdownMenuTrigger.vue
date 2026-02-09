@@ -23,9 +23,8 @@ watchEffect(() => {
   <div
     ref="el"
     :id="menu.triggerId"
-    class="inline-flex"
+    class="inline-flex outline-none"
     role="button"
-    tabindex="0"
     :aria-expanded="menu.isOpen.value"
     aria-haspopup="menu"
     @click.stop="menu.toggle()"

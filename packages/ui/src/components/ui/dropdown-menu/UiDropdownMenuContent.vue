@@ -131,7 +131,10 @@ function updatePosition() {
   };
 }
 
-function onScroll() {
+function onScroll(event: Event) {
+  // Ignore scroll events from inside the dropdown content itself
+  const target = event.target as Node | null;
+  if (menu.contentRef.value && target && menu.contentRef.value.contains(target)) return;
   menu.close();
 }
 
