@@ -19,6 +19,22 @@ import { Badge, Button } from '@3df/ui';
     </section>
 
     <section class="flex flex-col gap-3">
+      <h2 class="text-muted-foreground text-sm font-medium">Colors</h2>
+      <div class="flex flex-wrap items-center gap-4">
+        <Badge variant="red">Red</Badge>
+        <Badge variant="orange">Orange</Badge>
+        <Badge variant="yellow">Yellow</Badge>
+        <Badge variant="green">Green</Badge>
+        <Badge variant="teal">Teal</Badge>
+        <Badge variant="blue">Blue</Badge>
+        <Badge variant="indigo">Indigo</Badge>
+        <Badge variant="purple">Purple</Badge>
+        <Badge variant="pink">Pink</Badge>
+        <Badge variant="gray">Gray</Badge>
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-3">
       <h2 class="text-muted-foreground text-sm font-medium">Sizes</h2>
       <div class="flex flex-wrap items-end gap-4">
         <Badge size="sm">Small</Badge>
@@ -72,11 +88,43 @@ import { Badge, Button } from '@3df/ui';
     </section>
 
     <section class="flex flex-col gap-3">
+      <h2 class="text-muted-foreground text-sm font-medium">Color pills</h2>
+      <div class="flex flex-wrap items-center gap-4">
+        <Badge variant="red" class="rounded-full">Red</Badge>
+        <Badge variant="orange" class="rounded-full">Orange</Badge>
+        <Badge variant="yellow" class="rounded-full">Yellow</Badge>
+        <Badge variant="green" class="rounded-full">Green</Badge>
+        <Badge variant="teal" class="rounded-full">Teal</Badge>
+        <Badge variant="blue" class="rounded-full">Blue</Badge>
+        <Badge variant="indigo" class="rounded-full">Indigo</Badge>
+        <Badge variant="purple" class="rounded-full">Purple</Badge>
+        <Badge variant="pink" class="rounded-full">Pink</Badge>
+        <Badge variant="gray" class="rounded-full">Gray</Badge>
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-3">
       <h2 class="text-muted-foreground text-sm font-medium">As link</h2>
       <div class="flex flex-wrap items-center gap-4">
-        <Badge as="a" href="#" class="hover:bg-primary/90 cursor-pointer">Clickable</Badge>
-        <Badge as="a" href="#" variant="outline" class="hover:bg-accent cursor-pointer"
+        <Badge
+          as="a"
+          href="#"
+          class="hover:bg-primary/85 cursor-pointer transition-[background-color] duration-200"
+          >Clickable</Badge
+        >
+        <Badge
+          as="a"
+          href="#"
+          variant="outline"
+          class="hover:bg-accent cursor-pointer transition-[background-color] duration-200"
           >Outline link</Badge
+        >
+        <Badge
+          as="a"
+          href="#"
+          variant="blue"
+          class="cursor-pointer transition-[background-color] duration-200 hover:bg-blue-700"
+          >Blue link</Badge
         >
       </div>
     </section>
@@ -100,6 +148,14 @@ import { Badge, Button } from '@3df/ui';
       <div class="flex items-center gap-2">
         <span class="text-sm font-medium">Mantenimiento</span>
         <Badge variant="warning" size="sm">Programado</Badge>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-sm font-medium">Versión</span>
+        <Badge variant="blue" size="sm">v2.1.0</Badge>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-sm font-medium">Prioridad</span>
+        <Badge variant="purple" size="sm">Alta</Badge>
       </div>
     </section>
   </div>

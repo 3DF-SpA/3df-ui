@@ -320,13 +320,15 @@ import { Badge } from '@3df/ui';
 
 #### Props
 
-| Prop      | Tipo                                                                               | Default     | Descripción                        |
-| --------- | ---------------------------------------------------------------------------------- | ----------- | ---------------------------------- |
-| `variant` | `'default' \| 'secondary' \| 'outline' \| 'destructive' \| 'success' \| 'warning'` | `'default'` | Estilo visual del badge            |
-| `size`    | `'default' \| 'sm' \| 'lg'`                                                        | `'default'` | Tamaño del badge                   |
-| `as`      | `string \| Component`                                                              | `'span'`    | Elemento o componente a renderizar |
+| Prop      | Tipo                                                                                                                                                                                           | Default     | Descripción                        |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `variant` | `'default' \| 'secondary' \| 'outline' \| 'destructive' \| 'success' \| 'warning' \| 'red' \| 'orange' \| 'yellow' \| 'green' \| 'teal' \| 'blue' \| 'indigo' \| 'purple' \| 'pink' \| 'gray'` | `'default'` | Estilo visual del badge            |
+| `size`    | `'default' \| 'sm' \| 'lg'`                                                                                                                                                                    | `'default'` | Tamaño del badge                   |
+| `as`      | `string \| Component`                                                                                                                                                                          | `'span'`    | Elemento o componente a renderizar |
 
 > Acepta todos los atributos nativos del elemento (`href`, `target`, etc.) vía `$attrs`. Los SVG dentro del badge se redimensionan automáticamente a `size-3`.
+>
+> **Los badges no tienen hover por defecto** — son etiquetas estáticas. Si necesitas interactividad (links, tags clickeables), agrega hover manualmente vía `class`.
 
 ---
 
@@ -351,6 +353,42 @@ import { Badge } from '@3df/ui';
 | `destructive` | Errores, estados críticos, rechazos. Rojo.                  |
 | `success`     | Operación exitosa, estado activo, aprobado. Verde.          |
 | `warning`     | Advertencias, pendientes, mantenimiento programado. Ámbar.  |
+
+---
+
+#### Colores
+
+Además de las variantes semánticas, hay 10 variantes de color directo para etiquetas, categorías o tags con colores específicos:
+
+```vue
+<template>
+  <Badge variant="red">Red</Badge>
+  <Badge variant="orange">Orange</Badge>
+  <Badge variant="yellow">Yellow</Badge>
+  <Badge variant="green">Green</Badge>
+  <Badge variant="teal">Teal</Badge>
+  <Badge variant="blue">Blue</Badge>
+  <Badge variant="indigo">Indigo</Badge>
+  <Badge variant="purple">Purple</Badge>
+  <Badge variant="pink">Pink</Badge>
+  <Badge variant="gray">Gray</Badge>
+</template>
+```
+
+| Color    | Light           | Dark            |
+| -------- | --------------- | --------------- |
+| `red`    | `bg-red-600`    | `bg-red-500`    |
+| `orange` | `bg-orange-500` | `bg-orange-400` |
+| `yellow` | `bg-yellow-400` | `bg-yellow-300` |
+| `green`  | `bg-green-600`  | `bg-green-500`  |
+| `teal`   | `bg-teal-600`   | `bg-teal-500`   |
+| `blue`   | `bg-blue-600`   | `bg-blue-500`   |
+| `indigo` | `bg-indigo-600` | `bg-indigo-500` |
+| `purple` | `bg-purple-600` | `bg-purple-500` |
+| `pink`   | `bg-pink-600`   | `bg-pink-500`   |
+| `gray`   | `bg-gray-500`   | `bg-gray-400`   |
+
+> Los colores `yellow`, `orange` y `gray` usan `text-black` en dark mode para mantener el contraste.
 
 ---
 
@@ -415,15 +453,39 @@ Usa `class` para override del border-radius:
 
 #### Como enlace
 
-Usa la prop `as` para renderizar como `<a>`. Agrega `cursor-pointer` ya que los badges no lo incluyen por defecto:
+Usa la prop `as` para renderizar como `<a>`. Como los badges son estáticos por defecto, agrega `cursor-pointer` y el hover manualmente vía `class`:
 
 ```vue
 <template>
-  <Badge as="a" href="/tags/vue" class="cursor-pointer">Vue</Badge>
+  <Badge
+    as="a"
+    href="/tags/vue"
+    class="hover:bg-primary/85 cursor-pointer transition-[background-color] duration-200"
+  >
+    Vue
+  </Badge>
 
-  <Badge as="a" href="/status" variant="outline" class="cursor-pointer"> Ver estado </Badge>
+  <Badge
+    as="a"
+    href="/status"
+    variant="outline"
+    class="hover:bg-accent cursor-pointer transition-[background-color] duration-200"
+  >
+    Ver estado
+  </Badge>
+
+  <Badge
+    as="a"
+    href="/releases"
+    variant="blue"
+    class="cursor-pointer transition-[background-color] duration-200 hover:bg-blue-700"
+  >
+    v2.1.0
+  </Badge>
 </template>
 ```
+
+> **Patrón recomendado para badges interactivos:** `cursor-pointer transition-[background-color] duration-200 hover:bg-{color}`
 
 #### Con componente de router
 
@@ -480,7 +542,7 @@ Si necesitas los estilos del badge sin el componente:
 import { badgeVariants } from '@3df/ui';
 
 const classes = badgeVariants({ variant: 'success', size: 'sm' });
-// → "inline-flex items-center gap-1 ... bg-emerald-600 text-white/90 ..."
+// → "inline-flex items-center gap-1 ... bg-emerald-600 text-white ..."
 ```
 
 ```vue

@@ -4,7 +4,6 @@ export const badgeVariants = cva(
   [
     'inline-flex items-center gap-1 whitespace-nowrap',
     'rounded-[var(--radius-md)] text-xs font-semibold',
-    'transition-[color,background-color,border-color] duration-200',
     'select-none',
     'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
     '[&>svg]:size-3 [&>svg]:pointer-events-none',
@@ -12,18 +11,24 @@ export const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-primary-foreground/90 shadow-sm hover:bg-primary/85 hover:text-primary-foreground',
-        secondary:
-          'bg-secondary text-secondary-foreground/80 hover:bg-secondary/60 hover:text-secondary-foreground',
-        outline:
-          'border border-border bg-background text-foreground/80 hover:bg-accent hover:text-accent-foreground',
-        destructive:
-          'bg-destructive text-destructive-foreground/90 shadow-sm hover:bg-destructive/80 hover:text-destructive-foreground',
-        success:
-          'bg-emerald-600 text-white/90 shadow-sm hover:bg-emerald-600/80 hover:text-white dark:bg-emerald-500 dark:hover:bg-emerald-500/80',
-        warning:
-          'bg-amber-500 text-white/90 shadow-sm hover:bg-amber-500/80 hover:text-white dark:bg-amber-400 dark:text-black/80 dark:hover:bg-amber-400/80 dark:hover:text-black',
+        default: 'bg-primary text-primary-foreground shadow-sm',
+        secondary: 'bg-secondary text-secondary-foreground',
+        outline: 'border border-border bg-background text-foreground',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm',
+        success: 'bg-emerald-600 text-white shadow-sm dark:bg-emerald-500',
+        warning: 'bg-amber-500 text-white shadow-sm dark:bg-amber-400 dark:text-black',
+
+        // Color variants
+        red: 'bg-red-600 text-white shadow-sm dark:bg-red-500',
+        orange: 'bg-orange-500 text-white shadow-sm dark:bg-orange-400 dark:text-black',
+        yellow: 'bg-yellow-400 text-black shadow-sm dark:bg-yellow-300',
+        green: 'bg-green-600 text-white shadow-sm dark:bg-green-500',
+        teal: 'bg-teal-600 text-white shadow-sm dark:bg-teal-500',
+        blue: 'bg-blue-600 text-white shadow-sm dark:bg-blue-500',
+        indigo: 'bg-indigo-600 text-white shadow-sm dark:bg-indigo-500',
+        purple: 'bg-purple-600 text-white shadow-sm dark:bg-purple-500',
+        pink: 'bg-pink-600 text-white shadow-sm dark:bg-pink-500',
+        gray: 'bg-gray-500 text-white shadow-sm dark:bg-gray-400 dark:text-black',
       },
       size: {
         default: 'px-2.5 py-0.5',
