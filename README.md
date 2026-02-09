@@ -14,6 +14,32 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 
 ---
 
+## Tabla de contenidos
+
+- [Instalación](#instalación)
+- [Integración por framework](#integración-por-framework)
+- [Dark mode](#dark-mode)
+- **Componentes**
+  - [Button](#button)
+  - [Badge](#badge)
+  - [Formularios](#formularios)
+    - [Label](#label)
+    - [Input](#input)
+    - [Textarea](#textarea)
+    - [Select](#select)
+    - [Checkbox](#checkbox)
+    - [Radio](#radio)
+    - [Switch](#switch)
+- [Utilidades](#utilidades)
+- [Personalización del tema](#personalización-del-tema)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Scripts de desarrollo](#scripts-de-desarrollo)
+- [Contribución interna](#contribución-interna)
+- [Buenas prácticas](#buenas-prácticas)
+- [Peer dependencies](#peer-dependencies)
+
+---
+
 ## Instalación
 
 ### 1. Instalar el paquete y sus peer dependencies
@@ -553,6 +579,608 @@ const classes = badgeVariants({ variant: 'success', size: 'sm' });
 
 ---
 
+### Formularios
+
+`@3df/ui` incluye un sistema completo de componentes de formulario: **Label**, **Input**, **Textarea**, **Select**, **Checkbox**, **Radio** y **Switch**. Todos comparten el mismo lenguaje visual, respetan los design tokens del tema y soportan dark mode.
+
+#### Importación general
+
+```ts
+import { Checkbox, Input, Label, Radio, Select, SelectItem, Switch, Textarea } from '@3df/ui';
+```
+
+---
+
+### Label
+
+Etiqueta semántica `<label>` con soporte para estado disabled.
+
+#### Importación
+
+```ts
+import { Label } from '@3df/ui';
+```
+
+#### Props
+
+| Prop       | Tipo      | Default | Descripción                                         |
+| ---------- | --------- | ------- | --------------------------------------------------- |
+| `disabled` | `boolean` | `false` | Aplica estilos de deshabilitado (opacidad + cursor) |
+
+> Acepta todos los atributos nativos de `<label>` (`for`, etc.) vía `$attrs`.
+
+#### Uso
+
+```vue
+<template>
+  <!-- Conectar con un input vía `for` -->
+  <Label for="email">Correo electrónico</Label>
+  <Input id="email" type="email" placeholder="tu@email.com" />
+
+  <!-- Disabled (label sin input deshabilitado) -->
+  <Label :disabled="true">Campo no disponible</Label>
+
+  <!-- Auto-disabled con peer -->
+  <!-- Cuando el input tiene `disabled`, el label se atenúa automáticamente
+       gracias a `peer-disabled:opacity-70` -->
+  <Checkbox id="terms" disabled />
+  <Label for="terms">Acepto los términos</Label>
+</template>
+```
+
+---
+
+### Input
+
+Input de texto versátil con 3 tamaños, validación visual y soporte para `v-model`.
+
+#### Importación
+
+```ts
+import { Input } from '@3df/ui';
+// Si necesitas los estilos sin el componente:
+import { inputVariants } from '@3df/ui';
+```
+
+#### Props
+
+| Prop         | Tipo                        | Default     | Descripción              |
+| ------------ | --------------------------- | ----------- | ------------------------ |
+| `size`       | `'default' \| 'sm' \| 'lg'` | `'default'` | Tamaño del input         |
+| `modelValue` | `string \| number`          | —           | Valor reactivo (v-model) |
+
+> Acepta todos los atributos nativos de `<input>` (`type`, `placeholder`, `disabled`, `aria-invalid`, etc.) vía `$attrs`.
+
+#### Tamaños
+
+```vue
+<template>
+  <Input size="sm" placeholder="Small" />
+  <Input placeholder="Default" />
+  <Input size="lg" placeholder="Large" />
+</template>
+```
+
+| Tamaño    | Altura        | Uso                          |
+| --------- | ------------- | ---------------------------- |
+| `sm`      | `h-9` (36px)  | Formularios densos, toolbars |
+| `default` | `h-10` (40px) | Uso general                  |
+| `lg`      | `h-11` (44px) | Formularios amplios          |
+
+#### Tipos de input
+
+```vue
+<template>
+  <Input type="text" placeholder="Nombre" />
+  <Input type="email" placeholder="correo@ejemplo.com" />
+  <Input type="password" placeholder="••••••••" />
+  <Input type="file" />
+</template>
+```
+
+> El input incluye estilos específicos para `file:` (borde y fondo transparentes, tipografía medium).
+
+#### Estado de error
+
+Usa `aria-invalid="true"` para activar los estilos de error:
+
+```vue
+<template>
+  <Input aria-invalid="true" placeholder="Campo inválido" />
+  <p class="text-destructive text-xs">Por favor ingresa un valor válido.</p>
+</template>
+```
+
+El borde cambia a `border-destructive` y el focus ring a `ring-destructive/30`.
+
+#### Estado disabled
+
+```vue
+<template>
+  <Input disabled value="No puedes editar esto" />
+</template>
+```
+
+#### Con botón
+
+```vue
+<template>
+  <div class="flex gap-2">
+    <Input placeholder="tu@email.com" type="email" class="flex-1" />
+    <Button>Suscribir</Button>
+  </div>
+</template>
+```
+
+#### Con v-model
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const name = ref('');
+</script>
+
+<template>
+  <Input v-model="name" placeholder="Tu nombre" />
+  <p>Hola, {{ name }}</p>
+</template>
+```
+
+#### Acceso a las variantes (headless)
+
+```ts
+import { inputVariants } from '@3df/ui';
+
+const classes = inputVariants({ size: 'sm' });
+// → "flex w-full rounded-[var(--radius-md)] ... h-9 px-3 py-1 text-xs"
+```
+
+---
+
+### Textarea
+
+Área de texto con altura mínima, redimensionamiento vertical y soporte para `v-model`.
+
+#### Importación
+
+```ts
+import { Textarea } from '@3df/ui';
+```
+
+#### Props
+
+| Prop         | Tipo     | Default | Descripción              |
+| ------------ | -------- | ------- | ------------------------ |
+| `modelValue` | `string` | —       | Valor reactivo (v-model) |
+
+> Acepta todos los atributos nativos de `<textarea>` (`rows`, `placeholder`, `disabled`, `aria-invalid`, etc.) vía `$attrs`.
+
+#### Uso
+
+```vue
+<template>
+  <!-- Básico -->
+  <Label for="bio">Biografía</Label>
+  <Textarea id="bio" v-model="bio" placeholder="Cuéntanos sobre ti..." />
+
+  <!-- Con error -->
+  <Textarea aria-invalid="true" placeholder="Campo requerido" />
+  <p class="text-destructive text-xs">Este campo es obligatorio.</p>
+
+  <!-- Disabled -->
+  <Textarea disabled model-value="No puedes editar esto." />
+
+  <!-- Override de altura -->
+  <Textarea class="min-h-[200px]" placeholder="Texto largo..." />
+</template>
+```
+
+> El componente incluye `resize-y` por defecto, permitiendo al usuario ajustar la altura verticalmente. La altura mínima es `80px`.
+
+---
+
+### Select
+
+Select personalizado con dropdown estilizado, navegación por teclado completa y animaciones. **No usa el `<select>` nativo** — el dropdown se renderiza con divs para control total del diseño.
+
+#### Importación
+
+```ts
+import { Select, SelectItem } from '@3df/ui';
+```
+
+#### Props — Select
+
+| Prop          | Tipo      | Default                   | Descripción                   |
+| ------------- | --------- | ------------------------- | ----------------------------- |
+| `modelValue`  | `string`  | `''`                      | Valor seleccionado (v-model)  |
+| `placeholder` | `string`  | `'Selecciona una opción'` | Texto cuando no hay selección |
+| `disabled`    | `boolean` | `false`                   | Deshabilita el select         |
+
+#### Props — SelectItem
+
+| Prop       | Tipo      | Default | Descripción                   |
+| ---------- | --------- | ------- | ----------------------------- |
+| `value`    | `string`  | —       | Valor de la opción (required) |
+| `disabled` | `boolean` | `false` | Deshabilita la opción         |
+
+> El contenido del `<SelectItem>` se usa como label visible. Acepta `aria-invalid` en el Select para estilos de error.
+
+#### Uso básico
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const country = ref('');
+</script>
+
+<template>
+  <Label for="country">País</Label>
+  <Select id="country" v-model="country" placeholder="Selecciona un país">
+    <SelectItem value="mx">México</SelectItem>
+    <SelectItem value="ar">Argentina</SelectItem>
+    <SelectItem value="co">Colombia</SelectItem>
+    <SelectItem value="es">España</SelectItem>
+  </Select>
+</template>
+```
+
+#### Estado de error
+
+```vue
+<template>
+  <Select aria-invalid="true" placeholder="Selecciona una opción">
+    <SelectItem value="a">Opción A</SelectItem>
+    <SelectItem value="b">Opción B</SelectItem>
+  </Select>
+  <p class="text-destructive text-xs">Debes seleccionar una opción.</p>
+</template>
+```
+
+#### Opciones deshabilitadas
+
+```vue
+<template>
+  <Select v-model="plan" placeholder="Selecciona un plan">
+    <SelectItem value="free">Free</SelectItem>
+    <SelectItem value="pro">Pro</SelectItem>
+    <SelectItem value="enterprise" :disabled="true">Enterprise (próximamente)</SelectItem>
+  </Select>
+</template>
+```
+
+#### Navegación por teclado
+
+| Tecla             | Acción                                   |
+| ----------------- | ---------------------------------------- |
+| `↓` / `↑`         | Abre el dropdown y navega entre opciones |
+| `Enter` / `Space` | Abre el dropdown o selecciona la opción  |
+| `Escape`          | Cierra el dropdown                       |
+| `Home` / `End`    | Salta a la primera / última opción       |
+| `Tab`             | Cierra el dropdown y mueve el foco       |
+
+#### Diseño del dropdown
+
+- El dropdown se posiciona **sobre** el trigger (lo cubre), similar a los selects nativos de macOS.
+- Los ítems tienen hover redondeado con margen interior (estilo menú de macOS).
+- El ítem seleccionado muestra un checkmark ✓ a la derecha.
+- Animación de escala sutil al abrir/cerrar.
+- Click fuera para cerrar.
+
+---
+
+### Checkbox
+
+Checkbox animado con SVG real, efecto de "stroke draw" y escala suave al activarse.
+
+#### Importación
+
+```ts
+import { Checkbox } from '@3df/ui';
+```
+
+#### Props
+
+| Prop            | Tipo      | Default | Descripción                    |
+| --------------- | --------- | ------- | ------------------------------ |
+| `modelValue`    | `boolean` | `false` | Estado checked (v-model)       |
+| `indeterminate` | `boolean` | `false` | Estado indeterminado (parcial) |
+
+> Acepta todos los atributos nativos de `<input type="checkbox">` (`id`, `disabled`, `name`, etc.) vía `$attrs`.
+
+#### Uso básico
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const terms = ref(false);
+const newsletter = ref(true);
+</script>
+
+<template>
+  <div class="flex items-center gap-2">
+    <Checkbox id="terms" v-model="terms" />
+    <Label for="terms">Acepto los términos y condiciones</Label>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <Checkbox id="newsletter" v-model="newsletter" />
+    <Label for="newsletter">Recibir newsletter semanal</Label>
+  </div>
+</template>
+```
+
+#### Estado disabled
+
+```vue
+<template>
+  <div class="flex items-center gap-2">
+    <Checkbox id="cb-off" disabled :model-value="false" />
+    <Label for="cb-off" :disabled="true">Deshabilitado (unchecked)</Label>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <Checkbox id="cb-on" disabled :model-value="true" />
+    <Label for="cb-on" :disabled="true">Deshabilitado (checked)</Label>
+  </div>
+</template>
+```
+
+#### Animación
+
+El checkbox incluye dos efectos combinados al activarse:
+
+1. **Scale** — El ícono del check hace una transición `scale-0 → scale-100` (150ms).
+2. **Stroke draw** — El trazo del checkmark se "dibuja" con `stroke-dashoffset` (200ms), dando la ilusión de que se traza de izquierda a derecha.
+
+> El check es un SVG real posicionado sobre el input, no un `background-image`. Esto permite animaciones fluidas y accesibilidad completa.
+
+---
+
+### Radio
+
+Radio button con efecto de relleno central y soporte para grupos vía `v-model`.
+
+#### Importación
+
+```ts
+import { Radio } from '@3df/ui';
+```
+
+#### Props
+
+| Prop         | Tipo     | Default | Descripción                     |
+| ------------ | -------- | ------- | ------------------------------- |
+| `modelValue` | `string` | —       | Valor seleccionado del grupo    |
+| `value`      | `string` | —       | Valor de esta opción (required) |
+
+> Acepta todos los atributos nativos de `<input type="radio">` (`name`, `id`, `disabled`, etc.) vía `$attrs`. Los radios del mismo grupo deben compartir el mismo `name`.
+
+#### Uso básico
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const plan = ref('pro');
+</script>
+
+<template>
+  <div class="flex flex-col gap-3">
+    <div class="flex items-center gap-2">
+      <Radio id="plan-free" v-model="plan" value="free" name="plan" />
+      <Label for="plan-free">Free</Label>
+    </div>
+    <div class="flex items-center gap-2">
+      <Radio id="plan-pro" v-model="plan" value="pro" name="plan" />
+      <Label for="plan-pro">Pro — $9/mes</Label>
+    </div>
+    <div class="flex items-center gap-2">
+      <Radio id="plan-enterprise" v-model="plan" value="enterprise" name="plan" />
+      <Label for="plan-enterprise">Enterprise — $29/mes</Label>
+    </div>
+  </div>
+</template>
+```
+
+#### Estado disabled
+
+```vue
+<template>
+  <div class="flex items-center gap-2">
+    <Radio id="plan-custom" value="custom" name="plan" disabled />
+    <Label for="plan-custom" :disabled="true">Custom (no disponible)</Label>
+  </div>
+</template>
+```
+
+#### Múltiples grupos
+
+Cada grupo se identifica por su `name`. Usa un `v-model` diferente por grupo:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const plan = ref('pro');
+const contact = ref('email');
+</script>
+
+<template>
+  <!-- Grupo 1: Plan -->
+  <Radio v-model="plan" value="free" name="plan" />
+  <Radio v-model="plan" value="pro" name="plan" />
+
+  <!-- Grupo 2: Contacto -->
+  <Radio v-model="contact" value="email" name="contact" />
+  <Radio v-model="contact" value="phone" name="contact" />
+</template>
+```
+
+#### Estilo visual
+
+El radio usa un efecto de relleno vía `border-width`: cuando está seleccionado, el borde crece a `5px` creando un punto sólido central con el color `primary`. La transición es suave a 200ms.
+
+---
+
+### Switch
+
+Toggle switch accesible con animación de knob y soporte para `v-model`.
+
+#### Importación
+
+```ts
+import { Switch } from '@3df/ui';
+```
+
+#### Props
+
+| Prop         | Tipo      | Default | Descripción             |
+| ------------ | --------- | ------- | ----------------------- |
+| `modelValue` | `boolean` | `false` | Estado on/off (v-model) |
+
+> Acepta todos los atributos nativos de `<button>` (`id`, `disabled`, etc.) vía `$attrs`. Incluye `role="switch"` y `aria-checked` automáticamente.
+
+#### Uso básico
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const notifications = ref(true);
+const darkMode = ref(false);
+</script>
+
+<template>
+  <div class="flex items-center gap-2">
+    <Switch id="notifications" v-model="notifications" />
+    <Label for="notifications">Notificaciones</Label>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <Switch id="dark-mode" v-model="darkMode" />
+    <Label for="dark-mode">Modo oscuro</Label>
+  </div>
+</template>
+```
+
+#### Estado disabled
+
+```vue
+<template>
+  <div class="flex items-center gap-2">
+    <Switch id="sw-off" disabled :model-value="false" />
+    <Label for="sw-off" :disabled="true">Deshabilitado (off)</Label>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <Switch id="sw-on" disabled :model-value="true" />
+    <Label for="sw-on" :disabled="true">Deshabilitado (on)</Label>
+  </div>
+</template>
+```
+
+#### Estilo visual
+
+- **Track**: `44px × 24px`, fondo `bg-input` (off) → `bg-primary` (on).
+- **Knob**: `20px × 20px`, blanco con sombra, se desplaza con `translate-x` a 200ms.
+- Semántica: usa `<button role="switch" aria-checked>` para accesibilidad.
+
+---
+
+#### Formulario completo (ejemplo)
+
+Todos los componentes de formulario combinados:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+import {
+  Button,
+  Checkbox,
+  Input,
+  Label,
+  Radio,
+  Select,
+  SelectItem,
+  Switch,
+  Textarea,
+} from '@3df/ui';
+
+const name = ref('');
+const email = ref('');
+const bio = ref('');
+const country = ref('');
+const plan = ref('pro');
+const terms = ref(false);
+const marketing = ref(true);
+const notifications = ref(true);
+</script>
+
+<template>
+  <form class="flex max-w-md flex-col gap-4">
+    <div class="flex flex-col gap-2">
+      <Label for="name">Nombre</Label>
+      <Input id="name" v-model="name" placeholder="Tu nombre completo" />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <Label for="email">Email</Label>
+      <Input id="email" v-model="email" type="email" placeholder="correo@ejemplo.com" />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <Label for="bio">Biografía</Label>
+      <Textarea id="bio" v-model="bio" placeholder="Cuéntanos sobre ti..." />
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <Label for="country">País</Label>
+      <Select id="country" v-model="country" placeholder="Selecciona un país">
+        <SelectItem value="mx">México</SelectItem>
+        <SelectItem value="ar">Argentina</SelectItem>
+        <SelectItem value="co">Colombia</SelectItem>
+      </Select>
+    </div>
+
+    <fieldset class="flex flex-col gap-3">
+      <legend class="text-sm font-medium">Plan</legend>
+      <div class="flex items-center gap-2">
+        <Radio id="f-free" v-model="plan" value="free" name="f-plan" />
+        <Label for="f-free">Free</Label>
+      </div>
+      <div class="flex items-center gap-2">
+        <Radio id="f-pro" v-model="plan" value="pro" name="f-plan" />
+        <Label for="f-pro">Pro</Label>
+      </div>
+    </fieldset>
+
+    <div class="flex items-center gap-2">
+      <Checkbox id="f-terms" v-model="terms" />
+      <Label for="f-terms">Acepto los términos</Label>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <Checkbox id="f-marketing" v-model="marketing" />
+      <Label for="f-marketing">Recibir emails de marketing</Label>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <Switch id="f-notif" v-model="notifications" />
+      <Label for="f-notif">Notificaciones push</Label>
+    </div>
+
+    <Button class="mt-2 w-full">Guardar perfil</Button>
+  </form>
+</template>
+```
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -616,9 +1244,25 @@ packages/ui/
 │   │   ├── buttons/
 │   │   │   ├── UiButton.vue              # Componente Button
 │   │   │   └── button-variants.ts        # Variantes CVA del Button
-│   │   └── badges/
-│   │       ├── UiBadge.vue               # Componente Badge
-│   │       └── badge-variants.ts         # Variantes CVA del Badge
+│   │   ├── badges/
+│   │   │   ├── UiBadge.vue               # Componente Badge
+│   │   │   └── badge-variants.ts         # Variantes CVA del Badge
+│   │   ├── label/
+│   │   │   └── UiLabel.vue               # Componente Label
+│   │   ├── input/
+│   │   │   ├── UiInput.vue               # Componente Input
+│   │   │   └── input-variants.ts         # Variantes CVA del Input
+│   │   ├── textarea/
+│   │   │   └── UiTextarea.vue            # Componente Textarea
+│   │   ├── select/
+│   │   │   ├── UiSelect.vue              # Componente Select (dropdown)
+│   │   │   └── UiSelectItem.vue          # Componente SelectItem (opción)
+│   │   ├── checkbox/
+│   │   │   └── UiCheckbox.vue            # Componente Checkbox (animado)
+│   │   ├── radio/
+│   │   │   └── UiRadio.vue               # Componente Radio
+│   │   └── switch/
+│   │       └── UiSwitch.vue              # Componente Switch (toggle)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
