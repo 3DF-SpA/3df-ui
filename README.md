@@ -308,6 +308,189 @@ const classes = buttonVariants({ variant: 'outline', size: 'sm' });
 
 ---
 
+### Badge
+
+Etiqueta compacta para estados, conteos y categorías.
+
+#### Importación
+
+```ts
+import { Badge } from '@3df/ui';
+```
+
+#### Props
+
+| Prop      | Tipo                                                                               | Default     | Descripción                        |
+| --------- | ---------------------------------------------------------------------------------- | ----------- | ---------------------------------- |
+| `variant` | `'default' \| 'secondary' \| 'outline' \| 'destructive' \| 'success' \| 'warning'` | `'default'` | Estilo visual del badge            |
+| `size`    | `'default' \| 'sm' \| 'lg'`                                                        | `'default'` | Tamaño del badge                   |
+| `as`      | `string \| Component`                                                              | `'span'`    | Elemento o componente a renderizar |
+
+> Acepta todos los atributos nativos del elemento (`href`, `target`, etc.) vía `$attrs`. Los SVG dentro del badge se redimensionan automáticamente a `size-3`.
+
+---
+
+#### Variantes
+
+```vue
+<template>
+  <Badge>Default</Badge>
+  <Badge variant="secondary">Secondary</Badge>
+  <Badge variant="outline">Outline</Badge>
+  <Badge variant="destructive">Destructive</Badge>
+  <Badge variant="success">Success</Badge>
+  <Badge variant="warning">Warning</Badge>
+</template>
+```
+
+| Variante      | Uso recomendado                                             |
+| ------------- | ----------------------------------------------------------- |
+| `default`     | Estado principal o categoría activa. Fondo sólido primario. |
+| `secondary`   | Información complementaria, metadata.                       |
+| `outline`     | Etiquetas neutrales con borde. Fondo transparente.          |
+| `destructive` | Errores, estados críticos, rechazos. Rojo.                  |
+| `success`     | Operación exitosa, estado activo, aprobado. Verde.          |
+| `warning`     | Advertencias, pendientes, mantenimiento programado. Ámbar.  |
+
+---
+
+#### Tamaños
+
+```vue
+<template>
+  <Badge size="sm">Small</Badge>
+  <Badge>Default</Badge>
+  <Badge size="lg">Large</Badge>
+</template>
+```
+
+| Tamaño    | Padding         | Uso                                            |
+| --------- | --------------- | ---------------------------------------------- |
+| `sm`      | `px-2 py-px`    | Contadores dentro de botones, tablas compactas |
+| `default` | `px-2.5 py-0.5` | Uso general                                    |
+| `lg`      | `px-3 py-1`     | Badges prominentes, hero sections              |
+
+---
+
+#### Con iconos
+
+Los SVG dentro del badge se redimensionan automáticamente a `12px` (`size-3`) gracias al selector `[&>svg]:size-3`:
+
+```vue
+<template>
+  <Badge variant="success">
+    <MyIcon name="check" />
+    Aprobado
+  </Badge>
+
+  <Badge variant="destructive">
+    <MyIcon name="x-mark" />
+    Rechazado
+  </Badge>
+
+  <Badge variant="warning">
+    <MyIcon name="alert" />
+    Pendiente
+  </Badge>
+</template>
+```
+
+> El componente incluye `gap-1` por defecto para separar icono y texto.
+
+---
+
+#### Forma pill
+
+Usa `class` para override del border-radius:
+
+```vue
+<template>
+  <Badge class="rounded-full">Default pill</Badge>
+  <Badge variant="success" class="rounded-full">Success pill</Badge>
+  <Badge variant="destructive" class="rounded-full">Error pill</Badge>
+</template>
+```
+
+---
+
+#### Como enlace
+
+Usa la prop `as` para renderizar como `<a>`. Agrega `cursor-pointer` ya que los badges no lo incluyen por defecto:
+
+```vue
+<template>
+  <Badge as="a" href="/tags/vue" class="cursor-pointer">Vue</Badge>
+
+  <Badge as="a" href="/status" variant="outline" class="cursor-pointer"> Ver estado </Badge>
+</template>
+```
+
+#### Con componente de router
+
+```vue
+<script setup lang="ts">
+import { Badge } from '@3df/ui';
+import { RouterLink } from 'vue-router';
+</script>
+
+<template>
+  <Badge :as="RouterLink" to="/tags/vue" class="cursor-pointer">Vue</Badge>
+</template>
+```
+
+---
+
+#### En contexto
+
+Los badges combinan naturalmente con otros componentes:
+
+```vue
+<template>
+  <!-- Contador dentro de un botón -->
+  <Button>
+    Inbox
+    <Badge variant="secondary" size="sm" class="rounded-full">24</Badge>
+  </Button>
+
+  <Button variant="outline">
+    Notificaciones
+    <Badge variant="destructive" size="sm" class="rounded-full">3</Badge>
+  </Button>
+
+  <!-- Indicador de estado -->
+  <div class="flex items-center gap-2">
+    <span class="text-sm font-medium">Estado del servidor</span>
+    <Badge variant="success" size="sm">Online</Badge>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <span class="text-sm font-medium">Mantenimiento</span>
+    <Badge variant="warning" size="sm">Programado</Badge>
+  </div>
+</template>
+```
+
+---
+
+#### Acceso a las variantes (headless)
+
+Si necesitas los estilos del badge sin el componente:
+
+```ts
+import { badgeVariants } from '@3df/ui';
+
+const classes = badgeVariants({ variant: 'success', size: 'sm' });
+// → "inline-flex items-center gap-1 ... bg-emerald-600 text-white/90 ..."
+```
+
+```vue
+<template>
+  <span :class="badgeVariants({ variant: 'outline' })">Etiqueta plain</span>
+</template>
+```
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -366,15 +549,19 @@ Cada token tiene su equivalente dark mode en la clase `.dark`.
 ```
 packages/ui/
 ├── src/
-│   ├── index.ts                      # Barrel — exports públicos
+│   ├── index.ts                          # Barrel — exports públicos
 │   ├── components/ui/
-│   │   ├── UiButton.vue              # Componente Button
-│   │   └── button-variants.ts        # Variantes CVA del Button
+│   │   ├── buttons/
+│   │   │   ├── UiButton.vue              # Componente Button
+│   │   │   └── button-variants.ts        # Variantes CVA del Button
+│   │   └── badges/
+│   │       ├── UiBadge.vue               # Componente Badge
+│   │       └── badge-variants.ts         # Variantes CVA del Badge
 │   ├── lib/
-│   │   └── utils.ts                  # Helper cn()
+│   │   └── utils.ts                      # Helper cn()
 │   └── styles/
-│       └── theme.css                 # Design tokens (light + dark)
-├── dist/                             # Build output (generado)
+│       └── theme.css                     # Design tokens (light + dark)
+├── dist/                                 # Build output (generado)
 ├── package.json
 ├── tsconfig.json
 └── vite.config.ts
@@ -409,18 +596,20 @@ Desde `packages/ui/`:
 
 ### Agregar un nuevo componente
 
-1. Crear el archivo del componente en `packages/ui/src/components/ui/`:
+1. Crear la carpeta del componente en `packages/ui/src/components/ui/`:
 
 ```
 packages/ui/src/components/ui/
-├── UiInput.vue
-└── input-variants.ts    # (si usa CVA)
+├── inputs/
+│   ├── UiInput.vue
+│   └── input-variants.ts    # (si usa CVA)
 ```
 
 2. Exportar desde `packages/ui/src/index.ts`:
 
 ```ts
-export { default as Input } from './components/ui/UiInput.vue';
+export { default as Input } from './components/ui/inputs/UiInput.vue';
+export { inputVariants } from './components/ui/inputs/input-variants';
 ```
 
 3. Rebuild: `pnpm build:ui`
@@ -444,12 +633,15 @@ export { default as Input } from './components/ui/UiInput.vue';
 ```vue
 <!-- Usar las props del componente para variantes -->
 <Button variant="outline" size="sm">OK</Button>
+<Badge variant="success">Online</Badge>
 
 <!-- Override de clases cuando necesites algo específico -->
 <Button class="w-full rounded-full">Custom</Button>
+<Badge class="rounded-full">Pill</Badge>
 
-<!-- buttonVariants() cuando no necesitas el componente Vue -->
+<!-- buttonVariants() / badgeVariants() cuando no necesitas el componente Vue -->
 <a :class="buttonVariants({ variant: 'link' })">Link</a>
+<span :class="badgeVariants({ variant: 'outline' })">Tag</span>
 ```
 
 ### ❌ Evitar
@@ -463,6 +655,7 @@ export { default as Input } from './components/ui/UiInput.vue';
 
 <!-- No pases variant como clase, usa la prop -->
 <Button class="bg-destructive text-destructive-foreground">Mal</Button>
+<Badge class="bg-emerald-600 text-white">Mal</Badge>
 ```
 
 ---
