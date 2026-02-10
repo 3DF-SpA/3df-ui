@@ -38,6 +38,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Tooltip](#tooltip)
   - [Toggle](#toggle)
   - [Table](#table)
+  - [Slider](#slider)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -2785,6 +2786,210 @@ function toggleAll(checked: boolean) {
 
 ---
 
+## Slider
+
+Slider interactivo accesible para seleccionar un valor numérico dentro de un rango. Soporta arrastre con pointer, navegación completa por teclado, step personalizable, y dark mode. No usa dependencias externas — implementado con Pointer Events nativos.
+
+### Importación
+
+```ts
+import { Slider } from '@3df/ui';
+```
+
+### Props
+
+| Prop         | Tipo      | Default | Descripción                        |
+| ------------ | --------- | ------- | ---------------------------------- |
+| `modelValue` | `number`  | `0`     | Valor actual del slider (v-model)  |
+| `min`        | `number`  | `0`     | Valor mínimo del rango             |
+| `max`        | `number`  | `100`   | Valor máximo del rango             |
+| `step`       | `number`  | `1`     | Incremento entre valores           |
+| `disabled`   | `boolean` | `false` | Deshabilita la interacción         |
+
+> Acepta todos los atributos nativos vía `$attrs`. Usa `inheritAttrs: false` y maneja attrs manualmente.
+
+### Eventos
+
+| Evento            | Payload  | Descripción                     |
+| ----------------- | -------- | ------------------------------- |
+| `update:modelValue` | `number` | Se emite al cambiar el valor    |
+
+---
+
+### Uso básico
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+import { Slider } from '@3df/ui';
+
+const value = ref(50);
+</script>
+
+<template>
+  <Slider v-model="value" />
+  <p>Valor: {{ value }}</p>
+</template>
+```
+
+---
+
+### Con label
+
+```vue
+<template>
+  <div class="flex flex-col gap-3">
+    <div class="flex items-center justify-between">
+      <Label>Volumen</Label>
+      <span class="text-muted-foreground text-sm">{{ volume }}%</span>
+    </div>
+    <Slider v-model="volume" />
+  </div>
+</template>
+```
+
+---
+
+### Con step
+
+Usa `step` para limitar los valores seleccionables:
+
+```vue
+<template>
+  <Slider v-model="progress" :step="25" />
+  <div class="text-muted-foreground flex justify-between text-xs">
+    <span>0%</span>
+    <span>25%</span>
+    <span>50%</span>
+    <span>75%</span>
+    <span>100%</span>
+  </div>
+</template>
+```
+
+---
+
+### Rango personalizado
+
+```vue
+<template>
+  <div class="flex items-center justify-between">
+    <Label>Precio máximo</Label>
+    <span class="text-muted-foreground text-sm">${{ price }}</span>
+  </div>
+  <Slider v-model="price" :min="0" :max="1000" :step="50" />
+</template>
+```
+
+---
+
+### Estado disabled
+
+```vue
+<template>
+  <Slider v-model="value" :disabled="true" />
+</template>
+```
+
+Los sliders deshabilitados aplican `opacity: 0.5` y `pointer-events: none` automáticamente.
+
+---
+
+### Navegación por teclado
+
+| Tecla                | Acción                                   |
+| -------------------- | ---------------------------------------- |
+| `→` / `↑`            | Incrementa en un `step`                  |
+| `←` / `↓`            | Decrementa en un `step`                  |
+| `Page Up`            | Incrementa en 10% del rango              |
+| `Page Down`          | Decrementa en 10% del rango              |
+| `Home`               | Salta al valor mínimo                    |
+| `End`                | Salta al valor máximo                    |
+
+---
+
+### Estilo visual
+
+- **Track**: `h-2`, fondo `bg-secondary`, bordes redondeados completos.
+- **Range**: Porción llenada con `bg-primary`.
+- **Thumb**: `size-5` (20px), borde `border-primary`, fondo `bg-background`, sombra sutil.
+- **Focus**: Ring `ring-ring` de `3.2px` mientras se arrastra.
+- Se adapta automáticamente a dark mode a través de los design tokens.
+
+---
+
+### Override de estilos
+
+```vue
+<template>
+  <!-- Track más grueso -->
+  <Slider v-model="value" class="h-3" />
+
+  <!-- Ancho fijo -->
+  <Slider v-model="value" class="w-64" />
+</template>
+```
+
+---
+
+### En contexto
+
+El slider combina naturalmente con otros componentes:
+
+```vue
+<template>
+  <!-- Dentro de un formulario -->
+  <div class="flex flex-col gap-3">
+    <div class="flex items-center justify-between">
+      <Label for="opacity">Opacidad</Label>
+      <span class="text-muted-foreground text-sm">{{ opacity }}%</span>
+    </div>
+    <Slider v-model="opacity" />
+  </div>
+
+  <!-- Dentro de una Card -->
+  <Card>
+    <CardHeader>
+      <CardTitle>Configuración de audio</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-4">
+          <span class="text-muted-foreground w-16 text-right text-xs">Volumen</span>
+          <Slider v-model="volume" class="flex-1" />
+          <span class="text-muted-foreground w-8 text-xs">{{ volume }}%</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+</template>
+```
+
+---
+
+### Accesibilidad
+
+- `role="slider"` en el elemento raíz
+- `aria-valuemin`, `aria-valuemax`, `aria-valuenow` reflejan el estado actual
+- `aria-disabled` cuando está deshabilitado
+- `tabindex="0"` para navegación por teclado (se desactiva cuando `disabled`)
+- Navegación completa por teclado (ver tabla arriba)
+- Pointer capture para arrastre fluido fuera del elemento
+
+---
+
+### Slider vs Switch
+
+| Característica | Slider                              | Switch                   |
+| -------------- | ----------------------------------- | ------------------------ |
+| Tipo de valor  | Numérico continuo (rango)           | Booleano (on/off)        |
+| Interacción    | Arrastre + teclado                  | Click/tap                |
+| Caso de uso    | Volumen, brillo, precio, progreso   | Activar/desactivar       |
+| ARIA role      | `slider`                            | `switch`                 |
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -2912,6 +3117,8 @@ packages/ui/
 │   │       ├── UiTableCell.vue           # <td> celda de datos
 │   │       ├── UiTableCaption.vue        # <caption> leyenda
 │   │       └── UiTableEmpty.vue          # Fila de estado vacío
+│   │   └── slider/
+│   │       └── UiSlider.vue              # Slider accesible (pointer + keyboard)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

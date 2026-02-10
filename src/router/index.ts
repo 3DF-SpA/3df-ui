@@ -74,6 +74,12 @@ const router = createRouter({
           name: 'MyTables',
           component: () => import('@/modules/ui/views/MyTables.vue'),
         },
+
+        {
+          path: '/slider',
+          name: 'MySlider',
+          component: () => import('@/modules/ui/views/MySlider.vue'),
+        },
       ],
     },
   ],
