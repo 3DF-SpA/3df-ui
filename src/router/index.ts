@@ -80,6 +80,12 @@ const router = createRouter({
           name: 'MySlider',
           component: () => import('@/modules/ui/views/MySlider.vue'),
         },
+
+        {
+          path: '/skeleton',
+          name: 'MySkeleton',
+          component: () => import('@/modules/ui/views/MySkeleton.vue'),
+        },
       ],
     },
   ],

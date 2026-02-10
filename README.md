@@ -39,6 +39,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Toggle](#toggle)
   - [Table](#table)
   - [Slider](#slider)
+  - [Skeleton](#skeleton)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -2911,10 +2912,10 @@ Los sliders deshabilitados aplican `opacity: 0.5` y `pointer-events: none` autom
 
 ### Estilo visual
 
-- **Track**: `h-2`, fondo `bg-secondary`, bordes redondeados completos.
-- **Range**: Porción llenada con `bg-primary`.
-- **Thumb**: `size-5` (20px), borde `border-primary`, fondo `bg-background`, sombra sutil.
-- **Focus**: Ring `ring-ring` de `3.2px` mientras se arrastra.
+- **Track**: `h-1.5`, fondo `bg-secondary`, bordes redondeados completos.
+- **Range**: Porción llenada con `bg-primary`, transición suave de ancho.
+- **Thumb**: `size-4` (16px), borde sutil `border-primary/60`, fondo `bg-background`, sombra ligera. En hover escala a `110%` y el borde se intensifica a `border-primary`.
+- **Arrastre**: Ring suave `ring-ring/40` de `3px`, escala `110%` y sombra `shadow-md`.
 - Se adapta automáticamente a dark mode a través de los design tokens.
 
 ---
@@ -2987,6 +2988,111 @@ El slider combina naturalmente con otros componentes:
 | Interacción    | Arrastre + teclado                  | Click/tap                |
 | Caso de uso    | Volumen, brillo, precio, progreso   | Activar/desactivar       |
 | ARIA role      | `slider`                            | `switch`                 |
+
+---
+
+## Skeleton
+
+Componente de marcador de posición visual para contenido que aún está cargando. Muestra una animación de pulso sutil que indica al usuario que el contenido se está obteniendo.
+
+### Importación
+
+```ts
+import { Skeleton } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <!-- Línea de texto -->
+  <Skeleton class="h-4 w-[250px]" />
+
+  <!-- Círculo (avatar) -->
+  <Skeleton class="size-12 rounded-full" />
+
+  <!-- Bloque rectangular -->
+  <Skeleton class="h-20 w-full" />
+</template>
+```
+
+### Card skeleton
+
+Se combina con `Card` y sus sub-componentes para crear estados de carga realistas:
+
+```vue
+<template>
+  <Card class="w-full max-w-sm">
+    <CardHeader>
+      <div class="flex items-center gap-4">
+        <Skeleton class="size-10 rounded-full" />
+        <div class="flex flex-col gap-2">
+          <Skeleton class="h-4 w-[150px]" />
+          <Skeleton class="h-3 w-[100px]" />
+        </div>
+      </div>
+    </CardHeader>
+    <CardContent class="flex flex-col gap-3">
+      <Skeleton class="h-4 w-full" />
+      <Skeleton class="h-4 w-full" />
+      <Skeleton class="h-4 w-3/4" />
+    </CardContent>
+    <CardFooter class="gap-2">
+      <Skeleton class="h-9 w-20 rounded-md" />
+      <Skeleton class="h-9 w-20 rounded-md" />
+    </CardFooter>
+  </Card>
+</template>
+```
+
+### Tabla skeleton
+
+```vue
+<template>
+  <div class="w-full">
+    <div class="flex gap-4 border-b border-border pb-3">
+      <Skeleton class="h-4 w-[80px]" />
+      <Skeleton class="h-4 w-[120px]" />
+      <Skeleton class="h-4 flex-1" />
+    </div>
+    <div v-for="i in 5" :key="i" class="flex items-center gap-4 border-b border-border py-4">
+      <Skeleton class="h-4 w-[80px]" />
+      <Skeleton class="h-4 w-[120px]" />
+      <Skeleton class="h-4 flex-1" />
+    </div>
+  </div>
+</template>
+```
+
+### Props
+
+`Skeleton` no define props propias. Al usar `inheritAttrs: false` con `v-bind="restAttrs"`, todos los atributos nativos del `<div>` (incluido `class`) se pasan directamente.
+
+### Estilo visual
+
+| Propiedad    | Valor                 |
+| ------------ | --------------------- |
+| Background   | `bg-muted`            |
+| Animación    | `animate-pulse`       |
+| Border-radius | `rounded-md` (default) |
+
+La forma y tamaño se controlan desde el consumidor mediante clases de utilidad de Tailwind (`h-*`, `w-*`, `rounded-full`, etc.).
+
+### Formas comunes
+
+| Forma       | Clases                             |
+| ----------- | ---------------------------------- |
+| Línea texto | `h-4 w-[200px]`                   |
+| Avatar      | `size-12 rounded-full`             |
+| Botón       | `h-9 w-20 rounded-md`             |
+| Imagen      | `aspect-[3/2] w-full rounded-none` |
+| Input       | `h-10 w-full rounded-md`          |
+| Checkbox    | `size-4 rounded-sm`               |
+
+### Accesibilidad
+
+- Usa `aria-hidden="true"` o `role="status"` con `aria-label="Cargando…"` en el contenedor padre si el skeleton reemplaza contenido significativo.
+- El componente es puramente decorativo y no recibe foco.
 
 ---
 
@@ -3119,6 +3225,8 @@ packages/ui/
 │   │       └── UiTableEmpty.vue          # Fila de estado vacío
 │   │   └── slider/
 │   │       └── UiSlider.vue              # Slider accesible (pointer + keyboard)
+│   │   └── skeleton/
+│   │       └── UiSkeleton.vue            # Placeholder con animación pulse
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

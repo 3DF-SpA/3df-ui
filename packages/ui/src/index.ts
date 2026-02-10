@@ -55,3 +55,4 @@ export { default as TableCell } from './components/ui/table/UiTableCell.vue';
 export { default as TableCaption } from './components/ui/table/UiTableCaption.vue';
 export { default as TableEmpty } from './components/ui/table/UiTableEmpty.vue';
 export { default as Slider } from './components/ui/slider/UiSlider.vue';
+export { default as Skeleton } from './components/ui/skeleton/UiSkeleton.vue';
