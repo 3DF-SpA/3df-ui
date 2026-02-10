@@ -45,3 +45,12 @@ export { default as TooltipTrigger } from './components/ui/tooltip/UiTooltipTrig
 export { default as TooltipContent } from './components/ui/tooltip/UiTooltipContent.vue';
 export { default as Toggle } from './components/ui/toggle/UiToggle.vue';
 export { toggleVariants } from './components/ui/toggle/toggle-variants';
+export { default as Table } from './components/ui/table/UiTable.vue';
+export { default as TableHeader } from './components/ui/table/UiTableHeader.vue';
+export { default as TableBody } from './components/ui/table/UiTableBody.vue';
+export { default as TableFooter } from './components/ui/table/UiTableFooter.vue';
+export { default as TableRow } from './components/ui/table/UiTableRow.vue';
+export { default as TableHead } from './components/ui/table/UiTableHead.vue';
+export { default as TableCell } from './components/ui/table/UiTableCell.vue';
+export { default as TableCaption } from './components/ui/table/UiTableCaption.vue';
+export { default as TableEmpty } from './components/ui/table/UiTableEmpty.vue';

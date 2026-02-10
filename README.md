@@ -37,6 +37,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Alert](#alert)
   - [Tooltip](#tooltip)
   - [Toggle](#toggle)
+  - [Table](#table)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -2363,6 +2364,427 @@ Puedes componer toggles en un grupo estilo toolbar usando clases de Tailwind:
 
 ---
 
+## Table
+
+Sistema de primitivas de tabla compuesto por 9 sub-componentes estilizados que se combinan libremente. Inspirado en la [Table de shadcn/ui](https://ui.shadcn.com/docs/components/table) — elementos HTML nativos (`<table>`, `<thead>`, `<tr>`, `<th>`, `<td>`, etc.) con estilos consistentes del design system, dark mode, hover en filas, estado de selección y scroll horizontal responsivo.
+
+Las primitivas son **la base** para construir cualquier tabla: estática, con sorting, filtrable, paginada, con selección, etc. La lógica de datos (sorting, filtros, paginación) se implementa en el consumidor usando `computed` — las primitivas solo se ocupan de la presentación.
+
+### Importación
+
+```ts
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableEmpty,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@3df/ui';
+```
+
+### Sub-componentes
+
+| Componente     | Elemento HTML | Descripción                                                              |
+| -------------- | ------------- | ------------------------------------------------------------------------ |
+| `Table`        | `<table>`     | Contenedor principal — ancho completo, `caption-bottom`, scroll wrapper  |
+| `TableHeader`  | `<thead>`     | Grupo de filas de encabezado — borde inferior en filas hijas             |
+| `TableBody`    | `<tbody>`     | Grupo de filas de datos — sin borde en la última fila                    |
+| `TableFooter`  | `<tfoot>`     | Grupo de filas de pie — fondo `muted/50`, borde superior                 |
+| `TableRow`     | `<tr>`        | Fila — borde inferior, hover `muted/50`, soporte `data-state="selected"` |
+| `TableHead`    | `<th>`        | Celda de encabezado — `h-12`, texto `muted-foreground`, font medium      |
+| `TableCell`    | `<td>`        | Celda de datos — `p-4`, alineación vertical media                        |
+| `TableCaption` | `<caption>`   | Leyenda de la tabla — `mt-4`, texto `muted-foreground`                   |
+| `TableEmpty`   | `<tr>` + `<td>` | Fila de estado vacío — centrada, altura `h-24`, texto por defecto      |
+
+> Todos los sub-componentes aceptan `class` para override de estilos vía `cn()` / `tailwind-merge`. Todos usan `inheritAttrs: false` y pasan los attrs restantes al elemento nativo.
+
+---
+
+### Uso básico
+
+```vue
+<template>
+  <Table>
+    <TableCaption>Lista de facturas recientes.</TableCaption>
+    <TableHeader>
+      <TableRow>
+        <TableHead class="w-[100px]">Factura</TableHead>
+        <TableHead>Estado</TableHead>
+        <TableHead>Método</TableHead>
+        <TableHead class="text-right">Monto</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow v-for="inv in invoices" :key="inv.id">
+        <TableCell class="font-medium">{{ inv.id }}</TableCell>
+        <TableCell>{{ inv.status }}</TableCell>
+        <TableCell>{{ inv.method }}</TableCell>
+        <TableCell class="text-right">{{ formatCurrency(inv.amount) }}</TableCell>
+      </TableRow>
+    </TableBody>
+    <TableFooter>
+      <TableRow>
+        <TableCell colspan="3">Total</TableCell>
+        <TableCell class="text-right">{{ formatCurrency(total) }}</TableCell>
+      </TableRow>
+    </TableFooter>
+  </Table>
+</template>
+```
+
+---
+
+### Props
+
+**TableEmpty:**
+
+| Prop      | Tipo     | Default | Descripción                                |
+| --------- | -------- | ------- | ------------------------------------------ |
+| `colspan` | `number` | `1`     | Número de columnas que ocupa la celda vacía |
+
+El slot por defecto muestra `"No hay resultados."`. Pasa contenido personalizado para override:
+
+```vue
+<TableEmpty :colspan="4">No se encontraron facturas.</TableEmpty>
+```
+
+Los demás sub-componentes no tienen props propias — toda la personalización es vía `class` y attrs nativos.
+
+---
+
+### Estado vacío
+
+Usa `TableEmpty` dentro de `TableBody` para mostrar un mensaje cuando no hay datos:
+
+```vue
+<template>
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Nombre</TableHead>
+        <TableHead>Email</TableHead>
+        <TableHead>Rol</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <template v-if="users.length">
+        <TableRow v-for="user in users" :key="user.id">
+          <TableCell>{{ user.name }}</TableCell>
+          <TableCell>{{ user.email }}</TableCell>
+          <TableCell>{{ user.role }}</TableCell>
+        </TableRow>
+      </template>
+      <TableEmpty v-else :colspan="3" />
+    </TableBody>
+  </Table>
+</template>
+```
+
+---
+
+### Filas seleccionadas
+
+Usa `data-state="selected"` en `TableRow` para aplicar fondo `bg-muted`:
+
+```vue
+<TableRow
+  v-for="row in rows"
+  :key="row.id"
+  :data-state="selectedIds.has(row.id) ? 'selected' : undefined"
+>
+  <TableCell>
+    <Checkbox
+      :model-value="selectedIds.has(row.id)"
+      @update:model-value="toggleRow(row.id)"
+    />
+  </TableCell>
+  <TableCell>{{ row.name }}</TableCell>
+</TableRow>
+```
+
+> El estilo `data-[state=selected]:bg-muted` está incluido en `TableRow` por defecto.
+
+---
+
+### Tabla striped
+
+Usa `class` condicional para alternar fondos:
+
+```vue
+<TableRow
+  v-for="(person, i) in people"
+  :key="person.id"
+  :class="i % 2 === 0 ? 'bg-muted/30' : ''"
+>
+  <!-- ... -->
+</TableRow>
+```
+
+---
+
+### Data Table (sorting + filtros + paginación + selección)
+
+Las primitivas de tabla son la base para construir data tables completas. La lógica de datos se implementa en tu componente usando `computed` de Vue — las primitivas solo renderizan.
+
+#### Ejemplo completo
+
+```vue
+<script setup lang="ts">
+import { computed, ref } from 'vue';
+
+import {
+  Badge,
+  Button,
+  Checkbox,
+  Input,
+  Table,
+  TableBody,
+  TableCell,
+  TableEmpty,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@3df/ui';
+
+interface Invoice {
+  id: string;
+  status: 'paid' | 'pending' | 'unpaid';
+  email: string;
+  amount: number;
+}
+
+const data: Invoice[] = [/* ... */];
+
+// ─── Sorting ──────────────────────────────────────
+type SortKey = keyof Invoice;
+const sortKey = ref<SortKey>('id');
+const sortDir = ref<'asc' | 'desc'>('asc');
+
+function toggleSort(key: SortKey) {
+  if (sortKey.value === key) {
+    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc';
+  } else {
+    sortKey.value = key;
+    sortDir.value = 'asc';
+  }
+}
+
+// ─── Filtering ────────────────────────────────────
+const search = ref('');
+
+// ─── Pagination ───────────────────────────────────
+const page = ref(1);
+const pageSize = 5;
+
+// ─── Selection ────────────────────────────────────
+const selectedIds = ref<Set<string>>(new Set());
+
+function toggleRow(id: string) {
+  const next = new Set(selectedIds.value);
+  if (next.has(id)) next.delete(id);
+  else next.add(id);
+  selectedIds.value = next;
+}
+
+// ─── Computed pipeline ───────────────────────────
+const filtered = computed(() => {
+  if (!search.value) return data;
+  const q = search.value.toLowerCase();
+  return data.filter((r) => r.email.toLowerCase().includes(q));
+});
+
+const sorted = computed(() => {
+  const rows = [...filtered.value];
+  const dir = sortDir.value === 'asc' ? 1 : -1;
+  rows.sort((a, b) => {
+    const va = a[sortKey.value];
+    const vb = b[sortKey.value];
+    if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * dir;
+    return String(va).localeCompare(String(vb)) * dir;
+  });
+  return rows;
+});
+
+const totalPages = computed(() => Math.ceil(sorted.value.length / pageSize));
+const paginated = computed(() => {
+  const start = (page.value - 1) * pageSize;
+  return sorted.value.slice(start, start + pageSize);
+});
+
+const allSelected = computed(() =>
+  paginated.value.length > 0 && paginated.value.every((r) => selectedIds.value.has(r.id)),
+);
+
+function toggleAll(checked: boolean) {
+  const next = new Set(selectedIds.value);
+  for (const row of paginated.value) {
+    if (checked) next.add(row.id);
+    else next.delete(row.id);
+  }
+  selectedIds.value = next;
+}
+</script>
+
+<template>
+  <!-- Toolbar -->
+  <div class="flex items-center gap-3">
+    <Input v-model="search" placeholder="Buscar por email..." class="max-w-xs" />
+    <span v-if="selectedIds.size" class="text-muted-foreground ml-auto text-sm">
+      {{ selectedIds.size }} seleccionado(s)
+    </span>
+  </div>
+
+  <!-- Tabla -->
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead class="w-[40px]">
+          <Checkbox :model-value="allSelected" @update:model-value="toggleAll" />
+        </TableHead>
+        <TableHead class="cursor-pointer select-none" @click="toggleSort('id')">
+          Factura
+        </TableHead>
+        <TableHead class="cursor-pointer select-none" @click="toggleSort('status')">
+          Estado
+        </TableHead>
+        <TableHead class="cursor-pointer select-none" @click="toggleSort('email')">
+          Email
+        </TableHead>
+        <TableHead
+          class="cursor-pointer select-none text-right"
+          @click="toggleSort('amount')"
+        >
+          Monto
+        </TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <template v-if="paginated.length">
+        <TableRow
+          v-for="inv in paginated"
+          :key="inv.id"
+          :data-state="selectedIds.has(inv.id) ? 'selected' : undefined"
+        >
+          <TableCell>
+            <Checkbox
+              :model-value="selectedIds.has(inv.id)"
+              @update:model-value="toggleRow(inv.id)"
+            />
+          </TableCell>
+          <TableCell class="font-medium">{{ inv.id }}</TableCell>
+          <TableCell>
+            <Badge :variant="inv.status === 'paid' ? 'success' : 'warning'" size="sm">
+              {{ inv.status }}
+            </Badge>
+          </TableCell>
+          <TableCell>{{ inv.email }}</TableCell>
+          <TableCell class="text-right">${{ inv.amount.toFixed(2) }}</TableCell>
+        </TableRow>
+      </template>
+      <TableEmpty v-else :colspan="5">No se encontraron resultados.</TableEmpty>
+    </TableBody>
+  </Table>
+
+  <!-- Paginación -->
+  <div class="flex items-center justify-between">
+    <p class="text-muted-foreground text-sm">
+      Página {{ page }} de {{ totalPages }}
+    </p>
+    <div class="flex gap-2">
+      <Button variant="outline" size="sm" :disabled="page <= 1" @click="page--">
+        Anterior
+      </Button>
+      <Button variant="outline" size="sm" :disabled="page >= totalPages" @click="page++">
+        Siguiente
+      </Button>
+    </div>
+  </div>
+</template>
+```
+
+**Patrón clave:**
+
+- **Sorting**: `toggleSort()` alterna dirección; `sorted` ordena con `Array.sort()`.
+- **Filtrado**: `filtered` filtra con `Array.filter()` antes del sort.
+- **Paginación**: `paginated` usa `Array.slice()` sobre el resultado ordenado.
+- **Selección**: `Set<string>` de IDs + `data-state="selected"` en cada `TableRow`.
+- **Select-all**: opera solo sobre la página visible.
+
+---
+
+### Override de estilos
+
+```vue
+<template>
+  <!-- Sin hover en filas -->
+  <TableRow class="hover:bg-transparent">...</TableRow>
+
+  <!-- Borde más grueso en header -->
+  <TableHeader class="[&_tr]:border-b-2">...</TableHeader>
+
+  <!-- Celdas compactas -->
+  <TableCell class="p-2 text-xs">...</TableCell>
+
+  <!-- Tabla con borde exterior -->
+  <Table class="border border-border rounded-lg">...</Table>
+
+  <!-- Tabla dentro de Card -->
+  <Card>
+    <CardHeader>
+      <CardTitle>Usuarios</CardTitle>
+    </CardHeader>
+    <CardContent class="p-0">
+      <Table>...</Table>
+    </CardContent>
+  </Card>
+</template>
+```
+
+---
+
+### Scroll horizontal responsivo
+
+`Table` incluye un wrapper `<div class="relative w-full overflow-auto">` automáticamente. En pantallas pequeñas, la tabla hace scroll horizontal sin romper el layout:
+
+```vue
+<template>
+  <!-- No necesitas envolver manualmente — el scroll wrapper está incluido -->
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Col 1</TableHead>
+        <TableHead>Col 2</TableHead>
+        <TableHead>Col 3</TableHead>
+        <TableHead>Col 4</TableHead>
+        <TableHead>Col 5</TableHead>
+        <TableHead>Col 6</TableHead>
+        <TableHead>Col 7</TableHead>
+      </TableRow>
+    </TableHeader>
+    <!-- ... -->
+  </Table>
+</template>
+```
+
+---
+
+### Table vs Card
+
+| Característica | Table                              | Card                               |
+| -------------- | ---------------------------------- | ---------------------------------- |
+| Layout         | Tabular (filas × columnas)         | Apilado vertical (secciones)       |
+| Datos          | Múltiples registros homogéneos     | Un solo item o resumen             |
+| Responsivo     | Scroll horizontal                  | Apila verticalmente                |
+| Selección      | `data-state="selected"` por fila   | Hover/click manual                 |
+| Uso            | Listados, reportes, admin panels   | Pricing, productos, dashboards     |
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -2477,9 +2899,19 @@ packages/ui/
 │   │   │   ├── UiTooltip.vue             # Contenedor raíz (provide/inject, delay)
 │   │   │   ├── UiTooltipTrigger.vue      # Trigger (hover + focus)
 │   │   │   └── UiTooltipContent.vue      # Panel flotante (fixed + Teleport)
-│   │   └── toggle/
-│   │       ├── toggle-variants.ts        # Variantes CVA del Toggle
-│   │       └── UiToggle.vue              # Botón toggle (aria-pressed)
+│   │   ├── toggle/
+│   │   │   ├── toggle-variants.ts        # Variantes CVA del Toggle
+│   │   │   └── UiToggle.vue              # Botón toggle (aria-pressed)
+│   │   └── table/
+│   │       ├── UiTable.vue               # Contenedor principal (<table> + scroll wrapper)
+│   │       ├── UiTableHeader.vue         # <thead> estilizado
+│   │       ├── UiTableBody.vue           # <tbody> estilizado
+│   │       ├── UiTableFooter.vue         # <tfoot> con fondo muted
+│   │       ├── UiTableRow.vue            # <tr> con hover y selección
+│   │       ├── UiTableHead.vue           # <th> encabezado
+│   │       ├── UiTableCell.vue           # <td> celda de datos
+│   │       ├── UiTableCaption.vue        # <caption> leyenda
+│   │       └── UiTableEmpty.vue          # Fila de estado vacío
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

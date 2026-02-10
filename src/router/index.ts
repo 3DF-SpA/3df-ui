@@ -68,6 +68,12 @@ const router = createRouter({
           name: 'MyToggle',
           component: () => import('@/modules/ui/views/MyToggle.vue'),
         },
+
+        {
+          path: '/tables',
+          name: 'MyTables',
+          component: () => import('@/modules/ui/views/MyTables.vue'),
+        },
       ],
     },
   ],
