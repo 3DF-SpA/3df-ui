@@ -40,6 +40,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Table](#table)
   - [Slider](#slider)
   - [Skeleton](#skeleton)
+  - [Sidebar](#sidebar)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -3096,6 +3097,376 @@ La forma y tamaño se controlan desde el consumidor mediante clases de utilidad 
 
 ---
 
+## Sidebar
+
+Sistema de navegación lateral completo con soporte para múltiples variantes, colapso animado, modo icon-only, sub-menús colapsables, badges, action buttons, skeleton de carga, posicionamiento izquierda/derecha y drawer móvil automático. Todos los componentes usan design tokens específicos (`sidebar-*`) para estilización independiente.
+
+### Arquitectura
+
+El Sidebar utiliza el patrón **Provider → Consumer** vía `provide/inject`:
+
+```
+SidebarProvider              ← Estado global (open, side, variant...) + v-model:open
+├── Sidebar                  ← Panel lateral (desktop + mobile drawer)
+│   ├── SidebarHeader        ← Logo / título (border-b automático)
+│   ├── SidebarContent       ← Zona scrollable (scrollbar customizado)
+│   │   └── SidebarGroup
+│   │       ├── SidebarGroupLabel       ← uppercase, tracking-wider
+│   │       └── SidebarGroupContent
+│   │           └── SidebarMenu
+│   │               └── SidebarMenuItem
+│   │                   ├── SidebarMenuButton    ← Botón interactivo + aria-current
+│   │                   ├── SidebarMenuBadge     ← Contador/badge (oculto en icon mode)
+│   │                   ├── SidebarMenuAction    ← Botón acción (+, ...) con showOnHover
+│   │                   └── SidebarMenuSub       ← Sub-menú colapsable animado
+│   │                       └── SidebarMenuSubItem
+│   │                           └── SidebarMenuSubButton
+│   ├── SidebarSeparator
+│   ├── SidebarFooter        ← Usuario / acciones (border-t automático)
+│   └── SidebarRail          ← Borde interactivo para toggle
+└── SidebarInset             ← Contenido principal
+    └── SidebarTrigger       ← Botón hamburguesa
+```
+
+### Importación
+
+```ts
+import {
+  Sidebar,
+  SidebarProvider,
+  SidebarTrigger,
+  SidebarHeader,
+  SidebarFooter,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarMenuBadge,
+  SidebarMenuAction,
+  SidebarMenuSub,
+  SidebarMenuSubItem,
+  SidebarMenuSubButton,
+  SidebarMenuSkeleton,
+  SidebarSeparator,
+  SidebarRail,
+  SidebarInset,
+  useSidebar,
+} from '@3df/ui';
+```
+
+### Uso básico — Sidebar izquierdo
+
+```vue
+<template>
+  <SidebarProvider>
+    <Sidebar>
+      <SidebarHeader>
+        <span class="text-sm font-semibold">Mi App</span>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Navegación</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton is-active>
+                  <HomeIcon class="size-4" />
+                  <span>Dashboard</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter>
+        <span class="text-xs">v1.0.0</span>
+      </SidebarFooter>
+
+      <SidebarRail />
+    </Sidebar>
+
+    <SidebarInset>
+      <header class="flex h-12 items-center gap-2 border-b px-4">
+        <SidebarTrigger />
+        <span>Contenido</span>
+      </header>
+      <main class="p-6">...</main>
+    </SidebarInset>
+  </SidebarProvider>
+</template>
+```
+
+### Sidebar derecho
+
+```vue
+<template>
+  <SidebarProvider side="right">
+    <SidebarInset>
+      <header class="flex h-12 items-center justify-between px-4">
+        <span>Panel principal</span>
+        <SidebarTrigger />
+      </header>
+    </SidebarInset>
+
+    <Sidebar side="right">
+      <SidebarHeader>Propiedades</SidebarHeader>
+      <SidebarContent>...</SidebarContent>
+    </Sidebar>
+  </SidebarProvider>
+</template>
+```
+
+### Modo Icon collapse
+
+Al colapsar, el sidebar se reduce a `3rem` mostrando solo los íconos:
+
+```vue
+<template>
+  <SidebarProvider collapsible="icon">
+    <Sidebar collapsible="icon">
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Nav</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Dashboard">
+                  <HomeIcon class="size-4" />
+                  <span>Dashboard</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarRail />
+    </Sidebar>
+    <SidebarInset>...</SidebarInset>
+  </SidebarProvider>
+</template>
+```
+
+Clase utilitaria para ocultar elementos en modo icon:
+
+```
+group-data-[collapsible=icon]/sidebar-wrapper:hidden
+```
+
+### Variantes visuales
+
+| Variante  | Descripción                                              |
+| --------- | -------------------------------------------------------- |
+| `sidebar` | Adherido al borde, sin bordes redondeados (default)       |
+| `floating`| Flota sobre el contenido con `shadow-lg` y `rounded-lg`  |
+| `inset`   | Contenido principal empotrado con padding y `rounded-xl`  |
+
+### Composable `useSidebar()`
+
+Accede al estado del sidebar desde cualquier componente descendiente:
+
+```ts
+const { state, open, isMobile, toggleSidebar, setOpen } = useSidebar();
+```
+
+| Propiedad      | Tipo                                | Descripción                       |
+| -------------- | ----------------------------------- | --------------------------------- |
+| `state`        | `Ref<'expanded' \| 'collapsed'>`   | Estado computado                  |
+| `open`         | `Ref<boolean>`                      | Estado de apertura (desktop)      |
+| `isMobile`     | `Ref<boolean>`                      | ¿Viewport < 768px?               |
+| `openMobile`   | `Ref<boolean>`                      | Estado de apertura (mobile)       |
+| `side`         | `Ref<'left' \| 'right'>`           | Lado del sidebar                  |
+| `variant`      | `Ref<'sidebar' \| 'floating' \| 'inset'>` | Variante visual          |
+| `collapsible`  | `Ref<'offcanvas' \| 'icon' \| 'none'>` | Modo de colapso               |
+| `toggleSidebar`| `() => void`                        | Toggle desktop/mobile             |
+| `setOpen`      | `(v: boolean) => void`              | Setter directo desktop            |
+| `setOpenMobile`| `(v: boolean) => void`              | Setter directo mobile             |
+
+### Props de SidebarProvider
+
+| Prop          | Tipo                                  | Default      |
+| ------------- | ------------------------------------- | ------------ |
+| `defaultOpen` | `boolean`                             | `true`       |
+| `open`        | `boolean`                             | —            |
+| `side`        | `'left' \| 'right'`                  | `'left'`     |
+| `variant`     | `'sidebar' \| 'floating' \| 'inset'` | `'sidebar'`  |
+| `collapsible` | `'offcanvas' \| 'icon' \| 'none'`    | `'offcanvas'` |
+
+**Soporte `v-model:open`**: Permite control bidireccional del estado del sidebar:
+
+```vue
+<template>
+  <SidebarProvider v-model:open="sidebarOpen">
+    <!-- ... -->
+  </SidebarProvider>
+  <button @click="sidebarOpen = !sidebarOpen">Toggle externo</button>
+</template>
+```
+
+### Props de SidebarMenuButton
+
+| Prop       | Tipo                    | Default     | Descripción            |
+| ---------- | ----------------------- | ----------- | ---------------------- |
+| `as`       | `string \| Component`  | `'button'`  | Elemento/componente    |
+| `isActive` | `boolean`               | `false`     | Marca como activo      |
+| `size`     | `'sm' \| 'default' \| 'lg'` | `'default'` | Tamaño           |
+| `tooltip`  | `string`                | —           | Title en modo icon     |
+| `disabled` | `boolean`               | `false`     | Deshabilitado          |
+
+> Cuando `isActive` es `true`, el botón recibe automáticamente `aria-current="page"`.
+
+### Sub-menús colapsables
+
+Usa `SidebarMenuSub` para secciones de navegación anidadas con animación de expand/collapse:
+
+```vue
+<template>
+  <SidebarMenuItem>
+    <SidebarMenuButton @click="open = !open">
+      <FolderIcon class="size-4" />
+      <span>Proyectos</span>
+      <ChevronIcon class="ml-auto size-4 transition-transform" :class="open && 'rotate-90'" />
+    </SidebarMenuButton>
+
+    <SidebarMenuSub :open="open">
+      <SidebarMenuSubItem>
+        <SidebarMenuSubButton is-active>Todos</SidebarMenuSubButton>
+      </SidebarMenuSubItem>
+      <SidebarMenuSubItem>
+        <SidebarMenuSubButton>Recientes</SidebarMenuSubButton>
+      </SidebarMenuSubItem>
+    </SidebarMenuSub>
+  </SidebarMenuItem>
+</template>
+```
+
+**Props de SidebarMenuSub:**
+
+| Prop   | Tipo      | Default | Descripción                                      |
+| ------ | --------- | ------- | ------------------------------------------------ |
+| `open` | `boolean` | `false` | Controla si el sub-menú está expandido. Soporta `v-model:open` |
+
+**Props de SidebarMenuSubButton:**
+
+| Prop       | Tipo                   | Default     | Descripción              |
+| ---------- | ---------------------- | ----------- | ------------------------ |
+| `as`       | `string \| Component` | `'a'`       | Elemento/componente      |
+| `isActive` | `boolean`              | `false`     | Marca como activo (+ aria-current) |
+| `size`     | `'sm' \| 'default'`   | `'default'` | `sm` = h-6, `default` = h-7 |
+
+> En modo icon-collapse los sub-menús se ocultan automáticamente.
+
+### Badges de menú
+
+`SidebarMenuBadge` muestra un contador o indicador junto al botón del menú:
+
+```vue
+<SidebarMenuItem>
+  <SidebarMenuButton>
+    <InboxIcon class="size-4" />
+    <span>Bandeja</span>
+  </SidebarMenuButton>
+  <SidebarMenuBadge>28</SidebarMenuBadge>
+</SidebarMenuItem>
+```
+
+- Posición absoluta a la derecha del item
+- Usa tokens `bg-sidebar-primary` / `text-sidebar-primary-foreground`
+- Se oculta automáticamente en modo icon-collapse
+- Usa `tabular-nums` para alineación consistente de números
+
+### Botones de acción
+
+`SidebarMenuAction` agrega un botón de acción ("+", "×", "…") junto al item, opcionalmente visible solo al hover:
+
+```vue
+<SidebarMenuItem>
+  <SidebarMenuButton>
+    <FolderIcon class="size-4" />
+    <span>Proyectos</span>
+  </SidebarMenuButton>
+  <SidebarMenuAction show-on-hover title="Crear proyecto">
+    <PlusIcon class="size-4" />
+  </SidebarMenuAction>
+</SidebarMenuItem>
+```
+
+**Props:**
+
+| Prop         | Tipo      | Default | Descripción                         |
+| ------------ | --------- | ------- | ----------------------------------- |
+| `showOnHover`| `boolean` | `false` | Solo visible al hover del item (md+)|
+
+### Skeleton de menú
+
+`SidebarMenuSkeleton` renderiza un placeholder animado para estados de carga:
+
+```vue
+<SidebarMenu>
+  <SidebarMenuItem v-for="i in 5" :key="i">
+    <SidebarMenuSkeleton show-icon />
+  </SidebarMenuItem>
+</SidebarMenu>
+```
+
+**Props:**
+
+| Prop       | Tipo      | Default | Descripción                        |
+| ---------- | --------- | ------- | ---------------------------------- |
+| `showIcon` | `boolean` | `false` | Muestra un skeleton circular de icono |
+
+> Los anchos del texto se aleatorizan para dar aspecto natural.
+
+### Responsive (Mobile)
+
+- En viewports < `768px`, el sidebar se oculta automáticamente.
+- Se muestra como drawer/sheet deslizante al pulsar `SidebarTrigger`.
+- Overlay con `backdrop-blur` y click para cerrar.
+- Botón de cierre (×) integrado.
+- Se bloquea `body` scroll cuando el drawer está abierto.
+
+### Animaciones
+
+| Elemento  | Transición                                                   |
+| --------- | ------------------------------------------------------------ |
+| Desktop   | `transition-[left,right,width] duration-200 ease-linear`     |
+| Spacer    | `transition-[width] duration-200 ease-linear`                |
+| Overlay   | `opacity 0.2s ease`                                          |
+| Sheet     | `transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)` (iOS feel)  |
+| Labels    | `transition-[margin,opacity,padding] duration-200`           |
+
+### Atajo de teclado
+
+`Ctrl+B` (Windows/Linux) o `⌘+B` (macOS) para toggle rápido.
+
+### Accesibilidad
+
+- `SidebarTrigger` incluye `aria-label` dinámico ("Abrir/Cerrar sidebar").
+- `SidebarRail` tiene `role="button"`, `tabindex="0"` y responde a `Enter`/`Space`.
+- Mobile drawer: botón de cierre con `aria-label`, overlay clickable.
+- Texto oculto accesible en trigger (`<span class="sr-only">`).
+
+### Design tokens del sidebar
+
+```css
+@theme {
+  --color-sidebar: hsl(0 0% 98%);
+  --color-sidebar-foreground: hsl(0 0% 0%);
+  --color-sidebar-primary: hsl(0 0% 0%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(0 0% 92%);
+  --color-sidebar-accent-foreground: hsl(0 0% 0%);
+  --color-sidebar-border: hsl(0 0% 85%);
+  --color-sidebar-ring: hsl(0 0% 25%);
+}
+```
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -3227,6 +3598,30 @@ packages/ui/
 │   │       └── UiSlider.vue              # Slider accesible (pointer + keyboard)
 │   │   └── skeleton/
 │   │       └── UiSkeleton.vue            # Placeholder con animación pulse
+│   │   └── sidebar/
+│   │       ├── sidebar-types.ts          # Tipos, InjectionKey, constantes
+│   │       ├── use-sidebar.ts            # Composable (createSidebarContext + useSidebar)
+│   │       ├── UiSidebarProvider.vue     # Provider de contexto (v-model:open)
+│   │       ├── UiSidebar.vue             # Panel lateral (desktop + mobile)
+│   │       ├── UiSidebarTrigger.vue      # Botón toggle
+│   │       ├── UiSidebarHeader.vue       # Zona superior (border-b)
+│   │       ├── UiSidebarFooter.vue       # Zona inferior (border-t)
+│   │       ├── UiSidebarContent.vue      # Contenido scrollable (scrollbar custom)
+│   │       ├── UiSidebarGroup.vue        # Agrupación con padding
+│   │       ├── UiSidebarGroupLabel.vue   # Etiqueta de grupo (uppercase)
+│   │       ├── UiSidebarGroupContent.vue # Contenido de grupo
+│   │       ├── UiSidebarMenu.vue         # Lista <ul>
+│   │       ├── UiSidebarMenuItem.vue     # Ítem <li>
+│   │       ├── UiSidebarMenuButton.vue   # Botón interactivo (aria-current)
+│   │       ├── UiSidebarMenuBadge.vue    # Badge/contador en items
+│   │       ├── UiSidebarMenuAction.vue   # Botón de acción (showOnHover)
+│   │       ├── UiSidebarMenuSub.vue      # Sub-menú colapsable animado
+│   │       ├── UiSidebarMenuSubItem.vue  # Ítem de sub-menú
+│   │       ├── UiSidebarMenuSubButton.vue# Botón de sub-menú
+│   │       ├── UiSidebarMenuSkeleton.vue # Skeleton de carga
+│   │       ├── UiSidebarSeparator.vue    # Línea divisoria
+│   │       ├── UiSidebarRail.vue         # Rail lateral interactivo
+│   │       └── UiSidebarInset.vue        # Contenedor de contenido principal
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

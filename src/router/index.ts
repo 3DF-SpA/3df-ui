@@ -37,7 +37,7 @@ const router = createRouter({
         {
           path: '/dropdown',
           name: 'MyDropdown',
-          component: () => import('@/modules/ui/views/MyDrapdown.vue'),
+          component: () => import('@/modules/ui/views/MyDropdown.vue'),
         },
 
         {
@@ -85,6 +85,12 @@ const router = createRouter({
           path: '/skeleton',
           name: 'MySkeleton',
           component: () => import('@/modules/ui/views/MySkeleton.vue'),
+        },
+
+        {
+          path: '/sidebar',
+          name: 'MySidebar',
+          component: () => import('@/modules/ui/views/MySidebar.vue'),
         },
       ],
     },

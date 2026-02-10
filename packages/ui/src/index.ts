@@ -56,3 +56,38 @@ export { default as TableCaption } from './components/ui/table/UiTableCaption.vu
 export { default as TableEmpty } from './components/ui/table/UiTableEmpty.vue';
 export { default as Slider } from './components/ui/slider/UiSlider.vue';
 export { default as Skeleton } from './components/ui/skeleton/UiSkeleton.vue';
+
+// Sidebar
+export { default as Sidebar } from './components/ui/sidebar/UiSidebar.vue';
+export { default as SidebarProvider } from './components/ui/sidebar/UiSidebarProvider.vue';
+export { default as SidebarTrigger } from './components/ui/sidebar/UiSidebarTrigger.vue';
+export { default as SidebarHeader } from './components/ui/sidebar/UiSidebarHeader.vue';
+export { default as SidebarFooter } from './components/ui/sidebar/UiSidebarFooter.vue';
+export { default as SidebarContent } from './components/ui/sidebar/UiSidebarContent.vue';
+export { default as SidebarGroup } from './components/ui/sidebar/UiSidebarGroup.vue';
+export { default as SidebarGroupLabel } from './components/ui/sidebar/UiSidebarGroupLabel.vue';
+export { default as SidebarGroupContent } from './components/ui/sidebar/UiSidebarGroupContent.vue';
+export { default as SidebarMenu } from './components/ui/sidebar/UiSidebarMenu.vue';
+export { default as SidebarMenuItem } from './components/ui/sidebar/UiSidebarMenuItem.vue';
+export { default as SidebarMenuButton } from './components/ui/sidebar/UiSidebarMenuButton.vue';
+export { default as SidebarMenuSub } from './components/ui/sidebar/UiSidebarMenuSub.vue';
+export { default as SidebarMenuSubItem } from './components/ui/sidebar/UiSidebarMenuSubItem.vue';
+export { default as SidebarMenuSubButton } from './components/ui/sidebar/UiSidebarMenuSubButton.vue';
+export { default as SidebarMenuBadge } from './components/ui/sidebar/UiSidebarMenuBadge.vue';
+export { default as SidebarMenuAction } from './components/ui/sidebar/UiSidebarMenuAction.vue';
+export { default as SidebarMenuSkeleton } from './components/ui/sidebar/UiSidebarMenuSkeleton.vue';
+export { default as SidebarSeparator } from './components/ui/sidebar/UiSidebarSeparator.vue';
+export { default as SidebarRail } from './components/ui/sidebar/UiSidebarRail.vue';
+export { default as SidebarInset } from './components/ui/sidebar/UiSidebarInset.vue';
+export { useSidebar } from './components/ui/sidebar/use-sidebar';
+export type {
+  SidebarSide,
+  SidebarVariant,
+  SidebarCollapsible,
+  SidebarContext,
+} from './components/ui/sidebar/sidebar-types';
+export {
+  SIDEBAR_WIDTH,
+  SIDEBAR_WIDTH_ICON,
+  SIDEBAR_WIDTH_MOBILE,
+} from './components/ui/sidebar/sidebar-types';

@@ -29,6 +29,15 @@
   --color-input: hsl(0 0% 85%);
   --color-ring: hsl(0 0% 25%);
 
+  --color-sidebar: hsl(0 0% 98%);
+  --color-sidebar-foreground: hsl(0 0% 0%);
+  --color-sidebar-primary: hsl(0 0% 0%);
+  --color-sidebar-primary-foreground: hsl(0 0% 100%);
+  --color-sidebar-accent: hsl(0 0% 92%);
+  --color-sidebar-accent-foreground: hsl(0 0% 0%);
+  --color-sidebar-border: hsl(0 0% 85%);
+  --color-sidebar-ring: hsl(0 0% 25%);
+
   --radius-sm: 0.45rem;
   --radius-md: 0.65rem;
   --radius-lg: 0.75rem;
@@ -65,6 +74,15 @@
   --color-border: hsl(0 0% 20%);
   --color-input: hsl(0 0% 20%);
   --color-ring: hsl(0 0% 30%);
+
+  --color-sidebar: hsl(0 0% 4%);
+  --color-sidebar-foreground: hsl(0 0% 100%);
+  --color-sidebar-primary: hsl(0 0% 100%);
+  --color-sidebar-primary-foreground: hsl(0 0% 0%);
+  --color-sidebar-accent: hsl(0 0% 16%);
+  --color-sidebar-accent-foreground: hsl(0 0% 100%);
+  --color-sidebar-border: hsl(0 0% 20%);
+  --color-sidebar-ring: hsl(0 0% 30%);
 }
 
 :root {
