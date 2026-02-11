@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import UiLayout from '@/modules/ui/UiLayout.vue';
+const UiLayout = () => import('@/modules/ui/layouts/UiLayout.vue');
+const ChartLayout = () => import('@/modules/charts/layouts/ChartLayout.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -238,6 +239,19 @@ const router = createRouter({
         },
       ],
     },
+
+    {
+      path: '/charts',
+      name: 'charts',
+      component: ChartLayout,
+      children: [
+        {
+          path: 'chartbar',
+          name: 'chartbar',
+          component: () => import('@/modules/charts/views/ChartBar.vue'),
+        }
+      ],
+    }
   ],
 });
 
