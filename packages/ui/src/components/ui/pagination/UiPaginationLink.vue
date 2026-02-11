@@ -32,13 +32,13 @@ const restAttrs = computed(() => {
 const classes = computed(() =>
   cn(
     // Base
-    'inline-flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium',
+    'inline-flex h-8 w-8 items-center justify-center rounded-md text-xs font-medium',
     'transition-colors duration-200',
     'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
     'cursor-pointer select-none',
     // Active state
     props.isActive
-      ? 'border border-border bg-background shadow-sm'
+      ? 'bg-accent text-accent-foreground'
       : 'hover:bg-accent hover:text-accent-foreground',
     // Disabled state
     props.disabled && 'pointer-events-none opacity-50',

@@ -15,7 +15,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn('flex h-10 w-10 items-center justify-center', attrs.class),
+  cn('flex h-8 w-8 items-center justify-center', attrs.class),
 );
 </script>
 
