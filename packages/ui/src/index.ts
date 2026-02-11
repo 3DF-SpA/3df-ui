@@ -156,3 +156,9 @@ export type {
 // Kbd
 export { default as Kbd } from './components/ui/kbd/UiKbd.vue';
 export { kbdVariants } from './components/ui/kbd/kbd-variants';
+
+// Item
+export { default as Item } from './components/ui/item/UiItem.vue';
+export { default as ItemLabel } from './components/ui/item/UiItemLabel.vue';
+export { default as ItemDescription } from './components/ui/item/UiItemDescription.vue';
+export { itemVariants } from './components/ui/item/item-variants';

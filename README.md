@@ -49,6 +49,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Navigation Menu](#navigation-menu)
   - [Menubar](#menubar)
   - [Kbd](#kbd)
+  - [Item](#item)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -4497,6 +4498,138 @@ El componente usa:
 
 ---
 
+## Item
+
+Componente genérico de fila reutilizable para listas, menús de configuración o elementos de navegación. Layout flexible con Flexbox que soporta contenido al inicio (iconos), contenido principal (label + descripción) y contenido al final (chevron, switch, badge). Polimórfico: renderiza como `<div>`, `<button>`, `<a>` o cualquier componente.
+
+### Importación
+
+```ts
+import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Item as="button" @click="onAction">
+    <ItemLabel>Profile</ItemLabel>
+    <ItemDescription>Manage your account settings</ItemDescription>
+  </Item>
+</template>
+```
+
+### Con icono y chevron (navegación)
+
+```vue
+<template>
+  <Item as="button" @click="goToProfile">
+    <template #start>
+      <UserIcon class="h-5 w-5" />
+    </template>
+    <ItemLabel>Profile</ItemLabel>
+    <ItemDescription>Manage your account settings</ItemDescription>
+    <template #end>
+      <ChevronRightIcon class="h-4 w-4 text-muted-foreground" />
+    </template>
+  </Item>
+</template>
+```
+
+### Settings con Switch
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+const wifiEnabled = ref(true);
+</script>
+
+<template>
+  <Item>
+    <template #start>
+      <WifiIcon class="h-5 w-5" />
+    </template>
+    <ItemLabel>Wi-Fi</ItemLabel>
+    <ItemDescription>{{ wifiEnabled ? 'Connected' : 'Off' }}</ItemDescription>
+    <template #end>
+      <Switch v-model="wifiEnabled" />
+    </template>
+  </Item>
+</template>
+```
+
+### Como enlace
+
+```vue
+<template>
+  <Item as="a" href="https://vuejs.org" target="_blank">
+    <template #start>
+      <ExternalLinkIcon class="h-5 w-5" />
+    </template>
+    <ItemLabel>Vue.js Documentation</ItemLabel>
+    <ItemDescription>vuejs.org — opens in new tab</ItemDescription>
+  </Item>
+</template>
+```
+
+### Con RouterLink
+
+```vue
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+</script>
+
+<template>
+  <Item :as="RouterLink" to="/settings">
+    <ItemLabel>Settings</ItemLabel>
+  </Item>
+</template>
+```
+
+### Componentes
+
+| Componente        | Elemento          | Props                                    | Descripción                                   |
+| ----------------- | ----------------- | ---------------------------------------- | --------------------------------------------- |
+| `Item`            | polimórfico       | `as`, `variant`, `size`, `disabled`      | Contenedor flex con slots start/default/end   |
+| `ItemLabel`       | `<span>`          | `class`                                  | Texto principal truncado con `font-medium`    |
+| `ItemDescription` | `<span>`          | `class`                                  | Texto secundario `text-muted-foreground text-xs` |
+
+### Props — Item
+
+| Prop       | Tipo                                             | Default     | Descripción                                |
+| ---------- | ------------------------------------------------ | ----------- | ------------------------------------------ |
+| `as`       | `string \| Component`                           | `'div'`     | Elemento o componente a renderizar         |
+| `variant`  | `'default' \| 'ghost' \| 'muted' \| 'destructive'` | `'default'` | Variante visual                            |
+| `size`     | `'sm' \| 'default' \| 'lg'`                    | `'default'` | Tamaño (afecta padding, gap, font-size)    |
+| `disabled` | `boolean`                                        | `false`     | Deshabilitado (opacity + pointer-events)   |
+
+### Slots — Item
+
+| Slot      | Descripción                                       |
+| --------- | ------------------------------------------------- |
+| `start`   | Contenido al inicio (icono, avatar)               |
+| `default` | Contenido principal (ItemLabel + ItemDescription)  |
+| `end`     | Contenido al final (chevron, switch, badge)        |
+
+### Variantes CVA
+
+`itemVariants()` permite usar el estilo sin el componente Vue:
+
+```vue
+<div :class="itemVariants({ variant: 'muted', size: 'lg' })">
+  Custom item
+</div>
+```
+
+### Accesibilidad
+
+- Cuando `as="button"`, aplica `disabled` nativo.
+- `aria-disabled` se añade automáticamente cuando `disabled=true`.
+- `focus-visible` con estilos `bg-accent` para navegación por teclado.
+- `cursor-pointer` automático cuando se renderiza como `<button>` o `<a>`.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -4705,6 +4838,11 @@ packages/ui/
 │   │   └── kbd/
 │   │       ├── kbd-variants.ts              # Variantes CVA (size)
 │   │       └── UiKbd.vue                    # Componente <kbd> semántico
+│   │   └── item/
+│   │       ├── item-variants.ts              # Variantes CVA (variant, size)
+│   │       ├── UiItem.vue                    # Componente polimórfico (slots: start/end)
+│   │       ├── UiItemLabel.vue               # Label truncado
+│   │       └── UiItemDescription.vue         # Descripción muted
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

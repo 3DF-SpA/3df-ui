@@ -140,6 +140,12 @@ const router = createRouter({
           name: 'MyKbd',
           component: () => import('@/modules/ui/views/MyKbd.vue'),
         },
+
+        {
+          path: '/item',
+          name: 'MyItem',
+          component: () => import('@/modules/ui/views/MyItem.vue'),
+        },
       ],
     },
   ],
