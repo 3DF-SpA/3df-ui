@@ -48,6 +48,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Pagination](#pagination)
   - [Navigation Menu](#navigation-menu)
   - [Menubar](#menubar)
+  - [Kbd](#kbd)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -4424,6 +4425,78 @@ const selectedProfile = ref('benoit');
 
 ---
 
+## Kbd
+
+Componente semántico `<kbd>` para representar teclas y atajos de teclado. Estilo de tecla física con bordes, sombra de profundidad, fuente monoespaciada y colores muted para integración sutil. Soporta variantes de tamaño y override completo de clases.
+
+### Importación
+
+```ts
+import { Kbd, kbdVariants } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <p>
+    Presiona <Kbd>⌘</Kbd> + <Kbd>K</Kbd> para buscar.
+  </p>
+</template>
+```
+
+### Combinación de teclas compleja
+
+```vue
+<template>
+  <div class="flex items-center gap-1.5">
+    <Kbd>⌘</Kbd>
+    <span class="text-muted-foreground text-sm">+</span>
+    <Kbd>⇧</Kbd>
+    <span class="text-muted-foreground text-sm">+</span>
+    <Kbd>P</Kbd>
+    <span class="text-muted-foreground ml-3 text-sm">Paleta de comandos</span>
+  </div>
+</template>
+```
+
+### Tamaños
+
+```vue
+<template>
+  <Kbd size="xs">⌘</Kbd>
+  <Kbd size="sm">⌘</Kbd>
+  <Kbd>⌘</Kbd>          <!-- default -->
+  <Kbd size="lg">⌘</Kbd>
+</template>
+```
+
+### Props
+
+| Prop   | Tipo                                     | Default     | Descripción          |
+| ------ | ---------------------------------------- | ----------- | -------------------- |
+| `size` | `'xs' \| 'sm' \| 'default' \| 'lg'` | `'default'` | Tamaño de la tecla   |
+
+### Variantes CVA
+
+`kbdVariants()` permite usar el estilo de tecla sin el componente Vue:
+
+```vue
+<span :class="kbdVariants({ size: 'sm' })">⌘</span>
+```
+
+### Estilo
+
+El componente usa:
+- Etiqueta semántica `<kbd>` para accesibilidad.
+- `font-mono` para fuente monoespaciada.
+- `bg-muted text-muted-foreground` para integración con el tema.
+- `shadow-[0_2px_0_0] shadow-border` para efecto de profundidad tipo tecla física.
+- `border border-border` para contorno definido.
+- `select-none` para evitar selección accidental.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -4629,6 +4702,9 @@ packages/ui/
 │   │       ├── UiMenubarSeparator.vue       # Divisor
 │   │       ├── UiMenubarLabel.vue           # Encabezado de sección
 │   │       └── UiMenubarShortcut.vue        # Texto de atajo
+│   │   └── kbd/
+│   │       ├── kbd-variants.ts              # Variantes CVA (size)
+│   │       └── UiKbd.vue                    # Componente <kbd> semántico
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

@@ -152,3 +152,7 @@ export type {
   MenubarSubContext,
   MenubarItemData,
 } from './components/ui/menubar/menubar-types';
+
+// Kbd
+export { default as Kbd } from './components/ui/kbd/UiKbd.vue';
+export { kbdVariants } from './components/ui/kbd/kbd-variants';

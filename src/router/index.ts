@@ -134,6 +134,12 @@ const router = createRouter({
           name: 'MyMenubar',
           component: () => import('@/modules/ui/views/MyMenubar.vue'),
         },
+
+        {
+          path: '/kbd',
+          name: 'MyKbd',
+          component: () => import('@/modules/ui/views/MyKbd.vue'),
+        },
       ],
     },
   ],
