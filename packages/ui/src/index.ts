@@ -112,3 +112,12 @@ export { default as ScrollArea } from './components/ui/scroll-area/UiScrollArea.
 
 // Progress
 export { default as Progress } from './components/ui/progress/UiProgress.vue';
+
+// Pagination
+export { default as Pagination } from './components/ui/pagination/UiPagination.vue';
+export { default as PaginationContent } from './components/ui/pagination/UiPaginationContent.vue';
+export { default as PaginationItem } from './components/ui/pagination/UiPaginationItem.vue';
+export { default as PaginationLink } from './components/ui/pagination/UiPaginationLink.vue';
+export { default as PaginationPrevious } from './components/ui/pagination/UiPaginationPrevious.vue';
+export { default as PaginationNext } from './components/ui/pagination/UiPaginationNext.vue';
+export { default as PaginationEllipsis } from './components/ui/pagination/UiPaginationEllipsis.vue';

@@ -116,6 +116,12 @@ const router = createRouter({
           name: 'MyProgress',
           component: () => import('@/modules/ui/views/MyProgress.vue'),
         },
+
+        {
+          path: '/pagination',
+          name: 'MyPagination',
+          component: () => import('@/modules/ui/views/MyPagination.vue'),
+        },
       ],
     },
   ],

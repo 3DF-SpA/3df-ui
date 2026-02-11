@@ -45,6 +45,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Separator](#separator)
   - [Scroll Area](#scroll-area)
   - [Progress](#progress)
+  - [Pagination](#pagination)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -3970,6 +3971,149 @@ La transición usa `translateX` para un rendimiento óptimo (GPU-accelerated). E
 
 ---
 
+## Pagination
+
+Sistema de paginación con patrón compound component. Estructura semántica `<nav>` con accesibilidad ARIA completa.
+
+### Importación
+
+```ts
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Pagination>
+    <PaginationContent>
+      <PaginationItem>
+        <PaginationPrevious @click="page--" :disabled="page <= 1" />
+      </PaginationItem>
+
+      <PaginationItem v-for="p in 5" :key="p">
+        <PaginationLink :is-active="page === p" @click="page = p">
+          {{ p }}
+        </PaginationLink>
+      </PaginationItem>
+
+      <PaginationItem>
+        <PaginationNext @click="page++" :disabled="page >= 5" />
+      </PaginationItem>
+    </PaginationContent>
+  </Pagination>
+</template>
+```
+
+### Con Ellipsis
+
+Para conjuntos grandes de páginas, usa `PaginationEllipsis` para indicar páginas ocultas:
+
+```vue
+<template>
+  <Pagination>
+    <PaginationContent>
+      <PaginationItem>
+        <PaginationPrevious :disabled="page <= 1" @click="page--" />
+      </PaginationItem>
+
+      <PaginationItem>
+        <PaginationLink :is-active="page === 1" @click="page = 1">1</PaginationLink>
+      </PaginationItem>
+
+      <PaginationItem v-if="page > 3">
+        <PaginationEllipsis />
+      </PaginationItem>
+
+      <!-- Ventana dinámica -->
+      <PaginationItem v-for="p in windowPages" :key="p">
+        <PaginationLink :is-active="page === p" @click="page = p">
+          {{ p }}
+        </PaginationLink>
+      </PaginationItem>
+
+      <PaginationItem v-if="page < totalPages - 2">
+        <PaginationEllipsis />
+      </PaginationItem>
+
+      <PaginationItem>
+        <PaginationLink :is-active="page === totalPages" @click="page = totalPages">
+          {{ totalPages }}
+        </PaginationLink>
+      </PaginationItem>
+
+      <PaginationItem>
+        <PaginationNext :disabled="page >= totalPages" @click="page++" />
+      </PaginationItem>
+    </PaginationContent>
+  </Pagination>
+</template>
+```
+
+### Componente `as` polimórfico
+
+`PaginationLink`, `PaginationPrevious` y `PaginationNext` aceptan la prop `as` para renderizar como `<a>` o un componente de router:
+
+```vue
+<PaginationLink as="a" href="/page/2">2</PaginationLink>
+<PaginationPrevious as="RouterLink" :to="{ query: { page: page - 1 } }" />
+```
+
+### Componentes
+
+| Componente           | Elemento  | Props                          | Descripción                              |
+| -------------------- | --------- | ------------------------------ | ---------------------------------------- |
+| `Pagination`         | `<nav>`   | `class`                        | Wrapper con `role="navigation"`, `aria-label="pagination"` |
+| `PaginationContent`  | `<ul>`    | `class`                        | Lista contenedora, layout flex con gap   |
+| `PaginationItem`     | `<li>`    | `class`                        | Elemento individual de la lista          |
+| `PaginationLink`     | `<button>`| `isActive`, `as`, `disabled`, `class` | Botón de página, `aria-current="page"` cuando activo |
+| `PaginationPrevious` | `<button>`| `as`, `disabled`, `class`      | Botón «Anterior» con icono chevron-left  |
+| `PaginationNext`     | `<button>`| `as`, `disabled`, `class`      | Botón «Siguiente» con icono chevron-right|
+| `PaginationEllipsis` | `<span>`  | `class`                        | Indicador «…» con `aria-hidden` y `sr-only` |
+
+### Props detalladas — PaginationLink
+
+| Prop       | Tipo                     | Default    | Descripción                              |
+| ---------- | ------------------------ | ---------- | ---------------------------------------- |
+| `isActive` | `boolean`                | `false`    | Marca como página actual                 |
+| `as`       | `string \| Component`   | `'button'` | Elemento o componente a renderizar       |
+| `disabled` | `boolean`                | `false`    | Deshabilita la interacción               |
+
+### Props detalladas — PaginationPrevious / PaginationNext
+
+| Prop       | Tipo                     | Default    | Descripción                              |
+| ---------- | ------------------------ | ---------- | ---------------------------------------- |
+| `as`       | `string \| Component`   | `'button'` | Elemento o componente a renderizar       |
+| `disabled` | `boolean`                | `false`    | Deshabilita la interacción               |
+
+### Estilo visual
+
+| Elemento         | Clases clave                                                     |
+| ---------------- | ---------------------------------------------------------------- |
+| Link (default)   | `h-10 w-10 rounded-md`, hover → `bg-accent text-accent-foreground` |
+| Link (active)    | `border border-border bg-background shadow-sm`                   |
+| Previous / Next  | `h-10 px-3.5 gap-1`, icono SVG chevron 16×16                    |
+| Ellipsis         | `h-10 w-10`, icono «more-horizontal» SVG                        |
+| Focus ring       | `ring-[3.2px] ring-ring`                                         |
+
+### Accesibilidad
+
+- `<nav>` con `role="navigation"` y `aria-label="pagination"`.
+- `aria-current="page"` en el link activo.
+- `PaginationEllipsis` usa `aria-hidden="true"` con texto `sr-only` para lectores de pantalla.
+- Previous/Next incluyen `aria-label` descriptivos.
+- Estados `disabled` eliminan la interacción con `pointer-events-none` y `opacity-50`.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -4142,6 +4286,14 @@ packages/ui/
 │   │       └── UiScrollArea.vue          # Scroll area con barras custom
 │   │   └── progress/
 │   │       └── UiProgress.vue            # Barra de progreso
+│   │   └── pagination/
+│   │       ├── UiPagination.vue           # Nav wrapper
+│   │       ├── UiPaginationContent.vue    # Lista contenedora
+│   │       ├── UiPaginationItem.vue       # Elemento li
+│   │       ├── UiPaginationLink.vue       # Botón de página
+│   │       ├── UiPaginationPrevious.vue   # Botón anterior
+│   │       ├── UiPaginationNext.vue       # Botón siguiente
+│   │       └── UiPaginationEllipsis.vue   # Indicador ellipsis
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
