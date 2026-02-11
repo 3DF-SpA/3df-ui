@@ -92,6 +92,12 @@ const router = createRouter({
           name: 'MySidebar',
           component: () => import('@/modules/ui/views/MySidebar.vue'),
         },
+
+        {
+          path: '/sheet',
+          name: 'MySheet',
+          component: () => import('@/modules/ui/views/MySheet.vue'),
+        },
       ],
     },
   ],

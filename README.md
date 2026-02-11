@@ -41,6 +41,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Slider](#slider)
   - [Skeleton](#skeleton)
   - [Sidebar](#sidebar)
+  - [Sheet](#sheet)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -3470,6 +3471,218 @@ Todas las transiciones usan `cubic-bezier(0.22, 1, 0.36, 1)` (ease-out-quint) pa
 
 ---
 
+## Sheet
+
+Panel deslizante (slide-out drawer) que se posiciona sobre el contenido desde cualquiera de los 4 lados. Ideal para formularios de edición, detalles, filtros y navegación contextual. Incluye overlay, focus trap, bloqueo de scroll y cierre con `Escape`.
+
+### Arquitectura
+
+```
+Sheet                        ← Proveedor de estado (v-model:open)
+├── SheetTrigger             ← Botón que abre/cierra
+└── SheetContent             ← Panel deslizante (Teleport to body)
+    ├── SheetHeader          ← Zona de título y descripción
+    │   ├── SheetTitle       ← Título accesible (aria-labelledby)
+    │   └── SheetDescription ← Descripción accesible (aria-describedby)
+    ├── (contenido libre)
+    ├── SheetFooter          ← Zona de acciones
+    │   └── SheetClose       ← Botón que cierra el sheet
+    └── botón × (automático) ← Cierre visual (showClose)
+```
+
+### Importación
+
+```ts
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+  SheetClose,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Sheet>
+    <SheetTrigger>
+      <Button variant="outline">Abrir Sheet</Button>
+    </SheetTrigger>
+    <SheetContent>
+      <SheetHeader>
+        <SheetTitle>Editar perfil</SheetTitle>
+        <SheetDescription>
+          Realiza cambios en tu perfil aquí.
+        </SheetDescription>
+      </SheetHeader>
+      <div class="flex flex-col gap-4 py-4">
+        <Label for="name">Nombre</Label>
+        <Input id="name" value="Pedro Duarte" />
+      </div>
+      <SheetFooter>
+        <SheetClose>
+          <Button variant="outline">Cancelar</Button>
+        </SheetClose>
+        <SheetClose>
+          <Button>Guardar cambios</Button>
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+</template>
+```
+
+### Posiciones — 4 lados
+
+Usa la prop `side` en `SheetContent` para controlar desde dónde se desliza:
+
+```vue
+<template>
+  <Sheet>
+    <SheetTrigger><Button>Desde arriba</Button></SheetTrigger>
+    <SheetContent side="top">...</SheetContent>
+  </Sheet>
+
+  <Sheet>
+    <SheetTrigger><Button>Desde abajo</Button></SheetTrigger>
+    <SheetContent side="bottom">...</SheetContent>
+  </Sheet>
+
+  <Sheet>
+    <SheetTrigger><Button>Desde izquierda</Button></SheetTrigger>
+    <SheetContent side="left">...</SheetContent>
+  </Sheet>
+
+  <Sheet>
+    <SheetTrigger><Button>Desde derecha</Button></SheetTrigger>
+    <SheetContent side="right">...</SheetContent>
+  </Sheet>
+</template>
+```
+
+| Side     | Estilo                                          |
+| -------- | ----------------------------------------------- |
+| `top`    | `inset-x-0 top-0 border-b` — ancho completo    |
+| `bottom` | `inset-x-0 bottom-0 border-t` — ancho completo |
+| `left`   | `inset-y-0 left-0 w-3/4 sm:max-w-sm border-r`  |
+| `right`  | `inset-y-0 right-0 w-3/4 sm:max-w-sm border-l` |
+
+### Control externo (v-model:open)
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const isOpen = ref(false);
+</script>
+
+<template>
+  <Sheet v-model:open="isOpen">
+    <SheetTrigger>
+      <Button>Abrir</Button>
+    </SheetTrigger>
+    <SheetContent>
+      <SheetHeader>
+        <SheetTitle>Controlado</SheetTitle>
+        <SheetDescription>Estado: {{ isOpen }}</SheetDescription>
+      </SheetHeader>
+    </SheetContent>
+  </Sheet>
+
+  <Button variant="ghost" @click="isOpen = !isOpen">Toggle externo</Button>
+</template>
+```
+
+### Sin botón de cierre (×)
+
+```vue
+<SheetContent :show-close="false">
+  <!-- Solo se cierra con Escape, overlay click, o SheetClose -->
+</SheetContent>
+```
+
+### Ancho personalizado
+
+Sobrescribe el `max-width` por defecto con clases de Tailwind:
+
+```vue
+<!-- Ancho lg -->
+<SheetContent class="sm:max-w-lg">...</SheetContent>
+
+<!-- Ancho 2xl -->
+<SheetContent class="sm:max-w-2xl">...</SheetContent>
+
+<!-- Ancho fijo -->
+<SheetContent class="sm:max-w-[600px]">...</SheetContent>
+```
+
+### Contenido scrollable
+
+Agrega `overflow-y-auto` al `SheetContent`:
+
+```vue
+<SheetContent class="overflow-y-auto">
+  <!-- Contenido largo que necesita scroll -->
+</SheetContent>
+```
+
+### Props de Sheet
+
+| Prop          | Tipo      | Default | Descripción                                     |
+| ------------- | --------- | ------- | ----------------------------------------------- |
+| `open`        | `boolean` | —       | Estado controlado (v-model:open)                |
+| `defaultOpen` | `boolean` | `false` | Estado inicial cuando no se usa v-model         |
+
+### Props de SheetContent
+
+| Prop        | Tipo                                       | Default   | Descripción                          |
+| ----------- | ------------------------------------------ | --------- | ------------------------------------ |
+| `side`      | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | Lado desde donde se desliza el panel |
+| `showClose` | `boolean`                                  | `true`    | Mostrar botón × de cierre            |
+
+### Props de SheetTitle
+
+| Prop | Tipo                   | Default | Descripción                        |
+| ---- | ---------------------- | ------- | ---------------------------------- |
+| `as` | `string \| Component` | `'h2'`  | Elemento o componente a renderizar |
+
+### Animaciones
+
+Todas las transiciones usan la curva de la librería:
+
+| Elemento | Transición                                                                 |
+| -------- | -------------------------------------------------------------------------- |
+| Panel    | `transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]`    |
+| Overlay  | `transition-opacity duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]`      |
+
+### Accesibilidad
+
+- `role="dialog"` + `aria-modal="true"` en el panel.
+- `aria-labelledby` vinculado automáticamente a `SheetTitle`.
+- `aria-describedby` vinculado automáticamente a `SheetDescription`.
+- **Focus trap**: el foco queda atrapado dentro del panel (Tab/Shift+Tab ciclan).
+- **Escape**: cierra el sheet y devuelve el foco al trigger.
+- **Overlay click**: cierra el sheet.
+- **Body scroll lock**: se bloquea el scroll del body mientras está abierto y se libera al cerrar o desmontar.
+- Botón × tiene `aria-label="Cerrar"` + texto `sr-only`.
+
+### Variantes headless
+
+Si necesitas los estilos del panel sin el componente:
+
+```ts
+import { sheetVariants } from '@3df/ui';
+
+const classes = sheetVariants({ side: 'left' });
+```
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -3625,6 +3838,17 @@ packages/ui/
 │   │       ├── UiSidebarSeparator.vue    # Línea divisoria
 │   │       ├── UiSidebarRail.vue         # Rail lateral interactivo
 │   │       └── UiSidebarInset.vue        # Contenedor de contenido principal
+│   │   └── sheet/
+│   │       ├── sheet-types.ts            # Tipos, InjectionKey
+│   │       ├── sheet-variants.ts         # Variantes CVA (side)
+│   │       ├── UiSheet.vue               # Proveedor de estado (v-model:open)
+│   │       ├── UiSheetTrigger.vue        # Trigger (abre/cierra)
+│   │       ├── UiSheetContent.vue        # Panel deslizante (overlay + focus trap)
+│   │       ├── UiSheetHeader.vue         # Zona de título/descripción
+│   │       ├── UiSheetFooter.vue         # Zona de acciones
+│   │       ├── UiSheetTitle.vue          # Título accesible (polimórfico)
+│   │       ├── UiSheetDescription.vue    # Descripción accesible
+│   │       └── UiSheetClose.vue          # Botón para cerrar
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

@@ -91,3 +91,15 @@ export {
   SIDEBAR_WIDTH_ICON,
   SIDEBAR_WIDTH_MOBILE,
 } from './components/ui/sidebar/sidebar-types';
+
+// Sheet
+export { default as Sheet } from './components/ui/sheet/UiSheet.vue';
+export { default as SheetTrigger } from './components/ui/sheet/UiSheetTrigger.vue';
+export { default as SheetContent } from './components/ui/sheet/UiSheetContent.vue';
+export { default as SheetHeader } from './components/ui/sheet/UiSheetHeader.vue';
+export { default as SheetFooter } from './components/ui/sheet/UiSheetFooter.vue';
+export { default as SheetTitle } from './components/ui/sheet/UiSheetTitle.vue';
+export { default as SheetDescription } from './components/ui/sheet/UiSheetDescription.vue';
+export { default as SheetClose } from './components/ui/sheet/UiSheetClose.vue';
+export { sheetVariants, type SheetSide } from './components/ui/sheet/sheet-variants';
+export type { SheetContext } from './components/ui/sheet/sheet-types';
