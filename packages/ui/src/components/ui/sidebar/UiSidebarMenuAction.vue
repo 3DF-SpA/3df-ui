@@ -39,6 +39,7 @@ const classes = computed(() =>
     v-bind="restAttrs"
     type="button"
     :class="classes"
+    :aria-label="($attrs.title as string) || ($attrs['aria-label'] as string) || 'Acción'"
     data-sidebar="menu-action"
   >
     <slot />

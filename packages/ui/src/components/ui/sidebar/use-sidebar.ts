@@ -108,6 +108,11 @@ export function createSidebarContext(
     document.body.style.overflow = val ? 'hidden' : '';
   });
 
+  /* Limpiar scroll lock si se desmonta con mobile abierto */
+  onBeforeUnmount(() => {
+    document.body.style.overflow = '';
+  });
+
   return {
     state,
     open,

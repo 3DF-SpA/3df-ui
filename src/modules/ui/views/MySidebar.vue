@@ -2,8 +2,6 @@
 import { ref } from 'vue';
 
 import {
-  Badge,
-  Button,
   Sidebar,
   SidebarContent,
   SidebarFooter,

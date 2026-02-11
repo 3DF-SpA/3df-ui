@@ -51,6 +51,5 @@ function onClick() {
         <path d="M9 3v18" />
       </svg>
     </slot>
-    <span class="sr-only">Toggle sidebar</span>
   </button>
 </template>

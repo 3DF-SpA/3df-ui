@@ -24,8 +24,5 @@ export const SIDEBAR_WIDTH = '16rem';
 export const SIDEBAR_WIDTH_ICON = '3rem';
 export const SIDEBAR_WIDTH_MOBILE = '18rem';
 
-/** Cookie/localStorage key para persistir estado */
-export const SIDEBAR_COOKIE_NAME = '3df-sidebar-state';
-
 /** Breakpoint para mobile */
 export const SIDEBAR_MOBILE_BREAKPOINT = 768;

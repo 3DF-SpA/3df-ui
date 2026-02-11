@@ -5,7 +5,7 @@ import { cn } from '../../../lib/utils';
 
 defineOptions({ name: 'UiSidebarMenuSkeleton', inheritAttrs: false });
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     showIcon?: boolean;
   }>(),
@@ -26,10 +26,8 @@ const classes = computed(() =>
 );
 
 /* Ancho aleatorio para simular texto natural */
-const textWidth = computed(() => {
-  const widths = ['60%', '70%', '50%', '80%', '65%', '75%'];
-  return widths[Math.floor(Math.random() * widths.length)];
-});
+const widths = ['60%', '70%', '50%', '80%', '65%', '75%'];
+const textWidth = widths[Math.floor(Math.random() * widths.length)];
 </script>
 
 <template>

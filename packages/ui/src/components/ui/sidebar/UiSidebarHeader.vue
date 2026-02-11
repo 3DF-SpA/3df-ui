@@ -13,7 +13,7 @@ const restAttrs = computed(() => {
 
 const classes = computed(() =>
   cn(
-    'flex flex-col gap-2 border-b border-sidebar-border/50 p-4 transition-[padding] duration-200',
+    'flex flex-col gap-2 border-b border-sidebar-border/50 p-4 transition-[padding] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
     'group-data-[collapsible=icon]/sidebar-wrapper:p-2',
     attrs.class,
   ),

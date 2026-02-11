@@ -4,14 +4,15 @@ import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
 import { useSidebar } from './use-sidebar';
+import type { SidebarCollapsible, SidebarSide, SidebarVariant } from './sidebar-types';
 
 defineOptions({ name: 'UiSidebar', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    side?: 'left' | 'right';
-    variant?: 'sidebar' | 'floating' | 'inset';
-    collapsible?: 'offcanvas' | 'icon' | 'none';
+    side?: SidebarSide;
+    variant?: SidebarVariant;
+    collapsible?: SidebarCollapsible;
   }>(),
   {
     side: undefined,
@@ -50,21 +51,21 @@ const wrapperClasses = computed(() => {
 /* Spacer div que reserva espacio en el layout */
 const gapClasses = computed(() => {
   const base =
-    'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear';
+    'relative w-(--sidebar-width) bg-transparent transition-[width] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]';
   const collapsed =
     ctx.state.value === 'collapsed'
       ? ctx.collapsible.value === 'offcanvas'
         ? 'w-0'
         : 'w-(--sidebar-width-icon)'
       : '';
-  const hidden = 'group-data-[side=right]/sidebar-wrapper:rotate-180';
-  return cn(base, collapsed, hidden);
+  const rightSideFlip = 'group-data-[side=right]/sidebar-wrapper:rotate-180';
+  return cn(base, collapsed, rightSideFlip);
 });
 
 /* El sidebar real, fixed + inset */
 const sidebarClasses = computed(() => {
   const base = cn(
-    'fixed inset-y-0 z-10 flex h-svh flex-col bg-sidebar text-sidebar-foreground transition-[left,right,width] duration-200 ease-linear',
+    'fixed inset-y-0 z-10 flex h-svh flex-col bg-sidebar text-sidebar-foreground transition-[left,right,width,padding] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
     ctx.side.value === 'left'
       ? 'left-0 border-r border-sidebar-border'
       : 'right-0 border-l border-sidebar-border',
@@ -79,8 +80,11 @@ const sidebarClasses = computed(() => {
         : 'w-(--sidebar-width-icon)'
       : 'w-(--sidebar-width)';
 
+  const isIconCollapsed =
+    ctx.state.value === 'collapsed' && ctx.collapsible.value === 'icon';
+
   const floating =
-    ctx.variant.value === 'floating' || ctx.variant.value === 'inset'
+    (ctx.variant.value === 'floating' || ctx.variant.value === 'inset') && !isIconCollapsed
       ? 'p-2'
       : '';
 
@@ -177,9 +181,11 @@ const mobileSheetClasses = computed(() =>
 
 <style scoped>
 /* ─── Overlay ─── */
-.sidebar-overlay-enter-active,
+.sidebar-overlay-enter-active {
+  transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
 .sidebar-overlay-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar-overlay-enter-from,
 .sidebar-overlay-leave-to {
@@ -187,9 +193,11 @@ const mobileSheetClasses = computed(() =>
 }
 
 /* ─── Mobile sheet left ─── */
-.sidebar-sheet-left-enter-active,
+.sidebar-sheet-left-enter-active {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
 .sidebar-sheet-left-leave-active {
-  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.6, 1);
 }
 .sidebar-sheet-left-enter-from,
 .sidebar-sheet-left-leave-to {
@@ -197,9 +205,11 @@ const mobileSheetClasses = computed(() =>
 }
 
 /* ─── Mobile sheet right ─── */
-.sidebar-sheet-right-enter-active,
+.sidebar-sheet-right-enter-active {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
 .sidebar-sheet-right-leave-active {
-  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.6, 1);
 }
 .sidebar-sheet-right-enter-from,
 .sidebar-sheet-right-leave-to {

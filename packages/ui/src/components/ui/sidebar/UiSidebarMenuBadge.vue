@@ -13,10 +13,8 @@ const restAttrs = computed(() => {
 
 const classes = computed(() =>
   cn(
-    'pointer-events-none absolute right-2 flex h-5 min-w-5 select-none items-center justify-center rounded-full px-1 text-[10px] font-medium tabular-nums',
+    'pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 flex h-5 min-w-5 select-none items-center justify-center rounded-full px-1 text-[10px] font-medium tabular-nums',
     'bg-sidebar-primary text-sidebar-primary-foreground',
-    'peer-hover/menu-button:text-sidebar-accent-foreground',
-    'peer-data-[active=true]/menu-button:text-sidebar-accent-foreground',
     /* Ocultar en modo icon colapsado */
     'group-data-[collapsible=icon]/sidebar-wrapper:hidden',
     attrs.class,

@@ -12,7 +12,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn('group/menu-item relative', attrs.class),
+  cn('group/menu-item relative overflow-hidden', attrs.class),
 );
 </script>
 

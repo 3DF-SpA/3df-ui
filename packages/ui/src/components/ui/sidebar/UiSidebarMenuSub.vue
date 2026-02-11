@@ -45,7 +45,7 @@ const classes = computed(() =>
   cn(
     'ml-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border pl-2.5',
     'transition-[max-height,opacity] duration-200 ease-in-out overflow-hidden',
-    isOpen.value ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0',
+    isOpen.value ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0',
     isIconCollapsed.value && 'hidden',
     attrs.class,
   ),

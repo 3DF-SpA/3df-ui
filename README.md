@@ -3427,17 +3427,19 @@ Usa `SidebarMenuSub` para secciones de navegación anidadas con animación de ex
 - Se muestra como drawer/sheet deslizante al pulsar `SidebarTrigger`.
 - Overlay con `backdrop-blur` y click para cerrar.
 - Botón de cierre (×) integrado.
-- Se bloquea `body` scroll cuando el drawer está abierto.
+- Se bloquea `body` scroll cuando el drawer está abierto y se libera correctamente al cerrar o desmontar el componente.
 
 ### Animaciones
 
-| Elemento  | Transición                                                   |
-| --------- | ------------------------------------------------------------ |
-| Desktop   | `transition-[left,right,width] duration-200 ease-linear`     |
-| Spacer    | `transition-[width] duration-200 ease-linear`                |
-| Overlay   | `opacity 0.2s ease`                                          |
-| Sheet     | `transform 0.3s cubic-bezier(0.32, 0.72, 0, 1)` (iOS feel)  |
-| Labels    | `transition-[margin,opacity,padding] duration-200`           |
+Todas las transiciones usan `cubic-bezier(0.22, 1, 0.36, 1)` (ease-out-quint) para un movimiento suave y natural:
+
+| Elemento  | Transición                                                             |
+| --------- | ---------------------------------------------------------------------- |
+| Desktop   | `transition-[left,right,width,padding] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]` |
+| Spacer    | `transition-[width] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]`  |
+| Overlay   | `opacity duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]`             |
+| Sheet     | `transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]` (open) / `duration-300` (close) |
+| Labels    | `transition-[margin,opacity,padding] duration-400`                     |
 
 ### Atajo de teclado
 
@@ -3446,9 +3448,10 @@ Usa `SidebarMenuSub` para secciones de navegación anidadas con animación de ex
 ### Accesibilidad
 
 - `SidebarTrigger` incluye `aria-label` dinámico ("Abrir/Cerrar sidebar").
+- `SidebarMenuAction` incluye `aria-label` automático (usa `title`, `aria-label` del consumidor, o fallback "Acción").
 - `SidebarRail` tiene `role="button"`, `tabindex="0"` y responde a `Enter`/`Space`.
 - Mobile drawer: botón de cierre con `aria-label`, overlay clickable.
-- Texto oculto accesible en trigger (`<span class="sr-only">`).
+- `SidebarMenuButton` establece `aria-current="page"` cuando `isActive` es `true`.
 
 ### Design tokens del sidebar
 

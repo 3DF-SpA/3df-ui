@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<UiBadgeProps>(), {
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
