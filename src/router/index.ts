@@ -202,24 +202,39 @@ const router = createRouter({
         },
 
         {
-
           path: '/collapsible',
           name: 'MyCollapsible',
           component: () => import('@/modules/ui/views/MyCollapsible.vue'),
         },
 
         {
-
           path: '/carousel',
           name: 'MyCarousel',
           component: () => import('@/modules/ui/views/MyCarousel.vue'),
         },
 
         {
-
           path: '/breadcrumb',
           name: 'MyBreadcrumb',
           component: () => import('@/modules/ui/views/MyBreadcrumb.vue'),
+        },
+
+        {
+          path: '/avatar',
+          name: 'MyAvatar',
+          component: () => import('@/modules/ui/views/MyAvatar.vue'),
+        },
+
+        {
+          path: '/alert-dialog',
+          name: 'MyAlertDialog',
+          component: () => import('@/modules/ui/views/MyAlertDialog.vue'),
+        },
+
+        {
+          path: '/accordion',
+          name: 'MyAccordion',
+          component: () => import('@/modules/ui/views/MyAccordion.vue'),
         },
       ],
     },

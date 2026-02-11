@@ -63,6 +63,9 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Collapsible](#collapsible)
   - [Carousel](#carousel)
   - [Breadcrumb](#breadcrumb)
+  - [Avatar](#avatar)
+  - [Alert Dialog](#alert-dialog)
+  - [Accordion](#accordion)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -5852,6 +5855,305 @@ import {
 - `aria-current="page"` en `BreadcrumbPage` para la página actual.
 - Separadores con `role="presentation"` y `aria-hidden="true"`.
 - `BreadcrumbPage` usa `text-foreground` vs `text-muted-foreground` en los links.
+
+---
+
+## Avatar
+
+Imagen de perfil circular con fallback automático a iniciales o icono cuando la imagen no carga. Detección inteligente de carga/error de imagen y soporte para múltiples tamaños.
+
+### Importación
+
+```ts
+import { Avatar, AvatarImage, AvatarFallback } from '@3df/ui';
+```
+
+### Uso básico — User Profile
+
+```vue
+<template>
+  <div class="flex items-center gap-4">
+    <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+    <div>
+      <p class="text-sm font-medium">shadcn</p>
+      <p class="text-muted-foreground text-sm">m@example.com</p>
+    </div>
+  </div>
+</template>
+```
+
+### Team Members (stacked)
+
+```vue
+<template>
+  <div class="flex -space-x-3">
+    <Avatar v-for="member in members" :key="member.name" class="border-2 border-background">
+      <AvatarImage :src="member.src" :alt="member.name" />
+      <AvatarFallback>{{ member.initials }}</AvatarFallback>
+    </Avatar>
+  </div>
+</template>
+```
+
+### Fallback con icono
+
+```vue
+<Avatar size="lg">
+  <AvatarFallback>
+    <UserIcon class="h-6 w-6" />
+  </AvatarFallback>
+</Avatar>
+```
+
+### Componentes
+
+| Componente       | Elemento  | Descripción                                        |
+| ---------------- | --------- | -------------------------------------------------- |
+| `Avatar`         | `<span>`  | Contenedor raíz circular con overflow hidden       |
+| `AvatarImage`    | `<img>`   | Imagen con detección de carga/error                |
+| `AvatarFallback` | `<span>`  | Contenido mostrado si la imagen no carga (bg-muted)|
+
+### Props — Avatar
+
+| Prop   | Tipo                                   | Default | Descripción      |
+| ------ | -------------------------------------- | ------- | ---------------- |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`  | Tamaño del avatar |
+
+### Props — AvatarImage
+
+| Prop  | Tipo     | Default     | Descripción          |
+| ----- | -------- | ----------- | -------------------- |
+| `src` | `string` | `undefined` | URL de la imagen     |
+| `alt` | `string` | `undefined` | Texto alternativo    |
+
+### Tamaños
+
+| Size | Clases           |
+| ---- | ---------------- |
+| `xs` | `h-6 w-6 text-xs`  |
+| `sm` | `h-8 w-8 text-xs`  |
+| `md` | `h-10 w-10 text-sm`|
+| `lg` | `h-12 w-12 text-base`|
+| `xl` | `h-16 w-16 text-lg`|
+
+### Accesibilidad
+
+- La imagen incluye `alt` descriptivo.
+- El fallback se muestra inmediatamente si `src` está vacío o la imagen falla.
+- Usa `bg-muted` para distinguir visualmente el fallback del contenido.
+
+---
+
+## Alert Dialog
+
+Modal de confirmación para acciones destructivas o irreversibles. A diferencia de Dialog, el Alert Dialog **no se cierra al hacer clic en el overlay** y **foca el botón "Cancelar" por defecto** para prevenir acciones accidentales. Usa `role="alertdialog"` para accesibilidad.
+
+### Importación
+
+```ts
+import {
+  AlertDialog, AlertDialogTrigger, AlertDialogContent,
+  AlertDialogHeader, AlertDialogFooter,
+  AlertDialogTitle, AlertDialogDescription,
+  AlertDialogAction, AlertDialogCancel,
+} from '@3df/ui';
+```
+
+### Uso básico — Delete Confirmation
+
+```vue
+<template>
+  <AlertDialog>
+    <AlertDialogTrigger>
+      <Button variant="destructive">Eliminar cuenta</Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
+        <AlertDialogDescription>
+          Esta acción no se puede deshacer. Esto eliminará permanentemente
+          tu cuenta y removerá todos tus datos de nuestros servidores.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancelar</AlertDialogCancel>
+        <AlertDialogAction variant="destructive">Sí, eliminar</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+</template>
+```
+
+### Controlado (v-model)
+
+```vue
+<script setup>
+const open = ref(false);
+</script>
+
+<template>
+  <Button @click="open = true">Abrir</Button>
+  <AlertDialog v-model:open="open">
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Sesión expirada</AlertDialogTitle>
+        <AlertDialogDescription>
+          Tu sesión ha expirado. Serás redirigido al login.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogAction>Iniciar sesión</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+</template>
+```
+
+### Componentes
+
+| Componente                 | Elemento   | Descripción                                         |
+| -------------------------- | ---------- | --------------------------------------------------- |
+| `AlertDialog`              | renderless | Proveedor de estado (provide/inject)                |
+| `AlertDialogTrigger`       | `<div>`    | Envuelve el elemento que abre el dialog             |
+| `AlertDialogContent`       | `<div>`    | Panel modal con overlay (role=alertdialog)           |
+| `AlertDialogHeader`        | `<div>`    | Contenedor del título y descripción                 |
+| `AlertDialogFooter`        | `<div>`    | Contenedor de acciones (responsive layout)          |
+| `AlertDialogTitle`         | `<h2>`     | Título del dialog (aria-labelledby)                 |
+| `AlertDialogDescription`   | `<p>`      | Descripción del dialog (aria-describedby)           |
+| `AlertDialogAction`        | `<button>` | Botón de confirmación (soporta variant destructive) |
+| `AlertDialogCancel`        | `<button>` | Botón de cancelación (recibe foco inicial)          |
+
+### Props — AlertDialog
+
+| Prop          | Tipo      | Default     | Descripción                          |
+| ------------- | --------- | ----------- | ------------------------------------ |
+| `open`        | `boolean` | `undefined` | Estado controlado (v-model:open)     |
+| `defaultOpen` | `boolean` | `false`     | Estado inicial no-controlado         |
+
+### Props — AlertDialogAction
+
+| Prop      | Tipo                           | Default     | Descripción                    |
+| --------- | ------------------------------ | ----------- | ------------------------------ |
+| `variant` | `'default' \| 'destructive'`   | `'default'` | Estilo visual del botón        |
+
+### Diferencias con Dialog
+
+| Característica           | Dialog         | Alert Dialog        |
+| ------------------------ | -------------- | ------------------- |
+| Cierre por overlay       | ✅ Sí          | ❌ No               |
+| Foco inicial             | Primer elemento | Botón Cancel        |
+| Botón cerrar (×)         | ✅ Incluido    | ❌ No incluido      |
+| `role`                   | `dialog`       | `alertdialog`       |
+| Uso                      | General        | Confirmaciones      |
+
+### Accesibilidad
+
+- `role="alertdialog"` + `aria-modal="true"` para lectores de pantalla.
+- `aria-labelledby` apunta a `AlertDialogTitle`.
+- `aria-describedby` apunta a `AlertDialogDescription`.
+- Focus trap completo (Tab/Shift+Tab no sale del dialog).
+- Foco inicial en `AlertDialogCancel` (data-alert-dialog-cancel) para seguridad.
+- Escape cierra el dialog y restaura foco al trigger.
+
+---
+
+## Accordion
+
+Componente colapsable con animación suave para mostrar/ocultar secciones de contenido. Soporta modo single (un item a la vez) y multiple (varios abiertos simultáneamente), items deshabilitados y control externo via `v-model`.
+
+### Importación
+
+```ts
+import {
+  Accordion, AccordionItem,
+  AccordionTrigger, AccordionContent,
+} from '@3df/ui';
+```
+
+### Uso básico — FAQ
+
+```vue
+<template>
+  <Accordion type="single" collapsible default-value="item-1">
+    <AccordionItem value="item-1">
+      <AccordionTrigger>¿Es accesible?</AccordionTrigger>
+      <AccordionContent>
+        Sí. Sigue los patrones WAI-ARIA para acordeones.
+      </AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="item-2">
+      <AccordionTrigger>¿Es estilizable?</AccordionTrigger>
+      <AccordionContent>
+        Sí. Puedes sobrescribir cualquier clase con Tailwind.
+      </AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</template>
+```
+
+### Multiple (varios abiertos)
+
+```vue
+<Accordion type="multiple" :default-value="['item-1', 'item-3']">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Primer item</AccordionTrigger>
+    <AccordionContent>Contenido del primer item.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Segundo item</AccordionTrigger>
+    <AccordionContent>Contenido del segundo item.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
+
+### Controlado (v-model)
+
+```vue
+<script setup>
+const value = ref('item-1');
+</script>
+
+<Accordion type="single" collapsible v-model="value">
+  <!-- items -->
+</Accordion>
+```
+
+### Componentes
+
+| Componente         | Elemento   | Descripción                                        |
+| ------------------ | ---------- | -------------------------------------------------- |
+| `Accordion`        | `<div>`    | Contenedor raíz, provee estado (provide/inject)    |
+| `AccordionItem`    | `<div>`    | Contenedor de cada sección (border-b por defecto)  |
+| `AccordionTrigger` | `<button>` | Botón que expande/colapsa con chevron animado       |
+| `AccordionContent` | `<div>`    | Contenido colapsable con animación de altura        |
+
+### Props — Accordion
+
+| Prop           | Tipo                       | Default     | Descripción                                |
+| -------------- | -------------------------- | ----------- | ------------------------------------------ |
+| `type`         | `'single' \| 'multiple'`   | `'single'`  | Modo de apertura                           |
+| `modelValue`   | `string \| string[]`       | `undefined` | Estado controlado (v-model)                |
+| `defaultValue` | `string \| string[]`       | `undefined` | Estado inicial no-controlado               |
+| `collapsible`  | `boolean`                  | `false`     | Permite cerrar todos en modo single        |
+| `disabled`     | `boolean`                  | `false`     | Deshabilita todos los items                |
+
+### Props — AccordionItem
+
+| Prop       | Tipo      | Default | Descripción                     |
+| ---------- | --------- | ------- | ------------------------------- |
+| `value`    | `string`  | —       | Identificador único (requerido) |
+| `disabled` | `boolean` | `false` | Deshabilita solo este item      |
+
+### Accesibilidad
+
+- Trigger usa `aria-expanded` y `aria-controls` vinculado al contenido.
+- Content usa `role="region"` y `aria-labelledby` vinculado al trigger.
+- `data-state="open" | "closed"` en todos los elementos.
+- Items deshabilitados usan `disabled` + `data-disabled`.
+- Chevron rota 180° al expandir via `[data-state=open]>svg`.
 
 ---
 

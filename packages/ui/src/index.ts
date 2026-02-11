@@ -279,3 +279,31 @@ export { default as BreadcrumbLink } from './components/ui/breadcrumb/UiBreadcru
 export { default as BreadcrumbPage } from './components/ui/breadcrumb/UiBreadcrumbPage.vue';
 export { default as BreadcrumbSeparator } from './components/ui/breadcrumb/UiBreadcrumbSeparator.vue';
 export { default as BreadcrumbEllipsis } from './components/ui/breadcrumb/UiBreadcrumbEllipsis.vue';
+
+// Avatar
+export { default as Avatar } from './components/ui/avatar/UiAvatar.vue';
+export { default as AvatarImage } from './components/ui/avatar/UiAvatarImage.vue';
+export { default as AvatarFallback } from './components/ui/avatar/UiAvatarFallback.vue';
+export { AVATAR_KEY } from './components/ui/avatar/avatar-types';
+export type { AvatarContext, AvatarSize } from './components/ui/avatar/avatar-types';
+
+// Alert Dialog
+export { default as AlertDialog } from './components/ui/alert-dialog/UiAlertDialog.vue';
+export { default as AlertDialogTrigger } from './components/ui/alert-dialog/UiAlertDialogTrigger.vue';
+export { default as AlertDialogContent } from './components/ui/alert-dialog/UiAlertDialogContent.vue';
+export { default as AlertDialogHeader } from './components/ui/alert-dialog/UiAlertDialogHeader.vue';
+export { default as AlertDialogFooter } from './components/ui/alert-dialog/UiAlertDialogFooter.vue';
+export { default as AlertDialogTitle } from './components/ui/alert-dialog/UiAlertDialogTitle.vue';
+export { default as AlertDialogDescription } from './components/ui/alert-dialog/UiAlertDialogDescription.vue';
+export { default as AlertDialogAction } from './components/ui/alert-dialog/UiAlertDialogAction.vue';
+export { default as AlertDialogCancel } from './components/ui/alert-dialog/UiAlertDialogCancel.vue';
+export { ALERT_DIALOG_KEY } from './components/ui/alert-dialog/alert-dialog-types';
+export type { AlertDialogContext } from './components/ui/alert-dialog/alert-dialog-types';
+
+// Accordion
+export { default as Accordion } from './components/ui/accordion/UiAccordion.vue';
+export { default as AccordionItem } from './components/ui/accordion/UiAccordionItem.vue';
+export { default as AccordionTrigger } from './components/ui/accordion/UiAccordionTrigger.vue';
+export { default as AccordionContent } from './components/ui/accordion/UiAccordionContent.vue';
+export { ACCORDION_KEY, ACCORDION_ITEM_KEY } from './components/ui/accordion/accordion-types';
+export type { AccordionContext, AccordionItemContext, AccordionType } from './components/ui/accordion/accordion-types';
