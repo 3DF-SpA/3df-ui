@@ -44,6 +44,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Sheet](#sheet)
   - [Separator](#separator)
   - [Scroll Area](#scroll-area)
+  - [Progress](#progress)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -3873,6 +3874,102 @@ Las scrollbars nativas se ocultan con `scrollbar-width: none` (Firefox) y `::-we
 
 ---
 
+## Progress
+
+Barra de progreso que muestra el avance de una operación. Soporta estados determinados (0–100%) e indeterminados con animación continua. Basado en el primitivo Radix UI Progress.
+
+### Importación
+
+```ts
+import { Progress } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Progress :model-value="33" />
+</template>
+```
+
+### Estado indeterminado
+
+Si no se pasa `modelValue` (o se pasa `undefined`), el componente entra en modo indeterminado con animación continua:
+
+```vue
+<template>
+  <Progress />
+</template>
+```
+
+### Max personalizado
+
+```vue
+<template>
+  <!-- 150 de 200 = 75% -->
+  <Progress :model-value="150" :max="200" />
+</template>
+```
+
+### Tamaños
+
+Ajusta la altura con clases de Tailwind en el contenedor raíz:
+
+```vue
+<template>
+  <Progress :model-value="60" class="h-1" />  <!-- Thin -->
+  <Progress :model-value="60" class="h-2" />  <!-- Small -->
+  <Progress :model-value="60" />                <!-- Default h-4 -->
+  <Progress :model-value="60" class="h-6" />  <!-- Large -->
+</template>
+```
+
+### Colores personalizados
+
+Usa el atributo `indicatorClass` para cambiar el color del indicador:
+
+```vue
+<template>
+  <Progress :model-value="72" indicator-class="bg-green-500" />
+  <Progress :model-value="72" indicator-class="bg-red-500" />
+  <Progress :model-value="72" indicator-class="bg-yellow-500" />
+</template>
+```
+
+### Props
+
+| Prop             | Tipo                      | Default     | Descripción                                    |
+| ---------------- | ------------------------- | ----------- | ---------------------------------------------- |
+| `modelValue`     | `number \| undefined`    | `undefined` | Valor actual (0–max). `undefined` = indeterminado |
+| `max`            | `number`                  | `100`       | Valor máximo de la barra                       |
+| `class`          | `ClassValue`              | —           | Clases CSS del contenedor raíz                 |
+| `indicatorClass` | `ClassValue`              | —           | Clases CSS del indicador de progreso           |
+
+### Data Attributes
+
+| Atributo      | Valores                          | Descripción                    |
+| ------------- | -------------------------------- | ------------------------------ |
+| `data-state`  | `'determinate' \| 'indeterminate'` | Estado actual del progreso  |
+| `data-value`  | `number \| undefined`           | Valor actual                   |
+| `data-max`    | `number`                         | Valor máximo                   |
+
+### Estilo visual
+
+| Elemento   | Clases                                                              |
+| ---------- | ------------------------------------------------------------------- |
+| Root       | `relative h-4 w-full overflow-hidden rounded-full bg-secondary`    |
+| Indicator  | `bg-primary rounded-full transition-transform duration-400`         |
+
+La transición usa `translateX` para un rendimiento óptimo (GPU-accelerated). El estado indeterminado usa una animación `@keyframes` con `cubic-bezier(0.65, 0, 0.35, 1)`.
+
+### Accesibilidad
+
+- `role="progressbar"` con `aria-valuemin`, `aria-valuemax` y `aria-valuenow`.
+- En modo indeterminado, `aria-valuenow` se omite según la especificación WAI-ARIA.
+- Totalmente accesible para screen readers sin configuración adicional.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -4043,6 +4140,8 @@ packages/ui/
 │   │       └── UiSeparator.vue           # Separador horizontal/vertical
 │   │   └── scroll-area/
 │   │       └── UiScrollArea.vue          # Scroll area con barras custom
+│   │   └── progress/
+│   │       └── UiProgress.vue            # Barra de progreso
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

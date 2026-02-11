@@ -110,6 +110,12 @@ const router = createRouter({
           name: 'MyScrollArea',
           component: () => import('@/modules/ui/views/MyScrollArea.vue'),
         },
+
+        {
+          path: '/progress',
+          name: 'MyProgress',
+          component: () => import('@/modules/ui/views/MyProgress.vue'),
+        },
       ],
     },
   ],

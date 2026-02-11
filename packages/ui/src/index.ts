@@ -109,3 +109,6 @@ export { default as Separator } from './components/ui/separator/UiSeparator.vue'
 
 // ScrollArea
 export { default as ScrollArea } from './components/ui/scroll-area/UiScrollArea.vue';
+
+// Progress
+export { default as Progress } from './components/ui/progress/UiProgress.vue';
