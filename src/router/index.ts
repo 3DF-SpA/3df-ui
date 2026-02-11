@@ -207,6 +207,20 @@ const router = createRouter({
           name: 'MyCollapsible',
           component: () => import('@/modules/ui/views/MyCollapsible.vue'),
         },
+
+        {
+
+          path: '/carousel',
+          name: 'MyCarousel',
+          component: () => import('@/modules/ui/views/MyCarousel.vue'),
+        },
+
+        {
+
+          path: '/breadcrumb',
+          name: 'MyBreadcrumb',
+          component: () => import('@/modules/ui/views/MyBreadcrumb.vue'),
+        },
       ],
     },
   ],

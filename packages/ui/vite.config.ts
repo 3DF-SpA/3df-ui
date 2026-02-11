@@ -20,7 +20,7 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      external: ['vue', 'class-variance-authority', 'clsx', 'tailwind-merge', 'date-fns'],
+      external: ['vue', 'class-variance-authority', 'clsx', 'tailwind-merge', 'date-fns', 'embla-carousel'],
       // Ensure date-fns sub-path imports are also externalized
       // Rollup matches external as prefix, so 'date-fns' covers 'date-fns/*'
       output: {

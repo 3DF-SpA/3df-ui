@@ -61,6 +61,8 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Command](#command)
   - [Combobox](#combobox)
   - [Collapsible](#collapsible)
+  - [Carousel](#carousel)
+  - [Breadcrumb](#breadcrumb)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -5649,6 +5651,210 @@ const isOpen = ref(false);
 
 ---
 
+## Carousel
+
+Carousel/slider basado en [Embla Carousel](https://www.embla-carousel.com/) como motor subyacente. Soporta orientación horizontal y vertical, múltiples slides visibles (breakpoints responsive), loop infinito y control programático vía API.
+
+### Importación
+
+```ts
+import {
+  Carousel, CarouselContent, CarouselItem,
+  CarouselPrevious, CarouselNext,
+} from '@3df/ui';
+```
+
+### Uso básico (Image Slider)
+
+```vue
+<template>
+  <Carousel class="w-full max-w-xs">
+    <CarouselContent>
+      <CarouselItem v-for="i in 5" :key="i">
+        <Card>
+          <CardContent class="flex aspect-square items-center justify-center p-6">
+            <span class="text-4xl font-semibold">{{ i }}</span>
+          </CardContent>
+        </Card>
+      </CarouselItem>
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+  </Carousel>
+</template>
+```
+
+### Testimonial Carousel (múltiples slides)
+
+```vue
+<template>
+  <Carousel :opts="{ align: 'start' }">
+    <CarouselContent>
+      <CarouselItem v-for="i in 8" :key="i" class="md:basis-1/2 lg:basis-1/3">
+        <Card>
+          <CardContent class="flex aspect-square items-center justify-center p-6">
+            {{ i }}
+          </CardContent>
+        </Card>
+      </CarouselItem>
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+  </Carousel>
+</template>
+```
+
+### Orientación vertical
+
+```vue
+<Carousel orientation="vertical" :opts="{ align: 'start' }">
+  <CarouselContent class="-mt-1 h-[200px]">
+    <CarouselItem v-for="i in 5" :key="i" class="pt-1 md:basis-1/2">
+      <!-- contenido -->
+    </CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+### Control programático (setApi)
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import type { EmblaCarouselType } from 'embla-carousel';
+
+const api = ref<EmblaCarouselType>();
+
+function onSetApi(embla: EmblaCarouselType) {
+  api.value = embla;
+  embla.on('select', () => {
+    console.log('Slide actual:', embla.selectedScrollSnap());
+  });
+}
+</script>
+
+<template>
+  <Carousel @set-api="onSetApi" :opts="{ loop: true }">
+    <!-- ... -->
+  </Carousel>
+  <button @click="api?.scrollTo(2)">Ir al slide 3</button>
+</template>
+```
+
+### Componentes
+
+| Componente         | Elemento   | Descripción                                       |
+| ------------------ | ---------- | ------------------------------------------------- |
+| `Carousel`         | `<div>`    | Provider raíz (Embla init, keyboard nav, API)     |
+| `CarouselContent`  | `<div>`    | Contenedor flex de slides (overflow hidden)       |
+| `CarouselItem`     | `<div>`    | Slide individual (role="group", aria-roledescription) |
+| `CarouselPrevious` | `<button>` | Botón anterior (auto-disable, posición absoluta)  |
+| `CarouselNext`     | `<button>` | Botón siguiente (auto-disable, posición absoluta) |
+
+### Props — Carousel
+
+| Prop          | Tipo                    | Default        | Descripción                             |
+| ------------- | ----------------------- | -------------- | --------------------------------------- |
+| `opts`        | `EmblaOptionsType`      | `undefined`    | Opciones de Embla (loop, align, etc.)   |
+| `orientation` | `'horizontal'\|'vertical'` | `'horizontal'` | Dirección del scroll                 |
+
+### Eventos
+
+| Evento    | Payload              | Descripción                        |
+| --------- | -------------------- | ---------------------------------- |
+| `set-api` | `EmblaCarouselType`  | Emitido cuando la API está lista   |
+
+### Accesibilidad
+
+- `role="region"` con `aria-roledescription="carousel"` en el contenedor.
+- `role="group"` con `aria-roledescription="slide"` en cada ítem.
+- Navegación con Arrow keys (←/→ horizontal, ↑/↓ vertical).
+- Botones prev/next con `aria-label` y auto-disable cuando no hay scroll.
+
+---
+
+## Breadcrumb
+
+Navegación de ruta con semántica `<nav>` y `aria-label="breadcrumb"`. Soporta separadores personalizados (chevron, slash, iconos), ellipsis para rutas largas, y diferenciación visual entre links activos y la página actual.
+
+### Importación
+
+```ts
+import {
+  Breadcrumb, BreadcrumbList, BreadcrumbItem,
+  BreadcrumbLink, BreadcrumbPage,
+  BreadcrumbSeparator, BreadcrumbEllipsis,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/">Inicio</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbLink href="/componentes">Componentes</BreadcrumbLink>
+      </BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem>
+        <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      </BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</template>
+```
+
+### Con ellipsis
+
+```vue
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem><BreadcrumbLink href="/">Inicio</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbLink href="/config">Configuración</BreadcrumbLink></BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem><BreadcrumbPage>Perfil</BreadcrumbPage></BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+### Componentes
+
+| Componente             | Elemento  | Descripción                                        |
+| ---------------------- | --------- | -------------------------------------------------- |
+| `Breadcrumb`           | `<nav>`   | Wrapper semántico (aria-label="breadcrumb")        |
+| `BreadcrumbList`       | `<ol>`    | Lista ordenada con gap responsive                  |
+| `BreadcrumbItem`       | `<li>`    | Ítem contenedor                                    |
+| `BreadcrumbLink`       | `<a>`     | Link navegable (hover → foreground). Prop `as`     |
+| `BreadcrumbPage`       | `<span>`  | Página actual (aria-current="page", color distinto)|
+| `BreadcrumbSeparator`  | `<li>`    | Separador (chevron por defecto, slot para custom)  |
+| `BreadcrumbEllipsis`   | `<span>`  | Indicador de rutas omitidas (· · ·)                |
+
+### Props — BreadcrumbLink
+
+| Prop   | Tipo     | Default     | Descripción                            |
+| ------ | -------- | ----------- | -------------------------------------- |
+| `href` | `string` | `undefined` | URL del enlace                         |
+| `as`   | `string` | `undefined` | Renderizar como otro elemento/componente|
+
+### Accesibilidad
+
+- `<nav aria-label="breadcrumb">` para navegación semántica.
+- `aria-current="page"` en `BreadcrumbPage` para la página actual.
+- Separadores con `role="presentation"` y `aria-hidden="true"`.
+- `BreadcrumbPage` usa `text-foreground` vs `text-muted-foreground` en los links.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -5933,6 +6139,21 @@ packages/ui/
 │   │       ├── UiCollapsible.vue                  # Provider raíz (v-model:open)
 │   │       ├── UiCollapsibleTrigger.vue           # Botón toggle (aria-expanded)
 │   │       └── UiCollapsibleContent.vue           # Contenido animado (height)
+│   │   └── carousel/
+│   │       ├── carousel-types.ts                  # Tipos, InjectionKey
+│   │       ├── UiCarousel.vue                     # Provider raíz (Embla engine)
+│   │       ├── UiCarouselContent.vue              # Contenedor flex (overflow hidden)
+│   │       ├── UiCarouselItem.vue                 # Slide individual (role=group)
+│   │       ├── UiCarouselPrevious.vue             # Botón anterior
+│   │       └── UiCarouselNext.vue                 # Botón siguiente
+│   │   └── breadcrumb/
+│   │       ├── UiBreadcrumb.vue                   # Nav semántico (aria-label)
+│   │       ├── UiBreadcrumbList.vue               # Lista ordenada (ol)
+│   │       ├── UiBreadcrumbItem.vue               # Ítem contenedor (li)
+│   │       ├── UiBreadcrumbLink.vue               # Link navegable (polimórfico)
+│   │       ├── UiBreadcrumbPage.vue               # Página actual (aria-current)
+│   │       ├── UiBreadcrumbSeparator.vue          # Separador (chevron/custom)
+│   │       └── UiBreadcrumbEllipsis.vue           # Indicador de rutas omitidas
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
@@ -6045,6 +6266,7 @@ export { inputVariants } from './components/ui/inputs/input-variants';
 | `clsx`                     | `^2.1.1` | Composición condicional de clases         |
 | `tailwind-merge`           | `^3.4.0` | Resolución inteligente de clases Tailwind |
 | `date-fns`                 | `^3 \|\| ^4` | Manipulación y formateo de fechas (Calendar, DatePicker) |
+| `embla-carousel`           | `^8.0.0` | Motor de carousel (Carousel)              |
 
 ---
 

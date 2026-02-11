@@ -261,3 +261,21 @@ export { default as CollapsibleTrigger } from './components/ui/collapsible/UiCol
 export { default as CollapsibleContent } from './components/ui/collapsible/UiCollapsibleContent.vue';
 export { COLLAPSIBLE_KEY } from './components/ui/collapsible/collapsible-types';
 export type { CollapsibleContext } from './components/ui/collapsible/collapsible-types';
+
+// Carousel
+export { default as Carousel } from './components/ui/carousel/UiCarousel.vue';
+export { default as CarouselContent } from './components/ui/carousel/UiCarouselContent.vue';
+export { default as CarouselItem } from './components/ui/carousel/UiCarouselItem.vue';
+export { default as CarouselPrevious } from './components/ui/carousel/UiCarouselPrevious.vue';
+export { default as CarouselNext } from './components/ui/carousel/UiCarouselNext.vue';
+export { CAROUSEL_KEY } from './components/ui/carousel/carousel-types';
+export type { CarouselContext, CarouselOrientation } from './components/ui/carousel/carousel-types';
+
+// Breadcrumb
+export { default as Breadcrumb } from './components/ui/breadcrumb/UiBreadcrumb.vue';
+export { default as BreadcrumbList } from './components/ui/breadcrumb/UiBreadcrumbList.vue';
+export { default as BreadcrumbItem } from './components/ui/breadcrumb/UiBreadcrumbItem.vue';
+export { default as BreadcrumbLink } from './components/ui/breadcrumb/UiBreadcrumbLink.vue';
+export { default as BreadcrumbPage } from './components/ui/breadcrumb/UiBreadcrumbPage.vue';
+export { default as BreadcrumbSeparator } from './components/ui/breadcrumb/UiBreadcrumbSeparator.vue';
+export { default as BreadcrumbEllipsis } from './components/ui/breadcrumb/UiBreadcrumbEllipsis.vue';
