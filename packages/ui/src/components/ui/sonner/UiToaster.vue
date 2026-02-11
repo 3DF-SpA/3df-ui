@@ -6,7 +6,7 @@ import UiToast from './UiToast.vue';
 import type { ToastPosition } from './toast-state';
 import { toast, toasts } from './toast-state';
 
-defineOptions({ name: 'UiToaster' });
+defineOptions({ name: 'UiToaster', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{

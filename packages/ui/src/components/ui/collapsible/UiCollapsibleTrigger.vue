@@ -22,7 +22,7 @@ const restAttrs = computed(() => {
     v-bind="restAttrs"
     type="button"
     :aria-expanded="ctx.isOpen.value"
-    :aria-controls="undefined"
+    :aria-controls="ctx.contentId"
     :data-state="ctx.isOpen.value ? 'open' : 'closed'"
     :data-disabled="ctx.disabled.value ? '' : undefined"
     :disabled="ctx.disabled.value"

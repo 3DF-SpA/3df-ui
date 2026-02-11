@@ -4,7 +4,7 @@ import type { VariantProps } from 'class-variance-authority';
 import { cn } from '../../../lib/utils';
 import { alertVariants } from './alert-variants';
 
-defineOptions({ name: 'UiAlert' });
+defineOptions({ name: 'UiAlert', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{

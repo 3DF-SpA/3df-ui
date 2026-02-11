@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cn } from '../../../lib/utils';
 
-defineOptions({ name: 'UiAlertDescription' });
+defineOptions({ name: 'UiAlertDescription', inheritAttrs: false });
 
 const props = defineProps<{
   class?: string;

@@ -166,7 +166,7 @@ const mobileSheetClasses = computed(() =>
           <!-- Close button -->
           <button
             class="absolute right-3 top-3 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-            aria-label="Cerrar sidebar"
+            aria-label="Close sidebar"
             @click="ctx.setOpenMobile(false)"
           >
             <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

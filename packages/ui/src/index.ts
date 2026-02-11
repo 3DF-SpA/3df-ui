@@ -9,6 +9,7 @@ export { inputVariants } from './components/ui/input/input-variants';
 export { default as Textarea } from './components/ui/textarea/UiTextarea.vue';
 export { default as Select } from './components/ui/select/UiSelect.vue';
 export { default as SelectItem } from './components/ui/select/UiSelectItem.vue';
+export { SELECT_KEY, type SelectContext, type SelectItemData } from './components/ui/select/select-types';
 export { default as Checkbox } from './components/ui/checkbox/UiCheckbox.vue';
 export { default as Radio } from './components/ui/radio/UiRadio.vue';
 export { default as Switch } from './components/ui/switch/UiSwitch.vue';
@@ -25,9 +26,11 @@ export { default as DropdownMenuItem } from './components/ui/dropdown-menu/UiDro
 export { default as DropdownMenuSeparator } from './components/ui/dropdown-menu/UiDropdownMenuSeparator.vue';
 export { default as DropdownMenuLabel } from './components/ui/dropdown-menu/UiDropdownMenuLabel.vue';
 export { default as DropdownMenuShortcut } from './components/ui/dropdown-menu/UiDropdownMenuShortcut.vue';
+export { DROPDOWN_MENU_KEY, type DropdownMenuContext, type DropdownMenuItemData } from './components/ui/dropdown-menu/dropdown-menu-types';
 export { default as Popover } from './components/ui/popover/UiPopover.vue';
 export { default as PopoverTrigger } from './components/ui/popover/UiPopoverTrigger.vue';
 export { default as PopoverContent } from './components/ui/popover/UiPopoverContent.vue';
+export { POPOVER_KEY, type PopoverContext } from './components/ui/popover/popover-types';
 export { default as Toaster } from './components/ui/sonner/UiToaster.vue';
 export { toast } from './components/ui/sonner/toast-state';
 export type {
@@ -43,6 +46,7 @@ export { alertVariants } from './components/ui/alert/alert-variants';
 export { default as Tooltip } from './components/ui/tooltip/UiTooltip.vue';
 export { default as TooltipTrigger } from './components/ui/tooltip/UiTooltipTrigger.vue';
 export { default as TooltipContent } from './components/ui/tooltip/UiTooltipContent.vue';
+export { TOOLTIP_KEY, type TooltipContext } from './components/ui/tooltip/tooltip-types';
 export { default as Toggle } from './components/ui/toggle/UiToggle.vue';
 export { toggleVariants } from './components/ui/toggle/toggle-variants';
 export { default as Table } from './components/ui/table/UiTable.vue';

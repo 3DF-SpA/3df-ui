@@ -19,6 +19,7 @@ watchEffect(() => {
   <div
     ref="el"
     class="inline-flex outline-none"
+    tabindex="0"
     @mouseenter="hoverCard.open()"
     @mouseleave="hoverCard.close()"
     @focusin="hoverCard.open()"

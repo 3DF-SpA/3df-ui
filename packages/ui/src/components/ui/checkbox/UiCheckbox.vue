@@ -59,6 +59,7 @@ function onChange(event: Event) {
       :class="inputClasses"
       :checked="modelValue"
       :indeterminate="indeterminate"
+      :aria-checked="indeterminate && !modelValue ? 'mixed' : undefined"
       @change="onChange"
     />
 

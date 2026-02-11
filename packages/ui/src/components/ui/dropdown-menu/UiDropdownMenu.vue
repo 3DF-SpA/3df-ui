@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { type Ref, onBeforeUnmount, onMounted, provide, ref } from 'vue';
+import { type Ref, computed, onBeforeUnmount, provide, ref, watch } from 'vue';
+
+import { DROPDOWN_MENU_KEY } from './dropdown-menu-types';
 
 defineOptions({ name: 'UiDropdownMenu' });
 
@@ -129,15 +131,19 @@ function onClickOutside(event: MouseEvent) {
   }
 }
 
-onMounted(() => {
-  document.addEventListener('click', onClickOutside, true);
+watch(isOpen, (open) => {
+  if (open) {
+    document.addEventListener('click', onClickOutside, true);
+  } else {
+    document.removeEventListener('click', onClickOutside, true);
+  }
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', onClickOutside, true);
 });
 
-provide('dropdown-menu', {
+provide(DROPDOWN_MENU_KEY, {
   isOpen,
   triggerRef,
   contentRef,

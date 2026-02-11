@@ -18,9 +18,13 @@ watchEffect(() => {
   <div
     ref="el"
     class="inline-flex outline-none"
+    role="button"
+    tabindex="0"
     :aria-expanded="sheet.isOpen.value"
     aria-haspopup="dialog"
     @click="sheet.toggle()"
+    @keydown.enter.prevent="sheet.toggle()"
+    @keydown.space.prevent="sheet.toggle()"
   >
     <slot :open="sheet.isOpen.value" />
   </div>

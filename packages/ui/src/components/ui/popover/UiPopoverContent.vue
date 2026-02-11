@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   type CSSProperties,
-  type Ref,
   computed,
   inject,
   nextTick,
@@ -14,6 +13,7 @@ import {
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
+import { POPOVER_KEY } from './popover-types';
 
 defineOptions({ name: 'UiPopoverContent', inheritAttrs: false });
 
@@ -34,13 +34,7 @@ const props = withDefaults(defineProps<UiPopoverContentProps>(), {
   viewportPadding: 8,
 });
 
-const popover = inject<{
-  isOpen: Ref<boolean>;
-  triggerRef: Ref<HTMLElement | undefined>;
-  contentRef: Ref<HTMLElement | undefined>;
-  triggerId: string;
-  close: () => void;
-}>('popover')!;
+const popover = inject(POPOVER_KEY)!;
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 

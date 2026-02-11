@@ -32,7 +32,7 @@ function onClick() {
     v-bind="restAttrs"
     type="button"
     data-sidebar="trigger"
-    :aria-label="ctx.open.value ? 'Cerrar sidebar' : 'Abrir sidebar'"
+    :aria-label="ctx.open.value ? 'Close sidebar' : 'Open sidebar'"
     :class="classes"
     @click="onClick"
   >

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
+import { onBeforeUnmount, provide, ref, watch } from 'vue';
 import { SHEET_INJECTION_KEY } from './sheet-types';
 
 defineOptions({ name: 'UiSheet' });
@@ -63,8 +63,12 @@ function onKeydown(e: KeyboardEvent) {
   }
 }
 
-onMounted(() => {
-  document.addEventListener('keydown', onKeydown, true);
+watch(isOpen, (open) => {
+  if (open) {
+    document.addEventListener('keydown', onKeydown, true);
+  } else {
+    document.removeEventListener('keydown', onKeydown, true);
+  }
 });
 
 onBeforeUnmount(() => {

@@ -231,7 +231,7 @@ const panelStyle = computed(() => {
           v-if="showClose"
           type="button"
           class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
-          aria-label="Cerrar"
+          aria-label="Close"
           @click="drawer.close()"
         >
           <svg
@@ -248,7 +248,7 @@ const panelStyle = computed(() => {
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
           </svg>
-          <span class="sr-only">Cerrar</span>
+          <span class="sr-only">Close</span>
         </button>
       </div>
     </div>

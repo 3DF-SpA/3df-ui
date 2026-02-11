@@ -25,6 +25,6 @@ const classes = computed(() => cn(attrs.class));
     data-sheet="close"
     @click="sheet.close()"
   >
-    <slot>Cerrar</slot>
+    <slot>Close</slot>
   </button>
 </template>

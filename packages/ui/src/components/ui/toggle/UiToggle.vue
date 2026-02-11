@@ -4,7 +4,7 @@ import type { VariantProps } from 'class-variance-authority';
 import { cn } from '../../../lib/utils';
 import { toggleVariants } from './toggle-variants';
 
-defineOptions({ name: 'UiToggle' });
+defineOptions({ name: 'UiToggle', inheritAttrs: false });
 
 type ToggleVariants = VariantProps<typeof toggleVariants>;
 
@@ -44,7 +44,6 @@ function onKeydown(event: KeyboardEvent) {
 <template>
   <button
     type="button"
-    role="button"
     :aria-pressed="props.pressed"
     :data-state="props.pressed ? 'on' : 'off'"
     :disabled="props.disabled"

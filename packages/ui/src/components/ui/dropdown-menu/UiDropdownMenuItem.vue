@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { type Ref, computed, inject, onBeforeUnmount, onMounted, useAttrs } from 'vue';
+import { computed, inject, onBeforeUnmount, onMounted, useAttrs } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
+import { DROPDOWN_MENU_KEY } from './dropdown-menu-types';
 
 defineOptions({ name: 'UiDropdownMenuItem', inheritAttrs: false });
 
@@ -21,13 +22,7 @@ const emit = defineEmits<{
   select: [];
 }>();
 
-const menu = inject<{
-  focusedIndex: Ref<number>;
-  items: Ref<{ id: string; disabled: boolean; action: () => void }[]>;
-  registerItem: (id: string, disabled: boolean, action: () => void) => void;
-  unregisterItem: (id: string) => void;
-  close: () => void;
-}>('dropdown-menu')!;
+const menu = inject(DROPDOWN_MENU_KEY)!;
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onBeforeUnmount, provide, ref } from 'vue';
 
+import { TOOLTIP_KEY } from './tooltip-types';
+
 defineOptions({ name: 'UiTooltip' });
 
 const props = withDefaults(
@@ -58,7 +60,7 @@ onBeforeUnmount(() => {
   clearTimers();
 });
 
-provide('tooltip', {
+provide(TOOLTIP_KEY, {
   isOpen,
   triggerRef,
   contentRef,

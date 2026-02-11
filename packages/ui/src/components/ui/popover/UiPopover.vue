@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
+import { onBeforeUnmount, provide, ref, watch } from 'vue';
+
+import { POPOVER_KEY } from './popover-types';
 
 defineOptions({ name: 'UiPopover' });
 
@@ -70,15 +72,19 @@ function onClickOutside(event: MouseEvent) {
   }
 }
 
-onMounted(() => {
-  document.addEventListener('click', onClickOutside, true);
+watch(isOpen, (open) => {
+  if (open) {
+    document.addEventListener('click', onClickOutside, true);
+  } else {
+    document.removeEventListener('click', onClickOutside, true);
+  }
 });
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', onClickOutside, true);
 });
 
-provide('popover', {
+provide(POPOVER_KEY, {
   isOpen,
   triggerRef,
   contentRef,

@@ -9,7 +9,14 @@ const ctx = inject(ALERT_DIALOG_KEY)!;
 </script>
 
 <template>
-  <div class="inline-flex" @click="ctx.toggle()">
+  <div
+    class="inline-flex outline-none"
+    role="button"
+    tabindex="0"
+    @click="ctx.toggle()"
+    @keydown.enter.prevent="ctx.toggle()"
+    @keydown.space.prevent="ctx.toggle()"
+  >
     <slot />
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref, useAttrs, watch } from 'vue';
+import { computed, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -66,6 +66,7 @@ function onPointerDown(event: PointerEvent) {
   if (props.disabled) return;
   event.preventDefault();
   isDragging.value = true;
+  document.addEventListener('pointerup', onDocumentPointerUp);
   const value = resolveValue(event.clientX);
   emit('update:modelValue', value);
   (event.currentTarget as HTMLElement)?.setPointerCapture?.(event.pointerId);
@@ -125,11 +126,8 @@ function onKeydown(event: KeyboardEvent) {
 // ─── Cleanup global listeners on unmount ──────────────────────
 function onDocumentPointerUp() {
   isDragging.value = false;
+  document.removeEventListener('pointerup', onDocumentPointerUp);
 }
-
-onMounted(() => {
-  document.addEventListener('pointerup', onDocumentPointerUp);
-});
 
 onBeforeUnmount(() => {
   document.removeEventListener('pointerup', onDocumentPointerUp);

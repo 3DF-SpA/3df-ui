@@ -163,7 +163,7 @@ onBeforeUnmount(() => {
           'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
         )
       "
-      aria-label="Cerrar notificación"
+      aria-label="Close notification"
       @click="dismissToast()"
     >
       <svg

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { type ComputedRef, type Ref, computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
 
 import { cn } from '../../../lib/utils';
+import { SELECT_KEY } from './select-types';
 
 defineOptions({ name: 'UiSelectItem' });
 
@@ -14,14 +15,7 @@ const props = withDefaults(defineProps<UiSelectItemProps>(), {
   disabled: false,
 });
 
-const select = inject<{
-  modelValue: ComputedRef<string>;
-  focusedIndex: Ref<number>;
-  items: Ref<{ value: string; label: string; disabled: boolean }[]>;
-  registerItem: (value: string, label: string, disabled: boolean) => void;
-  unregisterItem: (value: string) => void;
-  selectItem: (value: string) => void;
-}>('select')!;
+const select = inject(SELECT_KEY)!;
 
 const isSelected = computed(() => select.modelValue.value === props.value);
 

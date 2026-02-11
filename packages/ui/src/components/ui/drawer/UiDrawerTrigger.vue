@@ -9,7 +9,14 @@ const drawer = inject(DRAWER_KEY)!;
 </script>
 
 <template>
-  <div class="inline-flex" @click="drawer.toggle()">
+  <div
+    class="inline-flex outline-none"
+    role="button"
+    tabindex="0"
+    @click="drawer.toggle()"
+    @keydown.enter.prevent="drawer.toggle()"
+    @keydown.space.prevent="drawer.toggle()"
+  >
     <slot />
   </div>
 </template>

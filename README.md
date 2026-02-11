@@ -11,6 +11,10 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 - **Polimórfico** — renderiza como `<button>`, `<a>`, o cualquier componente
 - **Override de clases** — sobrescribe cualquier estilo con Tailwind gracias a `tailwind-merge`
 - **Tipos incluidos** — `.d.ts` generados automáticamente
+- **Accesible** — roles ARIA, `tabindex`, navegación por teclado (`Enter`/`Space`/`Arrow`) en todos los componentes interactivos
+- **Type-safe provide/inject** — todos los componentes compuestos usan `InjectionKey<T>` con `Symbol()` para seguridad de tipos completa
+- **Rendimiento optimizado** — listeners globales (`document.addEventListener`) solo activos cuando el componente lo requiere (ej: menú abierto)
+- **i18n-ready** — sin texto hardcodeado en el DOM; todos los aria-labels en inglés neutral, overrideable vía props o slots
 
 ---
 
@@ -830,9 +834,9 @@ import { Select, SelectItem } from '@3df/ui';
 
 | Prop          | Tipo      | Default                   | Descripción                   |
 | ------------- | --------- | ------------------------- | ----------------------------- |
-| `modelValue`  | `string`  | `''`                      | Valor seleccionado (v-model)  |
-| `placeholder` | `string`  | `'Selecciona una opción'` | Texto cuando no hay selección |
-| `disabled`    | `boolean` | `false`                   | Deshabilita el select         |
+| `modelValue`  | `string`  | `''`                  | Valor seleccionado (v-model)  |
+| `placeholder` | `string`  | `'Select an option'`  | Texto cuando no hay selección |
+| `disabled`    | `boolean` | `false`               | Deshabilita el select         |
 
 #### Props — SelectItem
 
@@ -925,6 +929,8 @@ import { Checkbox } from '@3df/ui';
 | `indeterminate` | `boolean` | `false` | Estado indeterminado (parcial) |
 
 > Acepta todos los atributos nativos de `<input type="checkbox">` (`id`, `disabled`, `name`, etc.) vía `$attrs`.
+>
+> Cuando `indeterminate` es `true` y `modelValue` es `false`, el input nativo recibe `aria-checked="mixed"` para lectores de pantalla.
 
 #### Uso básico
 
@@ -5616,7 +5622,7 @@ const isOpen = ref(false);
 </script>
 
 <template>
-  <button @click="isOpen = !isOpen">{{ isOpen ? 'Cerrar' : 'Abrir' }}</button>
+  <button @click="isOpen = !isOpen">{{ isOpen ? 'Close' : 'Open' }}</button>
   <Collapsible v-model:open="isOpen">
     <CollapsibleTrigger>
       <Button variant="ghost">Toggle</Button>
@@ -5647,6 +5653,7 @@ const isOpen = ref(false);
 ### Accesibilidad
 
 - `aria-expanded` en el trigger refleja el estado.
+- `aria-controls` en el trigger vinculado al `id` del contenido — permite que lectores de pantalla salten directamente al panel.
 - `role="region"` en el contenido.
 - `data-state="open"` / `data-state="closed"` para estilizado condicional.
 - `data-disabled` y atributo `disabled` cuando está deshabilitado.
@@ -6522,6 +6529,58 @@ export { inputVariants } from './components/ui/inputs/input-variants';
 - Las variantes CVA van en archivos separados `[nombre]-variants.ts`
 - Los componentes usan `inheritAttrs: false` y manejan attrs manualmente
 - Clases de Tailwind se aplican vía `cn()` para permitir overrides del consumidor
+- Los tipos de contexto provide/inject van en `[nombre]-types.ts` con `InjectionKey<T>` + `Symbol()`
+- Triggers interactivos (`<div @click>`) siempre llevan `role="button"`, `tabindex="0"`, `@keydown.enter.prevent` y `@keydown.space.prevent`
+- Aria-labels y textos accesibles en inglés neutral (el consumidor puede sobreescribir vía props/slots)
+- Listeners globales (`document.addEventListener`) solo se registran cuando el componente está activo (ej: menú abierto)
+
+### Patrón provide/inject (componentes compuestos)
+
+Los componentes que forman familias (ej: `DropdownMenu` + `DropdownMenuTrigger` + `DropdownMenuContent`) usan `provide`/`inject` con `InjectionKey<T>` typed para compartir estado:
+
+```ts
+// dropdown-menu-types.ts
+import type { InjectionKey, Ref } from 'vue';
+
+export interface DropdownMenuContext {
+  isOpen: Ref<boolean>;
+  toggle: () => void;
+  // ...
+}
+
+export const DROPDOWN_MENU_KEY: InjectionKey<DropdownMenuContext> = Symbol('dropdown-menu');
+```
+
+```vue
+<!-- En el root: provide -->
+<script setup lang="ts">
+import { provide } from 'vue';
+import { DROPDOWN_MENU_KEY } from './dropdown-menu-types';
+
+provide(DROPDOWN_MENU_KEY, { isOpen, toggle, /* ... */ });
+</script>
+```
+
+```vue
+<!-- En hijos: inject -->
+<script setup lang="ts">
+import { inject } from 'vue';
+import { DROPDOWN_MENU_KEY } from './dropdown-menu-types';
+
+const menu = inject(DROPDOWN_MENU_KEY)!; // ← tipo inferido automáticamente
+</script>
+```
+
+Todos los `InjectionKey` y sus interfaces de contexto se exportan desde `@3df/ui` para que el consumidor pueda acceder al contexto si lo necesita:
+
+```ts
+import {
+  DROPDOWN_MENU_KEY, type DropdownMenuContext,
+  TOOLTIP_KEY, type TooltipContext,
+  POPOVER_KEY, type PopoverContext,
+  SELECT_KEY, type SelectContext,
+} from '@3df/ui';
+```
 
 ---
 

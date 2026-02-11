@@ -59,6 +59,7 @@ function onTransitionEnd() {
   <div
     ref="contentRef"
     v-bind="restAttrs"
+    :id="ctx.contentId"
     role="region"
     :data-state="ctx.isOpen.value ? 'open' : 'closed'"
     :style="{

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   type CSSProperties,
-  type Ref,
   computed,
   inject,
   nextTick,
@@ -14,6 +13,7 @@ import {
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
+import { DROPDOWN_MENU_KEY } from './dropdown-menu-types';
 
 defineOptions({ name: 'UiDropdownMenuContent', inheritAttrs: false });
 
@@ -36,13 +36,7 @@ const props = withDefaults(defineProps<UiDropdownMenuContentProps>(), {
   viewportPadding: 8,
 });
 
-const menu = inject<{
-  isOpen: Ref<boolean>;
-  triggerRef: Ref<HTMLElement | undefined>;
-  contentRef: Ref<HTMLElement | undefined>;
-  triggerId: string;
-  close: () => void;
-}>('dropdown-menu')!;
+const menu = inject(DROPDOWN_MENU_KEY)!;
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {
   type CSSProperties,
-  type Ref,
   computed,
   inject,
   nextTick,
@@ -14,6 +13,7 @@ import {
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
+import { TOOLTIP_KEY } from './tooltip-types';
 
 defineOptions({ name: 'UiTooltipContent', inheritAttrs: false });
 
@@ -34,14 +34,7 @@ const props = withDefaults(defineProps<UiTooltipContentProps>(), {
   viewportPadding: 8,
 });
 
-const tooltip = inject<{
-  isOpen: Ref<boolean>;
-  triggerRef: Ref<HTMLElement | undefined>;
-  contentRef: Ref<HTMLElement | undefined>;
-  tooltipId: string;
-  close: () => void;
-  cancelClose: () => void;
-}>('tooltip')!;
+const tooltip = inject(TOOLTIP_KEY)!;
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 

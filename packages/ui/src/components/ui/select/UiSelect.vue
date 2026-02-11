@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, provide, ref, useAttrs, watch } from 'vue';
+import { computed, onBeforeUnmount, provide, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
+import { SELECT_KEY } from './select-types';
 
 defineOptions({ name: 'UiSelect', inheritAttrs: false });
 
@@ -15,7 +16,7 @@ interface UiSelectProps {
 
 const props = withDefaults(defineProps<UiSelectProps>(), {
   modelValue: '',
-  placeholder: 'Selecciona una opción',
+  placeholder: 'Select an option',
   disabled: false,
 });
 
@@ -65,7 +66,7 @@ function selectItem(value: string) {
   triggerRef.value?.focus();
 }
 
-provide('select', {
+provide(SELECT_KEY, {
   modelValue: computed(() => props.modelValue),
   focusedIndex,
   items,
@@ -167,13 +168,11 @@ watch(isOpen, (open) => {
   if (open) {
     const selectedIdx = items.value.findIndex((i) => i.value === props.modelValue);
     focusedIndex.value = selectedIdx >= 0 ? selectedIdx : 0;
+    document.addEventListener('click', onClickOutside, true);
   } else {
     focusedIndex.value = -1;
+    document.removeEventListener('click', onClickOutside, true);
   }
-});
-
-onMounted(() => {
-  document.addEventListener('click', onClickOutside, true);
 });
 
 onBeforeUnmount(() => {

@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { type Ref, inject, ref, watchEffect } from 'vue';
+import { inject, ref, watchEffect } from 'vue';
+
+import { TOOLTIP_KEY } from './tooltip-types';
 
 defineOptions({ name: 'UiTooltipTrigger' });
 
-const tooltip = inject<{
-  isOpen: Ref<boolean>;
-  triggerRef: Ref<HTMLElement | undefined>;
-  tooltipId: string;
-  open: () => void;
-  close: () => void;
-}>('tooltip')!;
+const tooltip = inject(TOOLTIP_KEY)!;
 
 const el = ref<HTMLElement>();
 
@@ -24,6 +20,7 @@ watchEffect(() => {
   <div
     ref="el"
     class="inline-flex outline-none"
+    tabindex="0"
     :aria-describedby="tooltip.isOpen.value ? tooltip.tooltipId : undefined"
     @mouseenter="tooltip.open()"
     @mouseleave="tooltip.close()"
