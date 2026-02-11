@@ -98,6 +98,12 @@ const router = createRouter({
           name: 'MySheet',
           component: () => import('@/modules/ui/views/MySheet.vue'),
         },
+
+        {
+          path: '/separator',
+          name: 'MySeparator',
+          component: () => import('@/modules/ui/views/MySeparator.vue'),
+        },
       ],
     },
   ],

@@ -42,6 +42,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Skeleton](#skeleton)
   - [Sidebar](#sidebar)
   - [Sheet](#sheet)
+  - [Separator](#separator)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -3683,6 +3684,100 @@ const classes = sheetVariants({ side: 'left' });
 
 ---
 
+## Separator
+
+Divisor visual para separar secciones de contenido. Soporta orientación horizontal y vertical, uso semántico y decorativo.
+
+### Importación
+
+```ts
+import { Separator } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <div class="space-y-1">
+    <h3 class="text-sm font-medium">Radix Primitives</h3>
+    <p class="text-muted-foreground text-sm">
+      Componentes UI accesibles y sin estilos.
+    </p>
+  </div>
+  <Separator class="my-4" />
+  <div class="flex h-5 items-center gap-4 text-sm">
+    <span>Blog</span>
+    <Separator orientation="vertical" />
+    <span>Docs</span>
+    <Separator orientation="vertical" />
+    <span>Source</span>
+  </div>
+</template>
+```
+
+### Orientación
+
+| Orientación    | Clases resultantes | Uso                                  |
+| -------------- | ------------------ | ------------------------------------ |
+| `horizontal`   | `h-px w-full`      | Separar secciones verticalmente      |
+| `vertical`     | `h-full w-px`      | Separar elementos en línea (inline)  |
+
+### Decorativo vs Semántico
+
+- **Semántico** (default): renderiza con `role="separator"` y `aria-orientation`. Apropiado cuando el separador marca una división lógica del contenido.
+- **Decorativo** (`decorative`): renderiza con `role="none"`. Apropiado cuando es puramente visual y no aporta información al usuario de lector de pantalla.
+
+```vue
+<template>
+  <!-- Semántico (accesible para screen readers) -->
+  <Separator />
+
+  <!-- Decorativo (ignorado por screen readers) -->
+  <Separator decorative />
+</template>
+```
+
+### Props
+
+| Prop          | Tipo                              | Default        | Descripción                                  |
+| ------------- | --------------------------------- | -------------- | -------------------------------------------- |
+| `orientation` | `'horizontal' \| 'vertical'`    | `'horizontal'` | Dirección del separador                      |
+| `decorative`  | `boolean`                         | `false`        | Si es `true`, usa `role="none"` en vez de `role="separator"` |
+
+> Acepta todos los atributos nativos de `<div>` vía `$attrs`, incluyendo `class` para override de estilos.
+
+### Estilo visual
+
+| Propiedad    | Valor              |
+| ------------ | ------------------ |
+| Background   | `bg-border`        |
+| Horizontal   | `h-px w-full`      |
+| Vertical     | `h-full w-px`      |
+
+### Override de estilos
+
+```vue
+<template>
+  <!-- Más grueso -->
+  <Separator class="h-0.5" />
+
+  <!-- Color personalizado -->
+  <Separator class="bg-primary" />
+
+  <!-- Dashed -->
+  <Separator class="h-0 border-t border-dashed border-border bg-transparent" />
+</template>
+```
+
+### Accesibilidad
+
+- `role="separator"` por defecto (semántico).
+- `aria-orientation` refleja la orientación actual.
+- `role="none"` cuando `decorative` es `true` (ignorado por lectores de pantalla).
+- `data-orientation` siempre presente para targeting CSS.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -3849,6 +3944,8 @@ packages/ui/
 │   │       ├── UiSheetTitle.vue          # Título accesible (polimórfico)
 │   │       ├── UiSheetDescription.vue    # Descripción accesible
 │   │       └── UiSheetClose.vue          # Botón para cerrar
+│   │   └── separator/
+│   │       └── UiSeparator.vue           # Separador horizontal/vertical
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

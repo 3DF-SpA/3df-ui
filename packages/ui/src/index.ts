@@ -103,3 +103,6 @@ export { default as SheetDescription } from './components/ui/sheet/UiSheetDescri
 export { default as SheetClose } from './components/ui/sheet/UiSheetClose.vue';
 export { sheetVariants, type SheetSide } from './components/ui/sheet/sheet-variants';
 export type { SheetContext } from './components/ui/sheet/sheet-types';
+
+// Separator
+export { default as Separator } from './components/ui/separator/UiSeparator.vue';
