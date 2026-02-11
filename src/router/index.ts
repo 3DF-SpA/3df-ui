@@ -128,6 +128,12 @@ const router = createRouter({
           name: 'MyNavigationMenu',
           component: () => import('@/modules/ui/views/MyNavigationMenu.vue'),
         },
+
+        {
+          path: '/menubar',
+          name: 'MyMenubar',
+          component: () => import('@/modules/ui/views/MyMenubar.vue'),
+        },
       ],
     },
   ],

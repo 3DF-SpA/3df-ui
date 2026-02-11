@@ -130,3 +130,25 @@ export { default as NavigationMenuTrigger } from './components/ui/navigation-men
 export { default as NavigationMenuContent } from './components/ui/navigation-menu/UiNavigationMenuContent.vue';
 export { default as NavigationMenuLink } from './components/ui/navigation-menu/UiNavigationMenuLink.vue';
 export { default as NavigationMenuViewport } from './components/ui/navigation-menu/UiNavigationMenuViewport.vue';
+
+// Menubar
+export { default as Menubar } from './components/ui/menubar/UiMenubar.vue';
+export { default as MenubarMenu } from './components/ui/menubar/UiMenubarMenu.vue';
+export { default as MenubarTrigger } from './components/ui/menubar/UiMenubarTrigger.vue';
+export { default as MenubarContent } from './components/ui/menubar/UiMenubarContent.vue';
+export { default as MenubarItem } from './components/ui/menubar/UiMenubarItem.vue';
+export { default as MenubarCheckboxItem } from './components/ui/menubar/UiMenubarCheckboxItem.vue';
+export { default as MenubarRadioGroup } from './components/ui/menubar/UiMenubarRadioGroup.vue';
+export { default as MenubarRadioItem } from './components/ui/menubar/UiMenubarRadioItem.vue';
+export { default as MenubarSub } from './components/ui/menubar/UiMenubarSub.vue';
+export { default as MenubarSubTrigger } from './components/ui/menubar/UiMenubarSubTrigger.vue';
+export { default as MenubarSubContent } from './components/ui/menubar/UiMenubarSubContent.vue';
+export { default as MenubarSeparator } from './components/ui/menubar/UiMenubarSeparator.vue';
+export { default as MenubarLabel } from './components/ui/menubar/UiMenubarLabel.vue';
+export { default as MenubarShortcut } from './components/ui/menubar/UiMenubarShortcut.vue';
+export type {
+  MenubarContext,
+  MenubarMenuContext,
+  MenubarSubContext,
+  MenubarItemData,
+} from './components/ui/menubar/menubar-types';

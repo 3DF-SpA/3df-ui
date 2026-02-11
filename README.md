@@ -47,6 +47,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Progress](#progress)
   - [Pagination](#pagination)
   - [Navigation Menu](#navigation-menu)
+  - [Menubar](#menubar)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -4244,6 +4245,185 @@ Combina múltiples triggers con layouts de grid para paneles ricos:
 
 ---
 
+## Menubar
+
+Barra de menú estilo aplicación desktop con sub-componentes compound. Soporte completo de teclado (navegación entre menús con flechas), checkboxes, radio groups, sub-menús anidados y atajos de teclado. Sigue el patrón WAI-ARIA menubar.
+
+### Importación
+
+```ts
+import {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarCheckboxItem,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarLabel,
+  MenubarSub,
+  MenubarSubTrigger,
+  MenubarSubContent,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Menubar>
+    <MenubarMenu value="file">
+      <MenubarTrigger>File</MenubarTrigger>
+      <MenubarContent>
+        <MenubarItem @select="onNewTab">
+          New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+        </MenubarItem>
+        <MenubarItem @select="onNewWindow">
+          New Window <MenubarShortcut>⌘N</MenubarShortcut>
+        </MenubarItem>
+        <MenubarItem disabled>New Incognito Window</MenubarItem>
+        <MenubarSeparator />
+        <MenubarItem @select="onPrint">
+          Print… <MenubarShortcut>⌘P</MenubarShortcut>
+        </MenubarItem>
+      </MenubarContent>
+    </MenubarMenu>
+
+    <MenubarMenu value="edit">
+      <MenubarTrigger>Edit</MenubarTrigger>
+      <MenubarContent>
+        <MenubarItem>Undo <MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
+        <MenubarItem>Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut></MenubarItem>
+      </MenubarContent>
+    </MenubarMenu>
+  </Menubar>
+</template>
+```
+
+### Con sub-menús, checkboxes y radio groups
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+const showBookmarks = ref(true);
+const showFullUrls = ref(false);
+const selectedProfile = ref('benoit');
+</script>
+
+<template>
+  <Menubar>
+    <!-- Menú con sub-menú anidado -->
+    <MenubarMenu value="file">
+      <MenubarTrigger>File</MenubarTrigger>
+      <MenubarContent>
+        <MenubarItem>New Tab <MenubarShortcut>⌘T</MenubarShortcut></MenubarItem>
+        <MenubarSeparator />
+        <MenubarSub>
+          <MenubarSubTrigger>Share</MenubarSubTrigger>
+          <MenubarSubContent>
+            <MenubarItem>Email Link</MenubarItem>
+            <MenubarItem>Messages</MenubarItem>
+            <MenubarItem>Notes</MenubarItem>
+          </MenubarSubContent>
+        </MenubarSub>
+        <MenubarSeparator />
+        <MenubarItem>Print… <MenubarShortcut>⌘P</MenubarShortcut></MenubarItem>
+      </MenubarContent>
+    </MenubarMenu>
+
+    <!-- Menú con checkbox items -->
+    <MenubarMenu value="view">
+      <MenubarTrigger>View</MenubarTrigger>
+      <MenubarContent>
+        <MenubarCheckboxItem v-model:checked="showBookmarks">
+          Always Show Bookmarks Bar
+        </MenubarCheckboxItem>
+        <MenubarCheckboxItem v-model:checked="showFullUrls">
+          Always Show Full URLs
+        </MenubarCheckboxItem>
+        <MenubarSeparator />
+        <MenubarItem inset>Reload <MenubarShortcut>⌘R</MenubarShortcut></MenubarItem>
+      </MenubarContent>
+    </MenubarMenu>
+
+    <!-- Menú con radio group -->
+    <MenubarMenu value="profiles">
+      <MenubarTrigger>Profiles</MenubarTrigger>
+      <MenubarContent>
+        <MenubarRadioGroup v-model="selectedProfile">
+          <MenubarLabel inset>People</MenubarLabel>
+          <MenubarSeparator />
+          <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
+          <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
+          <MenubarRadioItem value="luis">Luis</MenubarRadioItem>
+        </MenubarRadioGroup>
+        <MenubarSeparator />
+        <MenubarItem inset>Edit… <MenubarShortcut>⌘E</MenubarShortcut></MenubarItem>
+      </MenubarContent>
+    </MenubarMenu>
+  </Menubar>
+</template>
+```
+
+### Componentes
+
+| Componente             | Elemento   | Props                           | Descripción                                          |
+| ---------------------- | ---------- | ------------------------------- | ---------------------------------------------------- |
+| `Menubar`              | `<div>`    | `class`                         | Root wrapper. role="menubar", gestiona menú activo     |
+| `MenubarMenu`          | `<div>`    | `value`, `class`                | Envuelve trigger + content. Registra menú con el root |
+| `MenubarTrigger`       | `<button>` | `class`                         | Botón en la barra. Hover switching inteligente        |
+| `MenubarContent`       | `<div>`    | `align`, `side`, `sideOffset`   | Panel flotante (Teleport + fixed positioning)         |
+| `MenubarItem`          | `<div>`    | `disabled`, `inset`, `class`    | Ítem clickeable. Emite `select`                       |
+| `MenubarCheckboxItem`  | `<div>`    | `checked`, `disabled`, `class`  | Ítem toggle con icono check. `v-model:checked`        |
+| `MenubarRadioGroup`    | `<div>`    | `modelValue`, `class`           | Grupo radio. `v-model` para selección                 |
+| `MenubarRadioItem`     | `<div>`    | `value`, `disabled`, `class`    | Opción radio con indicador circular                   |
+| `MenubarSub`           | `<div>`    | —                               | Wrapper para sub-menú anidado                         |
+| `MenubarSubTrigger`    | `<div>`    | `disabled`, `inset`, `class`    | Abre sub-menú al hover o ➡️. Muestra chevron          |
+| `MenubarSubContent`    | `<div>`    | `sideOffset`, `class`           | Panel del sub-menú (posición lateral)                 |
+| `MenubarSeparator`     | `<div>`    | `class`                         | Línea divisoria horizontal                            |
+| `MenubarLabel`         | `<div>`    | `inset`, `class`                | Encabezado de sección (no interactivo)                |
+| `MenubarShortcut`      | `<span>`   | `class`                         | Texto de atajo alineado a la derecha                  |
+
+### Props detalladas — MenubarContent
+
+| Prop              | Tipo                       | Default    | Descripción                                |
+| ----------------- | -------------------------- | ---------- | ------------------------------------------ |
+| `align`           | `'start' \| 'center' \| 'end'` | `'start'`  | Alineación horizontal respecto al trigger   |
+| `side`            | `'top' \| 'bottom'`        | `'bottom'` | Lado preferido (auto-flip si no hay espacio)|
+| `sideOffset`      | `number`                   | `4`        | Gap en px entre trigger y content           |
+| `viewportPadding` | `number`                   | `8`        | Distancia mínima del borde del viewport     |
+
+### Interacción y teclado
+
+| Acción                | Comportamiento                                                 |
+| --------------------- | -------------------------------------------------------------- |
+| Click trigger         | Abre/cierra el menú correspondiente                            |
+| Hover trigger (abierto)| Si otro menú está abierto, cambia al menú hover              |
+| Arrow Down / Up       | Navega entre los ítems del menú actual                         |
+| Arrow Right           | Si el ítem es sub-trigger: abre sub-menú. Si no: siguiente menú|
+| Arrow Left            | Si en sub-menú: cierra sub. Si no: menú anterior               |
+| Enter / Space         | Activa el ítem enfocado (o abre sub-menú)                      |
+| Escape                | Cierra el menú (o sub-menú si está abierto)                    |
+| Home / End            | Salta al primer/último ítem habilitado                         |
+| Click outside         | Cierra todos los menús                                         |
+
+### Accesibilidad
+
+- Root con `role="menubar"`.
+- Triggers con `role="menuitem"`, `aria-expanded`, `aria-haspopup="menu"`, `data-state`.
+- Content con `role="menu"`, `aria-labelledby` apuntando al trigger.
+- Ítems con `role="menuitem"`, `aria-disabled` cuando deshabilitados.
+- Checkbox items con `role="menuitemcheckbox"`, `aria-checked`.
+- Radio items con `role="menuitemradio"`, `aria-checked`.
+- Sub-triggers con `aria-haspopup="menu"`, `aria-expanded`.
+- Navegación completa por teclado sin necesidad de mouse.
+- Focus ring visible en triggers.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -4433,6 +4613,22 @@ packages/ui/
 │   │       ├── UiNavigationMenuContent.vue # Panel desplegable (Teleport)
 │   │       ├── UiNavigationMenuLink.vue    # Link estilizado (polimórfico)
 │   │       └── UiNavigationMenuViewport.vue# Contenedor de posicionamiento
+│   │   └── menubar/
+│   │       ├── menubar-types.ts             # Tipos, InjectionKeys
+│   │       ├── UiMenubar.vue                # Root menubar (role="menubar")
+│   │       ├── UiMenubarMenu.vue            # Wrapper menú individual
+│   │       ├── UiMenubarTrigger.vue         # Botón trigger en la barra
+│   │       ├── UiMenubarContent.vue         # Panel flotante (Teleport)
+│   │       ├── UiMenubarItem.vue            # Ítem clickeable
+│   │       ├── UiMenubarCheckboxItem.vue    # Ítem checkbox toggle
+│   │       ├── UiMenubarRadioGroup.vue      # Grupo radio
+│   │       ├── UiMenubarRadioItem.vue       # Opción radio
+│   │       ├── UiMenubarSub.vue             # Wrapper sub-menú
+│   │       ├── UiMenubarSubTrigger.vue      # Trigger de sub-menú
+│   │       ├── UiMenubarSubContent.vue      # Panel lateral sub-menú
+│   │       ├── UiMenubarSeparator.vue       # Divisor
+│   │       ├── UiMenubarLabel.vue           # Encabezado de sección
+│   │       └── UiMenubarShortcut.vue        # Texto de atajo
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
