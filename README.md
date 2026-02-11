@@ -52,6 +52,9 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Item](#item)
   - [Input OTP](#input-otp)
   - [Hover Card](#hover-card)
+  - [Empty State](#empty-state)
+  - [Drawer](#drawer)
+  - [Dialog](#dialog)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -4920,6 +4923,232 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
 
 ---
 
+## Empty State
+
+Componente reutilizable para estados vacíos. Layout centrado vertical y horizontalmente con slots para icono, título, descripción y acciones (botones). Ideal para "sin resultados", "carrito vacío", "sin datos", etc.
+
+### Importación
+
+```ts
+import { EmptyState } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <EmptyState
+    title="No se encontraron resultados"
+    description="Intenta ajustar los filtros o crea un nuevo elemento."
+  >
+    <template #icon>
+      <SearchIcon class="size-12" />
+    </template>
+    <Button variant="outline" size="sm">Limpiar filtros</Button>
+    <Button size="sm">Crear nuevo</Button>
+  </EmptyState>
+</template>
+```
+
+### Props — EmptyState
+
+| Prop          | Tipo     | Default     | Descripción                      |
+| ------------- | -------- | ----------- | -------------------------------- |
+| `title`       | `string` | `undefined` | Texto del encabezado             |
+| `description` | `string` | `undefined` | Texto descriptivo (muted)        |
+
+### Slots — EmptyState
+
+| Slot          | Descripción                                          |
+| ------------- | ---------------------------------------------------- |
+| `icon`        | Icono grande centrado (se aplica `size-12` al SVG)   |
+| `title`       | Contenido personalizado del título                   |
+| `description` | Contenido personalizado de la descripción            |
+| `default`     | Acciones (botones) renderizados debajo               |
+
+---
+
+## Drawer
+
+Componente bottom-sheet arrastrable para acciones contextuales, especialmente útil como alternativa móvil a Dialogs. Implementación pura Vue con gestos de pointer (drag-to-close), snap threshold configurable, overlay, focus trap y animaciones suaves.
+
+### Importación
+
+```ts
+import {
+  Drawer, DrawerTrigger, DrawerContent,
+  DrawerHeader, DrawerFooter,
+  DrawerTitle, DrawerDescription,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Drawer>
+    <DrawerTrigger>
+      <Button variant="outline">Abrir Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerHeader>
+        <DrawerTitle>Editar perfil</DrawerTitle>
+        <DrawerDescription>Realiza cambios en tu perfil.</DrawerDescription>
+      </DrawerHeader>
+      <div class="p-4">Contenido del drawer</div>
+      <DrawerFooter>
+        <Button>Guardar cambios</Button>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
+</template>
+```
+
+### Controlado (v-model)
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+const open = ref(false);
+</script>
+
+<template>
+  <Button @click="open = true">Abrir</Button>
+  <Drawer v-model:open="open">
+    <DrawerContent>
+      <DrawerHeader>
+        <DrawerTitle>Controlado</DrawerTitle>
+      </DrawerHeader>
+    </DrawerContent>
+  </Drawer>
+</template>
+```
+
+### Componentes
+
+| Componente          | Elemento | Descripción                                              |
+| ------------------- | -------- | -------------------------------------------------------- |
+| `Drawer`            | slot     | Provider de estado (v-model:open, Escape)                |
+| `DrawerTrigger`     | `<div>`  | Abre/cierra el drawer                                    |
+| `DrawerContent`     | `<div>`  | Panel inferior (Teleport, drag, overlay, focus trap)     |
+| `DrawerHeader`      | `<div>`  | Zona de título/descripción (`grid gap-1.5 p-4`)          |
+| `DrawerFooter`      | `<div>`  | Zona de acciones (`mt-auto flex flex-col gap-2`)         |
+| `DrawerTitle`       | `<h2>`   | Título accesible (aria-labelledby)                       |
+| `DrawerDescription` | `<p>`    | Descripción accesible (aria-describedby)                 |
+
+### Props — DrawerContent
+
+| Prop                 | Tipo      | Default | Descripción                                  |
+| -------------------- | --------- | ------- | -------------------------------------------- |
+| `showClose`          | `boolean` | `true`  | Mostrar botón de cierre (×)                  |
+| `dragCloseThreshold` | `number`  | `0.4`   | Porcentaje de drag necesario para cerrar (0-1) |
+
+### Accesibilidad
+
+- `role="dialog"` con `aria-modal="true"`.
+- `aria-labelledby` / `aria-describedby` vinculados automáticamente.
+- Focus trap con Tab/Shift+Tab.
+- Cierre con Escape.
+- Drag handle visible con `cursor-grab` / `cursor-grabbing`.
+- Restaura el foco al trigger al cerrar.
+
+---
+
+## Dialog
+
+Componente modal centrado con overlay con blur de fondo. Implementación pura Vue con focus trap, cierre por Escape y overlay click, animaciones scale+fade, y sub-componentes composables.
+
+### Importación
+
+```ts
+import {
+  Dialog, DialogTrigger, DialogContent,
+  DialogHeader, DialogFooter,
+  DialogTitle, DialogDescription, DialogClose,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Dialog>
+    <DialogTrigger>
+      <Button variant="outline">Editar perfil</Button>
+    </DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Editar perfil</DialogTitle>
+        <DialogDescription>Realiza cambios en tu perfil aquí.</DialogDescription>
+      </DialogHeader>
+      <div class="py-4">Contenido del dialog</div>
+      <DialogFooter>
+        <DialogClose>
+          <Button variant="outline">Cancelar</Button>
+        </DialogClose>
+        <Button>Guardar</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</template>
+```
+
+### Confirmación destructiva
+
+```vue
+<template>
+  <Dialog>
+    <DialogTrigger>
+      <Button variant="destructive">Eliminar</Button>
+    </DialogTrigger>
+    <DialogContent class="max-w-md">
+      <DialogHeader>
+        <DialogTitle>¿Estás seguro?</DialogTitle>
+        <DialogDescription>
+          Esta acción no se puede deshacer.
+        </DialogDescription>
+      </DialogHeader>
+      <DialogFooter>
+        <DialogClose><Button variant="outline">Cancelar</Button></DialogClose>
+        <Button variant="destructive">Eliminar</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</template>
+```
+
+### Componentes
+
+| Componente          | Elemento | Descripción                                           |
+| ------------------- | -------- | ----------------------------------------------------- |
+| `Dialog`            | slot     | Provider de estado (v-model:open, Escape)             |
+| `DialogTrigger`     | `<div>`  | Abre/cierra el dialog                                 |
+| `DialogContent`     | `<div>`  | Panel centrado (Teleport, overlay blur, focus trap)   |
+| `DialogHeader`      | `<div>`  | Zona de título/descripción                            |
+| `DialogFooter`      | `<div>`  | Zona de acciones (responsive: col en mobile, row en desktop) |
+| `DialogTitle`       | `<h2>`   | Título accesible (aria-labelledby)                    |
+| `DialogDescription` | `<p>`    | Descripción accesible (aria-describedby)              |
+| `DialogClose`       | `<div>`  | Cierra el dialog al hacer click en su contenido       |
+
+### Props — DialogContent
+
+| Prop             | Tipo      | Default | Descripción                                |
+| ---------------- | --------- | ------- | ------------------------------------------ |
+| `showClose`      | `boolean` | `true`  | Mostrar botón de cierre (×)                |
+| `closeOnOverlay` | `boolean` | `true`  | Cerrar al hacer click en el overlay        |
+
+### Accesibilidad
+
+- `role="dialog"` con `aria-modal="true"`.
+- Overlay con `backdrop-blur-sm` para separación visual.
+- Focus trap completo con Tab/Shift+Tab.
+- Cierre con Escape (capture phase, `stopPropagation`).
+- `aria-labelledby` / `aria-describedby` vinculados automáticamente.
+- Restaura el foco al trigger al cerrar.
+- Animación `scale-95 opacity-0` → `scale-100 opacity-100`.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -5144,6 +5373,27 @@ packages/ui/
 │   │       ├── UiHoverCard.vue                # Root provider (delays, open/close)
 │   │       ├── UiHoverCardTrigger.vue         # Zona de activación (hover + focus)
 │   │       └── UiHoverCardContent.vue         # Panel flotante (Teleport + posición)
+│   │   └── empty-state/
+│   │       └── UiEmptyState.vue               # Layout centrado (icon + text + actions)
+│   │   └── drawer/
+│   │       ├── drawer-types.ts                # Tipos, InjectionKey
+│   │       ├── UiDrawer.vue                   # Provider de estado (v-model:open)
+│   │       ├── UiDrawerTrigger.vue            # Botón trigger
+│   │       ├── UiDrawerContent.vue            # Panel inferior (drag, overlay, focus trap)
+│   │       ├── UiDrawerHeader.vue             # Zona de título
+│   │       ├── UiDrawerFooter.vue             # Zona de acciones
+│   │       ├── UiDrawerTitle.vue              # Título accesible
+│   │       └── UiDrawerDescription.vue        # Descripción accesible
+│   │   └── dialog/
+│   │       ├── dialog-types.ts                # Tipos, InjectionKey
+│   │       ├── UiDialog.vue                   # Provider de estado (v-model:open)
+│   │       ├── UiDialogTrigger.vue            # Botón trigger
+│   │       ├── UiDialogContent.vue            # Panel centrado (blur overlay, focus trap)
+│   │       ├── UiDialogHeader.vue             # Zona de título
+│   │       ├── UiDialogFooter.vue             # Zona de acciones (responsive)
+│   │       ├── UiDialogTitle.vue              # Título accesible
+│   │       ├── UiDialogDescription.vue        # Descripción accesible
+│   │       └── UiDialogClose.vue              # Cierra el dialog
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

@@ -158,6 +158,24 @@ const router = createRouter({
           name: 'MyHoverCard',
           component: () => import('@/modules/ui/views/MyHoverCard.vue'),
         },
+
+        {
+          path: '/empty',
+          name: 'MyEmpty',
+          component: () => import('@/modules/ui/views/MyEmpty.vue'),
+        },
+
+        {
+          path: '/drawer',
+          name: 'MyDrawer',
+          component: () => import('@/modules/ui/views/MyDrawer.vue'),
+        },
+
+        {
+          path: '/dialog',
+          name: 'MyDialog',
+          component: () => import('@/modules/ui/views/MyDialog.vue'),
+        },
       ],
     },
   ],

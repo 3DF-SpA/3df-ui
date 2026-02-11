@@ -181,3 +181,29 @@ export type {
   HoverCardAlign,
   HoverCardSide,
 } from './components/ui/hover-card/hover-card-types';
+
+// Empty State
+export { default as EmptyState } from './components/ui/empty-state/UiEmptyState.vue';
+
+// Drawer
+export { default as Drawer } from './components/ui/drawer/UiDrawer.vue';
+export { default as DrawerTrigger } from './components/ui/drawer/UiDrawerTrigger.vue';
+export { default as DrawerContent } from './components/ui/drawer/UiDrawerContent.vue';
+export { default as DrawerHeader } from './components/ui/drawer/UiDrawerHeader.vue';
+export { default as DrawerFooter } from './components/ui/drawer/UiDrawerFooter.vue';
+export { default as DrawerTitle } from './components/ui/drawer/UiDrawerTitle.vue';
+export { default as DrawerDescription } from './components/ui/drawer/UiDrawerDescription.vue';
+export { DRAWER_KEY } from './components/ui/drawer/drawer-types';
+export type { DrawerContext } from './components/ui/drawer/drawer-types';
+
+// Dialog
+export { default as Dialog } from './components/ui/dialog/UiDialog.vue';
+export { default as DialogTrigger } from './components/ui/dialog/UiDialogTrigger.vue';
+export { default as DialogContent } from './components/ui/dialog/UiDialogContent.vue';
+export { default as DialogHeader } from './components/ui/dialog/UiDialogHeader.vue';
+export { default as DialogFooter } from './components/ui/dialog/UiDialogFooter.vue';
+export { default as DialogTitle } from './components/ui/dialog/UiDialogTitle.vue';
+export { default as DialogDescription } from './components/ui/dialog/UiDialogDescription.vue';
+export { default as DialogClose } from './components/ui/dialog/UiDialogClose.vue';
+export { DIALOG_KEY } from './components/ui/dialog/dialog-types';
+export type { DialogContext } from './components/ui/dialog/dialog-types';
