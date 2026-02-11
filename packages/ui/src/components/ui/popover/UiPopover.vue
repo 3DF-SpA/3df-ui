@@ -1,14 +1,40 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, provide, ref } from 'vue';
+import { onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 
 defineOptions({ name: 'UiPopover' });
 
-const isOpen = ref(false);
+interface UiPopoverProps {
+  open?: boolean;
+  defaultOpen?: boolean;
+}
+
+const props = withDefaults(defineProps<UiPopoverProps>(), {
+  open: undefined,
+  defaultOpen: false,
+});
+
+const emit = defineEmits<{
+  'update:open': [value: boolean];
+}>();
+
+const isOpen = ref(props.defaultOpen);
+
+// Sync with optional v-model:open
+watch(
+  () => props.open,
+  (v) => {
+    if (v !== undefined) isOpen.value = v;
+  },
+);
+
+watch(isOpen, (v) => {
+  emit('update:open', v);
+});
 const triggerRef = ref<HTMLElement>();
 const contentRef = ref<HTMLElement>();
 const triggerId = `popover-trigger-${Math.random().toString(36).slice(2, 9)}`;
 
-function open() {
+function openPopover() {
   isOpen.value = true;
 }
 
@@ -22,7 +48,7 @@ function close() {
 
 function toggle() {
   if (isOpen.value) close();
-  else open();
+  else openPopover();
 }
 
 function onKeydown(event: KeyboardEvent) {
@@ -58,7 +84,7 @@ provide('popover', {
   contentRef,
   triggerId,
   toggle,
-  open,
+  open: openPopover,
   close,
 });
 </script>

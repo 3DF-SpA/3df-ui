@@ -238,3 +238,26 @@ export type {
   ContextMenuItemRegistration,
   ContextMenuRadioGroupContext,
 } from './components/ui/context-menu/context-menu-types';
+
+// Command
+export { default as Command } from './components/ui/command/UiCommand.vue';
+export { default as CommandDialog } from './components/ui/command/UiCommandDialog.vue';
+export { default as CommandInput } from './components/ui/command/UiCommandInput.vue';
+export { default as CommandList } from './components/ui/command/UiCommandList.vue';
+export { default as CommandEmpty } from './components/ui/command/UiCommandEmpty.vue';
+export { default as CommandGroup } from './components/ui/command/UiCommandGroup.vue';
+export { default as CommandItem } from './components/ui/command/UiCommandItem.vue';
+export { default as CommandShortcut } from './components/ui/command/UiCommandShortcut.vue';
+export { default as CommandSeparator } from './components/ui/command/UiCommandSeparator.vue';
+export { COMMAND_KEY } from './components/ui/command/command-types';
+export type { CommandContext } from './components/ui/command/command-types';
+
+// Combobox
+export { default as Combobox } from './components/ui/combobox/UiCombobox.vue';
+
+// Collapsible
+export { default as Collapsible } from './components/ui/collapsible/UiCollapsible.vue';
+export { default as CollapsibleTrigger } from './components/ui/collapsible/UiCollapsibleTrigger.vue';
+export { default as CollapsibleContent } from './components/ui/collapsible/UiCollapsibleContent.vue';
+export { COLLAPSIBLE_KEY } from './components/ui/collapsible/collapsible-types';
+export type { CollapsibleContext } from './components/ui/collapsible/collapsible-types';

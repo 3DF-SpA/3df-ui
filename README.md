@@ -58,6 +58,9 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Calendar](#calendar)
   - [DatePicker](#datepicker)
   - [Context Menu](#context-menu)
+  - [Command](#command)
+  - [Combobox](#combobox)
+  - [Collapsible](#collapsible)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -5414,6 +5417,238 @@ import {
 
 ---
 
+## Command
+
+Paleta de comandos estilo cmdk/Spotlight. Implementación pura Vue con filtrado por búsqueda, navegación por teclado completa (Arrow, Home/End, Enter), registro dinámico de items y soporte para keywords adicionales de búsqueda. Incluye versión Dialog con atajo global ⌘K/Ctrl+K.
+
+### Importación
+
+```ts
+import {
+  Command, CommandDialog, CommandInput, CommandList,
+  CommandEmpty, CommandGroup, CommandItem,
+  CommandShortcut, CommandSeparator,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Command class="rounded-lg border shadow-md">
+    <CommandInput placeholder="Escribe un comando..." />
+    <CommandList>
+      <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+      <CommandGroup heading="Sugerencias">
+        <CommandItem value="Calendario">Calendario</CommandItem>
+        <CommandItem value="Buscar emoji" :keywords="['emoticon']">Buscar emoji</CommandItem>
+      </CommandGroup>
+      <CommandSeparator />
+      <CommandGroup heading="Configuración">
+        <CommandItem value="Perfil">
+          Perfil
+          <CommandShortcut>⌘P</CommandShortcut>
+        </CommandItem>
+      </CommandGroup>
+    </CommandList>
+  </Command>
+</template>
+```
+
+### Command Dialog
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+const open = ref(false);
+</script>
+
+<template>
+  <button @click="open = true">Buscar...</button>
+  <CommandDialog v-model:open="open">
+    <CommandInput placeholder="Escribe un comando..." />
+    <CommandList>
+      <CommandEmpty>Sin resultados.</CommandEmpty>
+      <CommandGroup heading="Acciones">
+        <CommandItem value="Nuevo archivo">Nuevo archivo</CommandItem>
+        <CommandItem value="Abrir proyecto">Abrir proyecto</CommandItem>
+      </CommandGroup>
+    </CommandList>
+  </CommandDialog>
+</template>
+```
+
+### Componentes
+
+| Componente         | Elemento  | Descripción                                          |
+| ------------------ | --------- | ---------------------------------------------------- |
+| `Command`          | `<div>`   | Provider raíz (filtrado, keyboard nav, registro)     |
+| `CommandDialog`    | Dialog    | Wrapper modal (Dialog + Command, ⌘K/Ctrl+K)         |
+| `CommandInput`     | `<input>` | Campo de búsqueda con icono lupa (autofocus)         |
+| `CommandList`      | `<div>`   | Contenedor scrollable (role="listbox")               |
+| `CommandEmpty`     | `<div>`   | Mensaje cuando no hay resultados visibles            |
+| `CommandGroup`     | `<div>`   | Grupo con heading opcional (role="group")            |
+| `CommandItem`      | `<div>`   | Ítem seleccionable (role="option", auto-hide)        |
+| `CommandShortcut`  | `<span>`  | Texto de atajo de teclado (derecha, muted)           |
+| `CommandSeparator` | `<div>`   | Divisor visual (role="separator")                    |
+
+### Props — CommandItem
+
+| Prop       | Tipo       | Default     | Descripción                          |
+| ---------- | ---------- | ----------- | ------------------------------------ |
+| `value`    | `string`   | (requerido) | Valor de identificación y filtrado   |
+| `keywords` | `string[]` | `undefined` | Palabras extra para ampliar búsqueda |
+| `disabled` | `boolean`  | `false`     | Deshabilita el ítem                  |
+
+### Props — CommandDialog
+
+| Prop          | Tipo      | Default | Descripción                      |
+| ------------- | --------- | ------- | -------------------------------- |
+| `open`        | `boolean` | `false` | Estado v-model del diálogo       |
+| `defaultOpen` | `boolean` | `false` | Abierto por defecto (no control) |
+
+### Accesibilidad
+
+- `role="combobox"` en el input, `role="listbox"` en la lista.
+- `role="option"` con `aria-selected` en cada ítem.
+- Navegación: ↑/↓ (ciclo), Enter (seleccionar), Home/End.
+- `aria-disabled` en ítems deshabilitados.
+- Items se ocultan automáticamente cuando no coinciden con la búsqueda.
+
+---
+
+## Combobox
+
+Select con búsqueda integrada. Patrón de composición que combina Popover + Command internamente. Muestra checkmark en la opción seleccionada y filtra en tiempo real.
+
+### Importación
+
+```ts
+import { Combobox } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { Combobox } from '@3df/ui';
+
+const selected = ref('');
+const frameworks = [
+  { value: 'next', label: 'Next.js' },
+  { value: 'nuxt', label: 'Nuxt.js' },
+  { value: 'remix', label: 'Remix' },
+  { value: 'astro', label: 'Astro' },
+];
+</script>
+
+<template>
+  <Combobox
+    v-model="selected"
+    :options="frameworks"
+    placeholder="Selecciona un framework..."
+    search-placeholder="Buscar framework..."
+    empty-message="No se encontró ningún framework."
+  />
+</template>
+```
+
+### Props
+
+| Prop                | Tipo                                           | Default                | Descripción                      |
+| ------------------- | ---------------------------------------------- | ---------------------- | -------------------------------- |
+| `modelValue`        | `string`                                       | `''`                   | Valor seleccionado (v-model)     |
+| `options`           | `{ value: string; label: string; disabled?: boolean }[]` | (requerido)  | Lista de opciones                |
+| `placeholder`       | `string`                                       | `'Select option...'`   | Placeholder del trigger          |
+| `searchPlaceholder` | `string`                                       | `'Search...'`          | Placeholder del input de búsqueda|
+| `emptyMessage`      | `string`                                       | `'No results found.'`  | Mensaje cuando no hay resultados |
+
+### Accesibilidad
+
+- `role="combobox"` con `aria-expanded` en el trigger.
+- Hereda toda la accesibilidad de Command (keyboard nav, roles).
+- Toggle de selección: seleccionar de nuevo deselecciona.
+
+---
+
+## Collapsible
+
+Secciones expandibles/contraíbles con animación de altura. Soporta modo controlado (`v-model:open`) y no controlado (`defaultOpen`). Animación CSS suave con `transition-[height]`.
+
+### Importación
+
+```ts
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <Collapsible class="space-y-2">
+    <div class="flex items-center justify-between">
+      <h4 class="text-sm font-semibold">@peduarte starred 3 repositories</h4>
+      <CollapsibleTrigger>
+        <Button variant="ghost" size="sm">Toggle</Button>
+      </CollapsibleTrigger>
+    </div>
+    <div class="rounded-md border px-4 py-3 text-sm">@radix-ui/primitives</div>
+    <CollapsibleContent class="space-y-2">
+      <div class="rounded-md border px-4 py-3 text-sm">@radix-ui/colors</div>
+      <div class="rounded-md border px-4 py-3 text-sm">@stitches/react</div>
+    </CollapsibleContent>
+  </Collapsible>
+</template>
+```
+
+### Controlado con v-model
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+const isOpen = ref(false);
+</script>
+
+<template>
+  <button @click="isOpen = !isOpen">{{ isOpen ? 'Cerrar' : 'Abrir' }}</button>
+  <Collapsible v-model:open="isOpen">
+    <CollapsibleTrigger>
+      <Button variant="ghost">Toggle</Button>
+    </CollapsibleTrigger>
+    <CollapsibleContent>
+      <p>Contenido controlado externamente.</p>
+    </CollapsibleContent>
+  </Collapsible>
+</template>
+```
+
+### Componentes
+
+| Componente            | Elemento   | Descripción                                    |
+| --------------------- | ---------- | ---------------------------------------------- |
+| `Collapsible`         | `<div>`    | Provider raíz (estado open, disabled)          |
+| `CollapsibleTrigger`  | `<button>` | Botón toggle (aria-expanded)                   |
+| `CollapsibleContent`  | `<div>`    | Contenido animado (height transition, role=region) |
+
+### Props — Collapsible
+
+| Prop          | Tipo      | Default | Descripción                        |
+| ------------- | --------- | ------- | ---------------------------------- |
+| `open`        | `boolean` | —       | Estado controlado (v-model:open)   |
+| `defaultOpen` | `boolean` | `false` | Abierto por defecto (no controlado)|
+| `disabled`    | `boolean` | `false` | Deshabilita la interacción         |
+
+### Accesibilidad
+
+- `aria-expanded` en el trigger refleja el estado.
+- `role="region"` en el contenido.
+- `data-state="open"` / `data-state="closed"` para estilizado condicional.
+- `data-disabled` y atributo `disabled` cuando está deshabilitado.
+- Animación de altura con `transition-[height]` y `overflow: hidden` durante la transición.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -5680,6 +5915,24 @@ packages/ui/
 │   │       ├── UiContextMenuSub.vue             # Wrapper sub-menú
 │   │       ├── UiContextMenuSubTrigger.vue      # Trigger sub-menú
 │   │       └── UiContextMenuSubContent.vue      # Panel sub-menú
+│   │   └── command/
+│   │       ├── command-types.ts                  # Tipos, InjectionKey
+│   │       ├── UiCommand.vue                     # Provider raíz (filtro, keyboard nav)
+│   │       ├── UiCommandDialog.vue               # Modal (Dialog + Command, ⌘K)
+│   │       ├── UiCommandInput.vue                # Input de búsqueda (autofocus)
+│   │       ├── UiCommandList.vue                 # Contenedor scrollable (listbox)
+│   │       ├── UiCommandEmpty.vue                # Estado sin resultados
+│   │       ├── UiCommandGroup.vue                # Grupo con heading
+│   │       ├── UiCommandItem.vue                 # Ítem seleccionable (auto-hide)
+│   │       ├── UiCommandShortcut.vue             # Texto de atajo
+│   │       └── UiCommandSeparator.vue            # Divisor visual
+│   │   └── combobox/
+│   │       └── UiCombobox.vue                    # Select + búsqueda (Popover + Command)
+│   │   └── collapsible/
+│   │       ├── collapsible-types.ts               # Tipos, InjectionKey
+│   │       ├── UiCollapsible.vue                  # Provider raíz (v-model:open)
+│   │       ├── UiCollapsibleTrigger.vue           # Botón toggle (aria-expanded)
+│   │       └── UiCollapsibleContent.vue           # Contenido animado (height)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

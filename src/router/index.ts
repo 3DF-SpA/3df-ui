@@ -188,6 +188,25 @@ const router = createRouter({
           name: 'MyContextMenu',
           component: () => import('@/modules/ui/views/MyContextMenu.vue'),
         },
+
+        {
+          path: '/command',
+          name: 'MyCommand',
+          component: () => import('@/modules/ui/views/MyCommand.vue'),
+        },
+
+        {
+          path: '/combo-box',
+          name: 'MyCombobox',
+          component: () => import('@/modules/ui/views/MyCombobox.vue'),
+        },
+
+        {
+
+          path: '/collapsible',
+          name: 'MyCollapsible',
+          component: () => import('@/modules/ui/views/MyCollapsible.vue'),
+        },
       ],
     },
   ],
