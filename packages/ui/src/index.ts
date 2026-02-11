@@ -162,3 +162,11 @@ export { default as Item } from './components/ui/item/UiItem.vue';
 export { default as ItemLabel } from './components/ui/item/UiItemLabel.vue';
 export { default as ItemDescription } from './components/ui/item/UiItemDescription.vue';
 export { itemVariants } from './components/ui/item/item-variants';
+
+// Input OTP
+export { default as InputOTP } from './components/ui/input-otp/UiInputOTP.vue';
+export { default as InputOTPGroup } from './components/ui/input-otp/UiInputOTPGroup.vue';
+export { default as InputOTPSlot } from './components/ui/input-otp/UiInputOTPSlot.vue';
+export { default as InputOTPSeparator } from './components/ui/input-otp/UiInputOTPSeparator.vue';
+export { INPUT_OTP_KEY, OTP_PATTERNS } from './components/ui/input-otp/input-otp-types';
+export type { InputOTPContext, OTPPatternType } from './components/ui/input-otp/input-otp-types';

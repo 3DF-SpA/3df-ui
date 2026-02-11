@@ -50,6 +50,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Menubar](#menubar)
   - [Kbd](#kbd)
   - [Item](#item)
+  - [Input OTP](#input-otp)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -4630,6 +4631,187 @@ import { RouterLink } from 'vue-router';
 
 ---
 
+## Input OTP
+
+Componente de entrada OTP (One-Time Password) para códigos de verificación y 2FA. Implementación pura Vue sin dependencias externas, con soporte completo de navegación por teclado, pegado (paste), validación por patrón y auto-submit.
+
+### Importación
+
+```ts
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+const otp = ref('');
+</script>
+
+<template>
+  <InputOTP v-model="otp" :length="6">
+    <InputOTPGroup>
+      <InputOTPSlot :index="0" />
+      <InputOTPSlot :index="1" />
+      <InputOTPSlot :index="2" />
+      <InputOTPSlot :index="3" />
+      <InputOTPSlot :index="4" />
+      <InputOTPSlot :index="5" />
+    </InputOTPGroup>
+  </InputOTP>
+</template>
+```
+
+### Con separador
+
+```vue
+<template>
+  <InputOTP v-model="otp" :length="6">
+    <InputOTPGroup>
+      <InputOTPSlot :index="0" />
+      <InputOTPSlot :index="1" />
+      <InputOTPSlot :index="2" />
+    </InputOTPGroup>
+    <InputOTPSeparator />
+    <InputOTPGroup>
+      <InputOTPSlot :index="3" />
+      <InputOTPSlot :index="4" />
+      <InputOTPSlot :index="5" />
+    </InputOTPGroup>
+  </InputOTP>
+</template>
+```
+
+### Separador personalizado
+
+```vue
+<template>
+  <InputOTP v-model="otp" :length="6">
+    <InputOTPGroup>
+      <InputOTPSlot :index="0" />
+      <InputOTPSlot :index="1" />
+    </InputOTPGroup>
+    <InputOTPSeparator>
+      <span class="px-1">-</span>
+    </InputOTPSeparator>
+    <InputOTPGroup>
+      <InputOTPSlot :index="2" />
+      <InputOTPSlot :index="3" />
+    </InputOTPGroup>
+    <InputOTPSeparator>
+      <span class="px-1">-</span>
+    </InputOTPSeparator>
+    <InputOTPGroup>
+      <InputOTPSlot :index="4" />
+      <InputOTPSlot :index="5" />
+    </InputOTPGroup>
+  </InputOTP>
+</template>
+```
+
+### Patrón alfanumérico
+
+```vue
+<template>
+  <InputOTP v-model="code" :length="4" pattern="alphanumeric">
+    <InputOTPGroup>
+      <InputOTPSlot :index="0" />
+      <InputOTPSlot :index="1" />
+      <InputOTPSlot :index="2" />
+      <InputOTPSlot :index="3" />
+    </InputOTPGroup>
+  </InputOTP>
+</template>
+```
+
+### Auto-submit
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+const code = ref('');
+
+function onComplete(value: string) {
+  console.log('Código completo:', value);
+}
+</script>
+
+<template>
+  <InputOTP v-model="code" :length="4" auto-submit @complete="onComplete">
+    <InputOTPGroup>
+      <InputOTPSlot :index="0" />
+      <InputOTPSlot :index="1" />
+      <InputOTPSlot :index="2" />
+      <InputOTPSlot :index="3" />
+    </InputOTPGroup>
+  </InputOTP>
+</template>
+```
+
+### Componentes
+
+| Componente          | Elemento | Descripción                                                |
+| ------------------- | -------- | ---------------------------------------------------------- |
+| `InputOTP`          | `<div>`  | Contenedor raíz — provide del contexto OTP                 |
+| `InputOTPGroup`     | `<div>`  | Agrupación visual de slots (flex sin gap)                  |
+| `InputOTPSlot`      | `<div>`  | Slot individual con input oculto, caret falso y estilos    |
+| `InputOTPSeparator` | `<div>`  | Separador visual entre grupos (dot SVG por defecto)        |
+
+### Props — InputOTP
+
+| Prop         | Tipo                                    | Default     | Descripción                                       |
+| ------------ | --------------------------------------- | ----------- | ------------------------------------------------- |
+| `modelValue` | `string`                                | `''`        | Valor del OTP (v-model)                           |
+| `length`     | `number`                                | `6`         | Número de dígitos/caracteres                      |
+| `disabled`   | `boolean`                               | `false`     | Deshabilita todos los slots                       |
+| `pattern`    | `'numeric' \| 'alphanumeric' \| 'alpha' \| RegExp` | `'numeric'` | Patrón de validación por carácter    |
+| `autoSubmit` | `boolean`                               | `false`     | Emite `complete` al llenar todos los slots        |
+
+### Props — InputOTPSlot
+
+| Prop    | Tipo     | Requerido | Descripción                       |
+| ------- | -------- | --------- | --------------------------------- |
+| `index` | `number` | Sí        | Índice del slot (base 0)          |
+
+### Eventos — InputOTP
+
+| Evento              | Payload  | Descripción                                    |
+| ------------------- | -------- | ---------------------------------------------- |
+| `update:modelValue` | `string` | Se emite cuando cambia el valor                |
+| `complete`          | `string` | Se emite cuando todos los slots están llenos   |
+
+### Navegación por teclado
+
+| Tecla        | Acción                                |
+| ------------ | ------------------------------------- |
+| `←` / `→`    | Mover foco entre slots                |
+| `Backspace`  | Borrar actual, retroceder si vacío    |
+| `Delete`     | Borrar slot actual                    |
+| `Home`       | Ir al primer slot                     |
+| `End`        | Ir al último slot                     |
+| `Ctrl+V`     | Pegar código desde portapapeles       |
+
+### Patrones disponibles
+
+| Nombre          | RegExp        | Descripción              |
+| --------------- | ------------- | ------------------------ |
+| `numeric`       | `/^[0-9]$/`   | Solo dígitos             |
+| `alphanumeric`  | `/^[a-zA-Z0-9]$/` | Letras y números    |
+| `alpha`         | `/^[a-zA-Z]$/` | Solo letras             |
+
+> También acepta un `RegExp` personalizado para validación de caracter individual.
+
+### Accesibilidad
+
+- `role="group"` en el contenedor raíz con `aria-label="One-time password"`.
+- Cada slot tiene `aria-label="Digit N"` para lectores de pantalla.
+- `autocomplete="one-time-code"` y `inputmode="numeric"` para teclados móviles.
+- Caret falso animado cuando el slot tiene foco sin valor.
+- `focus-visible` con ring para navegación por teclado.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -4843,6 +5025,12 @@ packages/ui/
 │   │       ├── UiItem.vue                    # Componente polimórfico (slots: start/end)
 │   │       ├── UiItemLabel.vue               # Label truncado
 │   │       └── UiItemDescription.vue         # Descripción muted
+│   │   └── input-otp/
+│   │       ├── input-otp-types.ts            # Tipos, InjectionKey, patrones
+│   │       ├── UiInputOTP.vue                # Root provider (v-model, teclado, paste)
+│   │       ├── UiInputOTPGroup.vue           # Agrupación visual de slots
+│   │       ├── UiInputOTPSlot.vue            # Slot individual (input + caret)
+│   │       └── UiInputOTPSeparator.vue       # Separador visual entre grupos
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

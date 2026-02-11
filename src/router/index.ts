@@ -146,6 +146,12 @@ const router = createRouter({
           name: 'MyItem',
           component: () => import('@/modules/ui/views/MyItem.vue'),
         },
+
+        {
+          path: '/otp',
+          name: 'MyOtp',
+          component: () => import('@/modules/ui/views/MyInputOtp.vue'),
+        },
       ],
     },
   ],
