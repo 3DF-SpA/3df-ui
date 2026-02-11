@@ -104,6 +104,12 @@ const router = createRouter({
           name: 'MySeparator',
           component: () => import('@/modules/ui/views/MySeparator.vue'),
         },
+
+        {
+          path: '/scroll-area',
+          name: 'MyScrollArea',
+          component: () => import('@/modules/ui/views/MyScrollArea.vue'),
+        },
       ],
     },
   ],

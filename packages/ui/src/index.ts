@@ -106,3 +106,6 @@ export type { SheetContext } from './components/ui/sheet/sheet-types';
 
 // Separator
 export { default as Separator } from './components/ui/separator/UiSeparator.vue';
+
+// ScrollArea
+export { default as ScrollArea } from './components/ui/scroll-area/UiScrollArea.vue';

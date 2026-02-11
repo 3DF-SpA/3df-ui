@@ -43,6 +43,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Sidebar](#sidebar)
   - [Sheet](#sheet)
   - [Separator](#separator)
+  - [Scroll Area](#scroll-area)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -3778,6 +3779,100 @@ import { Separator } from '@3df/ui';
 
 ---
 
+## Scroll Area
+
+Área de scroll personalizada que oculta las scrollbars nativas del SO y las reemplaza con barras estilizadas que se integran con el tema. Consistente en todos los navegadores.
+
+### Importación
+
+```ts
+import { ScrollArea } from '@3df/ui';
+```
+
+### Uso básico — Scroll vertical
+
+```vue
+<template>
+  <ScrollArea class="h-72 w-48 rounded-md border">
+    <div class="p-4">
+      <h4 class="mb-4 text-sm font-medium">Tags</h4>
+      <div v-for="tag in tags" :key="tag" class="text-sm">
+        {{ tag }}
+      </div>
+    </div>
+  </ScrollArea>
+</template>
+```
+
+### Scroll horizontal
+
+```vue
+<template>
+  <ScrollArea orientation="horizontal" class="w-full max-w-xl rounded-md border">
+    <div class="flex gap-4 p-4">
+      <div v-for="item in items" :key="item" class="w-36 shrink-0 rounded-md border p-3">
+        {{ item }}
+      </div>
+    </div>
+  </ScrollArea>
+</template>
+```
+
+### Ambas direcciones
+
+```vue
+<template>
+  <ScrollArea orientation="both" class="h-64 w-80 rounded-md border">
+    <div class="w-[600px] p-4">
+      <!-- Contenido más ancho y alto que el contenedor -->
+    </div>
+  </ScrollArea>
+</template>
+```
+
+### Tipos de scrollbar
+
+| Tipo     | Comportamiento                                               |
+| -------- | ------------------------------------------------------------ |
+| `hover`  | Visible al hacer hover sobre el área (default)               |
+| `scroll` | Visible solo mientras se scrollea                            |
+| `always` | Siempre visible mientras haya overflow                       |
+| `auto`   | Siempre visible mientras haya overflow (alias de `always`)   |
+
+### Props
+
+| Prop          | Tipo                                          | Default      | Descripción                      |
+| ------------- | --------------------------------------------- | ------------ | -------------------------------- |
+| `type`        | `'auto' \| 'always' \| 'scroll' \| 'hover'` | `'hover'`    | Cuándo mostrar la scrollbar      |
+| `orientation` | `'vertical' \| 'horizontal' \| 'both'`      | `'vertical'` | Ejes de scroll habilitados       |
+
+> Acepta todos los atributos nativos de `<div>` vía `$attrs`, incluyendo `class` para override de estilos.
+
+### Estilo visual
+
+| Elemento  | Clases                                                    |
+| --------- | --------------------------------------------------------- |
+| Track     | `w-2.5` (vertical) / `h-2.5` (horizontal), transparente  |
+| Thumb     | `bg-border`, `rounded-full`, hover → `bg-border/80`      |
+| Container | `overflow-hidden`, hereda `rounded` del padre             |
+
+Las scrollbars nativas se ocultan con `scrollbar-width: none` (Firefox) y `::-webkit-scrollbar { display: none }` (Chromium/Safari).
+
+### Interacción
+
+- **Drag**: arrastra el thumb para scrollear proporcionalmente.
+- **Track click**: clic en el track salta a esa posición.
+- **Mouse wheel**: funciona normalmente dentro del viewport.
+- **ResizeObserver**: recalcula automáticamente al cambiar el tamaño del contenido.
+
+### Accesibilidad
+
+- El viewport mantiene la navegación nativa por teclado (Tab, flechas, Page Up/Down).
+- Los thumbs usan pointer capture para arrastre fluido fuera del elemento.
+- El componente es transparente para screen readers (las scrollbars custom son decorativas).
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -3946,6 +4041,8 @@ packages/ui/
 │   │       └── UiSheetClose.vue          # Botón para cerrar
 │   │   └── separator/
 │   │       └── UiSeparator.vue           # Separador horizontal/vertical
+│   │   └── scroll-area/
+│   │       └── UiScrollArea.vue          # Scroll area con barras custom
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
