@@ -55,6 +55,9 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Empty State](#empty-state)
   - [Drawer](#drawer)
   - [Dialog](#dialog)
+  - [Calendar](#calendar)
+  - [DatePicker](#datepicker)
+  - [Context Menu](#context-menu)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -5149,6 +5152,268 @@ import {
 
 ---
 
+## Calendar
+
+Componente de calendario puro Vue para selección de fechas (modo simple o rango). Usa `date-fns` para manipulación de fechas. Soporta navegación por mes, días de semanas configurables, fechas deshabilitadas y localización.
+
+### Importación
+
+```ts
+import { Calendar } from '@3df/ui';
+import type { DateRange, CalendarMode } from '@3df/ui';
+```
+
+### Uso básico — Fecha simple
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { Calendar } from '@3df/ui';
+
+const date = ref<Date>();
+</script>
+
+<template>
+  <Calendar v-model="date" />
+</template>
+```
+
+### Uso — Rango de fechas
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { Calendar } from '@3df/ui';
+import type { DateRange } from '@3df/ui';
+
+const range = ref<DateRange>();
+</script>
+
+<template>
+  <Calendar v-model="range" mode="range" :number-of-months="2" />
+</template>
+```
+
+### Props — Calendar
+
+| Prop              | Tipo                           | Default      | Descripción                                    |
+| ----------------- | ------------------------------ | ------------ | ---------------------------------------------- |
+| `mode`            | `'single' \| 'range'`         | `'single'`   | Modo de selección                              |
+| `modelValue`      | `Date \| DateRange`           | `undefined`  | Valor seleccionado (v-model)                   |
+| `defaultMonth`    | `Date`                         | `new Date()` | Mes inicial a mostrar                          |
+| `numberOfMonths`  | `number`                       | `1`          | Cantidad de meses visibles                     |
+| `weekStartsOn`    | `0-6`                          | `1` (Lunes)  | Día de inicio de semana                        |
+| `showOutsideDays` | `boolean`                      | `true`       | Mostrar días de meses adyacentes               |
+| `fixedWeeks`      | `boolean`                      | `true`       | Siempre mostrar 6 filas (42 días)              |
+| `disabled`        | `(date: Date) => boolean`      | `undefined`  | Función para deshabilitar fechas               |
+| `locale`          | `Locale`                       | `undefined`  | Locale de date-fns para internacionalización   |
+
+### Accesibilidad
+
+- Botones de día con `aria-selected` para la fecha seleccionada.
+- `data-today` en el día actual.
+- `data-outside` en días fuera del mes actual.
+- Botones de navegación con `aria-label` descriptivo.
+- Días deshabilitados con `disabled` nativo.
+
+---
+
+## DatePicker
+
+Componente de selección de fecha que compone Calendar + Popover. Incluye un trigger tipo input con icono de calendario y formato automático con `date-fns`. Disponible en variantes de fecha simple y rango.
+
+### Importación
+
+```ts
+import { DatePicker, DateRangePicker } from '@3df/ui';
+import type { DateRange } from '@3df/ui';
+```
+
+### Uso — Fecha simple
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { DatePicker } from '@3df/ui';
+
+const date = ref<Date>();
+</script>
+
+<template>
+  <DatePicker v-model="date" placeholder="Pick a date" />
+</template>
+```
+
+### Uso — Rango de fechas
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { DateRangePicker } from '@3df/ui';
+import type { DateRange } from '@3df/ui';
+
+const range = ref<DateRange>();
+</script>
+
+<template>
+  <DateRangePicker v-model="range" :number-of-months="2" />
+</template>
+```
+
+### Uso — Con locale español
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+import { DatePicker } from '@3df/ui';
+import { es } from 'date-fns/locale';
+
+const date = ref<Date>();
+</script>
+
+<template>
+  <DatePicker v-model="date" :locale="es" placeholder="Selecciona fecha" />
+</template>
+```
+
+### Componentes
+
+| Componente        | Descripción                                              |
+| ----------------- | -------------------------------------------------------- |
+| `DatePicker`      | Selector de fecha simple (Calendar + Popover)            |
+| `DateRangePicker` | Selector de rango de fechas (Calendar range + Popover)   |
+
+### Props — DatePicker
+
+| Prop           | Tipo                      | Default        | Descripción                              |
+| -------------- | ------------------------- | -------------- | ---------------------------------------- |
+| `modelValue`   | `Date`                    | `undefined`    | Fecha seleccionada (v-model)             |
+| `placeholder`  | `string`                  | `'Pick a date'`| Texto cuando no hay selección            |
+| `formatStr`    | `string`                  | `'PPP'`        | Formato de date-fns para mostrar         |
+| `locale`       | `Locale`                  | `undefined`    | Locale de date-fns                       |
+| `disabled`     | `(date: Date) => boolean` | `undefined`    | Función para deshabilitar fechas         |
+| `weekStartsOn` | `0-6`                     | `1`            | Día de inicio de semana                  |
+
+### Props — DateRangePicker
+
+| Prop             | Tipo                      | Default              | Descripción                          |
+| ---------------- | ------------------------- | -------------------- | ------------------------------------ |
+| `modelValue`     | `DateRange`               | `undefined`          | Rango seleccionado (v-model)         |
+| `placeholder`    | `string`                  | `'Pick a date range'`| Texto placeholder                    |
+| `formatStr`      | `string`                  | `'PP'`               | Formato de date-fns                  |
+| `locale`         | `Locale`                  | `undefined`          | Locale de date-fns                   |
+| `disabled`       | `(date: Date) => boolean` | `undefined`          | Función para deshabilitar fechas     |
+| `weekStartsOn`   | `0-6`                     | `1`                  | Día de inicio de semana              |
+| `numberOfMonths` | `number`                  | `2`                  | Meses visibles simultáneamente       |
+
+### Dependencia
+
+Requiere `date-fns` como peer dependency:
+
+```bash
+pnpm add date-fns
+```
+
+---
+
+## Context Menu
+
+Menú contextual activado por clic derecho. Implementación pura Vue con posicionamiento en coordenadas del cursor, navegación por teclado completa, sub-menús, checkbox items, radio items y atajos de teclado. Estilo consistente con Dropdown Menu y Menubar.
+
+### Importación
+
+```ts
+import {
+  ContextMenu, ContextMenuTrigger, ContextMenuContent,
+  ContextMenuItem, ContextMenuCheckboxItem,
+  ContextMenuRadioGroup, ContextMenuRadioItem,
+  ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut,
+  ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <ContextMenu>
+    <ContextMenuTrigger>
+      <div class="flex h-[150px] w-full items-center justify-center rounded-md border border-dashed">
+        Clic derecho aquí
+      </div>
+    </ContextMenuTrigger>
+    <ContextMenuContent class="w-64">
+      <ContextMenuItem>Editar <ContextMenuShortcut>⌘E</ContextMenuShortcut></ContextMenuItem>
+      <ContextMenuItem>Duplicar</ContextMenuItem>
+      <ContextMenuSeparator />
+      <ContextMenuItem destructive>Eliminar <ContextMenuShortcut>⌘⌫</ContextMenuShortcut></ContextMenuItem>
+    </ContextMenuContent>
+  </ContextMenu>
+</template>
+```
+
+### Con sub-menú
+
+```vue
+<template>
+  <ContextMenu>
+    <ContextMenuTrigger>
+      <div class="h-[150px] w-full border border-dashed rounded-md flex items-center justify-center">
+        Clic derecho
+      </div>
+    </ContextMenuTrigger>
+    <ContextMenuContent>
+      <ContextMenuItem>Copiar</ContextMenuItem>
+      <ContextMenuSub>
+        <ContextMenuSubTrigger>Compartir</ContextMenuSubTrigger>
+        <ContextMenuSubContent>
+          <ContextMenuItem>Email</ContextMenuItem>
+          <ContextMenuItem>Mensaje</ContextMenuItem>
+        </ContextMenuSubContent>
+      </ContextMenuSub>
+    </ContextMenuContent>
+  </ContextMenu>
+</template>
+```
+
+### Componentes
+
+| Componente                   | Elemento | Descripción                                         |
+| ---------------------------- | -------- | --------------------------------------------------- |
+| `ContextMenu`                | slot     | Provider raíz (estado, keyboard nav, click outside) |
+| `ContextMenuTrigger`         | `<div>`  | Zona de clic derecho (contextmenu event)            |
+| `ContextMenuContent`         | `<div>`  | Panel flotante (Teleport, posición en cursor)       |
+| `ContextMenuItem`            | `<div>`  | Opción clickeable (role="menuitem")                  |
+| `ContextMenuCheckboxItem`    | `<div>`  | Opción tipo checkbox (v-model:checked)              |
+| `ContextMenuRadioGroup`      | `<div>`  | Contenedor de grupo radio (v-model)                 |
+| `ContextMenuRadioItem`       | `<div>`  | Opción radio (role="menuitemradio")                  |
+| `ContextMenuLabel`           | `<div>`  | Encabezado de sección (no interactivo)              |
+| `ContextMenuSeparator`       | `<div>`  | Dividor visual (role="separator")                    |
+| `ContextMenuShortcut`        | `<span>` | Texto de atajo de teclado                           |
+| `ContextMenuSub`             | `<div>`  | Wrapper de sub-menú                                 |
+| `ContextMenuSubTrigger`      | `<div>`  | Trigger de sub-menú (hover/click/ArrowRight)        |
+| `ContextMenuSubContent`      | `<div>`  | Panel de sub-menú (Teleport, posición lateral)      |
+
+### Props — ContextMenuItem
+
+| Prop          | Tipo      | Default | Descripción                    |
+| ------------- | --------- | ------- | ------------------------------ |
+| `disabled`    | `boolean` | `false` | Deshabilita la opción          |
+| `destructive` | `boolean` | `false` | Estilo destructivo (rojo)      |
+| `inset`       | `boolean` | `false` | Indentación izquierda (pl-8)   |
+
+### Accesibilidad
+
+- Solo se activa con clic derecho (secondary click / `contextmenu` event).
+- `role="menu"` en el contenido, `role="menuitem"` / `menuitemcheckbox` / `menuitemradio` en ítems.
+- Navegación completa con Arrow keys, Home/End, Enter/Space.
+- `aria-checked` para checkbox y radio items.
+- `aria-expanded` y `aria-haspopup="menu"` en sub-triggers.
+- Cierre con Escape o Tab.
+- `aria-disabled` en ítems deshabilitados.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -5394,6 +5659,27 @@ packages/ui/
 │   │       ├── UiDialogTitle.vue              # Título accesible
 │   │       ├── UiDialogDescription.vue        # Descripción accesible
 │   │       └── UiDialogClose.vue              # Cierra el dialog
+│   │   └── calendar/
+│   │       ├── calendar-types.ts               # Tipos (DateRange, CalendarMode)
+│   │       └── UiCalendar.vue                  # Calendario (single + range)
+│   │   └── date-picker/
+│   │       ├── UiDatePicker.vue                # DatePicker (Calendar + Popover)
+│   │       └── UiDateRangePicker.vue           # DateRangePicker (range + Popover)
+│   │   └── context-menu/
+│   │       ├── context-menu-types.ts            # Tipos, InjectionKeys
+│   │       ├── UiContextMenu.vue                # Provider raíz (keyboard nav)
+│   │       ├── UiContextMenuTrigger.vue         # Zona de clic derecho
+│   │       ├── UiContextMenuContent.vue         # Panel flotante (cursor pos)
+│   │       ├── UiContextMenuItem.vue            # Ítem clickeable
+│   │       ├── UiContextMenuCheckboxItem.vue    # Ítem checkbox toggle
+│   │       ├── UiContextMenuRadioGroup.vue      # Grupo radio
+│   │       ├── UiContextMenuRadioItem.vue       # Opción radio
+│   │       ├── UiContextMenuLabel.vue           # Encabezado de sección
+│   │       ├── UiContextMenuSeparator.vue       # Divisor
+│   │       ├── UiContextMenuShortcut.vue        # Texto de atajo
+│   │       ├── UiContextMenuSub.vue             # Wrapper sub-menú
+│   │       ├── UiContextMenuSubTrigger.vue      # Trigger sub-menú
+│   │       └── UiContextMenuSubContent.vue      # Panel sub-menú
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
@@ -5505,6 +5791,7 @@ export { inputVariants } from './components/ui/inputs/input-variants';
 | `class-variance-authority` | `^0.7.1` | Sistema de variantes type-safe            |
 | `clsx`                     | `^2.1.1` | Composición condicional de clases         |
 | `tailwind-merge`           | `^3.4.0` | Resolución inteligente de clases Tailwind |
+| `date-fns`                 | `^3 \|\| ^4` | Manipulación y formateo de fechas (Calendar, DatePicker) |
 
 ---
 

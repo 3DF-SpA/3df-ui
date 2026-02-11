@@ -176,6 +176,18 @@ const router = createRouter({
           name: 'MyDialog',
           component: () => import('@/modules/ui/views/MyDialog.vue'),
         },
+
+        {
+          path: '/datepicker',
+          name: 'MyDatePicker',
+          component: () => import('@/modules/ui/views/MyDatePicker.vue'),
+        },
+
+        {
+          path: '/context-menu',
+          name: 'MyContextMenu',
+          component: () => import('@/modules/ui/views/MyContextMenu.vue'),
+        },
       ],
     },
   ],

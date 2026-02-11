@@ -207,3 +207,34 @@ export { default as DialogDescription } from './components/ui/dialog/UiDialogDes
 export { default as DialogClose } from './components/ui/dialog/UiDialogClose.vue';
 export { DIALOG_KEY } from './components/ui/dialog/dialog-types';
 export type { DialogContext } from './components/ui/dialog/dialog-types';
+
+// Calendar
+export { default as Calendar } from './components/ui/calendar/UiCalendar.vue';
+export type { DateRange, CalendarMode } from './components/ui/calendar/calendar-types';
+
+// DatePicker
+export { default as DatePicker } from './components/ui/date-picker/UiDatePicker.vue';
+export { default as DateRangePicker } from './components/ui/date-picker/UiDateRangePicker.vue';
+
+// Context Menu
+export { default as ContextMenu } from './components/ui/context-menu/UiContextMenu.vue';
+export { default as ContextMenuTrigger } from './components/ui/context-menu/UiContextMenuTrigger.vue';
+export { default as ContextMenuContent } from './components/ui/context-menu/UiContextMenuContent.vue';
+export { default as ContextMenuItem } from './components/ui/context-menu/UiContextMenuItem.vue';
+export { default as ContextMenuCheckboxItem } from './components/ui/context-menu/UiContextMenuCheckboxItem.vue';
+export { default as ContextMenuRadioGroup } from './components/ui/context-menu/UiContextMenuRadioGroup.vue';
+export { default as ContextMenuRadioItem } from './components/ui/context-menu/UiContextMenuRadioItem.vue';
+export { default as ContextMenuLabel } from './components/ui/context-menu/UiContextMenuLabel.vue';
+export { default as ContextMenuSeparator } from './components/ui/context-menu/UiContextMenuSeparator.vue';
+export { default as ContextMenuShortcut } from './components/ui/context-menu/UiContextMenuShortcut.vue';
+export { default as ContextMenuSub } from './components/ui/context-menu/UiContextMenuSub.vue';
+export { default as ContextMenuSubTrigger } from './components/ui/context-menu/UiContextMenuSubTrigger.vue';
+export { default as ContextMenuSubContent } from './components/ui/context-menu/UiContextMenuSubContent.vue';
+export { CONTEXT_MENU_KEY, CONTEXT_MENU_SUB_KEY, CONTEXT_MENU_ITEM_KEY, CONTEXT_MENU_RADIO_GROUP_KEY } from './components/ui/context-menu/context-menu-types';
+export type {
+  ContextMenuContext,
+  ContextMenuSubContext,
+  ContextMenuItemData,
+  ContextMenuItemRegistration,
+  ContextMenuRadioGroupContext,
+} from './components/ui/context-menu/context-menu-types';
