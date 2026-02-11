@@ -122,6 +122,12 @@ const router = createRouter({
           name: 'MyPagination',
           component: () => import('@/modules/ui/views/MyPagination.vue'),
         },
+
+        {
+          path: '/navigation',
+          name: 'MyNavigationMenu',
+          component: () => import('@/modules/ui/views/MyNavigationMenu.vue'),
+        },
       ],
     },
   ],

@@ -121,3 +121,12 @@ export { default as PaginationLink } from './components/ui/pagination/UiPaginati
 export { default as PaginationPrevious } from './components/ui/pagination/UiPaginationPrevious.vue';
 export { default as PaginationNext } from './components/ui/pagination/UiPaginationNext.vue';
 export { default as PaginationEllipsis } from './components/ui/pagination/UiPaginationEllipsis.vue';
+
+// Navigation Menu
+export { default as NavigationMenu } from './components/ui/navigation-menu/UiNavigationMenu.vue';
+export { default as NavigationMenuList } from './components/ui/navigation-menu/UiNavigationMenuList.vue';
+export { default as NavigationMenuItem } from './components/ui/navigation-menu/UiNavigationMenuItem.vue';
+export { default as NavigationMenuTrigger } from './components/ui/navigation-menu/UiNavigationMenuTrigger.vue';
+export { default as NavigationMenuContent } from './components/ui/navigation-menu/UiNavigationMenuContent.vue';
+export { default as NavigationMenuLink } from './components/ui/navigation-menu/UiNavigationMenuLink.vue';
+export { default as NavigationMenuViewport } from './components/ui/navigation-menu/UiNavigationMenuViewport.vue';

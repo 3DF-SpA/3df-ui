@@ -46,6 +46,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Scroll Area](#scroll-area)
   - [Progress](#progress)
   - [Pagination](#pagination)
+  - [Navigation Menu](#navigation-menu)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -4114,6 +4115,135 @@ Para conjuntos grandes de páginas, usa `PaginationEllipsis` para indicar págin
 
 ---
 
+## Navigation Menu
+
+Menú de navegación horizontal con paneles desplegables, transiciones suaves y soporte de teclado. Patrón compound component con `provide/inject`, hover con delays inteligentes, click-outside y animaciones de entrada/salida.
+
+### Importación
+
+```ts
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+  NavigationMenuViewport,
+} from '@3df/ui';
+```
+
+### Uso básico
+
+```vue
+<template>
+  <NavigationMenu>
+    <NavigationMenuList>
+      <NavigationMenuItem value="getting-started">
+        <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+        <NavigationMenuContent class="w-[400px]">
+          <NavigationMenuLink href="/docs/intro">
+            <div class="text-sm font-medium">Introducción</div>
+            <p class="text-sm text-muted-foreground">Componentes Vue 3.</p>
+          </NavigationMenuLink>
+          <NavigationMenuLink href="/docs/install">
+            <div class="text-sm font-medium">Instalación</div>
+            <p class="text-sm text-muted-foreground">Cómo configurar tu proyecto.</p>
+          </NavigationMenuLink>
+        </NavigationMenuContent>
+      </NavigationMenuItem>
+
+      <!-- Link directo (sin trigger/content) -->
+      <NavigationMenuItem>
+        <NavigationMenuLink
+          href="/docs"
+          class="inline-flex h-9 items-center rounded-md px-4 py-2 text-sm font-medium"
+        >
+          Documentación
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+    </NavigationMenuList>
+
+    <NavigationMenuViewport />
+  </NavigationMenu>
+</template>
+```
+
+### Con Grid de componentes
+
+Combina múltiples triggers con layouts de grid para paneles ricos:
+
+```vue
+<template>
+  <NavigationMenu>
+    <NavigationMenuList>
+      <NavigationMenuItem value="components">
+        <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+        <NavigationMenuContent class="w-[500px]">
+          <ul class="grid gap-3 md:grid-cols-2">
+            <li v-for="comp in components" :key="comp.title">
+              <NavigationMenuLink :href="comp.href">
+                <div class="text-sm font-medium">{{ comp.title }}</div>
+                <p class="text-sm text-muted-foreground">{{ comp.description }}</p>
+              </NavigationMenuLink>
+            </li>
+          </ul>
+        </NavigationMenuContent>
+      </NavigationMenuItem>
+    </NavigationMenuList>
+    <NavigationMenuViewport />
+  </NavigationMenu>
+</template>
+```
+
+### Componentes
+
+| Componente                | Elemento    | Props           | Descripción                                              |
+| ------------------------- | ----------- | --------------- | -------------------------------------------------------- |
+| `NavigationMenu`          | `<nav>`     | `class`         | Root provider. Gestiona estado activo, hover delays y click-outside |
+| `NavigationMenuList`      | `<ul>`      | `class`         | Contenedor flex para los ítems del menú                  |
+| `NavigationMenuItem`      | `<li>`      | `value`, `class` | Envuelve un trigger+content. `value` identifica el ítem |
+| `NavigationMenuTrigger`   | `<button>`  | `class`         | Botón con chevron que abre el panel al hover o click     |
+| `NavigationMenuContent`   | `<div>`     | `class`         | Panel desplegable con animación. Se teleporta al viewport|
+| `NavigationMenuLink`      | `<a>`       | `as`, `active`, `class` | Link estilizado. Cierra el menú al hacer click   |
+| `NavigationMenuViewport`  | `<div>`     | `class`         | Contenedor posicionado donde se renderizan los paneles   |
+
+### Props detalladas — NavigationMenuItem
+
+| Prop    | Tipo     | Default       | Descripción                                    |
+| ------- | -------- | ------------- | ---------------------------------------------- |
+| `value` | `string` | auto-generado | Identificador único del ítem en el menú        |
+
+### Props detalladas — NavigationMenuLink
+
+| Prop     | Tipo                   | Default | Descripción                              |
+| -------- | ---------------------- | ------- | ---------------------------------------- |
+| `as`     | `string \| Component` | `'a'`   | Elemento o componente a renderizar       |
+| `active` | `boolean`              | `false` | Marca el link como activo (resaltado)    |
+
+### Interacción y teclado
+
+| Acción         | Comportamiento                                              |
+| -------------- | ----------------------------------------------------------- |
+| Hover trigger  | Abre el panel tras 200ms. Sin delay si ya hay otro abierto  |
+| Hover content  | Mantiene el panel abierto. Cierra 300ms después de salir    |
+| Click trigger  | Abre/cierra el panel inmediatamente                         |
+| Click outside  | Cierra cualquier panel abierto                              |
+| Enter / Space  | Abre/cierra el panel del trigger enfocado                   |
+| Arrow Down     | Abre el panel del trigger enfocado                          |
+| Escape         | Cierra el panel abierto desde cualquier parte del menú      |
+
+### Accesibilidad
+
+- `<nav>` con `aria-label="Main"`.
+- Triggers con `aria-expanded` y `data-state` dinámicos.
+- Chevron decorativo con `aria-hidden="true"`.
+- Focus ring visible en triggers: `ring-[3.2px] ring-ring`.
+- Escape cierra el menú desde cualquier punto (trigger o content).
+- Links cierran el menú automáticamente al hacer click.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -4294,6 +4424,15 @@ packages/ui/
 │   │       ├── UiPaginationPrevious.vue   # Botón anterior
 │   │       ├── UiPaginationNext.vue       # Botón siguiente
 │   │       └── UiPaginationEllipsis.vue   # Indicador ellipsis
+│   │   └── navigation-menu/
+│   │       ├── navigation-menu-types.ts    # Tipos e InjectionKeys
+│   │       ├── UiNavigationMenu.vue        # Root provider (nav)
+│   │       ├── UiNavigationMenuList.vue    # Lista contenedora (ul)
+│   │       ├── UiNavigationMenuItem.vue    # Ítem individual (li)
+│   │       ├── UiNavigationMenuTrigger.vue # Botón con chevron
+│   │       ├── UiNavigationMenuContent.vue # Panel desplegable (Teleport)
+│   │       ├── UiNavigationMenuLink.vue    # Link estilizado (polimórfico)
+│   │       └── UiNavigationMenuViewport.vue# Contenedor de posicionamiento
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/
