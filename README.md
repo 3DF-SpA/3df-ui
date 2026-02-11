@@ -51,6 +51,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Kbd](#kbd)
   - [Item](#item)
   - [Input OTP](#input-otp)
+  - [Hover Card](#hover-card)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -4812,6 +4813,113 @@ function onComplete(value: string) {
 
 ---
 
+## Hover Card
+
+Componente de tarjeta flotante que aparece al pasar el cursor sobre un trigger. Ideal para vistas previas de perfiles de usuario, descripciones de enlaces o cualquier contenido enriquecido. Implementación pura Vue con posicionamiento automático, auto-flip, delays configurables y animaciones suaves de fade-in + zoom-in.
+
+### Importación
+
+```ts
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
+```
+
+### Uso básico — perfil de usuario
+
+```vue
+<script setup lang="ts">
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
+</script>
+
+<template>
+  <HoverCard>
+    <HoverCardTrigger>
+      <a href="https://github.com/vuejs" class="text-sm font-medium underline">
+        @vuejs
+      </a>
+    </HoverCardTrigger>
+    <HoverCardContent>
+      <div class="flex justify-between space-x-4">
+        <div class="bg-muted flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold">
+          V
+        </div>
+        <div class="space-y-1">
+          <h4 class="text-sm font-semibold">@vuejs</h4>
+          <p class="text-sm text-muted-foreground">
+            The Progressive JavaScript Framework.
+          </p>
+        </div>
+      </div>
+    </HoverCardContent>
+  </HoverCard>
+</template>
+```
+
+### Alineación y posición
+
+```vue
+<!-- Alinear al inicio -->
+<HoverCardContent align="start">…</HoverCardContent>
+
+<!-- Alinear al final -->
+<HoverCardContent align="end">…</HoverCardContent>
+
+<!-- Posición superior -->
+<HoverCardContent side="top">…</HoverCardContent>
+
+<!-- Posición lateral -->
+<HoverCardContent side="right" :side-offset="12">…</HoverCardContent>
+```
+
+### Delays personalizados
+
+```vue
+<!-- Respuesta rápida -->
+<HoverCard :open-delay="200" :close-delay="100">
+  <HoverCardTrigger>…</HoverCardTrigger>
+  <HoverCardContent>…</HoverCardContent>
+</HoverCard>
+```
+
+### Componentes
+
+| Componente          | Elemento | Descripción                                             |
+| ------------------- | -------- | ------------------------------------------------------- |
+| `HoverCard`         | `<div>`  | Contenedor raíz — provide del contexto, gestión de delays |
+| `HoverCardTrigger`  | `<div>`  | Zona de activación (hover + focus)                      |
+| `HoverCardContent`  | `<div>`  | Panel flotante con posicionamiento automático (Teleport) |
+
+### Props — HoverCard
+
+| Prop         | Tipo     | Default | Descripción                                    |
+| ------------ | -------- | ------- | ---------------------------------------------- |
+| `openDelay`  | `number` | `700`   | Delay en ms antes de abrir                     |
+| `closeDelay` | `number` | `300`   | Delay en ms antes de cerrar                    |
+
+### Props — HoverCardContent
+
+| Prop              | Tipo                                      | Default    | Descripción                              |
+| ----------------- | ----------------------------------------- | ---------- | ---------------------------------------- |
+| `align`           | `'start' \| 'center' \| 'end'`           | `'center'` | Alineación respecto al trigger           |
+| `side`            | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Lado preferido de aparición              |
+| `sideOffset`      | `number`                                  | `8`        | Separación en px del trigger             |
+| `viewportPadding` | `number`                                  | `8`        | Margen mínimo respecto al viewport       |
+
+### Características
+
+- **Posicionamiento inteligente**: auto-flip cuando no hay espacio en el lado preferido.
+- **Viewport clamping**: nunca se sale de la pantalla.
+- **Animación suave**: fade-in + scale + translate-y en entrada, reversa en salida.
+- **Anti-flickering**: `openDelay=700ms` previene aperturas accidentales; `closeDelay=300ms` permite mover el cursor al contenido.
+- **Hover persistente**: el card permanece abierto mientras el cursor esté encima.
+
+### Accesibilidad
+
+- `role="tooltip"` en el contenido con `id` único vinculado.
+- Se cierra automáticamente en scroll para evitar contenido desplazado.
+- Soporta activación por `focusin`/`focusout` para navegación por teclado.
+
+---
+
 ## Utilidades
 
 ### `cn(...classes)`
@@ -5031,6 +5139,11 @@ packages/ui/
 │   │       ├── UiInputOTPGroup.vue           # Agrupación visual de slots
 │   │       ├── UiInputOTPSlot.vue            # Slot individual (input + caret)
 │   │       └── UiInputOTPSeparator.vue       # Separador visual entre grupos
+│   │   └── hover-card/
+│   │       ├── hover-card-types.ts            # Tipos, InjectionKey
+│   │       ├── UiHoverCard.vue                # Root provider (delays, open/close)
+│   │       ├── UiHoverCardTrigger.vue         # Zona de activación (hover + focus)
+│   │       └── UiHoverCardContent.vue         # Panel flotante (Teleport + posición)
 │   ├── lib/
 │   │   └── utils.ts                      # Helper cn()
 │   └── styles/

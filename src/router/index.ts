@@ -152,6 +152,12 @@ const router = createRouter({
           name: 'MyOtp',
           component: () => import('@/modules/ui/views/MyInputOtp.vue'),
         },
+
+        {
+          path: '/hover-card',
+          name: 'MyHoverCard',
+          component: () => import('@/modules/ui/views/MyHoverCard.vue'),
+        },
       ],
     },
   ],

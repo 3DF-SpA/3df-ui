@@ -81,7 +81,7 @@ function onClickOutside(event: MouseEvent) {
   if (!activeMenu.value) return;
 
   if (rootRef.value && !rootRef.value.contains(event.target as Node)) {
-    const menubarContents = document.querySelectorAll('[data-menubar-content]');
+    const menubarContents = Array.from(document.querySelectorAll('[data-menubar-content]'));
     for (const content of menubarContents) {
       if (content.contains(event.target as Node)) return;
     }

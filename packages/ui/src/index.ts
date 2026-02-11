@@ -170,3 +170,14 @@ export { default as InputOTPSlot } from './components/ui/input-otp/UiInputOTPSlo
 export { default as InputOTPSeparator } from './components/ui/input-otp/UiInputOTPSeparator.vue';
 export { INPUT_OTP_KEY, OTP_PATTERNS } from './components/ui/input-otp/input-otp-types';
 export type { InputOTPContext, OTPPatternType } from './components/ui/input-otp/input-otp-types';
+
+// Hover Card
+export { default as HoverCard } from './components/ui/hover-card/UiHoverCard.vue';
+export { default as HoverCardTrigger } from './components/ui/hover-card/UiHoverCardTrigger.vue';
+export { default as HoverCardContent } from './components/ui/hover-card/UiHoverCardContent.vue';
+export { HOVER_CARD_KEY } from './components/ui/hover-card/hover-card-types';
+export type {
+  HoverCardContext,
+  HoverCardAlign,
+  HoverCardSide,
+} from './components/ui/hover-card/hover-card-types';
