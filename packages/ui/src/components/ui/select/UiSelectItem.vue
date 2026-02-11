@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type ComputedRef, type Ref, computed, inject, onBeforeUnmount, onMounted } from 'vue';
+import { type ComputedRef, type Ref, computed, inject, onBeforeUnmount, onMounted, ref } from 'vue';
 
 import { cn } from '../../../lib/utils';
 
@@ -29,10 +29,10 @@ const itemIndex = computed(() => select.items.value.findIndex((i) => i.value ===
 
 const isFocused = computed(() => select.focusedIndex.value === itemIndex.value);
 
+const itemRef = ref<HTMLElement>();
+
 onMounted(() => {
-  // Get label from rendered text content
-  const el = document.querySelector(`[data-select-value="${props.value}"]`);
-  const label = el?.textContent?.trim() ?? props.value;
+  const label = itemRef.value?.textContent?.trim() ?? props.value;
   select.registerItem(props.value, label, props.disabled);
 });
 
@@ -48,6 +48,7 @@ function onClick() {
 
 <template>
   <li
+    ref="itemRef"
     role="option"
     :aria-selected="isSelected"
     :aria-disabled="disabled || undefined"

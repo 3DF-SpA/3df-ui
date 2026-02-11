@@ -18,6 +18,7 @@ const isVisible = ref(false);
 const isLeaving = ref(false);
 let timer: ReturnType<typeof setTimeout> | undefined;
 let enterTimer: ReturnType<typeof setTimeout> | undefined;
+let dismissTimer: ReturnType<typeof setTimeout> | undefined;
 
 const iconMap: Record<string, string> = {
   success: '✓',
@@ -54,6 +55,7 @@ const iconClasses = computed(() => {
 
 function startTimer() {
   if (props.toast.duration <= 0) return;
+  pauseTimer();
   timer = setTimeout(() => {
     dismissToast();
   }, props.toast.duration);
@@ -67,8 +69,9 @@ function pauseTimer() {
 }
 
 function dismissToast() {
+  if (isLeaving.value) return;
   isLeaving.value = true;
-  setTimeout(() => {
+  dismissTimer = setTimeout(() => {
     emit('dismiss', props.toast.id);
   }, 300);
 }
@@ -83,6 +86,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   pauseTimer();
   if (enterTimer) clearTimeout(enterTimer);
+  if (dismissTimer) clearTimeout(dismissTimer);
 });
 </script>
 

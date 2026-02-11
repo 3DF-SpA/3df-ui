@@ -48,6 +48,7 @@ const isDraggingY = ref(false);
 const isDraggingX = ref(false);
 
 let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+let scrollRafId: number | undefined;
 
 /* ── Visibility logic ── */
 const showVertical = computed(() => {
@@ -99,7 +100,12 @@ function updateScrollbars() {
 }
 
 function onScroll() {
-  updateScrollbars();
+  if (!scrollRafId) {
+    scrollRafId = requestAnimationFrame(() => {
+      updateScrollbars();
+      scrollRafId = undefined;
+    });
+  }
   isScrolling.value = true;
   if (scrollTimeout) clearTimeout(scrollTimeout);
   scrollTimeout = setTimeout(() => {
@@ -203,6 +209,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   resizeObserver?.disconnect();
   if (scrollTimeout) clearTimeout(scrollTimeout);
+  if (scrollRafId) cancelAnimationFrame(scrollRafId);
   document.removeEventListener('pointermove', onThumbYPointerMove);
   document.removeEventListener('pointerup', onThumbYPointerUp);
   document.removeEventListener('pointermove', onThumbXPointerMove);

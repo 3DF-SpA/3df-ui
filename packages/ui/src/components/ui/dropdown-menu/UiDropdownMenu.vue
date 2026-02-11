@@ -45,23 +45,23 @@ function unregisterItem(id: string) {
   items.value = items.value.filter((i) => i.id !== id);
 }
 
-function getEnabledItems() {
-  return items.value.map((item, index) => ({ ...item, index })).filter((item) => !item.disabled);
-}
+const enabledItems = computed(() =>
+  items.value.map((item, index) => ({ ...item, index })).filter((item) => !item.disabled),
+);
 
 function onKeydown(event: KeyboardEvent) {
-  const enabledItems = getEnabledItems();
-  if (!enabledItems.length) return;
+  const enabled = enabledItems.value;
+  if (!enabled.length) return;
 
   switch (event.key) {
     case 'ArrowDown': {
       event.preventDefault();
       if (!isOpen.value) {
         open();
-        focusedIndex.value = enabledItems[0]?.index ?? 0;
+        focusedIndex.value = enabled[0]?.index ?? 0;
       } else {
-        const currentIdx = enabledItems.findIndex((i) => i.index === focusedIndex.value);
-        const next = enabledItems[currentIdx + 1] ?? enabledItems[0];
+        const currentIdx = enabled.findIndex((i) => i.index === focusedIndex.value);
+        const next = enabled[currentIdx + 1] ?? enabled[0];
         if (next) focusedIndex.value = next.index;
       }
       break;
@@ -70,10 +70,10 @@ function onKeydown(event: KeyboardEvent) {
       event.preventDefault();
       if (!isOpen.value) {
         open();
-        focusedIndex.value = enabledItems[enabledItems.length - 1]?.index ?? 0;
+        focusedIndex.value = enabled[enabled.length - 1]?.index ?? 0;
       } else {
-        const currentIdx = enabledItems.findIndex((i) => i.index === focusedIndex.value);
-        const prev = enabledItems[currentIdx - 1] ?? enabledItems[enabledItems.length - 1];
+        const currentIdx = enabled.findIndex((i) => i.index === focusedIndex.value);
+        const prev = enabled[currentIdx - 1] ?? enabled[enabled.length - 1];
         if (prev) focusedIndex.value = prev.index;
       }
       break;
@@ -83,7 +83,7 @@ function onKeydown(event: KeyboardEvent) {
       event.preventDefault();
       if (!isOpen.value) {
         open();
-        focusedIndex.value = enabledItems[0]?.index ?? 0;
+        focusedIndex.value = enabled[0]?.index ?? 0;
       } else if (focusedIndex.value >= 0) {
         const item = items.value[focusedIndex.value];
         if (item && !item.disabled) {
@@ -102,15 +102,15 @@ function onKeydown(event: KeyboardEvent) {
       break;
     case 'Home': {
       event.preventDefault();
-      if (isOpen.value && enabledItems.length) {
-        focusedIndex.value = enabledItems[0]!.index;
+      if (isOpen.value && enabled.length) {
+        focusedIndex.value = enabled[0]!.index;
       }
       break;
     }
     case 'End': {
       event.preventDefault();
-      if (isOpen.value && enabledItems.length) {
-        focusedIndex.value = enabledItems[enabledItems.length - 1]!.index;
+      if (isOpen.value && enabled.length) {
+        focusedIndex.value = enabled[enabled.length - 1]!.index;
       }
       break;
     }

@@ -25,9 +25,9 @@ const ctx = useSidebar();
 
 /* Sync reactiva: si las props cambian, el contexto se actualiza */
 watchEffect(() => {
-  if (props.side) ctx.side.value = props.side;
-  if (props.variant) ctx.variant.value = props.variant;
-  if (props.collapsible) ctx.collapsible.value = props.collapsible;
+  if (props.side && ctx.side.value !== props.side) ctx.side.value = props.side;
+  if (props.variant && ctx.variant.value !== props.variant) ctx.variant.value = props.variant;
+  if (props.collapsible && ctx.collapsible.value !== props.collapsible) ctx.collapsible.value = props.collapsible;
 });
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };

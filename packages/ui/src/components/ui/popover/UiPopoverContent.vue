@@ -52,6 +52,7 @@ const restAttrs = computed(() => {
 
 // ── Auto-positioning (fixed to viewport) ──────────────────────
 const positionStyle = ref<CSSProperties>({});
+let rafId: number | undefined;
 
 function updatePosition() {
   const trigger = popover.triggerRef.value;
@@ -135,6 +136,14 @@ function onScroll(event: Event) {
   popover.close();
 }
 
+function onResize() {
+  if (rafId) return;
+  rafId = requestAnimationFrame(() => {
+    updatePosition();
+    rafId = undefined;
+  });
+}
+
 watch(
   () => popover.isOpen.value,
   async (open) => {
@@ -144,17 +153,18 @@ watch(
       await nextTick();
       updatePosition();
       window.addEventListener('scroll', onScroll, true);
-      window.addEventListener('resize', updatePosition);
+      window.addEventListener('resize', onResize);
     } else {
       window.removeEventListener('scroll', onScroll, true);
-      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('resize', onResize);
     }
   },
 );
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', onScroll, true);
-  window.removeEventListener('resize', updatePosition);
+  window.removeEventListener('resize', onResize);
+  if (rafId) cancelAnimationFrame(rafId);
 });
 </script>
 
