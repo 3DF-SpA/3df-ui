@@ -6313,6 +6313,20 @@ const logos: LogoItem[] = [
 - **Dual row** — `reverse` agrega una segunda fila moviéndose en dirección contraria
 - **Puramente decorativo** — logos con `pointer-events: none`, sin interacciones individuales
 
+### Componentes
+
+| Componente    | Archivo             | Descripción                                                  |
+| ------------- | ------------------- | ------------------------------------------------------------ |
+| `LogoCloud`   | `UiLogoCloud.vue`   | Grid estático responsivo (2→sm:3→lg:N cols) con grayscale opcional |
+| `LogoMarquee` | `UiLogoMarquee.vue` | Scroll infinito (Web Animations API) con hover-to-slow       |
+
+### Tipos exportados
+
+| Tipo               | Descripción                                   |
+| ------------------ | --------------------------------------------- |
+| `LogoItem`         | `{ name, src, href?, alt? }` — datos de un logo |
+| `MarqueeDirection` | `'left' \| 'right'` — dirección del marquee   |
+
 ---
 
 ## Charts (`@3df/charts`)
