@@ -317,3 +317,13 @@ export { default as LogoCloud } from './components/ui/logo/UiLogoCloud.vue';
 export { default as LogoMarquee } from './components/ui/logo/UiLogoMarquee.vue';
 export type { LogoItem } from './components/ui/logo/UiLogoCloud.vue';
 export type { MarqueeDirection } from './components/ui/logo/UiLogoMarquee.vue';
+
+// Hero
+export { default as HeroSimple } from './components/ui/hero/UiHeroSimple.vue';
+export { default as HeroSplit } from './components/ui/hero/UiHeroSplit.vue';
+export { default as HeroImage } from './components/ui/hero/UiHeroImage.vue';
+export { default as HeroGradient } from './components/ui/hero/UiHeroGradient.vue';
+export { default as HeroCentered } from './components/ui/hero/UiHeroCentered.vue';
+export { default as HeroMinimal } from './components/ui/hero/UiHeroMinimal.vue';
+export { default as HeroVideo } from './components/ui/hero/UiHeroVideo.vue';
+export type { HeroAction, HeroAlign } from './components/ui/hero/hero-types';

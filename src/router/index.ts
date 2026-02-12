@@ -243,6 +243,12 @@ const router = createRouter({
           name: 'MyLogos',
           component: () => import('@/modules/ui/views/MyLogos.vue'),
         },
+
+        {
+          path: '/hero',
+          name: 'MyHero',
+          component: () => import('@/modules/ui/views/MyHero.vue'),
+        },
       ],
     },
 

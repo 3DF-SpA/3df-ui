@@ -71,6 +71,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Alert Dialog](#alert-dialog)
   - [Accordion](#accordion)
   - [Logo Cloud & Marquee](#logo-cloud--marquee)
+  - [Hero Sections](#hero-sections)
 - **Charts** (`@3df/charts`)
   - [Instalación Charts](#instalación-charts)
   - [Bar Chart](#bar-chart)
@@ -6327,6 +6328,303 @@ const logos: LogoItem[] = [
 | ------------------ | --------------------------------------------- |
 | `LogoItem`         | `{ name, src, href?, alt? }` — datos de un logo |
 | `MarqueeDirection` | `'left' \| 'right'` — dirección del marquee   |
+
+---
+
+## Hero Sections
+
+Secciones hero para landing pages con 6 variantes distintas. Cada componente acepta props para configuración rápida y slots para personalización avanzada. Todos emiten `action` al hacer click en un botón CTA.
+
+### Importación
+
+```vue
+<script setup lang="ts">
+import {
+  HeroSimple,
+  HeroSplit,
+  HeroImage,
+  HeroGradient,
+  HeroCentered,
+  HeroMinimal,
+  HeroVideo,
+  type HeroAction,
+  type HeroAlign,
+} from '@3df/ui';
+</script>
+```
+
+### Tipos compartidos
+
+```ts
+interface HeroAction {
+  label: string;
+  href?: string;
+  external?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+}
+
+type HeroAlign = 'left' | 'center' | 'right';
+```
+
+### HeroSimple
+
+Hero centrado básico con headline, descripción y botones CTA. Ideal para páginas de inicio sencillas.
+
+```vue
+<HeroSimple
+  headline="Build beautiful web applications faster"
+  description="A comprehensive Vue 3 component library built with Tailwind CSS."
+  :actions="[
+    { label: 'Get Started', variant: 'primary', href: '#' },
+    { label: 'Learn More', variant: 'outline', href: '#' },
+  ]"
+/>
+
+<!-- Alineado a la izquierda y compacto -->
+<HeroSimple
+  headline="Ship products faster"
+  description="Production-ready components for Vue 3."
+  :actions="actions"
+  align="left"
+  compact
+/>
+```
+
+#### Props — HeroSimple
+
+| Prop          | Tipo            | Default    | Descripción                         |
+| ------------- | --------------- | ---------- | ----------------------------------- |
+| `headline`    | `string`        | —          | Texto principal (h1)                |
+| `description` | `string`        | —          | Subtítulo / descripción             |
+| `actions`     | `HeroAction[]`  | —          | Botones CTA                         |
+| `align`       | `HeroAlign`     | `'center'` | Alineación del texto                |
+| `compact`     | `boolean`       | `false`    | Reduce el padding vertical          |
+
+### HeroSplit
+
+Layout dividido: texto en un lado, imagen o contenido multimedia en el otro.
+
+```vue
+<HeroSplit
+  headline="The modern way to build dashboards"
+  description="From charts to forms, everything you need."
+  :actions="actions"
+  image-src="https://example.com/dashboard.jpg"
+  image-alt="Dashboard preview"
+/>
+
+<!-- Imagen a la izquierda -->
+<HeroSplit
+  headline="Design systems made simple"
+  description="Reusable components that scale."
+  :actions="actions"
+  image-src="/hero.jpg"
+  reverse
+/>
+```
+
+#### Props — HeroSplit
+
+| Prop          | Tipo            | Default | Descripción                                |
+| ------------- | --------------- | ------- | ------------------------------------------ |
+| `headline`    | `string`        | —       | Texto principal (h1)                       |
+| `description` | `string`        | —       | Subtítulo                                  |
+| `actions`     | `HeroAction[]`  | —       | Botones CTA                                |
+| `imageSrc`    | `string`        | —       | URL de la imagen del lado derecho          |
+| `imageAlt`    | `string`        | `''`    | Alt text de la imagen                      |
+| `reverse`     | `boolean`       | `false` | Intercambia imagen y texto de lado         |
+| `compact`     | `boolean`       | `false` | Reduce padding vertical                    |
+
+### HeroImage
+
+Hero con imagen de fondo a pantalla completa y overlay configurable.
+
+```vue
+<HeroImage
+  headline="Explore the world of possibilities"
+  description="Beautiful background imagery with full customization."
+  :actions="actions"
+  image-src="https://example.com/landscape.jpg"
+  overlay="dark"
+  :overlay-opacity="50"
+/>
+
+<!-- Overlay gradiente, alineado a la izquierda -->
+<HeroImage
+  headline="Where creativity meets technology"
+  :actions="actions"
+  image-src="/bg.jpg"
+  overlay="gradient"
+  :overlay-opacity="40"
+  align="left"
+  min-height="550px"
+/>
+```
+
+#### Props — HeroImage
+
+| Prop             | Tipo                                          | Default    | Descripción                          |
+| ---------------- | --------------------------------------------- | ---------- | ------------------------------------ |
+| `headline`       | `string`                                      | —          | Texto principal                      |
+| `description`    | `string`                                      | —          | Subtítulo                            |
+| `actions`        | `HeroAction[]`                                | —          | Botones CTA                          |
+| `imageSrc`       | `string`                                      | **required** | URL de la imagen de fondo          |
+| `imageAlt`       | `string`                                      | `''`       | Alt text (a11y)                      |
+| `overlay`        | `'dark' \| 'light' \| 'gradient' \| 'none'`  | `'dark'`   | Tipo de overlay                      |
+| `overlayOpacity` | `number`                                      | `60`       | Opacidad del overlay (0–100)         |
+| `align`          | `HeroAlign`                                   | `'center'` | Alineación del texto                 |
+| `minHeight`      | `string`                                      | `'500px'`  | Altura mínima del hero               |
+| `compact`        | `boolean`                                     | `false`    | Reduce padding vertical              |
+
+### HeroGradient
+
+Hero moderno con fondo gradiente y blobs decorativos. 5 presets de color mas soporte para gradientes custom.
+
+```vue
+<HeroGradient
+  headline="Next-generation components"
+  description="Beautiful, accessible, and performant."
+  :actions="actions"
+  gradient="purple"
+/>
+
+<!-- Sin blobs, preset blue -->
+<HeroGradient
+  headline="Scale your frontend"
+  :actions="actions"
+  gradient="blue"
+  :blobs="false"
+  compact
+/>
+```
+
+#### Props — HeroGradient
+
+| Prop             | Tipo                                                        | Default      | Descripción                           |
+| ---------------- | ----------------------------------------------------------- | ------------ | ------------------------------------- |
+| `headline`       | `string`                                                    | —            | Texto principal                       |
+| `description`    | `string`                                                    | —            | Subtítulo                             |
+| `actions`        | `HeroAction[]`                                              | —            | Botones CTA                           |
+| `gradient`       | `'purple' \| 'blue' \| 'green' \| 'orange' \| 'rose' \| 'custom'` | `'purple'` | Preset de gradiente               |
+| `customGradient` | `string`                                                    | —            | CSS gradient (cuando gradient='custom') |
+| `blobs`          | `boolean`                                                   | `true`       | Mostrar blobs decorativos             |
+| `align`          | `HeroAlign`                                                 | `'center'`   | Alineación del texto                  |
+| `compact`        | `boolean`                                                   | `false`      | Reduce padding vertical               |
+
+### HeroCentered
+
+Hero centrado con badge/anuncio, headline con texto resaltado en gradiente, y patrón de grid sutil. Ideal para SaaS y productos tech.
+
+```vue
+<HeroCentered
+  badge="🚀 New: Charts package now available"
+  badge-href="#"
+  headline="Build interfaces that feel like magic"
+  highlight-text="feel like magic"
+  description="A complete design system for Vue 3 with 45+ components."
+  :actions="actions"
+  :grid-pattern="true"
+/>
+```
+
+#### Props — HeroCentered
+
+| Prop            | Tipo           | Default  | Descripción                                    |
+| --------------- | -------------- | -------- | ---------------------------------------------- |
+| `badge`         | `string`       | —        | Texto del badge/anuncio                        |
+| `badgeHref`     | `string`       | —        | Enlace del badge (lo convierte en link)        |
+| `headline`      | `string`       | —        | Texto principal                                |
+| `highlightText` | `string`       | —        | Texto del headline a resaltar con gradiente    |
+| `description`   | `string`       | —        | Subtítulo                                      |
+| `actions`       | `HeroAction[]` | —        | Botones CTA                                    |
+| `gridPattern`   | `boolean`      | `true`   | Patrón de grid sutil en el fondo               |
+| `compact`       | `boolean`      | `false`  | Reduce padding vertical                        |
+
+### HeroMinimal
+
+Hero minimalista con tipografía limpia. Ideal para headers de secciones o páginas internas.
+
+```vue
+<HeroMinimal
+  headline="Component Library"
+  description="Browse our production-ready Vue 3 components."
+  :actions="[{ label: 'Browse', variant: 'primary', href: '#' }]"
+  separator
+/>
+
+<!-- Centrado -->
+<HeroMinimal
+  headline="Documentation"
+  description="Everything you need to get started."
+  :actions="actions"
+  align="center"
+  compact
+/>
+```
+
+#### Props — HeroMinimal
+
+| Prop          | Tipo           | Default  | Descripción                         |
+| ------------- | -------------- | -------- | ----------------------------------- |
+| `headline`    | `string`       | —        | Texto principal                     |
+| `description` | `string`       | —        | Subtítulo                           |
+| `actions`     | `HeroAction[]` | —        | Botones CTA                         |
+| `align`       | `HeroAlign`    | `'left'` | Alineación del texto                |
+| `separator`   | `boolean`      | `false`  | Línea separadora inferior           |
+| `compact`     | `boolean`      | `false`  | Reduce padding vertical             |
+
+### HeroVideo
+
+Hero con video de fondo en autoplay (muted, loop). Misma API de overlay que HeroImage.
+
+```vue
+<HeroVideo
+  headline="Experience the future"
+  description="Immersive hero sections with video backgrounds."
+  :actions="actions"
+  video-src="/hero-bg.mp4"
+  poster="/hero-poster.jpg"
+  overlay="dark"
+  :overlay-opacity="50"
+/>
+```
+
+#### Props — HeroVideo
+
+| Prop             | Tipo                                          | Default  | Descripción                          |
+| ---------------- | --------------------------------------------- | -------- | ------------------------------------ |
+| `headline`       | `string`                                      | —        | Texto principal                      |
+| `description`    | `string`                                      | —        | Subtítulo                            |
+| `actions`        | `HeroAction[]`                                | —        | Botones CTA                          |
+| `videoSrc`       | `string \| string[]`                          | **required** | URL(s) del video de fondo        |
+| `poster`         | `string`                                      | —        | Imagen poster antes de que cargue    |
+| `overlay`        | `'dark' \| 'light' \| 'gradient' \| 'none'`  | `'dark'` | Tipo de overlay                      |
+| `overlayOpacity` | `number`                                      | `60`     | Opacidad del overlay (0–100)         |
+| `compact`        | `boolean`                                     | `false`  | Reduce padding vertical              |
+
+### Slots comunes (todos los Hero)
+
+| Slot          | Descripción                                        |
+| ------------- | -------------------------------------------------- |
+| `headline`    | Reemplaza el headline por defecto                  |
+| `description` | Reemplaza la descripción por defecto               |
+| `actions`     | Reemplaza los botones CTA por defecto              |
+| `default`     | Contenido adicional después de las acciones        |
+
+> `HeroSplit` tiene slot `media` para reemplazar la imagen. `HeroCentered` tiene slot `badge` y `footer`. `HeroGradient` tiene slot `decoration`.
+
+### Evento
+
+| Evento   | Payload                            | Descripción                               |
+| -------- | ---------------------------------- | ----------------------------------------- |
+| `action` | `(action: HeroAction, index: number)` | Se emite al hacer click en un botón CTA |
+
+### Tipos Hero
+
+| Tipo         | Descripción                                              |
+| ------------ | -------------------------------------------------------- |
+| `HeroAction` | `{ label, href?, external?, variant? }` — datos de CTA  |
+| `HeroAlign`  | `'left' \| 'center' \| 'right'` — alineación del texto  |
 
 ---
 
