@@ -74,6 +74,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Instalación Charts](#instalación-charts)
   - [Bar Chart](#bar-chart)
   - [Line Chart](#line-chart)
+  - [Pie Chart](#pie-chart)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -6396,6 +6397,105 @@ const config: ChartConfig = {
 - **Static dots** — puntos pequeños opcionales (`showDots`) en cada dato
 - **Crosshair** — línea vertical punteada en la posición hover
 - **Bouncy animation** — líneas crecen desde la baseline
+
+---
+
+### Pie Chart
+
+Gráfico circular con soporte pie completo y donut. Slices animadas, explode on hover, legend interactiva.
+
+```vue
+<script setup lang="ts">
+import { UiChartPie, type ChartConfig, type ChartDataRow } from '@3df/charts';
+
+// Modo valueKey: cada fila es un slice
+const data: ChartDataRow[] = [
+  { browser: 'Chrome', share: 63 },
+  { browser: 'Safari', share: 19 },
+  { browser: 'Firefox', share: 7 },
+  { browser: 'Edge', share: 6 },
+  { browser: 'Other', share: 5 },
+];
+
+const config: ChartConfig = {
+  Chrome:  { label: 'Chrome',  color: 'var(--color-chart-1)' },
+  Safari:  { label: 'Safari',  color: 'var(--color-chart-2)' },
+  Firefox: { label: 'Firefox', color: 'var(--color-chart-3)' },
+  Edge:    { label: 'Edge',    color: 'var(--color-chart-4)' },
+  Other:   { label: 'Other',   color: 'var(--color-chart-5)' },
+};
+</script>
+
+<template>
+  <!-- Full pie con labels de porcentaje -->
+  <UiChartPie
+    :config="config"
+    :data="data"
+    index="browser"
+    value-key="share"
+    :show-labels="true"
+    label-type="percent"
+  />
+
+  <!-- Donut con total centrado -->
+  <UiChartPie
+    :config="config"
+    :data="data"
+    index="browser"
+    value-key="share"
+    :inner-radius="70"
+  />
+
+  <!-- Sin animación, labels de valor -->
+  <UiChartPie
+    :config="config"
+    :data="data"
+    index="browser"
+    value-key="share"
+    :inner-radius="50"
+    :animate="false"
+    :show-labels="true"
+    label-type="value"
+  />
+</template>
+```
+
+#### Modos de datos
+
+- **`valueKey` mode** — cada fila del array es un slice. El campo `index` identifica la categoría, el campo `valueKey` tiene el valor numérico. Las keys del `config` deben coincidir con los valores de `data[index]`.
+- **Multi-key mode** — sin `valueKey`. Las keys del `config` son los campos numéricos directamente. Si hay una sola fila, cada key es un slice. Si hay múltiples filas, se suman los valores por key.
+
+#### Props
+
+| Prop                | Tipo                                    | Default      | Descripción                                    |
+| ------------------- | --------------------------------------- | ------------ | ---------------------------------------------- |
+| `config`            | `ChartConfig`                           | **required** | Mapa de slices → label + color                 |
+| `data`              | `ChartDataRow[]`                        | **required** | Array de filas de datos                        |
+| `index`             | `string`                                | **required** | Key del campo índice (categoría)               |
+| `valueKey`          | `string`                                | —            | Key del campo numérico (modo valueKey)         |
+| `innerRadius`       | `number`                                | `0`          | Radio interno (0 = pie, >0 = donut)            |
+| `radiusFraction`    | `number`                                | `0.85`       | Fracción del espacio disponible (0-1)          |
+| `padAngle`          | `number`                                | `1.5`        | Ángulo de separación entre slices (grados)     |
+| `cornerRadius`      | `number`                                | `3`          | Radio de esquinas de los slices                |
+| `showTooltip`       | `boolean`                               | `true`       | Mostrar tooltip on hover                       |
+| `showLegend`        | `boolean`                               | `true`       | Mostrar legend interactiva                     |
+| `showLabels`        | `boolean`                               | `false`      | Mostrar labels sobre los slices                |
+| `labelType`         | `'percent' \| 'value' \| 'name'`      | `'percent'`  | Tipo de label a mostrar                        |
+| `minHeight`         | `number`                                | `350`        | Altura mínima en px                            |
+| `tooltipFormatter`  | `(value: number, key: string) => string`| —            | Formateador personalizado del tooltip          |
+| `valueFormatter`    | `(value: number) => string`             | compact fmt  | Formateador de valores                         |
+| `animate`           | `boolean`                               | `true`       | Habilitar animación de entrada                 |
+| `startAngle`        | `number`                                | `-90`        | Ángulo inicial en grados (−90 = 12 en punto)   |
+
+#### Visuales
+
+- **Radial gradient** — cada slice tiene un gradiente radial sutil para profundidad
+- **Explode on hover** — el slice activo se desplaza hacia afuera 6px en dirección de su ángulo medio
+- **Drop shadow** — sombra en el slice hover para efecto de elevación
+- **Dimming** — slices no activas bajan a 35% opacidad
+- **Donut center** — cuando `innerRadius > 0`, muestra el total formateado + label "Total"
+- **Bouncy animation** — slices crecen desde 0° con `cubic-bezier(0.34, 1.56, 0.64, 1)`
+- **Pad angle** — separación de 1.5° entre slices (configurable)
 
 ---
 

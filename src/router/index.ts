@@ -256,6 +256,11 @@ const router = createRouter({
           name: 'chartline',
           component: () => import('@/modules/charts/views/ChartLine.vue'),
         },
+        {
+          path: 'piechart',
+          name: 'piechart',
+          component: () => import('@/modules/charts/views/PieChart.vue'),
+        },
       ],
     }
   ],
