@@ -75,6 +75,9 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Bar Chart](#bar-chart)
   - [Line Chart](#line-chart)
   - [Pie Chart](#pie-chart)
+  - [Radar Chart](#radar-chart)
+  - [Scatter Chart](#scatter-chart)
+  - [Gauge Chart](#gauge-chart)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -6373,7 +6376,10 @@ const config: ChartConfig = {
 | `showXAxis`         | `boolean`                               | `true`       | Mostrar labels del eje X                       |
 | `showYAxis`         | `boolean`                               | `true`       | Mostrar labels del eje Y                       |
 | `showDots`          | `boolean`                               | `false`      | Mostrar puntos en cada dato                    |
+| `mode`              | `'none' \| 'stacked' \| 'expanded'`  | `'none'`     | Modo de apilamiento de áreas                   |
 | `showArea`          | `boolean`                               | `true`       | Mostrar relleno degradado bajo las líneas      |
+| `showLine`          | `boolean`                               | `true`       | Mostrar trazo de línea sobre el área           |
+| `fillOpacity`       | `number`                                | `0.25`       | Opacidad del gradiente de relleno              |
 | `tickCount`         | `number`                                | `5`          | Número aproximado de ticks                     |
 | `valueFormatter`    | `(value: number) => string`             | compact fmt  | Formateador del eje de valores                 |
 | `categoryFormatter` | `(value: string \| number) => string`  | `String()`   | Formateador del eje de categorías              |
@@ -6397,6 +6403,22 @@ const config: ChartConfig = {
 - **Static dots** — puntos pequeños opcionales (`showDots`) en cada dato
 - **Crosshair** — línea vertical punteada en la posición hover
 - **Bouncy animation** — líneas crecen desde la baseline
+
+#### Modos de apilamiento (Area Chart)
+
+Cuando se usa `mode`, el Line Chart actúa como Area Chart con áreas apiladas:
+
+```vue
+<!-- Stacked: áreas acumulativas -->
+<UiChartLine :config="config" :data="data" index="month" mode="stacked" />
+
+<!-- Expanded: normalizado a 100% -->
+<UiChartLine :config="config" :data="data" index="month" mode="expanded" />
+```
+
+- **`none`** (default) — cada serie independiente desde baseline (line chart clásico)
+- **`stacked`** — áreas apiladas, cada serie se suma a la anterior
+- **`expanded`** — normalizado a 100%, eje Y auto-formatea como porcentajes
 
 ---
 
@@ -6496,6 +6518,212 @@ const config: ChartConfig = {
 - **Donut center** — cuando `innerRadius > 0`, muestra el total formateado + label "Total"
 - **Bouncy animation** — slices crecen desde 0° con `cubic-bezier(0.34, 1.56, 0.64, 1)`
 - **Pad angle** — separación de 1.5° entre slices (configurable)
+
+---
+
+### Radar Chart
+
+Componente de gráfico radar/araña con cuadrículas poligonales o circulares, relleno con gradiente radial y animación de entrada.
+
+```vue
+<script setup lang="ts">
+import { UiChartRadar, type ChartConfig } from '@3df/charts';
+
+const config: ChartConfig = {
+  alice: { label: 'Alice', color: 'var(--color-chart-1)' },
+  bob:   { label: 'Bob',   color: 'var(--color-chart-4)' },
+};
+
+const data = [
+  { skill: 'Vue',     alice: 9, bob: 7 },
+  { skill: 'Node',    alice: 7, bob: 8 },
+  { skill: 'CSS',     alice: 8, bob: 5 },
+  { skill: 'Testing', alice: 6, bob: 9 },
+  { skill: 'DevOps',  alice: 5, bob: 7 },
+];
+</script>
+
+<template>
+  <UiChartRadar :config="config" :data="data" index="skill" />
+</template>
+```
+
+#### Props
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `config` | `ChartConfig` | — | Configuración de series (color, label) |
+| `data` | `Record<string, unknown>[]` | — | Array de datos, una fila por eje |
+| `index` | `string` | — | Key del campo de etiqueta de eje |
+| `variant` | `'polygon' \| 'circle'` | `'polygon'` | Forma de la cuadrícula |
+| `levels` | `number` | `5` | Número de anillos concéntricos |
+| `showFill` | `boolean` | `true` | Mostrar relleno con gradiente |
+| `fillOpacity` | `number` | `0.2` | Opacidad del relleno |
+| `showDots` | `boolean` | `true` | Mostrar puntos en vértices |
+| `showAxisLabels` | `boolean` | `true` | Mostrar etiquetas de ejes |
+| `showTooltip` | `boolean` | `true` | Mostrar tooltip al hover |
+| `showLegend` | `boolean` | `true` | Mostrar leyenda interactiva |
+| `strokeWidth` | `number` | `2` | Ancho de línea de series |
+| `dotRadius` | `number` | `4` | Radio de los puntos |
+| `minHeight` | `number` | `400` | Altura mínima en px |
+| `animate` | `boolean` | `true` | Animación de entrada |
+| `valueFormatter` | `(v: number) => string` | — | Formatear valores en tooltip |
+| `tooltipFormatter` | `(key, value, label, data) => string` | — | Tooltip personalizado |
+
+#### Características
+
+- **Polygon / Circle grid** — dos variantes de cuadrícula para distintos estilos
+- **Radial gradient fill** — cada serie tiene un gradiente radial sutil
+- **Glow on hover** — puntos brillan al pasar el mouse
+- **Entrance animation** — las formas crecen desde el centro con transición suave
+- **Interactive legend** — clic en la leyenda para ocultar/mostrar series
+- **Auto text-anchor** — las etiquetas de ejes se alinean según su posición angular
+
+---
+
+### Scatter Chart
+
+Gráfico de dispersión / burbujas con formas circle/square/diamond, tamaño por variable y leyenda interactiva.
+
+```vue
+<script setup lang="ts">
+import { UiChartScatter, type ScatterConfig } from '@3df/charts';
+
+const config: ScatterConfig = {
+  team: {
+    label: 'Team',
+    color: 'var(--color-chart-1)',
+    xKey: 'hours',
+    yKey: 'bugs',
+  },
+};
+
+const data = [
+  { hours: 10, bugs: 3 },
+  { hours: 20, bugs: 7 },
+  { hours: 35, bugs: 5 },
+  { hours: 50, bugs: 12 },
+];
+</script>
+
+<template>
+  <UiChartScatter :config="config" :data="data" />
+</template>
+```
+
+#### Props
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `config` | `ScatterConfig` | — | Configuración de series (`xKey`, `yKey`, `sizeKey?`, `shape?`) |
+| `data` | `Record<string, unknown>[]` | — | Array de datos |
+| `showTooltip` | `boolean` | `true` | Tooltip al hover |
+| `showLegend` | `boolean` | `true` | Leyenda interactiva |
+| `showGrid` | `boolean` | `true` | Mostrar cuadrícula de puntos |
+| `showXAxis` | `boolean` | `true` | Mostrar eje X |
+| `showYAxis` | `boolean` | `true` | Mostrar eje Y |
+| `tickCount` | `number` | `5` | Número de ticks por eje |
+| `dotRadius` | `number` | `6` | Radio base de los puntos |
+| `minDotRadius` | `number` | `4` | Radio mínimo (modo burbuja) |
+| `maxDotRadius` | `number` | `24` | Radio máximo (modo burbuja) |
+| `minHeight` | `number` | `400` | Altura mínima en px |
+| `animate` | `boolean` | `true` | Animación de entrada |
+| `xFormatter` | `(v: number) => string` | — | Formatear valores eje X |
+| `yFormatter` | `(v: number) => string` | — | Formatear valores eje Y |
+| `tooltipFormatter` | `(seriesKey, point) => string` | — | Tooltip personalizado |
+
+#### `ScatterSeriesConfig`
+
+```ts
+interface ScatterSeriesConfig {
+  label: string;
+  color: string;
+  xKey: string;
+  yKey: string;
+  sizeKey?: string;      // para modo burbuja
+  shape?: 'circle' | 'square' | 'diamond';
+}
+
+type ScatterConfig = Record<string, ScatterSeriesConfig>;
+```
+
+#### Características
+
+- **3 formas** — circle, square y diamond por serie
+- **Modo burbuja** — asigna `sizeKey` para mapear una tercera variable al tamaño del punto
+- **Nice scale** — ambos ejes calculan rangos "bonitos" automáticamente
+- **Glow on hover** — punto activo brilla, los demás bajan a 35% opacidad
+- **Entrance animation** — puntos aparecen desde el centro del eje Y con cubic-bezier
+- **Dot grid** — cuadrícula tipo punto para un look limpio
+
+---
+
+### Gauge Chart
+
+Gauge radial con aguja, segmentos coloreados y 3 variantes de arco (semicircle, arc 270°, full 360°).
+
+```vue
+<script setup lang="ts">
+import { UiChartGauge, type GaugeSegment } from '@3df/charts';
+
+const segments: GaugeSegment[] = [
+  { max: 60,  color: 'var(--color-chart-3)', label: 'Safe' },
+  { max: 100, color: 'var(--color-chart-1)', label: 'Normal' },
+  { max: 140, color: 'oklch(0.65 0.18 45)',  label: 'Fast' },
+  { max: 200, color: 'oklch(0.60 0.22 25)',  label: 'Danger' },
+];
+</script>
+
+<template>
+  <UiChartGauge
+    :value="115"
+    :max="200"
+    variant="arc"
+    :segments="segments"
+    :show-segment-labels="true"
+    label="km/h"
+  />
+</template>
+```
+
+#### Props
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `value` | `number` | — | Valor actual del gauge |
+| `min` | `number` | `0` | Valor mínimo |
+| `max` | `number` | `100` | Valor máximo |
+| `variant` | `'semicircle' \| 'arc' \| 'full'` | `'semicircle'` | Forma del arco |
+| `segments` | `GaugeSegment[]` | — | Zonas coloreadas opcionales |
+| `color` | `string` | `'var(--color-chart-1)'` | Color del arco de valor (sin segmentos) |
+| `trackColor` | `string` | — | Color de la pista de fondo |
+| `trackOpacity` | `number` | `0.3` | Opacidad de la pista |
+| `label` | `string` | — | Etiqueta bajo el valor central |
+| `valueFormatter` | `(v: number) => string` | — | Formatear el valor mostrado |
+| `strokeWidth` | `number` | `20` | Ancho de la pista/arco |
+| `showNeedle` | `boolean` | `true` | Mostrar aguja |
+| `showSegmentLabels` | `boolean` | `false` | Etiquetas de segmentos |
+| `minHeight` | `number` | `250` | Altura mínima en px |
+| `animate` | `boolean` | `true` | Animación de entrada |
+
+#### `GaugeSegment`
+
+```ts
+interface GaugeSegment {
+  label?: string;
+  max: number;
+  color: string;
+}
+```
+
+#### Características
+
+- **3 variantes de arco** — semicircle (180°), arc (270°) y full (360°)
+- **Segmentos coloreados** — define zonas con colores y etiquetas para indicar rangos
+- **Needle** — aguja triangular con sombra y punto central, animada con CSS transition
+- **Glow** — el arco de valor tiene un filtro glow sutil
+- **Valor centrado** — muestra el valor actual y label en el centro del gauge
+- **Min/Max labels** — etiquetas en los extremos del arco
 
 ---
 

@@ -23,6 +23,7 @@ import UiChartLegend from '../shared/UiChartLegend.vue';
 defineOptions({ inheritAttrs: false });
 
 export type CurveType = 'monotone' | 'linear' | 'step';
+export type StackMode = 'none' | 'stacked' | 'expanded';
 
 const props = withDefaults(
   defineProps<{
@@ -31,6 +32,8 @@ const props = withDefaults(
     index: string;
     /** Curve interpolation type */
     curveType?: CurveType;
+    /** Stack mode: none = independent lines, stacked = additive, expanded = 100% */
+    mode?: StackMode;
     showTooltip?: boolean;
     showLegend?: boolean;
     showGrid?: boolean;
@@ -40,6 +43,10 @@ const props = withDefaults(
     showDots?: boolean;
     /** Show gradient area fill under lines */
     showArea?: boolean;
+    /** Show line stroke on top of area */
+    showLine?: boolean;
+    /** Area fill top opacity (gradient goes from this value → near 0) */
+    fillOpacity?: number;
     tickCount?: number;
     valueFormatter?: (value: number) => string;
     categoryFormatter?: (value: string | number) => string;
@@ -57,6 +64,7 @@ const props = withDefaults(
   }>(),
   {
     curveType: 'monotone',
+    mode: 'none',
     showTooltip: true,
     showLegend: true,
     showGrid: true,
@@ -64,6 +72,8 @@ const props = withDefaults(
     showYAxis: true,
     showDots: false,
     showArea: true,
+    showLine: true,
+    fillOpacity: 0.25,
     tickCount: 5,
     strokeWidth: 2.5,
     dotRadius: 4,
@@ -121,17 +131,82 @@ onMounted(() => {
   }
 });
 
+/* ── Stacking computation ──────────────────────────────────── */
+
+interface StackedPoint {
+  dataIndex: number;
+  rawValue: number;
+  y0: number; // bottom boundary (value domain)
+  y1: number; // top boundary (value domain)
+}
+
+const isStacked = computed(() => props.mode !== 'none');
+
+const stackedData = computed(() => {
+  const keys = visibleSeriesKeys.value;
+  const result: Record<string, StackedPoint[]> = {};
+
+  for (const key of keys) result[key] = [];
+
+  for (let di = 0; di < props.data.length; di++) {
+    const row = props.data[di]!;
+
+    if (props.mode === 'stacked') {
+      let cumulative = 0;
+      for (const key of keys) {
+        const v = Number(row[key]) || 0;
+        result[key]!.push({ dataIndex: di, rawValue: v, y0: cumulative, y1: cumulative + v });
+        cumulative += v;
+      }
+    } else if (props.mode === 'expanded') {
+      const total = keys.reduce((sum, k) => sum + (Number(row[k]) || 0), 0) || 1;
+      let cumulative = 0;
+      for (const key of keys) {
+        const v = Number(row[key]) || 0;
+        const frac = v / total;
+        result[key]!.push({ dataIndex: di, rawValue: v, y0: cumulative, y1: cumulative + frac });
+        cumulative += frac;
+      }
+    } else {
+      for (const key of keys) {
+        const v = Number(row[key]) || 0;
+        result[key]!.push({ dataIndex: di, rawValue: v, y0: 0, y1: v });
+      }
+    }
+  }
+
+  return result;
+});
+
 /* ── Derived data ──────────────────────────────────────────── */
 
-const extent = computed(() =>
-  getDataExtent(props.data, visibleSeriesKeys.value, false),
-);
+const extent = computed(() => {
+  if (props.mode === 'expanded') return { min: 0, max: 1 };
+  if (props.mode === 'stacked') {
+    let max = 0;
+    for (let di = 0; di < props.data.length; di++) {
+      let sum = 0;
+      for (const key of visibleSeriesKeys.value) {
+        sum += Number(props.data[di]![key]) || 0;
+      }
+      if (sum > max) max = sum;
+    }
+    return { min: 0, max };
+  }
+  return getDataExtent(props.data, visibleSeriesKeys.value, false);
+});
 
 const scale = computed(() =>
-  niceScale(extent.value.min, extent.value.max, props.tickCount),
+  props.mode === 'expanded'
+    ? { min: 0, max: 1, step: 0.25, ticks: [0, 0.25, 0.5, 0.75, 1] }
+    : niceScale(extent.value.min, extent.value.max, props.tickCount),
 );
 
-const fmtValue = computed(() => props.valueFormatter ?? formatNumber);
+const fmtValue = computed(() => {
+  if (props.mode === 'expanded') return (v: number) => `${Math.round(v * 100)}%`;
+  return props.valueFormatter ?? formatNumber;
+});
+
 const fmtCategory = computed(
   () => props.categoryFormatter ?? ((v: string | number) => String(v)),
 );
@@ -153,58 +228,39 @@ const tooltipY = ref(0);
 const hoveredIndex = ref<number | null>(null);
 const crosshairX = ref<number | null>(null);
 
-/* ── Point computation ─────────────────────────────────────── */
+/* ── Coordinate helpers ────────────────────────────────────── */
 
-interface DataPoint {
-  x: number;
-  y: number;
-  value: number;
-  dataIndex: number;
-}
-
-function computePoints(w: number, h: number, seriesKey: string): DataPoint[] {
+function xPos(w: number, di: number): number {
   const pad = PADDING.value;
   const plotW = w - pad.left - pad.right;
+  const count = props.data.length;
+  return count === 1 ? pad.left + plotW / 2 : pad.left + (di / (count - 1)) * plotW;
+}
+
+function yPos(h: number, value: number): number {
+  const pad = PADDING.value;
   const plotH = h - pad.top - pad.bottom;
   const { min: sMin, max: sMax } = scale.value;
   const range = sMax - sMin || 1;
-  const count = props.data.length;
-
-  const points: DataPoint[] = [];
-
-  for (let i = 0; i < count; i++) {
-    const row = props.data[i]!;
-    const v = Number(row[seriesKey]) || 0;
-
-    const x = count === 1
-      ? pad.left + plotW / 2
-      : pad.left + (i / (count - 1)) * plotW;
-
-    const targetY = pad.top + ((sMax - v) / range) * plotH;
-    // Animate from baseline
-    const baseY = pad.top + (sMax / range) * plotH;
-    const y = baseY + (targetY - baseY) * animProgress.value;
-
-    points.push({ x, y, value: v, dataIndex: i });
-  }
-
-  return points;
+  const targetY = pad.top + ((sMax - value) / range) * plotH;
+  const baseY = pad.top + (sMax / range) * plotH;
+  return baseY + (targetY - baseY) * animProgress.value;
 }
 
 /* ── Path generation ───────────────────────────────────────── */
 
+interface Pt { x: number; y: number }
+
 /**
  * Monotone cubic Hermite spline (Catmull-Rom → cubic bezier segments)
- * Produces smooth curves that pass through each data point
  */
-function monotonePath(pts: DataPoint[]): string {
+function monotonePath(pts: Pt[]): string {
   if (pts.length < 2) return pts.length === 1 ? `M${pts[0]!.x},${pts[0]!.y}` : '';
   if (pts.length === 2) return `M${pts[0]!.x},${pts[0]!.y}L${pts[1]!.x},${pts[1]!.y}`;
 
   const n = pts.length;
-
-  // Compute tangent slopes (finite difference)
   const slopes: number[] = [];
+
   for (let i = 0; i < n; i++) {
     if (i === 0) {
       slopes.push((pts[1]!.y - pts[0]!.y) / (pts[1]!.x - pts[0]!.x));
@@ -213,9 +269,7 @@ function monotonePath(pts: DataPoint[]): string {
     } else {
       const s1 = (pts[i]!.y - pts[i - 1]!.y) / (pts[i]!.x - pts[i - 1]!.x);
       const s2 = (pts[i + 1]!.y - pts[i]!.y) / (pts[i + 1]!.x - pts[i]!.x);
-      // Monotone adjustment: if signs differ, slope is 0
-      if (s1 * s2 <= 0) slopes.push(0);
-      else slopes.push((s1 + s2) / 2);
+      slopes.push(s1 * s2 <= 0 ? 0 : (s1 + s2) / 2);
     }
   }
 
@@ -225,28 +279,20 @@ function monotonePath(pts: DataPoint[]): string {
     const p0 = pts[i]!;
     const p1 = pts[i + 1]!;
     const dx = (p1.x - p0.x) / 3;
-
-    const cp1x = p0.x + dx;
-    const cp1y = p0.y + slopes[i]! * dx;
-    const cp2x = p1.x - dx;
-    const cp2y = p1.y - slopes[i + 1]! * dx;
-
-    d += `C${cp1x},${cp1y},${cp2x},${cp2y},${p1.x},${p1.y}`;
+    d += `C${p0.x + dx},${p0.y + slopes[i]! * dx},${p1.x - dx},${p1.y - slopes[i + 1]! * dx},${p1.x},${p1.y}`;
   }
 
   return d;
 }
 
-function linearPath(pts: DataPoint[]): string {
+function linearPath(pts: Pt[]): string {
   if (pts.length === 0) return '';
   let d = `M${pts[0]!.x},${pts[0]!.y}`;
-  for (let i = 1; i < pts.length; i++) {
-    d += `L${pts[i]!.x},${pts[i]!.y}`;
-  }
+  for (let i = 1; i < pts.length; i++) d += `L${pts[i]!.x},${pts[i]!.y}`;
   return d;
 }
 
-function stepPath(pts: DataPoint[]): string {
+function stepPath(pts: Pt[]): string {
   if (pts.length === 0) return '';
   let d = `M${pts[0]!.x},${pts[0]!.y}`;
   for (let i = 1; i < pts.length; i++) {
@@ -256,43 +302,76 @@ function stepPath(pts: DataPoint[]): string {
   return d;
 }
 
-function buildPath(pts: DataPoint[]): string {
+function buildCurve(pts: Pt[]): string {
   switch (props.curveType) {
-    case 'linear':
-      return linearPath(pts);
-    case 'step':
-      return stepPath(pts);
-    case 'monotone':
-    default:
-      return monotonePath(pts);
+    case 'linear': return linearPath(pts);
+    case 'step': return stepPath(pts);
+    default: return monotonePath(pts);
   }
 }
 
-/**
- * Build an area path: line path + close down to baseline
- */
-function buildAreaPath(pts: DataPoint[], h: number): string {
-  if (pts.length === 0) return '';
-  const pad = PADDING.value;
-  const plotH = h - pad.top - pad.bottom;
-  const { min: sMin, max: sMax } = scale.value;
-  const range = sMax - sMin || 1;
-  const baseY = pad.top + (sMax / range) * plotH;
+/* ── Series geometry ───────────────────────────────────────── */
 
-  const line = buildPath(pts);
-  const lastPt = pts[pts.length - 1]!;
-  const firstPt = pts[0]!;
-
-  return `${line}L${lastPt.x},${baseY}L${firstPt.x},${baseY}Z`;
+interface SeriesPointData {
+  x: number;
+  yTop: number;
+  yBottom: number;
+  value: number;
+  dataIndex: number;
 }
 
-/* ── Series data for template ──────────────────────────────── */
+interface SeriesData {
+  key: string;
+  points: SeriesPointData[];
+  linePath: string;
+  areaPath: string;
+  color: string;
+  gradientId: string;
+}
 
-function computeSeriesData(w: number, h: number) {
-  return visibleSeriesKeys.value.map((key) => {
-    const points = computePoints(w, h, key);
-    const linePath = buildPath(points);
-    const areaPath = props.showArea ? buildAreaPath(points, h) : '';
+function computeSeriesData(w: number, h: number): SeriesData[] {
+  const keys = visibleSeriesKeys.value;
+  const stacked = stackedData.value;
+
+  return keys.map((key) => {
+    const stackPts = stacked[key] ?? [];
+    const topPts: Pt[] = [];
+    const bottomPts: Pt[] = [];
+    const points: SeriesPointData[] = [];
+
+    for (const sp of stackPts) {
+      const x = xPos(w, sp.dataIndex);
+      const yTop = yPos(h, sp.y1);
+      const yBottom = yPos(h, sp.y0);
+      topPts.push({ x, y: yTop });
+      bottomPts.push({ x, y: yBottom });
+      points.push({ x, yTop, yBottom, value: sp.rawValue, dataIndex: sp.dataIndex });
+    }
+
+    const linePath = buildCurve(topPts);
+
+    // Area path: stacked modes close between top and bottom curves;
+    // non-stacked closes to baseline (y0 = 0 → same pixel for all)
+    let areaPath = '';
+    if (props.showArea && topPts.length >= 2) {
+      if (isStacked.value) {
+        const bottomReversed = [...bottomPts].reverse();
+        const bottomLine = buildCurve(bottomReversed);
+        const lastTop = topPts[topPts.length - 1]!;
+        const firstBottom = bottomReversed[0]!;
+        areaPath = `${linePath}L${lastTop.x},${firstBottom.y}${bottomLine.replace('M', 'L')}Z`;
+      } else {
+        const pad = PADDING.value;
+        const plotH = h - pad.top - pad.bottom;
+        const { min: sMin, max: sMax } = scale.value;
+        const range = sMax - sMin || 1;
+        const baseY = pad.top + (sMax / range) * plotH;
+        const last = topPts[topPts.length - 1]!;
+        const first = topPts[0]!;
+        areaPath = `${linePath}L${last.x},${baseY}L${first.x},${baseY}Z`;
+      }
+    }
+
     return {
       key,
       points,
@@ -300,7 +379,6 @@ function computeSeriesData(w: number, h: number) {
       areaPath,
       color: props.config[key]!.color,
       gradientId: `line-area-${key}`,
-      glowId: `line-glow-${key}`,
     };
   });
 }
@@ -320,7 +398,6 @@ function computeGridAndAxes(w: number, h: number) {
 
   const categoryCount = props.data.length;
 
-  // Value axis ticks + dot grid
   for (const tick of ticks) {
     const y = pad.top + ((sMax - tick) / range) * plotH;
 
@@ -343,7 +420,6 @@ function computeGridAndAxes(w: number, h: number) {
     }
   }
 
-  // Category labels along x-axis
   if (props.showXAxis) {
     for (let i = 0; i < categoryCount; i++) {
       const x = categoryCount === 1
@@ -383,17 +459,9 @@ function computeHoverRegions(w: number, h: number) {
       ? pad.left + plotW / 2
       : pad.left + (i / (count - 1)) * plotW;
 
-    // Each region spans half the distance to neighbors
-    let left: number;
-    let right: number;
-    if (count === 1) {
-      left = pad.left;
-      right = pad.left + plotW;
-    } else {
-      const step = plotW / (count - 1);
-      left = i === 0 ? pad.left : cx - step / 2;
-      right = i === count - 1 ? pad.left + plotW : cx + step / 2;
-    }
+    const step = count <= 1 ? plotW : plotW / (count - 1);
+    const left = i === 0 ? pad.left : cx - step / 2;
+    const right = i === count - 1 ? pad.left + plotW : cx + step / 2;
 
     regions.push({
       x: left,
@@ -466,7 +534,7 @@ function onPointLeave() {
             :key="`grad-${series.key}`"
             x1="0" y1="0" x2="0" y2="1"
           >
-            <stop offset="0%" :stop-color="series.color" stop-opacity="0.25" />
+            <stop offset="0%" :stop-color="series.color" :stop-opacity="fillOpacity" />
             <stop offset="85%" :stop-color="series.color" stop-opacity="0.02" />
           </linearGradient>
 
@@ -545,19 +613,21 @@ function onPointLeave() {
           shape-rendering="crispEdges"
         />
 
-        <!-- Series: area fill + line + dots -->
-        <template v-for="series in computeSeriesData(w, h)" :key="series.key">
-          <!-- Area gradient fill -->
-          <path
-            v-if="showArea && series.areaPath"
-            :d="series.areaPath"
-            :fill="`url(#${series.gradientId})`"
-            :opacity="hoveredIndex !== null ? 0.6 : 1"
-            :style="{ transition: 'opacity 300ms ease, d 600ms cubic-bezier(0.34, 1.56, 0.64, 1)' }"
-          />
+        <!-- Area fills (render in reverse so first series stays on top) -->
+        <path
+          v-for="series in (showArea ? [...computeSeriesData(w, h)].reverse() : [])"
+          :key="`area-${series.key}`"
+          :d="series.areaPath"
+          :fill="`url(#${series.gradientId})`"
+          :opacity="hoveredIndex !== null ? (isStacked ? 0.7 : 0.6) : 1"
+          :style="{ transition: 'opacity 300ms ease, d 600ms cubic-bezier(0.34, 1.56, 0.64, 1)' }"
+        />
 
+        <!-- Series: line + dots -->
+        <template v-for="series in computeSeriesData(w, h)" :key="series.key">
           <!-- Line path -->
           <path
+            v-if="showLine"
             :d="series.linePath"
             fill="none"
             :stroke="series.color"
@@ -576,7 +646,7 @@ function onPointLeave() {
             v-for="pt in (showDots ? series.points : [])"
             :key="`sdot-${series.key}-${pt.dataIndex}`"
             :cx="pt.x"
-            :cy="pt.y"
+            :cy="pt.yTop"
             :r="dotRadius * 0.6"
             :fill="series.color"
             :opacity="hoveredIndex === pt.dataIndex ? 0 : 0.6"
@@ -589,7 +659,7 @@ function onPointLeave() {
             v-show="hoveredIndex === pt.dataIndex"
             :key="`hdot-${series.key}-${pt.dataIndex}`"
             :cx="pt.x"
-            :cy="pt.y"
+            :cy="pt.yTop"
             :r="dotRadius"
             fill="var(--color-background)"
             :stroke="series.color"

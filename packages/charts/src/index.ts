@@ -31,7 +31,19 @@ export { default as UiChartBar } from './chartbar/UiChartBar.vue';
 
 // Line Chart
 export { default as UiChartLine } from './chartline/UiChartLine.vue';
-export type { CurveType } from './chartline/UiChartLine.vue';
+export type { CurveType, StackMode } from './chartline/UiChartLine.vue';
 
 // Pie Chart
 export { default as UiChartPie } from './chartpie/UiChartPie.vue';
+
+// Radar Chart
+export { default as UiChartRadar } from './chartradar/UiChartRadar.vue';
+export type { RadarVariant } from './chartradar/UiChartRadar.vue';
+
+// Scatter Chart
+export { default as UiChartScatter } from './chartscatter/UiChartScatter.vue';
+export type { ScatterShape, ScatterSeriesConfig, ScatterConfig } from './chartscatter/UiChartScatter.vue';
+
+// Gauge Chart
+export { default as UiChartGauge } from './chartgauge/UiChartGauge.vue';
+export type { GaugeVariant, GaugeSegment } from './chartgauge/UiChartGauge.vue';

@@ -261,6 +261,21 @@ const router = createRouter({
           name: 'piechart',
           component: () => import('@/modules/charts/views/PieChart.vue'),
         },
+        {
+          path: 'radarchart',
+          name: 'radarchart',
+          component: () => import('@/modules/charts/views/RadarChart.vue'),
+        },
+        {
+          path: 'scatterplot',
+          name: 'scatterplot',
+          component: () => import('@/modules/charts/views/ScatterPlot.vue'),
+        },
+        {
+          path: 'gaugeradial',
+          name: 'gaugeradial',
+          component: () => import('@/modules/charts/views/GaugeRadial.vue'),
+        },
       ],
     }
   ],
