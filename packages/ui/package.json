@@ -1,5 +1,5 @@
 {
-  "name": "@3df/ui",
+  "name": "@3df-spa/ui",
   "version": "0.1.0",
   "type": "module",
   "sideEffects": [
