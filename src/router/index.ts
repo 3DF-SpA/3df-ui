@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import UiLayout from '@/modules/ui/UiLayout.vue';
+const UiLayout = () => import('@/modules/ui/layouts/UiLayout.vue');
+const ChartLayout = () => import('@/modules/charts/layouts/ChartLayout.vue');
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -236,8 +237,47 @@ const router = createRouter({
           name: 'MyAccordion',
           component: () => import('@/modules/ui/views/MyAccordion.vue'),
         },
+
       ],
     },
+
+    {
+      path: '/charts',
+      name: 'charts',
+      component: ChartLayout,
+      children: [
+        {
+          path: 'chartbar',
+          name: 'chartbar',
+          component: () => import('@/modules/charts/views/ChartBar.vue'),
+        },
+        {
+          path: 'chartline',
+          name: 'chartline',
+          component: () => import('@/modules/charts/views/ChartLine.vue'),
+        },
+        {
+          path: 'piechart',
+          name: 'piechart',
+          component: () => import('@/modules/charts/views/PieChart.vue'),
+        },
+        {
+          path: 'radarchart',
+          name: 'radarchart',
+          component: () => import('@/modules/charts/views/RadarChart.vue'),
+        },
+        {
+          path: 'scatterplot',
+          name: 'scatterplot',
+          component: () => import('@/modules/charts/views/ScatterPlot.vue'),
+        },
+        {
+          path: 'gaugeradial',
+          name: 'gaugeradial',
+          component: () => import('@/modules/charts/views/GaugeRadial.vue'),
+        },
+      ],
+    }
   ],
 });
 

@@ -38,6 +38,13 @@
   --color-sidebar-border: hsl(0 0% 85%);
   --color-sidebar-ring: hsl(0 0% 25%);
 
+  /* Chart palette */
+  --color-chart-1: hsl(215 20% 42%);
+  --color-chart-2: hsl(215 12% 58%);
+  --color-chart-3: hsl(170 25% 38%);
+  --color-chart-4: hsl(340 18% 48%);
+  --color-chart-5: hsl(255 18% 52%);
+
   --radius-sm: 0.45rem;
   --radius-md: 0.65rem;
   --radius-lg: 0.75rem;
@@ -83,6 +90,13 @@
   --color-sidebar-accent-foreground: hsl(0 0% 100%);
   --color-sidebar-border: hsl(0 0% 20%);
   --color-sidebar-ring: hsl(0 0% 30%);
+
+  /* Chart palette (dark) */
+  --color-chart-1: hsl(215 20% 55%);
+  --color-chart-2: hsl(215 12% 45%);
+  --color-chart-3: hsl(170 22% 48%);
+  --color-chart-4: hsl(340 16% 56%);
+  --color-chart-5: hsl(255 16% 62%);
 }
 
 :root {
