@@ -6172,6 +6172,149 @@ const value = ref('item-1');
 
 ---
 
+## Logo Cloud & Marquee
+
+Componentes para mostrar logos de sponsors, partners o tecnologías. **Logo Cloud** es un grid estático responsivo, y **Logo Marquee** es un scroll infinito con efecto hover-to-slow.
+
+### Importación
+
+```ts
+import { LogoCloud, LogoMarquee, type LogoItem, type MarqueeDirection } from '@3df/ui';
+```
+
+### Tipo `LogoItem`
+
+```ts
+interface LogoItem {
+  name: string;   // Nombre del logo (para alt y label)
+  src: string;    // URL de la imagen
+  href?: string;  // Link opcional (abre en nueva pestaña)
+  alt?: string;   // Texto alternativo personalizado
+}
+```
+
+### Logo Cloud — Grid estático
+
+Grid responsivo que muestra logos de forma estática. Opcionalmente en grayscale con color on hover.
+
+```vue
+<script setup lang="ts">
+import { LogoCloud, type LogoItem } from '@3df/ui';
+
+const logos: LogoItem[] = [
+  { name: 'Vue.js', src: '/logos/vue.svg', href: 'https://vuejs.org' },
+  { name: 'TypeScript', src: '/logos/ts.svg' },
+  { name: 'Tailwind', src: '/logos/tw.svg' },
+  { name: 'Vite', src: '/logos/vite.svg' },
+];
+</script>
+
+<template>
+  <LogoCloud
+    :logos="logos"
+    heading="Tecnologías que usamos"
+    :columns="4"
+    :show-names="true"
+    :logo-height="44"
+  />
+</template>
+```
+
+#### Props — LogoCloud
+
+| Prop         | Tipo                  | Default | Descripción                               |
+| ------------ | --------------------- | ------- | ----------------------------------------- |
+| `logos`      | `LogoItem[]`          | —       | Array de logos a mostrar                  |
+| `columns`    | `3 \| 4 \| 5 \| 6`  | `4`     | Columnas en pantalla grande (lg:)         |
+| `showNames`  | `boolean`             | `false` | Mostrar nombre debajo del logo            |
+| `logoHeight` | `number`              | `40`    | Altura de los logos en px                 |
+| `grayscale`  | `boolean`             | `true`  | Logos en grayscale, color al hover        |
+| `heading`    | `string`              | —       | Título centrado sobre el grid             |
+
+#### Características
+
+- **Grid responsivo** — 2 cols → sm:3 → lg:N columnas
+- **Grayscale → color** — transición suave al hacer hover individual
+- **Links opcionales** — logos con `href` renderizan como `<a target="_blank">`
+- **Lazy loading** — imágenes con `loading="lazy"`
+- **Slot heading** — título opcional centrado con estilo sutil
+
+---
+
+### Logo Marquee — Scroll infinito
+
+Scroll infinito horizontal con efecto hover-to-slow usando la **Web Animations API**. Al hacer hover, la animación se desacelera suavemente via `updatePlaybackRate()` — sin saltos de posición, sin jitter, todo en el compositor GPU del navegador.
+
+```vue
+<script setup lang="ts">
+import { LogoMarquee, type LogoItem } from '@3df/ui';
+
+const logos: LogoItem[] = [
+  { name: 'Vue.js', src: '/logos/vue.svg' },
+  { name: 'React', src: '/logos/react.svg' },
+  { name: 'Svelte', src: '/logos/svelte.svg' },
+  // ...más logos
+];
+</script>
+
+<template>
+  <!-- Hover-to-slow (default) -->
+  <LogoMarquee
+    :logos="logos"
+    heading="Trusted by leading companies"
+    :duration="25"
+    :hover-duration="70"
+    :logo-height="44"
+  />
+
+  <!-- Dos filas opuestas -->
+  <LogoMarquee
+    :logos="logos"
+    :reverse="true"
+    :duration="20"
+    heading="Our Partners"
+  />
+
+  <!-- Pausa completa al hover -->
+  <LogoMarquee
+    :logos="logos"
+    direction="right"
+    :pause-on-hover="true"
+    :grayscale="false"
+    :show-names="true"
+  />
+</template>
+```
+
+#### Props — LogoMarquee
+
+| Prop            | Tipo                    | Default   | Descripción                                           |
+| --------------- | ----------------------- | --------- | ----------------------------------------------------- |
+| `logos`         | `LogoItem[]`            | —         | Array de logos a mostrar                              |
+| `direction`     | `'left' \| 'right'`   | `'left'`  | Dirección de scroll                                   |
+| `duration`      | `number`                | `30`      | Duración de un ciclo completo (segundos)              |
+| `hoverDuration` | `number`                | `80`      | Duración al hacer hover (segundos, mayor = más lento) |
+| `logoHeight`    | `number`                | `40`      | Altura de los logos en px                             |
+| `gap`           | `number`                | `48`      | Espacio entre logos en px                             |
+| `grayscale`     | `boolean`               | `true`    | Logos en grayscale (estático, sin transición)          |
+| `fadeMask`      | `boolean`               | `true`    | Máscara de desvanecimiento en los bordes              |
+| `pauseOnHover`  | `boolean`               | `false`   | Pausar completamente en vez de desacelerar            |
+| `showNames`     | `boolean`               | `false`   | Mostrar nombre debajo del logo                        |
+| `heading`       | `string`                | —         | Título centrado sobre el marquee                      |
+| `reverse`       | `boolean`               | `false`   | Agregar segunda fila en dirección opuesta             |
+
+#### Características
+
+- **Web Animations API** — `element.animate()` corre en el compositor thread del GPU, no en el main thread. Cero jitter.
+- **Hover-to-slow** — `animation.updatePlaybackRate(ratio)` cambia la velocidad sin salto de posición ni recálculo del timeline
+- **Pause on hover** — `animation.pause()` / `animation.play()` como alternativa a desacelerar
+- **Loop perfecto** — exactamente 2 copias del set + `translateX(-50%)` asegura que el loop no tenga salto visible
+- **Fade mask** — `mask-image` gradient en los bordes (fade-in/out)
+- **Dual row** — `reverse` agrega una segunda fila moviéndose en dirección contraria
+- **Puramente decorativo** — logos con `pointer-events: none`, sin interacciones individuales
+
+---
+
 ## Charts (`@3df/charts`)
 
 Paquete separado de visualización de datos — 100% SVG, cero dependencias externas. Comparte el sistema de tokens de `@3df/ui` para colores y dark mode.
@@ -6844,6 +6987,9 @@ packages/ui/
 │   │   ├── toggle/
 │   │   │   ├── toggle-variants.ts        # Variantes CVA del Toggle
 │   │   │   └── UiToggle.vue              # Botón toggle (aria-pressed)
+│   │   ├── logo/
+│   │   │   ├── UiLogoCloud.vue           # Grid estático de logos (responsivo)
+│   │   │   └── UiLogoMarquee.vue         # Marquee infinito (hover-to-slow)
 │   │   └── table/
 │   │       ├── UiTable.vue               # Contenedor principal (<table> + scroll wrapper)
 │   │       ├── UiTableHeader.vue         # <thead> estilizado

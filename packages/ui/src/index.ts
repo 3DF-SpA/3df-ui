@@ -311,3 +311,9 @@ export { default as AccordionTrigger } from './components/ui/accordion/UiAccordi
 export { default as AccordionContent } from './components/ui/accordion/UiAccordionContent.vue';
 export { ACCORDION_KEY, ACCORDION_ITEM_KEY } from './components/ui/accordion/accordion-types';
 export type { AccordionContext, AccordionItemContext, AccordionType } from './components/ui/accordion/accordion-types';
+
+// Logo Cloud & Marquee
+export { default as LogoCloud } from './components/ui/logo/UiLogoCloud.vue';
+export { default as LogoMarquee } from './components/ui/logo/UiLogoMarquee.vue';
+export type { LogoItem } from './components/ui/logo/UiLogoCloud.vue';
+export type { MarqueeDirection } from './components/ui/logo/UiLogoMarquee.vue';

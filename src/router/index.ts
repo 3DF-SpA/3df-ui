@@ -238,6 +238,11 @@ const router = createRouter({
           component: () => import('@/modules/ui/views/MyAccordion.vue'),
         },
 
+        {
+          path: '/logos',
+          name: 'MyLogos',
+          component: () => import('@/modules/ui/views/MyLogos.vue'),
+        },
       ],
     },
 
