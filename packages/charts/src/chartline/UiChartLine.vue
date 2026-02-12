@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, provide, useAttrs, onMounted, watch, nextTick } from 'vue';
+import { ref, computed, provide, useAttrs, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import type {
   ChartConfig,
   ChartDataRow,
@@ -120,15 +120,20 @@ const visibleSeriesKeys = computed(() =>
 /* ── Entrance animation ───────────────────────────────────── */
 
 const animProgress = ref(props.animate ? 0 : 1);
+let rafId = 0;
 
 onMounted(() => {
   if (props.animate) {
     nextTick(() => {
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         animProgress.value = 1;
       });
     });
   }
+});
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
 });
 
 /* ── Stacking computation ──────────────────────────────────── */
@@ -526,10 +531,11 @@ function onPointLeave() {
       class="w-full"
     >
       <template #default="{ width: w, height: h }">
+        <template v-for="c in [{ series: computeSeriesData(w, h), grid: computeGridAndAxes(w, h), hover: computeHoverRegions(w, h) }]" :key="0">
         <defs>
           <!-- Area gradient for each series -->
           <linearGradient
-            v-for="series in computeSeriesData(w, h)"
+            v-for="series in c.series"
             :id="series.gradientId"
             :key="`grad-${series.key}`"
             x1="0" y1="0" x2="0" y2="1"
@@ -550,7 +556,7 @@ function onPointLeave() {
 
         <!-- Dot grid -->
         <circle
-          v-for="(dot, i) in computeGridAndAxes(w, h).gridDots"
+          v-for="(dot, i) in c.grid.gridDots"
           :key="`dot-${i}`"
           :cx="dot.cx"
           :cy="dot.cy"
@@ -561,7 +567,7 @@ function onPointLeave() {
 
         <!-- Value axis labels -->
         <text
-          v-for="(label, i) in computeGridAndAxes(w, h).valueLabels"
+          v-for="(label, i) in c.grid.valueLabels"
           :key="`val-${i}`"
           :x="label.x"
           :y="label.y"
@@ -575,7 +581,7 @@ function onPointLeave() {
 
         <!-- Category axis labels -->
         <text
-          v-for="(label, i) in computeGridAndAxes(w, h).categoryLabels"
+          v-for="(label, i) in c.grid.categoryLabels"
           :key="`cat-${i}`"
           :x="label.x"
           :y="label.y"
@@ -615,7 +621,7 @@ function onPointLeave() {
 
         <!-- Area fills (render in reverse so first series stays on top) -->
         <path
-          v-for="series in (showArea ? [...computeSeriesData(w, h)].reverse() : [])"
+          v-for="series in (showArea ? [...c.series].reverse() : [])"
           :key="`area-${series.key}`"
           :d="series.areaPath"
           :fill="`url(#${series.gradientId})`"
@@ -624,7 +630,7 @@ function onPointLeave() {
         />
 
         <!-- Series: line + dots -->
-        <template v-for="series in computeSeriesData(w, h)" :key="series.key">
+        <template v-for="series in c.series" :key="series.key">
           <!-- Line path -->
           <path
             v-if="showLine"
@@ -673,7 +679,7 @@ function onPointLeave() {
 
         <!-- Hover regions (invisible) -->
         <rect
-          v-for="region in computeHoverRegions(w, h)"
+          v-for="region in c.hover"
           :key="`hover-${region.dataIndex}`"
           :x="region.x"
           :y="region.y"
@@ -683,6 +689,7 @@ function onPointLeave() {
           @mousemove="onPointHover(region.dataIndex, region.centerX, $event)"
           @mouseleave="onPointLeave"
         />
+        </template>
       </template>
 
       <!-- Tooltip overlay -->

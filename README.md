@@ -20,6 +20,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 
 ## Tabla de contenidos
 
+- [Acceso al registro privado](#acceso-al-registro-privado)
 - [Instalación](#instalación)
 - [Integración por framework](#integración-por-framework)
 - [Dark mode](#dark-mode)
@@ -84,13 +85,59 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
 - [Scripts de desarrollo](#scripts-de-desarrollo)
+- [Versionado y publicación](#versionado-y-publicación)
+- [Actualizar paquetes en proyectos consumidores](#actualizar-paquetes-en-proyectos-consumidores)
 - [Contribución interna](#contribución-interna)
 - [Buenas prácticas](#buenas-prácticas)
 - [Peer dependencies](#peer-dependencies)
 
 ---
 
+## Acceso al registro privado
+
+> **Importante:** `@3df/ui` y `@3df/charts` se publican de forma **privada** en [GitHub Packages](https://github.com/features/packages). Solo usuarios autorizados al repositorio pueden instalar los paquetes.
+
+### Requisitos previos
+
+1. Tener acceso de lectura al repositorio `3df-space/3df-ui` en GitHub.
+2. Crear un **Personal Access Token (classic)** en GitHub con el permiso **`read:packages`**.
+   - Ve a [github.com/settings/tokens](https://github.com/settings/tokens) → *Generate new token (classic)*
+   - Selecciona el scope `read:packages`
+   - Copia el token generado (solo lo verás una vez)
+
+### Configurar `.npmrc` en tu proyecto consumidor
+
+Crea un archivo `.npmrc` en la raíz de tu proyecto (donde está tu `package.json`):
+
+```ini
+@3df:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=TU_TOKEN_AQUI
+```
+
+> **Seguridad:** No subas tu token a Git. Puedes usar una variable de entorno en lugar del token directo:
+>
+> ```ini
+> @3df:registry=https://npm.pkg.github.com
+> //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+> ```
+>
+> Y luego exporta la variable antes de instalar:
+>
+> ```bash
+> # Linux / macOS
+> export GITHUB_TOKEN=ghp_xxxxxxxxxxxx
+>
+> # Windows PowerShell
+> $env:GITHUB_TOKEN = "ghp_xxxxxxxxxxxx"
+> ```
+
+> **Nota:** Agrega `.npmrc` a tu `.gitignore` si contiene el token en texto plano.
+
+---
+
 ## Instalación
+
+Una vez configurado el acceso al registro (ver sección anterior):
 
 ### 1. Instalar el paquete y sus peer dependencies
 
@@ -7501,15 +7548,19 @@ packages/ui/
 
 Desde la raíz del monorepo:
 
-| Script            | Descripción                     |
-| ----------------- | ------------------------------- |
-| `pnpm dev`        | Dev server de la app playground |
-| `pnpm build:ui`   | Compila el paquete `@3df/ui`    |
-| `pnpm build`      | Compila el paquete + la app     |
-| `pnpm preview`    | Sirve el build de producción    |
-| `pnpm lint`       | Linter (oxlint + eslint)        |
-| `pnpm format`     | Formatea con Prettier           |
-| `pnpm type-check` | Chequeo de tipos con vue-tsc    |
+| Script                   | Descripción                                              |
+| ------------------------ | -------------------------------------------------------- |
+| `pnpm dev`               | Dev server de la app playground                          |
+| `pnpm build:ui`          | Compila el paquete `@3df/ui`                             |
+| `pnpm build:charts`      | Compila el paquete `@3df/charts`                         |
+| `pnpm build`             | Compila todos los paquetes + la app                      |
+| `pnpm preview`           | Sirve el build de producción                             |
+| `pnpm lint`              | Linter (oxlint + eslint)                                 |
+| `pnpm format`            | Formatea con Prettier                                    |
+| `pnpm type-check`        | Chequeo de tipos con vue-tsc                             |
+| `pnpm changeset`         | Crear un changeset (registrar un cambio)                 |
+| `pnpm version-packages`  | Aplicar changesets → bump de versiones + CHANGELOG       |
+| `pnpm release`           | Build + publish de todos los paquetes a GitHub Packages  |
 
 Desde `packages/ui/`:
 
@@ -7517,6 +7568,131 @@ Desde `packages/ui/`:
 | ------------ | --------------------------------------------------- |
 | `pnpm build` | Build de producción del paquete                     |
 | `pnpm dev`   | Build en watch mode (rebuild automático al guardar) |
+
+---
+
+## Versionado y publicación
+
+Este monorepo usa [**Changesets**](https://github.com/changesets/changesets) para gestionar versiones y changelogs de `@3df/ui` y `@3df/charts` de forma independiente.
+
+### Flujo completo para publicar cambios
+
+#### 1. Registrar el cambio (después de hacer tus modificaciones)
+
+```bash
+pnpm changeset
+```
+
+Esto te preguntará:
+- **¿Qué paquetes cambiaron?** → selecciona `@3df/ui`, `@3df/charts`, o ambos
+- **¿Qué tipo de cambio?** → `patch` (bug fix), `minor` (nueva feature), `major` (breaking change)
+- **Descripción del cambio** → ej: "Agregado componente Tabs"
+
+Se creará un archivo `.md` en `.changeset/` que representa el cambio pendiente.
+
+#### 2. Aplicar versiones
+
+```bash
+pnpm version-packages
+```
+
+Esto:
+- Incrementa las versiones en los `package.json` según los changesets pendientes
+- Genera/actualiza `CHANGELOG.md` en cada paquete
+- Elimina los archivos de changeset ya aplicados
+
+#### 3. Publicar a GitHub Packages
+
+```bash
+# Asegúrate de tener el token con permiso write:packages
+$env:GITHUB_TOKEN = "ghp_xxxxxxxxxxxx"   # Windows PowerShell
+# export GITHUB_TOKEN=ghp_xxxxxxxxxxxx   # Linux / macOS
+
+pnpm release
+```
+
+Esto compila ambos paquetes y los publica al registro privado de GitHub Packages.
+
+#### 4. Commit y push
+
+```bash
+git add .
+git commit -m "chore: release @3df/ui@x.x.x, @3df/charts@x.x.x"
+git push
+```
+
+### Requisitos para publicar
+
+- **GitHub Personal Access Token** con permisos: `write:packages`, `read:packages`
+- Ser colaborador del repositorio `3df-space/3df-ui`
+- Haber ejecutado `pnpm changeset` al menos una vez antes de `version-packages`
+
+---
+
+## Actualizar paquetes en proyectos consumidores
+
+Cuando se publica una nueva versión, los proyectos que consumen `@3df/ui` o `@3df/charts` pueden obtener los cambios así:
+
+### Actualizar a la última versión
+
+```bash
+# Actualizar ambos paquetes
+pnpm update @3df/ui @3df/charts
+
+# O solo uno
+pnpm update @3df/ui
+```
+
+### Actualizar a una versión específica
+
+```bash
+pnpm add @3df/ui@0.2.0
+pnpm add @3df/charts@0.2.0
+```
+
+### Ver qué versión tienes instalada
+
+```bash
+pnpm list @3df/ui @3df/charts
+```
+
+### Ver qué versiones están disponibles
+
+```bash
+npm view @3df/ui versions --registry=https://npm.pkg.github.com
+npm view @3df/charts versions --registry=https://npm.pkg.github.com
+```
+
+### Ver el changelog
+
+Cada paquete incluye un `CHANGELOG.md` que se genera automáticamente con cada release. Puedes verlo en:
+
+- `packages/ui/CHANGELOG.md`
+- `packages/charts/CHANGELOG.md`
+
+O directamente en el repositorio de GitHub.
+
+### Resumen rápido del flujo
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    MANTENEDOR (tú)                           │
+│                                                             │
+│  1. Haces cambios en los componentes                        │
+│  2. pnpm changeset        → registra el cambio              │
+│  3. pnpm version-packages → bump versiones + CHANGELOG      │
+│  4. pnpm release          → build + publish a GitHub Pkg    │
+│  5. git commit + push                                       │
+└─────────────────────────────────────────────────────────────┘
+                          ↓
+┌─────────────────────────────────────────────────────────────┐
+│               CONSUMIDOR (otro proyecto)                     │
+│                                                             │
+│  1. Tiene .npmrc configurado con token read:packages        │
+│  2. pnpm update @3df/ui @3df/charts                         │
+│  3. Listo — los cambios están disponibles                   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, provide, useAttrs, onMounted, watch, nextTick } from 'vue';
+import { ref, computed, provide, useAttrs, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import type {
   ChartConfig,
   ChartTooltipData,
@@ -125,15 +125,20 @@ const visibleSeriesKeys = computed(() =>
 /* ── Entrance animation ───────────────────────────────────── */
 
 const animProgress = ref(props.animate ? 0 : 1);
+let rafId = 0;
 
 onMounted(() => {
   if (props.animate) {
     nextTick(() => {
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         animProgress.value = 1;
       });
     });
   }
+});
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
 });
 
 /* ── Derived scales ────────────────────────────────────────── */
@@ -370,6 +375,7 @@ function onDotLeave() {
       class="w-full"
     >
       <template #default="{ width: w, height: h }">
+        <template v-for="c in [{ grid: computeGridAndAxes(w, h), points: computePoints(w, h) }]" :key="0">
         <defs>
           <!-- Glow filter -->
           <filter id="scatter-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -383,7 +389,7 @@ function onDotLeave() {
 
         <!-- Dot grid -->
         <circle
-          v-for="(dot, i) in computeGridAndAxes(w, h).gridDots"
+          v-for="(dot, i) in c.grid.gridDots"
           :key="`dot-${i}`"
           :cx="dot.cx"
           :cy="dot.cy"
@@ -394,7 +400,7 @@ function onDotLeave() {
 
         <!-- Y axis labels -->
         <text
-          v-for="(label, i) in computeGridAndAxes(w, h).yLabels"
+          v-for="(label, i) in c.grid.yLabels"
           :key="`ylab-${i}`"
           :x="label.x"
           :y="label.y"
@@ -408,7 +414,7 @@ function onDotLeave() {
 
         <!-- X axis labels -->
         <text
-          v-for="(label, i) in computeGridAndAxes(w, h).xLabels"
+          v-for="(label, i) in c.grid.xLabels"
           :key="`xlab-${i}`"
           :x="label.x"
           :y="label.y"
@@ -444,7 +450,7 @@ function onDotLeave() {
         />
 
         <!-- Data points -->
-        <template v-for="pt in computePoints(w, h)"
+        <template v-for="pt in c.points"
           :key="`pt-${pt.seriesKey}-${pt.dataIndex}`"
         >
           <!-- Circle shape -->
@@ -494,6 +500,7 @@ function onDotLeave() {
             @mousemove="onDotHover(pt, $event)"
             @mouseleave="onDotLeave"
           />
+        </template>
         </template>
       </template>
 

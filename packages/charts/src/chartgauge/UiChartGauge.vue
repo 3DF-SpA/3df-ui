@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, useAttrs, onMounted, nextTick } from 'vue';
+import { ref, computed, useAttrs, onMounted, onBeforeUnmount, nextTick } from 'vue';
 
 defineOptions({ inheritAttrs: false });
 
@@ -75,15 +75,20 @@ const filtGlow = computed(() => `${uid}-glow`);
 /* ── Entrance animation ───────────────────────────────────── */
 
 const animProgress = ref(props.animate ? 0 : 1);
+let rafId = 0;
 
 onMounted(() => {
   if (props.animate) {
     nextTick(() => {
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         animProgress.value = 1;
       });
     });
   }
+});
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
 });
 
 /* ── Derived ───────────────────────────────────────────────── */
@@ -282,6 +287,11 @@ const valueY = computed(() => {
 });
 
 const labelY = computed(() => valueY.value + 24);
+
+/* ── Cached geometry (computed once per reactive change) ──── */
+
+const cachedSegments = computed(() => computeSegments(CX, CY, ARC_R.value));
+const cachedNeedle = computed(() => computeNeedle(CX, CY, ARC_R.value));
 </script>
 
 <template>
@@ -322,7 +332,7 @@ const labelY = computed(() => valueY.value + 24);
       <!-- Segments or single value arc -->
       <template v-if="segments && segments.length > 0">
         <path
-          v-for="(seg, i) in computeSegments(CX, CY, ARC_R)"
+          v-for="(seg, i) in cachedSegments"
           :key="`seg-${i}`"
           :d="seg.path"
           fill="none"
@@ -334,7 +344,7 @@ const labelY = computed(() => valueY.value + 24);
         <!-- Segment labels -->
         <template v-if="showSegmentLabels">
           <text
-            v-for="(seg, i) in computeSegments(CX, CY, ARC_R)"
+            v-for="(seg, i) in cachedSegments"
             :key="`seglab-${i}`"
             :x="seg.labelX"
             :y="seg.labelY"
@@ -349,7 +359,7 @@ const labelY = computed(() => valueY.value + 24);
       </template>
       <template v-else>
         <path
-          v-for="(seg, i) in computeSegments(CX, CY, ARC_R)"
+          v-for="(seg, i) in cachedSegments"
           :key="`val-${i}`"
           :d="seg.path"
           fill="none"
@@ -366,7 +376,7 @@ const labelY = computed(() => valueY.value + 24);
       <!-- Needle -->
       <template v-if="showNeedle">
         <path
-          :d="computeNeedle(CX, CY, ARC_R).path"
+          :d="cachedNeedle.path"
           class="fill-foreground"
           opacity="0.85"
           :filter="`url(#${filtShadow})`"

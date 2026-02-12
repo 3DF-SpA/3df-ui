@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, provide, useAttrs, onMounted, watch, nextTick } from 'vue';
+import { ref, computed, provide, useAttrs, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import type {
   ChartConfig,
   ChartDataRow,
@@ -106,16 +106,21 @@ const visibleSeriesKeys = computed(() =>
 /* ── Entrance animation ───────────────────────────────────── */
 
 const animProgress = ref(props.animate ? 0 : 1);
+let rafId = 0;
 
 onMounted(() => {
   if (props.animate) {
     // Trigger after next frame so CSS transitions kick in
     nextTick(() => {
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         animProgress.value = 1;
       });
     });
   }
+});
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
 });
 
 /* ── Derived data ──────────────────────────────────────────── */
@@ -564,6 +569,7 @@ function onCategoryLeave() {
       class="w-full"
     >
       <template #default="{ width: w, height: h }">
+        <template v-for="c in [{ grid: computeGridAndAxes(w, h), hover: computeHoverRegions(w, h), bars: orientation === 'vertical' ? computeVerticalBars(w, h) : computeHorizontalBars(w, h) }]" :key="0">
         <defs>
           <!-- Gradient definitions for each series -->
           <linearGradient
@@ -588,7 +594,7 @@ function onCategoryLeave() {
 
         <!-- Dot grid (instead of dashed lines) -->
         <circle
-          v-for="(dot, i) in computeGridAndAxes(w, h).gridDots"
+          v-for="(dot, i) in c.grid.gridDots"
           :key="`dot-${i}`"
           :cx="dot.cx"
           :cy="dot.cy"
@@ -599,7 +605,7 @@ function onCategoryLeave() {
 
         <!-- Value axis labels -->
         <text
-          v-for="(label, i) in computeGridAndAxes(w, h).valueLabels"
+          v-for="(label, i) in c.grid.valueLabels"
           :key="`val-${i}`"
           :x="label.x"
           :y="label.y"
@@ -613,7 +619,7 @@ function onCategoryLeave() {
 
         <!-- Category axis labels -->
         <text
-          v-for="(label, i) in computeGridAndAxes(w, h).categoryLabels"
+          v-for="(label, i) in c.grid.categoryLabels"
           :key="`cat-${i}`"
           :x="label.x"
           :y="label.y"
@@ -666,7 +672,7 @@ function onCategoryLeave() {
 
         <!-- Hover background highlight -->
         <rect
-          v-for="region in computeHoverRegions(w, h)"
+          v-for="region in c.hover"
           v-show="hoveredIndex === region.dataIndex"
           :key="`bg-${region.dataIndex}`"
           :x="region.x"
@@ -680,9 +686,7 @@ function onCategoryLeave() {
 
         <!-- Bars with gradient fill -->
         <rect
-          v-for="(bar, i) in (orientation === 'vertical'
-            ? computeVerticalBars(w, h)
-            : computeHorizontalBars(w, h))"
+          v-for="(bar, i) in c.bars"
           :key="`bar-${i}`"
           :x="bar.x"
           :y="bar.y"
@@ -699,7 +703,7 @@ function onCategoryLeave() {
 
         <!-- Hover regions (invisible) -->
         <rect
-          v-for="region in computeHoverRegions(w, h)"
+          v-for="region in c.hover"
           :key="`hover-${region.dataIndex}`"
           :x="region.x"
           :y="region.y"
@@ -709,6 +713,7 @@ function onCategoryLeave() {
           @mousemove="onCategoryHover(region.dataIndex, region.center, $event)"
           @mouseleave="onCategoryLeave"
         />
+        </template>
       </template>
 
       <!-- Tooltip overlay -->

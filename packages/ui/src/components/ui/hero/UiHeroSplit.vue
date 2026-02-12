@@ -121,6 +121,7 @@ function handleAction(action: HeroAction, index: number) {
             v-if="imageSrc"
             :src="imageSrc"
             :alt="imageAlt"
+            loading="lazy"
             class="w-full rounded-xl object-cover shadow-2xl ring-1 ring-border/10"
           />
         </slot>

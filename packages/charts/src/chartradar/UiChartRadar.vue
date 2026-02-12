@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, provide, useAttrs, onMounted, watch, nextTick } from 'vue';
+import { ref, computed, provide, useAttrs, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import type {
   ChartConfig,
   ChartDataRow,
@@ -109,15 +109,20 @@ const visibleSeriesKeys = computed(() =>
 /* ── Entrance animation ───────────────────────────────────── */
 
 const animProgress = ref(props.animate ? 0 : 1);
+let rafId = 0;
 
 onMounted(() => {
   if (props.animate) {
     nextTick(() => {
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         animProgress.value = 1;
       });
     });
   }
+});
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
 });
 
 /* ── Derived data ──────────────────────────────────────────── */
@@ -306,6 +311,7 @@ function onDotLeave() {
         <g v-if="categories.length >= 3"
           :transform="`translate(0,0)`"
         >
+          <template v-for="c in [{ grid: computeGrid(w / 2, h / 2, Math.min(w, h) / 2 - 50), series: computeSeries(w / 2, h / 2, Math.min(w, h) / 2 - 50), labels: computeAxisLabels(w / 2, h / 2, Math.min(w, h) / 2 - 50), cx: w / 2, cy: h / 2, r: Math.min(w, h) / 2 - 50 }]" :key="0">
           <defs>
             <!-- Gradient fill per series -->
             <radialGradient
@@ -329,7 +335,7 @@ function onDotLeave() {
 
           <!-- Grid levels -->
           <path
-            v-for="(path, i) in computeGrid(w / 2, h / 2, Math.min(w, h) / 2 - 50).levelPaths"
+            v-for="(path, i) in c.grid.levelPaths"
             :key="`level-${i}`"
             :d="path"
             fill="none"
@@ -340,7 +346,7 @@ function onDotLeave() {
 
           <!-- Spokes -->
           <path
-            v-for="(path, i) in computeGrid(w / 2, h / 2, Math.min(w, h) / 2 - 50).axisPaths"
+            v-for="(path, i) in c.grid.axisPaths"
             :key="`spoke-${i}`"
             :d="path"
             fill="none"
@@ -352,7 +358,7 @@ function onDotLeave() {
           <!-- Axis labels (category names) -->
           <template v-if="showAxisLabels">
           <text
-            v-for="(label, i) in computeAxisLabels(w / 2, h / 2, Math.min(w, h) / 2 - 50)"
+            v-for="(label, i) in c.labels"
             :key="`axlabel-${i}`"
             :x="label.x"
             :y="label.y"
@@ -367,7 +373,7 @@ function onDotLeave() {
           </template>
 
           <!-- Series polygons -->
-          <template v-for="series in computeSeries(w / 2, h / 2, Math.min(w, h) / 2 - 50)" :key="series.key">
+          <template v-for="series in c.series" :key="series.key">
             <!-- Filled area -->
             <path
               v-if="showFill"
@@ -419,14 +425,15 @@ function onDotLeave() {
             <circle
               v-for="(_, i) in categories"
               :key="`hover-${i}`"
-              :cx="polarToCartesian(w / 2, h / 2, Math.min(w, h) / 2 - 50, angleFor(i, categories.length)).x"
-              :cy="polarToCartesian(w / 2, h / 2, Math.min(w, h) / 2 - 50, angleFor(i, categories.length)).y"
+              :cx="polarToCartesian(c.cx, c.cy, c.r, angleFor(i, categories.length)).x"
+              :cy="polarToCartesian(c.cx, c.cy, c.r, angleFor(i, categories.length)).y"
               r="16"
               fill="transparent"
               style="cursor: pointer"
               @mousemove="onDotHover(i, $event)"
               @mouseleave="onDotLeave"
             />
+          </template>
           </template>
         </g>
 

@@ -1,9 +1,17 @@
 {
   "name": "@3df/charts",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "type": "module",
   "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/3df-space/3df-ui.git",
+    "directory": "packages/charts"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
+  },
   "exports": {
     ".": {
       "import": {

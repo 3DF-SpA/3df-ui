@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, provide, useAttrs, onMounted, watch, nextTick } from 'vue';
+import { ref, computed, provide, useAttrs, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import type {
   ChartConfig,
   ChartDataRow,
@@ -98,15 +98,20 @@ function onToggleSlice(key: string) {
 /* ── Entrance animation ───────────────────────────────────── */
 
 const animProgress = ref(props.animate ? 0 : 1);
+let rafId = 0;
 
 onMounted(() => {
   if (props.animate) {
     nextTick(() => {
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         animProgress.value = 1;
       });
     });
   }
+});
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
 });
 
 /* ── Resolve data model ───────────────────────────────────── */
@@ -394,10 +399,11 @@ function labelText(slice: ArcSlice): string {
       class="w-full"
     >
       <template #default="{ width: w, height: h }">
+        <template v-for="c in [{ arcs: computeArcs(w, h) }]" :key="0">
         <defs>
           <!-- Radial gradient per slice for depth effect -->
           <radialGradient
-            v-for="arc in computeArcs(w, h)"
+            v-for="arc in c.arcs"
             :id="arc.gradientId"
             :key="`grad-${arc.key}`"
             cx="50%" cy="50%" r="50%"
@@ -423,7 +429,7 @@ function labelText(slice: ArcSlice): string {
 
         <!-- Slices -->
         <g
-          v-for="arc in computeArcs(w, h)"
+          v-for="arc in c.arcs"
           :key="arc.key"
           :style="{
             transition: 'transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 200ms ease',
@@ -452,7 +458,7 @@ function labelText(slice: ArcSlice): string {
 
         <!-- Slice labels -->
         <text
-          v-for="arc in (showLabels ? computeArcs(w, h) : [])"
+          v-for="arc in (showLabels ? c.arcs : [])"
           :key="`lbl-${arc.key}`"
           :x="arc.labelX"
           :y="arc.labelY"
@@ -489,6 +495,7 @@ function labelText(slice: ArcSlice): string {
           >
             Total
           </text>
+        </template>
         </template>
       </template>
 

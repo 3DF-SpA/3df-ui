@@ -67,16 +67,17 @@ const gradientStyle = computed(() => {
   return presets[props.gradient] ?? presets.purple;
 });
 
-const blobColors = computed(() => {
+const blobColors = computed((): [string, string] => {
+  const fallback: [string, string] = ['rgba(139,92,246,0.3)', 'rgba(236,72,153,0.2)'];
   const map: Record<string, [string, string]> = {
-    purple: ['rgba(139,92,246,0.3)', 'rgba(236,72,153,0.2)'],
+    purple: fallback,
     blue: ['rgba(14,165,233,0.3)', 'rgba(99,102,241,0.2)'],
     green: ['rgba(16,185,129,0.3)', 'rgba(14,165,233,0.2)'],
     orange: ['rgba(249,115,22,0.3)', 'rgba(239,68,68,0.2)'],
     rose: ['rgba(236,72,153,0.3)', 'rgba(147,51,234,0.2)'],
-    custom: ['rgba(139,92,246,0.3)', 'rgba(236,72,153,0.2)'],
+    custom: fallback,
   };
-  return map[props.gradient] ?? map.purple;
+  return map[props.gradient] ?? fallback;
 });
 
 const alignClass = computed(() => {

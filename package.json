@@ -16,7 +16,10 @@
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build:ui && pnpm build:charts && changeset publish"
   },
   "dependencies": {
     "@3df/charts": "workspace:*",
@@ -29,6 +32,7 @@
     "vue-router": "^5.0.2"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "@tailwindcss/vite": "^4.1.18",
     "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@tsconfig/node24": "^24.0.4",
