@@ -1,0 +1,1687 @@
+# @3df/ui + @3df/charts — LLM Reference
+
+> Complete API reference for AI assistants helping consumers use these packages.
+> This file is NOT published. It is a local reference for LLMs.
+
+## Overview
+
+`@3df/ui` is a private Vue 3 component library with 198 components.
+`@3df/charts` is a companion SVG chart library with 6 chart types (zero dependencies).
+
+Both packages are published privately to GitHub Packages under the `@3df` scope.
+All imports come from `@3df/ui` or `@3df/charts` — never from internal paths.
+
+---
+
+## Setup (Consumer Project)
+
+### 1. Configure `.npmrc`
+
+```ini
+@3df:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
+### 2. Install
+
+```bash
+# UI components
+pnpm add @3df/ui class-variance-authority clsx tailwind-merge
+
+# Charts (optional)
+pnpm add @3df/charts
+
+# Required peer dependencies (if using Calendar/DatePicker)
+pnpm add date-fns
+
+# Required peer dependency (if using Carousel)
+pnpm add embla-carousel
+```
+
+### 3. CSS Setup
+
+In your main CSS file:
+
+```css
+@import 'tailwindcss';
+@import '@3df/ui/theme.css';
+@source '@3df/ui';
+```
+
+### 4. Import & Use
+
+```vue
+<script setup lang="ts">
+import { Button, Badge, Input } from '@3df/ui';
+</script>
+
+<template>
+  <Button variant="outline" size="sm">Click me</Button>
+  <Badge variant="success">Online</Badge>
+  <Input v-model="email" placeholder="Email" />
+</template>
+```
+
+### 5. Update Packages
+
+```bash
+pnpm update @3df/ui @3df/charts
+```
+
+---
+
+## Utility: `cn()`
+
+```ts
+import { cn } from '@3df/ui';
+```
+
+Combines `clsx` + `tailwind-merge`. Use it to conditionally merge Tailwind classes:
+
+```ts
+cn('px-4 py-2', isActive && 'bg-primary', className)
+```
+
+---
+
+## Dark Mode
+
+Add/remove the `.dark` class on `<html>` or any ancestor:
+
+```ts
+document.documentElement.classList.toggle('dark');
+```
+
+All components adapt automatically.
+
+---
+
+# COMPONENT REFERENCE
+
+## Button
+
+```ts
+import { Button, buttonVariants } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'default' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive' \| 'link'` | `'default'` |
+| `size` | `'default' \| 'xs' \| 'sm' \| 'lg' \| 'icon'` | `'default'` |
+| `as` | `string \| Component` | `'button'` |
+
+### Examples
+
+```vue
+<Button>Default</Button>
+<Button variant="destructive" size="sm">Delete</Button>
+<Button variant="outline" size="icon"><TrashIcon /></Button>
+<Button as="a" href="/home" variant="link">Go home</Button>
+
+<!-- Use buttonVariants() without the component -->
+<a :class="buttonVariants({ variant: 'link' })">Link styled</a>
+```
+
+---
+
+## Badge
+
+```ts
+import { Badge, badgeVariants } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'default' \| 'secondary' \| 'outline' \| 'destructive' \| 'success' \| 'warning' \| 'red' \| 'orange' \| 'yellow' \| 'green' \| 'teal' \| 'blue' \| 'indigo' \| 'purple' \| 'pink' \| 'gray'` | `'default'` |
+| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |
+| `as` | `string \| Component` | `'span'` |
+
+### Examples
+
+```vue
+<Badge>Default</Badge>
+<Badge variant="success">Active</Badge>
+<Badge variant="destructive" size="sm">Error</Badge>
+<Badge variant="blue" class="rounded-full">Pill</Badge>
+
+<!-- Use badgeVariants() without the component -->
+<span :class="badgeVariants({ variant: 'outline' })">Tag</span>
+```
+
+---
+
+## Alert
+
+```ts
+import { Alert, AlertTitle, AlertDescription, alertVariants } from '@3df/ui';
+```
+
+### Props (Alert)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'default' \| 'destructive' \| 'success' \| 'warning' \| 'info'` | `'default'` |
+
+### Example
+
+```vue
+<Alert variant="success">
+  <CheckIcon />
+  <AlertTitle>Success</AlertTitle>
+  <AlertDescription>Your changes have been saved.</AlertDescription>
+</Alert>
+```
+
+---
+
+## Label
+
+```ts
+import { Label } from '@3df/ui';
+```
+
+Simple `<label>` wrapper. Pass `for` attribute normally.
+
+```vue
+<Label for="email">Email</Label>
+```
+
+---
+
+## Input
+
+```ts
+import { Input, inputVariants } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |
+| `modelValue` | `string \| number` | — |
+
+### Example
+
+```vue
+<Input v-model="name" placeholder="Your name" />
+<Input size="sm" type="email" />
+<Input aria-invalid="true" /> <!-- Shows destructive ring -->
+```
+
+---
+
+## Textarea
+
+```ts
+import { Textarea } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `string` | — |
+
+```vue
+<Textarea v-model="message" placeholder="Write something..." rows="4" />
+```
+
+---
+
+## Select
+
+```ts
+import { Select, SelectItem } from '@3df/ui';
+```
+
+### Props (Select)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `string` | `''` |
+| `placeholder` | `string` | `'Select an option'` |
+| `disabled` | `boolean` | `false` |
+
+### Example
+
+```vue
+<Select v-model="country" placeholder="Choose country">
+  <SelectItem value="mx">Mexico</SelectItem>
+  <SelectItem value="co">Colombia</SelectItem>
+  <SelectItem value="ar" disabled>Argentina</SelectItem>
+</Select>
+```
+
+---
+
+## Checkbox
+
+```ts
+import { Checkbox } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `boolean` | `false` |
+| `indeterminate` | `boolean` | `false` |
+
+```vue
+<Checkbox v-model="agreed" />
+```
+
+---
+
+## Radio
+
+```ts
+import { Radio } from '@3df/ui';
+```
+
+```vue
+<Radio v-model="plan" value="free" name="plan">Free</Radio>
+<Radio v-model="plan" value="pro" name="plan">Pro</Radio>
+```
+
+---
+
+## Switch
+
+```ts
+import { Switch } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `boolean` | `false` |
+
+```vue
+<Switch v-model="notifications" />
+```
+
+---
+
+## Slider
+
+```ts
+import { Slider } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `number` | `0` |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `step` | `number` | `1` |
+| `disabled` | `boolean` | `false` |
+
+```vue
+<Slider v-model="volume" :min="0" :max="100" :step="5" />
+```
+
+---
+
+## Toggle
+
+```ts
+import { Toggle, toggleVariants } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'default' \| 'outline'` | `'default'` |
+| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |
+| `pressed` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+
+```vue
+<Toggle v-model:pressed="isBold" variant="outline" size="sm">
+  <BoldIcon />
+</Toggle>
+```
+
+---
+
+## Card
+
+```ts
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df/ui';
+```
+
+### Example
+
+```vue
+<Card>
+  <CardHeader>
+    <CardTitle>Account</CardTitle>
+    <CardDescription>Manage your account settings.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <!-- form fields -->
+  </CardContent>
+  <CardFooter>
+    <Button>Save</Button>
+  </CardFooter>
+</Card>
+```
+
+---
+
+## Dialog
+
+```ts
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose } from '@3df/ui';
+```
+
+### Props (Dialog)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `open` | `boolean` | `undefined` (uncontrolled) |
+| `defaultOpen` | `boolean` | `false` |
+
+### Example
+
+```vue
+<Dialog>
+  <DialogTrigger as-child>
+    <Button>Open Dialog</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit Profile</DialogTitle>
+      <DialogDescription>Make changes to your profile.</DialogDescription>
+    </DialogHeader>
+    <!-- content -->
+    <DialogFooter>
+      <DialogClose as-child>
+        <Button variant="outline">Cancel</Button>
+      </DialogClose>
+      <Button>Save</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+<!-- Controlled -->
+<Dialog v-model:open="isOpen">...</Dialog>
+```
+
+---
+
+## Alert Dialog
+
+```ts
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from '@3df/ui';
+```
+
+```vue
+<AlertDialog>
+  <AlertDialogTrigger as-child>
+    <Button variant="destructive">Delete</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction @click="handleDelete">Delete</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+---
+
+## Sheet (Side Panel)
+
+```ts
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, SheetClose } from '@3df/ui';
+```
+
+### Props (SheetContent)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `side` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'right'` |
+
+```vue
+<Sheet>
+  <SheetTrigger as-child>
+    <Button variant="outline">Open</Button>
+  </SheetTrigger>
+  <SheetContent side="right">
+    <SheetHeader>
+      <SheetTitle>Settings</SheetTitle>
+      <SheetDescription>Configure your preferences.</SheetDescription>
+    </SheetHeader>
+    <!-- content -->
+  </SheetContent>
+</Sheet>
+```
+
+---
+
+## Drawer (Bottom Sheet)
+
+```ts
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription } from '@3df/ui';
+```
+
+```vue
+<Drawer>
+  <DrawerTrigger as-child>
+    <Button>Open Drawer</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Confirm</DrawerTitle>
+    </DrawerHeader>
+    <p>Drawer body</p>
+    <DrawerFooter>
+      <Button>Submit</Button>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+---
+
+## Dropdown Menu
+
+```ts
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuShortcut } from '@3df/ui';
+```
+
+```vue
+<DropdownMenu>
+  <DropdownMenuTrigger as-child>
+    <Button variant="ghost" size="icon"><MoreIcon /></Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem @select="handleEdit">
+      Edit
+      <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
+    </DropdownMenuItem>
+    <DropdownMenuItem @select="handleDelete" class="text-destructive">
+      Delete
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+---
+
+## Context Menu
+
+```ts
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuLabel, ContextMenuShortcut, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df/ui';
+```
+
+```vue
+<ContextMenu>
+  <ContextMenuTrigger>
+    <div class="h-40 w-full border border-dashed rounded-md flex items-center justify-center">
+      Right-click here
+    </div>
+  </ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem @select="handleCopy">Copy</ContextMenuItem>
+    <ContextMenuItem @select="handlePaste">Paste</ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuSub>
+      <ContextMenuSubTrigger>More</ContextMenuSubTrigger>
+      <ContextMenuSubContent>
+        <ContextMenuItem>Option A</ContextMenuItem>
+        <ContextMenuItem>Option B</ContextMenuItem>
+      </ContextMenuSubContent>
+    </ContextMenuSub>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+---
+
+## Menubar
+
+```ts
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarLabel, MenubarShortcut, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSub, MenubarSubTrigger, MenubarSubContent } from '@3df/ui';
+```
+
+```vue
+<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>New <MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
+      <MenubarItem>Open <MenubarShortcut>⌘O</MenubarShortcut></MenubarItem>
+      <MenubarSeparator />
+      <MenubarItem>Exit</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>Edit</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>Undo</MenubarItem>
+      <MenubarItem>Redo</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>
+```
+
+---
+
+## Popover
+
+```ts
+import { Popover, PopoverTrigger, PopoverContent } from '@3df/ui';
+```
+
+```vue
+<Popover>
+  <PopoverTrigger as-child>
+    <Button variant="outline">Open Popover</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <p>Popover content here</p>
+  </PopoverContent>
+</Popover>
+```
+
+---
+
+## Tooltip
+
+```ts
+import { Tooltip, TooltipTrigger, TooltipContent } from '@3df/ui';
+```
+
+### Props (Tooltip)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `delay` | `number` | `300` |
+| `closeDelay` | `number` | `150` |
+
+```vue
+<Tooltip>
+  <TooltipTrigger as-child>
+    <Button variant="ghost" size="icon"><InfoIcon /></Button>
+  </TooltipTrigger>
+  <TooltipContent>Helpful tooltip text</TooltipContent>
+</Tooltip>
+```
+
+---
+
+## Hover Card
+
+```ts
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
+```
+
+### Props (HoverCard)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `openDelay` | `number` | `700` |
+| `closeDelay` | `number` | `300` |
+
+```vue
+<HoverCard>
+  <HoverCardTrigger as-child>
+    <a href="#">@user</a>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <p>User profile card content</p>
+  </HoverCardContent>
+</HoverCard>
+```
+
+---
+
+## Toast / Sonner
+
+```ts
+import { Toaster, toast } from '@3df/ui';
+```
+
+### API
+
+```ts
+toast('Simple message');
+toast.success('Saved!');
+toast.error('Something failed');
+toast.warning('Be careful');
+toast.info('FYI');
+
+toast({
+  title: 'Scheduled',
+  description: 'Meeting at 3pm',
+  duration: 5000,
+  action: { label: 'Undo', onClick: () => handleUndo() },
+});
+
+toast.dismiss(id);
+toast.dismissAll();
+```
+
+### Setup — Add `<Toaster />` once at the app root
+
+```vue
+<!-- App.vue -->
+<template>
+  <RouterView />
+  <Toaster position="bottom-right" />
+</template>
+```
+
+### Toaster Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `position` | `'top-left' \| 'top-center' \| 'top-right' \| 'bottom-left' \| 'bottom-center' \| 'bottom-right'` | `'bottom-right'` |
+| `maxToasts` | `number` | `5` |
+
+---
+
+## Accordion
+
+```ts
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df/ui';
+```
+
+### Props (Accordion)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `type` | `'single' \| 'multiple'` | `'single'` |
+| `modelValue` | `string \| string[]` | — |
+| `defaultValue` | `string \| string[]` | — |
+| `collapsible` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+
+### Example
+
+```vue
+<Accordion type="single" collapsible>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>Yes. It follows WAI-ARIA guidelines.</AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Is it styled?</AccordionTrigger>
+    <AccordionContent>Yes, with Tailwind CSS.</AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+<!-- Multiple open -->
+<Accordion type="multiple" v-model="openItems">...</Accordion>
+```
+
+---
+
+## Collapsible
+
+```ts
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `open` | `boolean` | `undefined` |
+| `defaultOpen` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+
+```vue
+<Collapsible>
+  <CollapsibleTrigger as-child>
+    <Button variant="ghost">Toggle</Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    <p>Hidden content</p>
+  </CollapsibleContent>
+</Collapsible>
+```
+
+---
+
+## Table
+
+```ts
+import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df/ui';
+```
+
+```vue
+<Table>
+  <TableCaption>A list of users</TableCaption>
+  <TableHeader>
+    <TableRow>
+      <TableHead>Name</TableHead>
+      <TableHead>Email</TableHead>
+      <TableHead class="text-right">Amount</TableHead>
+    </TableRow>
+  </TableHeader>
+  <TableBody>
+    <TableRow v-for="user in users" :key="user.id">
+      <TableCell class="font-medium">{{ user.name }}</TableCell>
+      <TableCell>{{ user.email }}</TableCell>
+      <TableCell class="text-right">{{ user.amount }}</TableCell>
+    </TableRow>
+    <TableEmpty v-if="!users.length" :colspan="3">No users found.</TableEmpty>
+  </TableBody>
+</Table>
+```
+
+---
+
+## Pagination
+
+```ts
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from '@3df/ui';
+```
+
+```vue
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious @click="page--" :disabled="page === 1" />
+    </PaginationItem>
+    <PaginationItem v-for="p in pages" :key="p">
+      <PaginationLink :is-active="p === page" @click="page = p">{{ p }}</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext @click="page++" :disabled="page === totalPages" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+---
+
+## Progress
+
+```ts
+import { Progress } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `number \| undefined` | `undefined` (indeterminate) |
+| `max` | `number` | `100` |
+
+```vue
+<Progress :model-value="75" />
+<Progress /> <!-- indeterminate / pulsing -->
+```
+
+---
+
+## Skeleton
+
+```ts
+import { Skeleton } from '@3df/ui';
+```
+
+```vue
+<Skeleton class="h-4 w-[200px]" />
+<Skeleton class="h-12 w-12 rounded-full" />
+```
+
+---
+
+## Separator
+
+```ts
+import { Separator } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
+
+```vue
+<Separator />
+<Separator orientation="vertical" class="h-6" />
+```
+
+---
+
+## Scroll Area
+
+```ts
+import { ScrollArea } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `type` | `'auto' \| 'always' \| 'scroll' \| 'hover'` | `'hover'` |
+| `orientation` | `'vertical' \| 'horizontal' \| 'both'` | `'vertical'` |
+
+```vue
+<ScrollArea class="h-72 w-48">
+  <div v-for="i in 50" :key="i" class="py-2">Item {{ i }}</div>
+</ScrollArea>
+```
+
+---
+
+## Avatar
+
+```ts
+import { Avatar, AvatarImage, AvatarFallback } from '@3df/ui';
+```
+
+### Props (Avatar)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
+
+```vue
+<Avatar size="lg">
+  <AvatarImage src="/avatar.jpg" alt="User" />
+  <AvatarFallback>JD</AvatarFallback>
+</Avatar>
+```
+
+---
+
+## Breadcrumb
+
+```ts
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df/ui';
+```
+
+```vue
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/settings">Settings</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Profile</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+---
+
+## Calendar
+
+```ts
+import { Calendar } from '@3df/ui';
+import type { DateRange } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `mode` | `'single' \| 'range'` | `'single'` |
+| `modelValue` | `Date \| DateRange` | — |
+| `numberOfMonths` | `number` | `1` |
+| `weekStartsOn` | `0-6` | `1` (Monday) |
+| `showOutsideDays` | `boolean` | `true` |
+| `fixedWeeks` | `boolean` | `true` |
+| `disabled` | `(date: Date) => boolean` | — |
+| `locale` | `Locale` (date-fns) | — |
+
+```vue
+<Calendar v-model="selectedDate" />
+<Calendar mode="range" v-model="dateRange" :number-of-months="2" />
+```
+
+---
+
+## DatePicker
+
+```ts
+import { DatePicker, DateRangePicker } from '@3df/ui';
+```
+
+### Props (DatePicker)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `Date` | — |
+| `placeholder` | `string` | `'Pick a date'` |
+| `formatStr` | `string` | `'PPP'` |
+| `disabled` | `(date: Date) => boolean` | — |
+| `locale` | `Locale` (date-fns) | — |
+
+```vue
+<DatePicker v-model="date" placeholder="Select date" />
+<DateRangePicker v-model="range" />
+```
+
+---
+
+## Combobox
+
+```ts
+import { Combobox } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `string` | `''` |
+| `options` | `{ value: string; label: string; disabled?: boolean }[]` | *required* |
+| `placeholder` | `string` | `'Select option...'` |
+| `searchPlaceholder` | `string` | `'Search...'` |
+| `emptyMessage` | `string` | `'No results found.'` |
+
+```vue
+<Combobox
+  v-model="framework"
+  :options="[
+    { value: 'vue', label: 'Vue' },
+    { value: 'react', label: 'React' },
+    { value: 'svelte', label: 'Svelte' },
+  ]"
+  placeholder="Choose framework..."
+/>
+```
+
+---
+
+## Command (⌘K Palette)
+
+```ts
+import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator } from '@3df/ui';
+```
+
+```vue
+<CommandDialog v-model:open="isOpen">
+  <CommandInput placeholder="Type a command..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem @select="handleCalendar">Calendar</CommandItem>
+      <CommandItem @select="handleSearch">Search</CommandItem>
+    </CommandGroup>
+    <CommandSeparator />
+    <CommandGroup heading="Settings">
+      <CommandItem @select="handleProfile">
+        Profile
+        <CommandShortcut>⌘P</CommandShortcut>
+      </CommandItem>
+    </CommandGroup>
+  </CommandList>
+</CommandDialog>
+```
+
+---
+
+## Input OTP
+
+```ts
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui';
+```
+
+### Props (InputOTP)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `modelValue` | `string` | `''` |
+| `length` | `number` | `6` |
+| `pattern` | `'numeric' \| 'alphanumeric' \| 'alpha' \| RegExp` | `'numeric'` |
+| `autoSubmit` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+
+```vue
+<InputOTP v-model="code" :length="6" @complete="verify">
+  <InputOTPGroup>
+    <InputOTPSlot v-for="i in 3" :key="i" :index="i - 1" />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot v-for="i in 3" :key="i + 3" :index="i + 2" />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+---
+
+## Carousel
+
+```ts
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df/ui';
+```
+
+### Props (Carousel)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
+| `opts` | `Partial<EmblaOptionsType>` | — |
+
+```vue
+<Carousel :opts="{ loop: true }">
+  <CarouselContent>
+    <CarouselItem v-for="i in 5" :key="i" class="basis-1/3">
+      <Card>{{ i }}</Card>
+    </CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+---
+
+## Navigation Menu
+
+```ts
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df/ui';
+```
+
+```vue
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ul class="grid gap-3 p-4 w-[400px]">
+          <li><NavigationMenuLink href="/docs">Documentation</NavigationMenuLink></li>
+        </ul>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/about">About</NavigationMenuLink>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+  <NavigationMenuViewport />
+</NavigationMenu>
+```
+
+---
+
+## Sidebar
+
+```ts
+import { SidebarProvider, Sidebar, SidebarTrigger, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, SidebarMenuBadge, SidebarMenuAction, SidebarMenuSkeleton, SidebarSeparator, SidebarRail, SidebarInset, useSidebar } from '@3df/ui';
+```
+
+### Props (Sidebar)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `side` | `'left' \| 'right'` | `'left'` |
+| `variant` | `'sidebar' \| 'floating' \| 'inset'` | `'sidebar'` |
+| `collapsible` | `'offcanvas' \| 'icon' \| 'none'` | `'offcanvas'` |
+
+### Example
+
+```vue
+<SidebarProvider>
+  <Sidebar>
+    <SidebarHeader>
+      <h2>My App</h2>
+    </SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Main</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton is-active>
+                <HomeIcon />
+                Dashboard
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton>
+                <SettingsIcon />
+                Settings
+                <SidebarMenuBadge>3</SidebarMenuBadge>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </SidebarContent>
+    <SidebarRail />
+  </Sidebar>
+  <SidebarInset>
+    <header>
+      <SidebarTrigger />
+    </header>
+    <main>
+      <RouterView />
+    </main>
+  </SidebarInset>
+</SidebarProvider>
+```
+
+### Composable
+
+```ts
+const { state, open, isMobile, toggleSidebar } = useSidebar();
+```
+
+---
+
+## Kbd
+
+```ts
+import { Kbd } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `size` | `'xs' \| 'sm' \| 'default' \| 'lg'` | `'default'` |
+
+```vue
+<Kbd>⌘</Kbd><Kbd>K</Kbd>
+<Kbd size="sm">Ctrl</Kbd>
+```
+
+---
+
+## Item
+
+```ts
+import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df/ui';
+```
+
+### Props (Item)
+
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'default' \| 'ghost' \| 'muted' \| 'destructive'` | `'default'` |
+| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` |
+
+```vue
+<Item variant="default" as="button" @click="handleClick">
+  <UserIcon />
+  <div>
+    <ItemLabel>John Doe</ItemLabel>
+    <ItemDescription>john@example.com</ItemDescription>
+  </div>
+</Item>
+```
+
+---
+
+## Empty State
+
+```ts
+import { EmptyState } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `title` | `string` | — |
+| `description` | `string` | — |
+
+```vue
+<EmptyState title="No results" description="Try a different search term.">
+  <template #icon><SearchIcon /></template>
+  <Button variant="outline" size="sm">Clear filters</Button>
+</EmptyState>
+```
+
+---
+
+## Logo Cloud
+
+```ts
+import { LogoCloud } from '@3df/ui';
+import type { LogoItem } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `logos` | `LogoItem[]` | *required* |
+| `columns` | `3 \| 4 \| 5 \| 6` | `4` |
+| `showNames` | `boolean` | `false` |
+| `logoHeight` | `number` | `40` |
+| `grayscale` | `boolean` | `true` |
+| `heading` | `string` | — |
+
+```ts
+// LogoItem = { name: string; src: string; href?: string; alt?: string }
+```
+
+```vue
+<LogoCloud
+  heading="Trusted by"
+  :logos="[
+    { name: 'Acme', src: '/logos/acme.svg' },
+    { name: 'Corp', src: '/logos/corp.svg', href: 'https://corp.com' },
+  ]"
+  :columns="4"
+  grayscale
+/>
+```
+
+---
+
+## Logo Marquee
+
+```ts
+import { LogoMarquee } from '@3df/ui';
+```
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `logos` | `LogoItem[]` | *required* |
+| `direction` | `'left' \| 'right'` | `'left'` |
+| `duration` | `number` (seconds) | `30` |
+| `hoverDuration` | `number` | `80` |
+| `logoHeight` | `number` | `40` |
+| `gap` | `number` (px) | `48` |
+| `grayscale` | `boolean` | `true` |
+| `fadeMask` | `boolean` | `true` |
+| `pauseOnHover` | `boolean` | `false` |
+| `showNames` | `boolean` | `false` |
+| `heading` | `string` | — |
+| `reverse` | `boolean` | `false` (two-row opposite) |
+
+```vue
+<LogoMarquee :logos="logos" heading="Our partners" :duration="25" />
+```
+
+---
+
+## Hero Sections
+
+```ts
+import { HeroSimple, HeroSplit, HeroImage, HeroGradient, HeroCentered, HeroMinimal, HeroVideo } from '@3df/ui';
+import type { HeroAction, HeroAlign } from '@3df/ui';
+```
+
+### HeroAction type
+
+```ts
+interface HeroAction {
+  label: string;
+  href?: string;
+  external?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+}
+```
+
+### HeroSimple
+
+```vue
+<HeroSimple
+  headline="Build faster"
+  description="A modern component library."
+  :actions="[
+    { label: 'Get Started', variant: 'primary' },
+    { label: 'Learn More', variant: 'outline' },
+  ]"
+  align="center"
+  @action="handleAction"
+/>
+```
+
+### HeroSplit
+
+```vue
+<HeroSplit
+  headline="Ship with confidence"
+  description="Production-ready components."
+  image-src="/hero.jpg"
+  image-alt="Hero image"
+  :reverse="false"
+  :actions="[{ label: 'Start', variant: 'primary' }]"
+/>
+```
+
+### HeroGradient
+
+| Prop | Type | Default |
+|------|------|---------|
+| `gradient` | `'purple' \| 'blue' \| 'green' \| 'orange' \| 'rose' \| 'custom'` | `'purple'` |
+| `customGradient` | `string` (CSS) | — |
+| `blobs` | `boolean` | `true` |
+
+```vue
+<HeroGradient
+  headline="Beautiful gradients"
+  gradient="blue"
+  :blobs="true"
+  :actions="[{ label: 'Explore', variant: 'secondary' }]"
+/>
+```
+
+---
+
+# CHART REFERENCE (`@3df/charts`)
+
+## Setup
+
+```ts
+import { UiChartBar, UiChartLine, UiChartPie, UiChartRadar, UiChartScatter, UiChartGauge, UiChartTooltip, UiChartLegend } from '@3df/charts';
+import type { ChartConfig, ChartDataRow } from '@3df/charts';
+```
+
+## Shared Types
+
+```ts
+type ChartConfig = Record<string, { label: string; color: string }>;
+type ChartDataRow = Record<string, string | number>;
+```
+
+---
+
+## Bar Chart
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `config` | `ChartConfig` | *required* |
+| `data` | `ChartDataRow[]` | *required* |
+| `index` | `string` | *required* |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` |
+| `mode` | `'grouped' \| 'stacked'` | `'grouped'` |
+| `showTooltip` | `boolean` | `true` |
+| `showLegend` | `boolean` | `true` |
+| `showGrid` | `boolean` | `true` |
+| `showXAxis` / `showYAxis` | `boolean` | `true` |
+| `tickCount` | `number` | `5` |
+| `radius` | `number` | `6` |
+| `barGap` | `number` | `0.15` |
+| `categoryGap` | `number` | `0.25` |
+| `minHeight` | `number` | `350` |
+| `animate` | `boolean` | `true` |
+| `valueFormatter` | `(v: number) => string` | — |
+| `tooltipFormatter` | `(v: number, key: string) => string` | — |
+
+### Example
+
+```vue
+<script setup lang="ts">
+import { UiChartBar } from '@3df/charts';
+import type { ChartConfig, ChartDataRow } from '@3df/charts';
+
+const data: ChartDataRow[] = [
+  { month: 'Jan', revenue: 4000, expenses: 2400 },
+  { month: 'Feb', revenue: 3000, expenses: 1398 },
+  { month: 'Mar', revenue: 5000, expenses: 3200 },
+];
+
+const config: ChartConfig = {
+  revenue: { label: 'Revenue', color: '#3b82f6' },
+  expenses: { label: 'Expenses', color: '#ef4444' },
+};
+</script>
+
+<template>
+  <UiChartBar :data="data" :config="config" index="month" />
+  <UiChartBar :data="data" :config="config" index="month" mode="stacked" />
+  <UiChartBar :data="data" :config="config" index="month" orientation="horizontal" />
+</template>
+```
+
+---
+
+## Line Chart
+
+### Additional Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `curveType` | `'monotone' \| 'linear' \| 'step'` | `'monotone'` |
+| `mode` | `'none' \| 'stacked' \| 'expanded'` | `'none'` |
+| `showDots` | `boolean` | `false` |
+| `showArea` | `boolean` | `true` |
+| `showLine` | `boolean` | `true` |
+| `fillOpacity` | `number` | `0.25` |
+| `strokeWidth` | `number` | `2.5` |
+| `dotRadius` | `number` | `4` |
+
+### Example
+
+```vue
+<UiChartLine
+  :data="data"
+  :config="config"
+  index="month"
+  curve-type="monotone"
+  :show-area="true"
+  :show-dots="true"
+/>
+```
+
+---
+
+## Pie Chart
+
+### Additional Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `valueKey` | `string` | — |
+| `innerRadius` | `number` | `0` (0 = pie, >0 = donut) |
+| `radiusFraction` | `number` | `0.85` |
+| `padAngle` | `number` | `1.5` |
+| `cornerRadius` | `number` | `3` |
+| `showLabels` | `boolean` | `false` |
+| `labelType` | `'percent' \| 'value' \| 'name'` | `'percent'` |
+| `startAngle` | `number` | `-90` |
+
+### Example
+
+```vue
+<!-- Simple pie: each key in config is a slice -->
+<UiChartPie
+  :data="[{ os: 'Desktop', users: 400, mobile: 300, tablet: 100 }]"
+  :config="{
+    users: { label: 'Desktop', color: '#3b82f6' },
+    mobile: { label: 'Mobile', color: '#10b981' },
+    tablet: { label: 'Tablet', color: '#f59e0b' },
+  }"
+  index="os"
+/>
+
+<!-- Donut -->
+<UiChartPie :data="data" :config="config" index="os" :inner-radius="60" />
+```
+
+---
+
+## Radar Chart
+
+### Additional Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `'polygon' \| 'circle'` | `'polygon'` |
+| `levels` | `number` | `5` |
+| `showFill` | `boolean` | `true` |
+| `fillOpacity` | `number` | `0.2` |
+| `showDots` | `boolean` | `true` |
+| `showAxisLabels` | `boolean` | `true` |
+
+### Example
+
+```vue
+<UiChartRadar
+  :data="[
+    { skill: 'Vue', alice: 90, bob: 70 },
+    { skill: 'TypeScript', alice: 85, bob: 90 },
+    { skill: 'CSS', alice: 70, bob: 60 },
+    { skill: 'Testing', alice: 60, bob: 80 },
+    { skill: 'DevOps', alice: 50, bob: 75 },
+  ]"
+  :config="{
+    alice: { label: 'Alice', color: '#3b82f6' },
+    bob: { label: 'Bob', color: '#ef4444' },
+  }"
+  index="skill"
+  variant="polygon"
+/>
+```
+
+---
+
+## Scatter Chart
+
+Uses `ScatterConfig` instead of `ChartConfig`. Each series specifies its own `xKey` and `yKey`.
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `config` | `ScatterConfig` | *required* |
+| `data` | `Record<string, string \| number>[]` | *required* |
+| `dotRadius` | `number` | `6` |
+| `minDotRadius` / `maxDotRadius` | `number` | `4` / `24` |
+
+```ts
+// ScatterConfig
+type ScatterConfig = Record<string, {
+  label: string;
+  color: string;
+  xKey: string;
+  yKey: string;
+  sizeKey?: string;
+  shape?: 'circle' | 'square' | 'diamond';
+}>;
+```
+
+### Example
+
+```vue
+<UiChartScatter
+  :data="[
+    { height: 170, weight: 70, bmi: 24 },
+    { height: 180, weight: 85, bmi: 26 },
+    { height: 160, weight: 55, bmi: 21 },
+  ]"
+  :config="{
+    series1: {
+      label: 'People',
+      color: '#3b82f6',
+      xKey: 'height',
+      yKey: 'weight',
+      sizeKey: 'bmi',
+      shape: 'circle',
+    },
+  }"
+/>
+```
+
+---
+
+## Gauge Chart
+
+Standalone — no `config`, no `data` array. Just a single `value`.
+
+### Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `value` | `number` | *required* |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `variant` | `'semicircle' \| 'arc' \| 'full'` | `'semicircle'` |
+| `segments` | `GaugeSegment[]` | — |
+| `color` | `string` | `'var(--color-chart-1)'` |
+| `trackColor` | `string` | `'var(--color-border)'` |
+| `label` | `string` | — |
+| `strokeWidth` | `number` | `20` |
+| `showNeedle` | `boolean` | `true` |
+| `showSegmentLabels` | `boolean` | `false` |
+| `valueFormatter` | `(v: number) => string` | — |
+
+```ts
+// GaugeSegment = { label?: string; max: number; color: string }
+```
+
+### Examples
+
+```vue
+<!-- Simple gauge -->
+<UiChartGauge :value="72" label="CPU Usage" />
+
+<!-- With segments -->
+<UiChartGauge
+  :value="65"
+  :min="0"
+  :max="100"
+  variant="arc"
+  label="Performance"
+  :segments="[
+    { max: 30, color: '#ef4444', label: 'Low' },
+    { max: 70, color: '#f59e0b', label: 'Med' },
+    { max: 100, color: '#10b981', label: 'High' },
+  ]"
+  :show-segment-labels="true"
+  :value-formatter="(v) => `${v}%`"
+/>
+
+<!-- Full circle -->
+<UiChartGauge :value="42" variant="full" :show-needle="false" />
+```
+
+---
+
+## Class Override Pattern
+
+All components support Tailwind class overrides via the `class` attribute:
+
+```vue
+<Button class="w-full rounded-full">Full width pill</Button>
+<Badge class="rounded-full">Pill badge</Badge>
+<Card class="bg-muted">Gray card</Card>
+<UiChartBar class="rounded-xl border" :data="..." :config="..." index="..." />
+```
+
+Classes are merged via `cn()` (clsx + tailwind-merge), so your classes will properly override defaults without needing `!important`.
+
+---
+
+## Design Tokens
+
+Available Tailwind token classes from the theme:
+
+**Colors:** `background`, `foreground`, `card`, `card-foreground`, `popover`, `popover-foreground`, `primary`, `primary-foreground`, `secondary`, `secondary-foreground`, `muted`, `muted-foreground`, `accent`, `accent-foreground`, `destructive`, `destructive-foreground`, `border`, `input`, `ring`
+
+**Usage:** `bg-primary`, `text-muted-foreground`, `border-border`, `ring-ring`, etc.
+
+**Radius:** `rounded-sm` (0.375rem), `rounded-md` (0.625rem), `rounded-lg` (0.875rem), `rounded-xl` (1rem)
