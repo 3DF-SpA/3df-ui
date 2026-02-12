@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Kbd } from '@3df/ui';
+import { Kbd } from '@3df-spa/ui';
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Separator } from '@3df/ui';
+import { Separator } from '@3df-spa/ui';
 </script>
 
 <template>

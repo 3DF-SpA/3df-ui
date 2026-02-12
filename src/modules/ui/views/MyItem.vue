@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Badge, Item, ItemDescription, ItemLabel, Switch } from '@3df/ui';
+import { Badge, Item, ItemDescription, ItemLabel, Switch } from '@3df-spa/ui';
 
 const wifiEnabled = ref(true);
 const bluetoothEnabled = ref(false);

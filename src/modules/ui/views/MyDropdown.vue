@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 function onAction(action: string) {
   alert(`Acción: ${action}`);

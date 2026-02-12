@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Button, Toaster, toast } from '@3df/ui';
+import { Button, Toaster, toast } from '@3df-spa/ui';
 
 const position = ref<
   'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'

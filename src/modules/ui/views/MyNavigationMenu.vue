@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const components = [
   {

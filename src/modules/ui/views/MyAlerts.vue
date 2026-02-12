@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
+import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
 </script>
 
 <template>

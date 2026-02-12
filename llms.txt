@@ -1,15 +1,15 @@
-# @3df/ui + @3df/charts — LLM Reference
+# @3df-spa/ui + @3df-spa/charts — LLM Reference
 
 > Complete API reference for AI assistants helping consumers use these packages.
 > This file is NOT published. It is a local reference for LLMs.
 
 ## Overview
 
-`@3df/ui` is a private Vue 3 component library with 198 components.
-`@3df/charts` is a companion SVG chart library with 6 chart types (zero dependencies).
+`@3df-spa/ui` is a private Vue 3 component library with 198 components.
+`@3df-spa/charts` is a companion SVG chart library with 6 chart types (zero dependencies).
 
 Both packages are published privately to GitHub Packages under the `@3df` scope.
-All imports come from `@3df/ui` or `@3df/charts` — never from internal paths.
+All imports come from `@3df-spa/ui` or `@3df-spa/charts` — never from internal paths.
 
 ---
 
@@ -26,10 +26,10 @@ All imports come from `@3df/ui` or `@3df/charts` — never from internal paths.
 
 ```bash
 # UI components
-pnpm add @3df/ui class-variance-authority clsx tailwind-merge
+pnpm add @3df-spa/ui class-variance-authority clsx tailwind-merge
 
 # Charts (optional)
-pnpm add @3df/charts
+pnpm add @3df-spa/charts
 
 # Required peer dependencies (if using Calendar/DatePicker)
 pnpm add date-fns
@@ -44,15 +44,15 @@ In your main CSS file:
 
 ```css
 @import 'tailwindcss';
-@import '@3df/ui/theme.css';
-@source '@3df/ui';
+@import '@3df-spa/ui/theme.css';
+@source '@3df-spa/ui';
 ```
 
 ### 4. Import & Use
 
 ```vue
 <script setup lang="ts">
-import { Button, Badge, Input } from '@3df/ui';
+import { Button, Badge, Input } from '@3df-spa/ui';
 </script>
 
 <template>
@@ -65,7 +65,7 @@ import { Button, Badge, Input } from '@3df/ui';
 ### 5. Update Packages
 
 ```bash
-pnpm update @3df/ui @3df/charts
+pnpm update @3df-spa/ui @3df-spa/charts
 ```
 
 ---
@@ -73,7 +73,7 @@ pnpm update @3df/ui @3df/charts
 ## Utility: `cn()`
 
 ```ts
-import { cn } from '@3df/ui';
+import { cn } from '@3df-spa/ui';
 ```
 
 Combines `clsx` + `tailwind-merge`. Use it to conditionally merge Tailwind classes:
@@ -101,7 +101,7 @@ All components adapt automatically.
 ## Button
 
 ```ts
-import { Button, buttonVariants } from '@3df/ui';
+import { Button, buttonVariants } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -129,7 +129,7 @@ import { Button, buttonVariants } from '@3df/ui';
 ## Badge
 
 ```ts
-import { Badge, badgeVariants } from '@3df/ui';
+import { Badge, badgeVariants } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -157,7 +157,7 @@ import { Badge, badgeVariants } from '@3df/ui';
 ## Alert
 
 ```ts
-import { Alert, AlertTitle, AlertDescription, alertVariants } from '@3df/ui';
+import { Alert, AlertTitle, AlertDescription, alertVariants } from '@3df-spa/ui';
 ```
 
 ### Props (Alert)
@@ -181,7 +181,7 @@ import { Alert, AlertTitle, AlertDescription, alertVariants } from '@3df/ui';
 ## Label
 
 ```ts
-import { Label } from '@3df/ui';
+import { Label } from '@3df-spa/ui';
 ```
 
 Simple `<label>` wrapper. Pass `for` attribute normally.
@@ -195,7 +195,7 @@ Simple `<label>` wrapper. Pass `for` attribute normally.
 ## Input
 
 ```ts
-import { Input, inputVariants } from '@3df/ui';
+import { Input, inputVariants } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -218,7 +218,7 @@ import { Input, inputVariants } from '@3df/ui';
 ## Textarea
 
 ```ts
-import { Textarea } from '@3df/ui';
+import { Textarea } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -236,7 +236,7 @@ import { Textarea } from '@3df/ui';
 ## Select
 
 ```ts
-import { Select, SelectItem } from '@3df/ui';
+import { Select, SelectItem } from '@3df-spa/ui';
 ```
 
 ### Props (Select)
@@ -262,7 +262,7 @@ import { Select, SelectItem } from '@3df/ui';
 ## Checkbox
 
 ```ts
-import { Checkbox } from '@3df/ui';
+import { Checkbox } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -281,7 +281,7 @@ import { Checkbox } from '@3df/ui';
 ## Radio
 
 ```ts
-import { Radio } from '@3df/ui';
+import { Radio } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -294,7 +294,7 @@ import { Radio } from '@3df/ui';
 ## Switch
 
 ```ts
-import { Switch } from '@3df/ui';
+import { Switch } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -312,7 +312,7 @@ import { Switch } from '@3df/ui';
 ## Slider
 
 ```ts
-import { Slider } from '@3df/ui';
+import { Slider } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -334,7 +334,7 @@ import { Slider } from '@3df/ui';
 ## Toggle
 
 ```ts
-import { Toggle, toggleVariants } from '@3df/ui';
+import { Toggle, toggleVariants } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -357,7 +357,7 @@ import { Toggle, toggleVariants } from '@3df/ui';
 ## Card
 
 ```ts
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df/ui';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df-spa/ui';
 ```
 
 ### Example
@@ -382,7 +382,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 ## Dialog
 
 ```ts
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose } from '@3df/ui';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose } from '@3df-spa/ui';
 ```
 
 ### Props (Dialog)
@@ -423,7 +423,7 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, Dialo
 ## Alert Dialog
 
 ```ts
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from '@3df/ui';
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -449,7 +449,7 @@ import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader,
 ## Sheet (Side Panel)
 
 ```ts
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, SheetClose } from '@3df/ui';
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, SheetClose } from '@3df-spa/ui';
 ```
 
 ### Props (SheetContent)
@@ -478,7 +478,7 @@ import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle
 ## Drawer (Bottom Sheet)
 
 ```ts
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription } from '@3df/ui';
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -503,7 +503,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerFooter, Drawe
 ## Dropdown Menu
 
 ```ts
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuShortcut } from '@3df/ui';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuShortcut } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -530,7 +530,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 ## Context Menu
 
 ```ts
-import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuLabel, ContextMenuShortcut, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df/ui';
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuLabel, ContextMenuShortcut, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -560,7 +560,7 @@ import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, C
 ## Menubar
 
 ```ts
-import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarLabel, MenubarShortcut, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSub, MenubarSubTrigger, MenubarSubContent } from '@3df/ui';
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarLabel, MenubarShortcut, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSub, MenubarSubTrigger, MenubarSubContent } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -589,7 +589,7 @@ import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, Menu
 ## Popover
 
 ```ts
-import { Popover, PopoverTrigger, PopoverContent } from '@3df/ui';
+import { Popover, PopoverTrigger, PopoverContent } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -608,7 +608,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@3df/ui';
 ## Tooltip
 
 ```ts
-import { Tooltip, TooltipTrigger, TooltipContent } from '@3df/ui';
+import { Tooltip, TooltipTrigger, TooltipContent } from '@3df-spa/ui';
 ```
 
 ### Props (Tooltip)
@@ -632,7 +632,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from '@3df/ui';
 ## Hover Card
 
 ```ts
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
 ```
 
 ### Props (HoverCard)
@@ -658,7 +658,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
 ## Toast / Sonner
 
 ```ts
-import { Toaster, toast } from '@3df/ui';
+import { Toaster, toast } from '@3df-spa/ui';
 ```
 
 ### API
@@ -703,7 +703,7 @@ toast.dismissAll();
 ## Accordion
 
 ```ts
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df/ui';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df-spa/ui';
 ```
 
 ### Props (Accordion)
@@ -739,7 +739,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3
 ## Collapsible
 
 ```ts
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -766,7 +766,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui';
 ## Table
 
 ```ts
-import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df/ui';
+import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -795,7 +795,7 @@ import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableC
 ## Pagination
 
 ```ts
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from '@3df/ui';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -819,7 +819,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 ## Progress
 
 ```ts
-import { Progress } from '@3df/ui';
+import { Progress } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -839,7 +839,7 @@ import { Progress } from '@3df/ui';
 ## Skeleton
 
 ```ts
-import { Skeleton } from '@3df/ui';
+import { Skeleton } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -852,7 +852,7 @@ import { Skeleton } from '@3df/ui';
 ## Separator
 
 ```ts
-import { Separator } from '@3df/ui';
+import { Separator } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -871,7 +871,7 @@ import { Separator } from '@3df/ui';
 ## Scroll Area
 
 ```ts
-import { ScrollArea } from '@3df/ui';
+import { ScrollArea } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -892,7 +892,7 @@ import { ScrollArea } from '@3df/ui';
 ## Avatar
 
 ```ts
-import { Avatar, AvatarImage, AvatarFallback } from '@3df/ui';
+import { Avatar, AvatarImage, AvatarFallback } from '@3df-spa/ui';
 ```
 
 ### Props (Avatar)
@@ -913,7 +913,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@3df/ui';
 ## Breadcrumb
 
 ```ts
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df/ui';
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -939,8 +939,8 @@ import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbP
 ## Calendar
 
 ```ts
-import { Calendar } from '@3df/ui';
-import type { DateRange } from '@3df/ui';
+import { Calendar } from '@3df-spa/ui';
+import type { DateRange } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -966,7 +966,7 @@ import type { DateRange } from '@3df/ui';
 ## DatePicker
 
 ```ts
-import { DatePicker, DateRangePicker } from '@3df/ui';
+import { DatePicker, DateRangePicker } from '@3df-spa/ui';
 ```
 
 ### Props (DatePicker)
@@ -989,7 +989,7 @@ import { DatePicker, DateRangePicker } from '@3df/ui';
 ## Combobox
 
 ```ts
-import { Combobox } from '@3df/ui';
+import { Combobox } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -1019,7 +1019,7 @@ import { Combobox } from '@3df/ui';
 ## Command (⌘K Palette)
 
 ```ts
-import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator } from '@3df/ui';
+import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -1047,7 +1047,7 @@ import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, Comman
 ## Input OTP
 
 ```ts
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui';
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df-spa/ui';
 ```
 
 ### Props (InputOTP)
@@ -1077,7 +1077,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/u
 ## Carousel
 
 ```ts
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df/ui';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df-spa/ui';
 ```
 
 ### Props (Carousel)
@@ -1104,7 +1104,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext
 ## Navigation Menu
 
 ```ts
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df/ui';
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df-spa/ui';
 ```
 
 ```vue
@@ -1131,7 +1131,7 @@ import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuT
 ## Sidebar
 
 ```ts
-import { SidebarProvider, Sidebar, SidebarTrigger, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, SidebarMenuBadge, SidebarMenuAction, SidebarMenuSkeleton, SidebarSeparator, SidebarRail, SidebarInset, useSidebar } from '@3df/ui';
+import { SidebarProvider, Sidebar, SidebarTrigger, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, SidebarMenuBadge, SidebarMenuAction, SidebarMenuSkeleton, SidebarSeparator, SidebarRail, SidebarInset, useSidebar } from '@3df-spa/ui';
 ```
 
 ### Props (Sidebar)
@@ -1196,7 +1196,7 @@ const { state, open, isMobile, toggleSidebar } = useSidebar();
 ## Kbd
 
 ```ts
-import { Kbd } from '@3df/ui';
+import { Kbd } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -1215,7 +1215,7 @@ import { Kbd } from '@3df/ui';
 ## Item
 
 ```ts
-import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df/ui';
+import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df-spa/ui';
 ```
 
 ### Props (Item)
@@ -1240,7 +1240,7 @@ import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df/ui';
 ## Empty State
 
 ```ts
-import { EmptyState } from '@3df/ui';
+import { EmptyState } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -1262,8 +1262,8 @@ import { EmptyState } from '@3df/ui';
 ## Logo Cloud
 
 ```ts
-import { LogoCloud } from '@3df/ui';
-import type { LogoItem } from '@3df/ui';
+import { LogoCloud } from '@3df-spa/ui';
+import type { LogoItem } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -1298,7 +1298,7 @@ import type { LogoItem } from '@3df/ui';
 ## Logo Marquee
 
 ```ts
-import { LogoMarquee } from '@3df/ui';
+import { LogoMarquee } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -1327,8 +1327,8 @@ import { LogoMarquee } from '@3df/ui';
 ## Hero Sections
 
 ```ts
-import { HeroSimple, HeroSplit, HeroImage, HeroGradient, HeroCentered, HeroMinimal, HeroVideo } from '@3df/ui';
-import type { HeroAction, HeroAlign } from '@3df/ui';
+import { HeroSimple, HeroSplit, HeroImage, HeroGradient, HeroCentered, HeroMinimal, HeroVideo } from '@3df-spa/ui';
+import type { HeroAction, HeroAlign } from '@3df-spa/ui';
 ```
 
 ### HeroAction type
@@ -1389,13 +1389,13 @@ interface HeroAction {
 
 ---
 
-# CHART REFERENCE (`@3df/charts`)
+# CHART REFERENCE (`@3df-spa/charts`)
 
 ## Setup
 
 ```ts
-import { UiChartBar, UiChartLine, UiChartPie, UiChartRadar, UiChartScatter, UiChartGauge, UiChartTooltip, UiChartLegend } from '@3df/charts';
-import type { ChartConfig, ChartDataRow } from '@3df/charts';
+import { UiChartBar, UiChartLine, UiChartPie, UiChartRadar, UiChartScatter, UiChartGauge, UiChartTooltip, UiChartLegend } from '@3df-spa/charts';
+import type { ChartConfig, ChartDataRow } from '@3df-spa/charts';
 ```
 
 ## Shared Types
@@ -1435,8 +1435,8 @@ type ChartDataRow = Record<string, string | number>;
 
 ```vue
 <script setup lang="ts">
-import { UiChartBar } from '@3df/charts';
-import type { ChartConfig, ChartDataRow } from '@3df/charts';
+import { UiChartBar } from '@3df-spa/charts';
+import type { ChartConfig, ChartDataRow } from '@3df-spa/charts';
 
 const data: ChartDataRow[] = [
   { month: 'Jan', revenue: 4000, expenses: 2400 },

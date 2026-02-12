@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiChartPie, type ChartConfig, type ChartDataRow } from '@3df/charts';
+import { UiChartPie, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
 /* ── Data: browser market share (valueKey mode) ────────────── */
 

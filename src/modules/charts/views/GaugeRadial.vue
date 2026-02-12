@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiChartGauge, type GaugeSegment } from '@3df/charts';
+import { UiChartGauge, type GaugeSegment } from '@3df-spa/charts';
 
 /* ── Gauge segments for zones ──────────────────────────────── */
 

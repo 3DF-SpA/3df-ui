@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
 </script>
 
 <template>

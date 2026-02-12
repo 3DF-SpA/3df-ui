@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   Skeleton,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 </script>
 
 <template>

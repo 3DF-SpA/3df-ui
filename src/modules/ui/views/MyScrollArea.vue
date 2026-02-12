@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ScrollArea, Separator } from '@3df/ui';
+import { ScrollArea, Separator } from '@3df-spa/ui';
 
 const tags = Array.from({ length: 50 }, (_, i) => `v1.${i}.0-beta`);
 

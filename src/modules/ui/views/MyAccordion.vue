@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const faqItems = [
   {

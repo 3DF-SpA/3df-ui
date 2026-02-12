@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Label, Slider } from '@3df/ui';
+import { Label, Slider } from '@3df-spa/ui';
 
 const basic = ref(50);
 const volume = ref(75);

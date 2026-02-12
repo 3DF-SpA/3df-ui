@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 // ─── Demo data ────────────────────────────────────────────────
 interface Invoice {

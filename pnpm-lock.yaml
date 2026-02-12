@@ -8,10 +8,10 @@ importers:
 
   .:
     dependencies:
-      '@3df/charts':
+      '@3df-spa/charts':
         specifier: workspace:*
         version: link:packages/charts
-      '@3df/ui':
+      '@3df-spa/ui':
         specifier: workspace:*
         version: link:packages/ui
       class-variance-authority:

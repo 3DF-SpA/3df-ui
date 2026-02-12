@@ -3,7 +3,7 @@ import {
   Avatar,
   AvatarImage,
   AvatarFallback,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 </script>
 
 <template>

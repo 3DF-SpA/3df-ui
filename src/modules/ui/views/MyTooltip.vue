@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
 </script>
 
 <template>

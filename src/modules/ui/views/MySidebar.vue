@@ -23,7 +23,7 @@ import {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 /* Estado activo */
 const activeItem = ref('Dashboard');

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui';
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df-spa/ui';
 
 const basicValue = ref('');
 const groupedValue = ref('');

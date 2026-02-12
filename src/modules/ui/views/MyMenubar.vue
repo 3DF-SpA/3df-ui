@@ -16,7 +16,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 // ── Estado reactivo ───────────────────────────────────────────
 const showBookmarks = ref(true);

@@ -11,7 +11,7 @@ import {
   SelectItem,
   Switch,
   Textarea,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const name = ref('');
 const email = ref('');

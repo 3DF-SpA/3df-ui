@@ -11,7 +11,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const dialogOpen = ref(false);
 </script>

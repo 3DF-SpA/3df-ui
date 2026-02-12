@@ -5,7 +5,7 @@ import {
   DatePicker,
   DateRangePicker,
   type DateRange,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 

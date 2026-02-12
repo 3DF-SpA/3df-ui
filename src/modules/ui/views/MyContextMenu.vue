@@ -14,7 +14,7 @@ import {
   ContextMenuSub,
   ContextMenuSubTrigger,
   ContextMenuSubContent,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const showBookmarks = ref(true);
 const showFullUrls = ref(false);

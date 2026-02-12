@@ -7,7 +7,7 @@ import {
   HeroCentered,
   HeroMinimal,
   type HeroAction,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 /* ── Action sets ─────────────────────────────────────────── */
 

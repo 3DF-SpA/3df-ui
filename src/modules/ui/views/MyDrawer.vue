@@ -10,7 +10,7 @@ import {
   DrawerTitle,
   DrawerDescription,
   Button,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const controlledOpen = ref(false);
 const goal = ref(350);

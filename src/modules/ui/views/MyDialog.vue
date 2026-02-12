@@ -13,7 +13,7 @@ import {
   Button,
   Input,
   Label,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const controlledOpen = ref(false);
 </script>

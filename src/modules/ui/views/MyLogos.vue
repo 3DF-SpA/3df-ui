@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LogoCloud, LogoMarquee, type LogoItem } from '@3df/ui';
+import { LogoCloud, LogoMarquee, type LogoItem } from '@3df-spa/ui';
 
 /* ── Logo data (using SVG logos from CDN) ──────────────────── */
 

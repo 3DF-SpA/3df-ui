@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build:ui": "pnpm --filter @3df/ui build",
-    "build:charts": "pnpm --filter @3df/charts build",
+    "build:ui": "pnpm --filter @3df-spa/ui build",
+    "build:charts": "pnpm --filter @3df-spa/charts build",
     "build": "pnpm build:ui && pnpm build:charts && run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -22,8 +22,8 @@
     "release": "pnpm build:ui && pnpm build:charts && changeset publish"
   },
   "dependencies": {
-    "@3df/charts": "workspace:*",
-    "@3df/ui": "workspace:*",
+    "@3df-spa/charts": "workspace:*",
+    "@3df-spa/ui": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

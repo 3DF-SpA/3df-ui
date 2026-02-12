@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiChartRadar, type ChartConfig, type ChartDataRow } from '@3df/charts';
+import { UiChartRadar, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
 /* ── Data: developer skills ────────────────────────────────── */
 

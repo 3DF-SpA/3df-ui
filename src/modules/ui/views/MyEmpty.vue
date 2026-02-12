@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EmptyState, Button } from '@3df/ui';
+import { EmptyState, Button } from '@3df-spa/ui';
 </script>
 
 <template>

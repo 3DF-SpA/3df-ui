@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-import { Progress } from '@3df/ui';
+import { Progress } from '@3df-spa/ui';
 
 // ─── Sección 1: Básico ─────────────────────────────────────
 const basicValue = ref(33);

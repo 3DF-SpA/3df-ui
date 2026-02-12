@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Combobox } from '@3df/ui';
+import { Combobox } from '@3df-spa/ui';
 
 const frameworks = [
   { value: 'next', label: 'Next.js' },

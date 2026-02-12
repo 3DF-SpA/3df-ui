@@ -12,7 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const controlledOpen = ref(false);
 </script>

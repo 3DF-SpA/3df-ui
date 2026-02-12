@@ -12,7 +12,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   Button,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const deleteResult = ref('');
 const programmaticOpen = ref(false);

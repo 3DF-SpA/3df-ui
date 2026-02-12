@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiChartLine, type ChartConfig, type ChartDataRow } from '@3df/charts';
+import { UiChartLine, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
 /* ── Data sets ─────────────────────────────────────────────── */
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, Button } from '@3df/ui';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger, Button } from '@3df-spa/ui';
 
 const isOpen = ref(false);
 </script>

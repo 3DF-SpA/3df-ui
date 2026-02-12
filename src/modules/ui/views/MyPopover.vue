@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
+import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df-spa/ui';
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UiChartScatter, type ScatterConfig } from '@3df/charts';
+import { UiChartScatter, type ScatterConfig } from '@3df-spa/charts';
 
 /* ── Data: height vs weight ────────────────────────────────── */
 

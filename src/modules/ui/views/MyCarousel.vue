@@ -11,7 +11,7 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const api = ref<EmblaCarouselType>();
 const currentSlide = ref(0);

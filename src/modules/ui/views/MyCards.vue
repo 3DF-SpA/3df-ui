@@ -15,7 +15,7 @@ import {
   Select,
   SelectItem,
   Switch,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const notifications = ref(true);
 const framework = ref('vue');
@@ -253,7 +253,7 @@ const framework = ref('vue');
         <Card class="cursor-pointer transition-shadow duration-200 hover:shadow-md">
           <CardHeader>
             <CardTitle>Documentación</CardTitle>
-            <CardDescription>Aprende a usar @3df/ui con guías y ejemplos.</CardDescription>
+            <CardDescription>Aprende a usar @3df-spa/ui con guías y ejemplos.</CardDescription>
           </CardHeader>
           <CardContent>
             <p class="text-muted-foreground text-sm">

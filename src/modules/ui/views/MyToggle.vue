@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Toggle } from '@3df/ui';
+import { Toggle } from '@3df-spa/ui';
 
 const bold = ref(false);
 const italic = ref(false);

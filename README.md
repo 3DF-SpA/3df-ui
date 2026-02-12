@@ -1,4 +1,4 @@
-# @3df/ui
+# @3df-spa/ui
 
 Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-variance-authority](https://cva.style). Inspirada en [shadcn/ui](https://ui.shadcn.com) — componentes minimalistas, accesibles y completamente personalizables a través de design tokens.
 
@@ -73,7 +73,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Accordion](#accordion)
   - [Logo Cloud & Marquee](#logo-cloud--marquee)
   - [Hero Sections](#hero-sections)
-- **Charts** (`@3df/charts`)
+- **Charts** (`@3df-spa/charts`)
   - [Instalación Charts](#instalación-charts)
   - [Bar Chart](#bar-chart)
   - [Line Chart](#line-chart)
@@ -95,7 +95,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 
 ## Acceso al registro privado
 
-> **Importante:** `@3df/ui` y `@3df/charts` se publican de forma **privada** en [GitHub Packages](https://github.com/features/packages). Solo usuarios autorizados al repositorio pueden instalar los paquetes.
+> **Importante:** `@3df-spa/ui` y `@3df-spa/charts` se publican de forma **privada** en [GitHub Packages](https://github.com/features/packages). Solo usuarios autorizados al repositorio pueden instalar los paquetes.
 
 ### Requisitos previos
 
@@ -142,7 +142,7 @@ Una vez configurado el acceso al registro (ver sección anterior):
 ### 1. Instalar el paquete y sus peer dependencies
 
 ```bash
-pnpm add @3df/ui class-variance-authority clsx tailwind-merge
+pnpm add @3df-spa/ui class-variance-authority clsx tailwind-merge
 ```
 
 > `vue` ya debe estar instalado en tu proyecto.
@@ -153,15 +153,15 @@ En tu archivo CSS principal (por ejemplo `src/assets/main.css` o `src/styles/glo
 
 ```css
 @import 'tailwindcss';
-@import '@3df/ui/theme.css';
-@source '@3df/ui';
+@import '@3df-spa/ui/theme.css';
+@source '@3df-spa/ui';
 ```
 
 | Línea                         | Qué hace                                                            |
 | ----------------------------- | ------------------------------------------------------------------- |
 | `@import "tailwindcss"`       | Carga Tailwind CSS v4                                               |
-| `@import "@3df/ui/theme.css"` | Importa los design tokens (colores, radios, dark mode)              |
-| `@source "@3df/ui"`           | Le dice a Tailwind que escanee las clases usadas dentro del paquete |
+| `@import "@3df-spa/ui/theme.css"` | Importa los design tokens (colores, radios, dark mode)              |
+| `@source "@3df-spa/ui"`           | Le dice a Tailwind que escanee las clases usadas dentro del paquete |
 
 ### 3. Importar el CSS en tu app
 
@@ -189,7 +189,7 @@ import '../styles/global.css';
 
 ```vue
 <script setup lang="ts">
-import { Button } from '@3df/ui';
+import { Button } from '@3df-spa/ui';
 </script>
 
 <template>
@@ -201,7 +201,7 @@ import { Button } from '@3df/ui';
 
 ```astro
 ---
-import { Button } from '@3df/ui';
+import { Button } from '@3df-spa/ui';
 ---
 
 <Button client:load variant="destructive">
@@ -253,7 +253,7 @@ Botón versátil con variantes, tamaños y renderizado polimórfico.
 #### Importación
 
 ```ts
-import { Button } from '@3df/ui';
+import { Button } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -345,7 +345,7 @@ Usa la prop `as` para renderizar como `<a>`:
 
 ```vue
 <script setup lang="ts">
-import { Button } from '@3df/ui';
+import { Button } from '@3df-spa/ui';
 import { RouterLink } from 'vue-router';
 </script>
 
@@ -417,7 +417,7 @@ Puedes sobrescribir cualquier clase de Tailwind pasando `class`. Gracias a `tail
 Si necesitas los estilos del botón sin el componente (por ejemplo para un `<a>` nativo o un componente de otra librería):
 
 ```ts
-import { buttonVariants } from '@3df/ui';
+import { buttonVariants } from '@3df-spa/ui';
 
 const classes = buttonVariants({ variant: 'outline', size: 'sm' });
 // → "inline-flex items-center justify-center ... border border-border ..."
@@ -438,7 +438,7 @@ Etiqueta compacta para estados, conteos y categorías.
 #### Importación
 
 ```ts
-import { Badge } from '@3df/ui';
+import { Badge } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -614,7 +614,7 @@ Usa la prop `as` para renderizar como `<a>`. Como los badges son estáticos por 
 
 ```vue
 <script setup lang="ts">
-import { Badge } from '@3df/ui';
+import { Badge } from '@3df-spa/ui';
 import { RouterLink } from 'vue-router';
 </script>
 
@@ -662,7 +662,7 @@ Los badges combinan naturalmente con otros componentes:
 Si necesitas los estilos del badge sin el componente:
 
 ```ts
-import { badgeVariants } from '@3df/ui';
+import { badgeVariants } from '@3df-spa/ui';
 
 const classes = badgeVariants({ variant: 'success', size: 'sm' });
 // → "inline-flex items-center gap-1 ... bg-emerald-600 text-white ..."
@@ -678,12 +678,12 @@ const classes = badgeVariants({ variant: 'success', size: 'sm' });
 
 ### Formularios
 
-`@3df/ui` incluye un sistema completo de componentes de formulario: **Label**, **Input**, **Textarea**, **Select**, **Checkbox**, **Radio** y **Switch**. Todos comparten el mismo lenguaje visual, respetan los design tokens del tema y soportan dark mode.
+`@3df-spa/ui` incluye un sistema completo de componentes de formulario: **Label**, **Input**, **Textarea**, **Select**, **Checkbox**, **Radio** y **Switch**. Todos comparten el mismo lenguaje visual, respetan los design tokens del tema y soportan dark mode.
 
 #### Importación general
 
 ```ts
-import { Checkbox, Input, Label, Radio, Select, SelectItem, Switch, Textarea } from '@3df/ui';
+import { Checkbox, Input, Label, Radio, Select, SelectItem, Switch, Textarea } from '@3df-spa/ui';
 ```
 
 ---
@@ -695,7 +695,7 @@ Etiqueta semántica `<label>` con soporte para estado disabled.
 #### Importación
 
 ```ts
-import { Label } from '@3df/ui';
+import { Label } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -734,9 +734,9 @@ Input de texto versátil con 3 tamaños, validación visual y soporte para `v-mo
 #### Importación
 
 ```ts
-import { Input } from '@3df/ui';
+import { Input } from '@3df-spa/ui';
 // Si necesitas los estilos sin el componente:
-import { inputVariants } from '@3df/ui';
+import { inputVariants } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -827,7 +827,7 @@ const name = ref('');
 #### Acceso a las variantes (headless)
 
 ```ts
-import { inputVariants } from '@3df/ui';
+import { inputVariants } from '@3df-spa/ui';
 
 const classes = inputVariants({ size: 'sm' });
 // → "flex w-full rounded-md ... h-9 px-3 py-1 text-xs"
@@ -842,7 +842,7 @@ const classes = inputVariants({ size: 'sm' });
 #### Importación
 
 ```ts
-import { Textarea } from '@3df/ui';
+import { Textarea } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -884,7 +884,7 @@ Select personalizado con dropdown estilizado, navegación por teclado completa y
 #### Importación
 
 ```ts
-import { Select, SelectItem } from '@3df/ui';
+import { Select, SelectItem } from '@3df-spa/ui';
 ```
 
 #### Props — Select
@@ -975,7 +975,7 @@ Checkbox animado con SVG real, efecto de "stroke draw" y escala suave al activar
 #### Importación
 
 ```ts
-import { Checkbox } from '@3df/ui';
+import { Checkbox } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -1046,7 +1046,7 @@ Radio button con efecto de relleno central y soporte para grupos vía `v-model`.
 #### Importación
 
 ```ts
-import { Radio } from '@3df/ui';
+import { Radio } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -1132,7 +1132,7 @@ Toggle switch accesible con animación de knob y soporte para `v-model`.
 #### Importación
 
 ```ts
-import { Switch } from '@3df/ui';
+import { Switch } from '@3df-spa/ui';
 ```
 
 #### Props
@@ -1208,7 +1208,7 @@ import {
   SelectItem,
   Switch,
   Textarea,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const name = ref('');
 const email = ref('');
@@ -1287,7 +1287,7 @@ Sistema de cards compuesto por 6 sub-componentes que se combinan libremente para
 #### Importación
 
 ```ts
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@3df/ui';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@3df-spa/ui';
 ```
 
 #### Sub-componentes
@@ -1661,7 +1661,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 #### Sub-componentes
@@ -1855,7 +1855,7 @@ Panel flotante genérico para mostrar contenido contextual: formularios, informa
 #### Importación
 
 ```ts
-import { Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
+import { Popover, PopoverContent, PopoverTrigger } from '@3df-spa/ui';
 ```
 
 #### Sub-componentes
@@ -1969,7 +1969,7 @@ Coloca `<Toaster />` una sola vez en tu layout raíz (normalmente `App.vue`):
 
 ```vue
 <script setup>
-import { Toaster } from '@3df/ui';
+import { Toaster } from '@3df-spa/ui';
 </script>
 
 <template>
@@ -1982,7 +1982,7 @@ Luego usa la función `toast()` desde cualquier parte de tu app:
 
 ```vue
 <script setup>
-import { Button, toast } from '@3df/ui';
+import { Button, toast } from '@3df-spa/ui';
 </script>
 
 <template>
@@ -2001,7 +2001,7 @@ import { Button, toast } from '@3df/ui';
 Función reactiva global que crea notificaciones. No requiere provide/inject.
 
 ```ts
-import { toast } from '@3df/ui';
+import { toast } from '@3df-spa/ui';
 
 // Uso simple — solo descripción
 toast('Archivo guardado');
@@ -2153,7 +2153,7 @@ Componente estático inline para mostrar mensajes importantes al usuario. A dife
 ### Importación
 
 ```ts
-import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
+import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
 ```
 
 ### Componentes
@@ -2252,7 +2252,7 @@ Tooltip flotante que aparece al pasar el mouse o al hacer focus sobre un element
 ### Importación
 
 ```ts
-import { Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
 ```
 
 ### Componentes
@@ -2359,7 +2359,7 @@ Botón con estado activado/desactivado. Similar a un checkbox pero con aparienci
 ### Importación
 
 ```ts
-import { Toggle, toggleVariants } from '@3df/ui';
+import { Toggle, toggleVariants } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -2368,7 +2368,7 @@ import { Toggle, toggleVariants } from '@3df/ui';
 <script setup>
 import { ref } from 'vue';
 
-import { Toggle } from '@3df/ui';
+import { Toggle } from '@3df-spa/ui';
 
 const bold = ref(false);
 </script>
@@ -2474,7 +2474,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Sub-componentes
@@ -2640,7 +2640,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 interface Invoice {
   id: string;
@@ -2883,7 +2883,7 @@ Slider interactivo accesible para seleccionar un valor numérico dentro de un ra
 ### Importación
 
 ```ts
-import { Slider } from '@3df/ui';
+import { Slider } from '@3df-spa/ui';
 ```
 
 ### Props
@@ -2912,7 +2912,7 @@ import { Slider } from '@3df/ui';
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Slider } from '@3df/ui';
+import { Slider } from '@3df-spa/ui';
 
 const value = ref(50);
 </script>
@@ -3087,7 +3087,7 @@ Componente de marcador de posición visual para contenido que aún está cargand
 ### Importación
 
 ```ts
-import { Skeleton } from '@3df/ui';
+import { Skeleton } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -3242,7 +3242,7 @@ import {
   SidebarRail,
   SidebarInset,
   useSidebar,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico — Sidebar izquierdo
@@ -3589,7 +3589,7 @@ import {
   SheetTitle,
   SheetDescription,
   SheetClose,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -3763,7 +3763,7 @@ Todas las transiciones usan la curva de la librería:
 Si necesitas los estilos del panel sin el componente:
 
 ```ts
-import { sheetVariants } from '@3df/ui';
+import { sheetVariants } from '@3df-spa/ui';
 
 const classes = sheetVariants({ side: 'left' });
 ```
@@ -3777,7 +3777,7 @@ Divisor visual para separar secciones de contenido. Soporta orientación horizon
 ### Importación
 
 ```ts
-import { Separator } from '@3df/ui';
+import { Separator } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -3871,7 +3871,7 @@ import { Separator } from '@3df/ui';
 ### Importación
 
 ```ts
-import { ScrollArea } from '@3df/ui';
+import { ScrollArea } from '@3df-spa/ui';
 ```
 
 ### Uso básico — Scroll vertical
@@ -3965,7 +3965,7 @@ Barra de progreso que muestra el avance de una operación. Soporta estados deter
 ### Importación
 
 ```ts
-import { Progress } from '@3df/ui';
+import { Progress } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -4069,7 +4069,7 @@ import {
   PaginationPrevious,
   PaginationNext,
   PaginationEllipsis,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -4212,7 +4212,7 @@ import {
   NavigationMenuContent,
   NavigationMenuLink,
   NavigationMenuViewport,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -4348,7 +4348,7 @@ import {
   MenubarSub,
   MenubarSubTrigger,
   MenubarSubContent,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -4512,7 +4512,7 @@ Componente semántico `<kbd>` para representar teclas y atajos de teclado. Estil
 ### Importación
 
 ```ts
-import { Kbd, kbdVariants } from '@3df/ui';
+import { Kbd, kbdVariants } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -4584,7 +4584,7 @@ Componente genérico de fila reutilizable para listas, menús de configuración 
 ### Importación
 
 ```ts
-import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df/ui';
+import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -4716,7 +4716,7 @@ Componente de entrada OTP (One-Time Password) para códigos de verificación y 2
 ### Importación
 
 ```ts
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui';
+import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -4897,14 +4897,14 @@ Componente de tarjeta flotante que aparece al pasar el cursor sobre un trigger. 
 ### Importación
 
 ```ts
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
 ```
 
 ### Uso básico — perfil de usuario
 
 ```vue
 <script setup lang="ts">
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui';
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
 </script>
 
 <template>
@@ -5004,7 +5004,7 @@ Componente reutilizable para estados vacíos. Layout centrado vertical y horizon
 ### Importación
 
 ```ts
-import { EmptyState } from '@3df/ui';
+import { EmptyState } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5053,7 +5053,7 @@ import {
   Drawer, DrawerTrigger, DrawerContent,
   DrawerHeader, DrawerFooter,
   DrawerTitle, DrawerDescription,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5139,7 +5139,7 @@ import {
   Dialog, DialogTrigger, DialogContent,
   DialogHeader, DialogFooter,
   DialogTitle, DialogDescription, DialogClose,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5230,8 +5230,8 @@ Componente de calendario puro Vue para selección de fechas (modo simple o rango
 ### Importación
 
 ```ts
-import { Calendar } from '@3df/ui';
-import type { DateRange, CalendarMode } from '@3df/ui';
+import { Calendar } from '@3df-spa/ui';
+import type { DateRange, CalendarMode } from '@3df-spa/ui';
 ```
 
 ### Uso básico — Fecha simple
@@ -5239,7 +5239,7 @@ import type { DateRange, CalendarMode } from '@3df/ui';
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Calendar } from '@3df/ui';
+import { Calendar } from '@3df-spa/ui';
 
 const date = ref<Date>();
 </script>
@@ -5254,8 +5254,8 @@ const date = ref<Date>();
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Calendar } from '@3df/ui';
-import type { DateRange } from '@3df/ui';
+import { Calendar } from '@3df-spa/ui';
+import type { DateRange } from '@3df-spa/ui';
 
 const range = ref<DateRange>();
 </script>
@@ -5296,8 +5296,8 @@ Componente de selección de fecha que compone Calendar + Popover. Incluye un tri
 ### Importación
 
 ```ts
-import { DatePicker, DateRangePicker } from '@3df/ui';
-import type { DateRange } from '@3df/ui';
+import { DatePicker, DateRangePicker } from '@3df-spa/ui';
+import type { DateRange } from '@3df-spa/ui';
 ```
 
 ### Uso — Fecha simple
@@ -5305,7 +5305,7 @@ import type { DateRange } from '@3df/ui';
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DatePicker } from '@3df/ui';
+import { DatePicker } from '@3df-spa/ui';
 
 const date = ref<Date>();
 </script>
@@ -5320,8 +5320,8 @@ const date = ref<Date>();
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DateRangePicker } from '@3df/ui';
-import type { DateRange } from '@3df/ui';
+import { DateRangePicker } from '@3df-spa/ui';
+import type { DateRange } from '@3df-spa/ui';
 
 const range = ref<DateRange>();
 </script>
@@ -5336,7 +5336,7 @@ const range = ref<DateRange>();
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { DatePicker } from '@3df/ui';
+import { DatePicker } from '@3df-spa/ui';
 import { es } from 'date-fns/locale';
 
 const date = ref<Date>();
@@ -5400,7 +5400,7 @@ import {
   ContextMenuRadioGroup, ContextMenuRadioItem,
   ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut,
   ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5496,7 +5496,7 @@ import {
   Command, CommandDialog, CommandInput, CommandList,
   CommandEmpty, CommandGroup, CommandItem,
   CommandShortcut, CommandSeparator,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5592,7 +5592,7 @@ Select con búsqueda integrada. Patrón de composición que combina Popover + Co
 ### Importación
 
 ```ts
-import { Combobox } from '@3df/ui';
+import { Combobox } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5600,7 +5600,7 @@ import { Combobox } from '@3df/ui';
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Combobox } from '@3df/ui';
+import { Combobox } from '@3df-spa/ui';
 
 const selected = ref('');
 const frameworks = [
@@ -5647,7 +5647,7 @@ Secciones expandibles/contraíbles con animación de altura. Soporta modo contro
 ### Importación
 
 ```ts
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5728,7 +5728,7 @@ Carousel/slider basado en [Embla Carousel](https://www.embla-carousel.com/) como
 import {
   Carousel, CarouselContent, CarouselItem,
   CarouselPrevious, CarouselNext,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico (Image Slider)
@@ -5853,7 +5853,7 @@ import {
   Breadcrumb, BreadcrumbList, BreadcrumbItem,
   BreadcrumbLink, BreadcrumbPage,
   BreadcrumbSeparator, BreadcrumbEllipsis,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico
@@ -5929,7 +5929,7 @@ Imagen de perfil circular con fallback automático a iniciales o icono cuando la
 ### Importación
 
 ```ts
-import { Avatar, AvatarImage, AvatarFallback } from '@3df/ui';
+import { Avatar, AvatarImage, AvatarFallback } from '@3df-spa/ui';
 ```
 
 ### Uso básico — User Profile
@@ -6023,7 +6023,7 @@ import {
   AlertDialogHeader, AlertDialogFooter,
   AlertDialogTitle, AlertDialogDescription,
   AlertDialogAction, AlertDialogCancel,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico — Delete Confirmation
@@ -6134,7 +6134,7 @@ Componente colapsable con animación suave para mostrar/ocultar secciones de con
 import {
   Accordion, AccordionItem,
   AccordionTrigger, AccordionContent,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ### Uso básico — FAQ
@@ -6228,7 +6228,7 @@ Componentes para mostrar logos de sponsors, partners o tecnologías. **Logo Clou
 ### Importación
 
 ```ts
-import { LogoCloud, LogoMarquee, type LogoItem, type MarqueeDirection } from '@3df/ui';
+import { LogoCloud, LogoMarquee, type LogoItem, type MarqueeDirection } from '@3df-spa/ui';
 ```
 
 ### Tipo `LogoItem`
@@ -6248,7 +6248,7 @@ Grid responsivo que muestra logos de forma estática. Opcionalmente en grayscale
 
 ```vue
 <script setup lang="ts">
-import { LogoCloud, type LogoItem } from '@3df/ui';
+import { LogoCloud, type LogoItem } from '@3df-spa/ui';
 
 const logos: LogoItem[] = [
   { name: 'Vue.js', src: '/logos/vue.svg', href: 'https://vuejs.org' },
@@ -6296,7 +6296,7 @@ Scroll infinito horizontal con efecto hover-to-slow usando la **Web Animations A
 
 ```vue
 <script setup lang="ts">
-import { LogoMarquee, type LogoItem } from '@3df/ui';
+import { LogoMarquee, type LogoItem } from '@3df-spa/ui';
 
 const logos: LogoItem[] = [
   { name: 'Vue.js', src: '/logos/vue.svg' },
@@ -6396,7 +6396,7 @@ import {
   HeroVideo,
   type HeroAction,
   type HeroAlign,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 </script>
 ```
 
@@ -6675,18 +6675,18 @@ Hero con video de fondo en autoplay (muted, loop). Misma API de overlay que Hero
 
 ---
 
-## Charts (`@3df/charts`)
+## Charts (`@3df-spa/charts`)
 
-Paquete separado de visualización de datos — 100% SVG, cero dependencias externas. Comparte el sistema de tokens de `@3df/ui` para colores y dark mode.
+Paquete separado de visualización de datos — 100% SVG, cero dependencias externas. Comparte el sistema de tokens de `@3df-spa/ui` para colores y dark mode.
 
 ### Instalación Charts
 
 ```bash
-pnpm add @3df/charts
+pnpm add @3df-spa/charts
 ```
 
 > Peer dependency: `vue ^3.0.0`.
-> Los colores se toman de los tokens `--color-chart-1` a `--color-chart-5` definidos en `@3df/ui/theme.css`.
+> Los colores se toman de los tokens `--color-chart-1` a `--color-chart-5` definidos en `@3df-spa/ui/theme.css`.
 
 ### Características comunes
 
@@ -6710,7 +6710,7 @@ import type {
   ChartOrientation,
   ChartStackMode,
   ChartTooltipData,
-} from '@3df/charts';
+} from '@3df-spa/charts';
 
 // ChartConfig mapea cada serie a su label y color
 const config: ChartConfig = {
@@ -6733,7 +6733,7 @@ Gráfico de barras con soporte vertical/horizontal, agrupado/apilado.
 
 ```vue
 <script setup lang="ts">
-import { UiChartBar, type ChartConfig, type ChartDataRow } from '@3df/charts';
+import { UiChartBar, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
 const data: ChartDataRow[] = [
   { month: 'Jan', revenue: 4200, expenses: 2800 },
@@ -6814,7 +6814,7 @@ Gráfico de líneas con curvas monotone, linear o step.
 
 ```vue
 <script setup lang="ts">
-import { UiChartLine, type ChartConfig, type ChartDataRow } from '@3df/charts';
+import { UiChartLine, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
 const data: ChartDataRow[] = [
   { month: 'Jan', online: 3200, store: 1800 },
@@ -6931,7 +6931,7 @@ Gráfico circular con soporte pie completo y donut. Slices animadas, explode on 
 
 ```vue
 <script setup lang="ts">
-import { UiChartPie, type ChartConfig, type ChartDataRow } from '@3df/charts';
+import { UiChartPie, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
 // Modo valueKey: cada fila es un slice
 const data: ChartDataRow[] = [
@@ -7030,7 +7030,7 @@ Componente de gráfico radar/araña con cuadrículas poligonales o circulares, r
 
 ```vue
 <script setup lang="ts">
-import { UiChartRadar, type ChartConfig } from '@3df/charts';
+import { UiChartRadar, type ChartConfig } from '@3df-spa/charts';
 
 const config: ChartConfig = {
   alice: { label: 'Alice', color: 'var(--color-chart-1)' },
@@ -7090,7 +7090,7 @@ Gráfico de dispersión / burbujas con formas circle/square/diamond, tamaño por
 
 ```vue
 <script setup lang="ts">
-import { UiChartScatter, type ScatterConfig } from '@3df/charts';
+import { UiChartScatter, type ScatterConfig } from '@3df-spa/charts';
 
 const config: ScatterConfig = {
   team: {
@@ -7167,7 +7167,7 @@ Gauge radial con aguja, segmentos coloreados y 3 variantes de arco (semicircle, 
 
 ```vue
 <script setup lang="ts">
-import { UiChartGauge, type GaugeSegment } from '@3df/charts';
+import { UiChartGauge, type GaugeSegment } from '@3df-spa/charts';
 
 const segments: GaugeSegment[] = [
   { max: 60,  color: 'var(--color-chart-3)', label: 'Safe' },
@@ -7237,7 +7237,7 @@ interface GaugeSegment {
 Helper para combinar clases de Tailwind sin conflictos. Usa `clsx` + `tailwind-merge` internamente.
 
 ```ts
-import { cn } from '@3df/ui';
+import { cn } from '@3df-spa/ui';
 
 cn('px-4 py-2', 'px-6'); // → 'py-2 px-6' (px-6 gana)
 cn('rounded-md', 'rounded-full'); // → 'rounded-full' (gana la última)
@@ -7248,12 +7248,12 @@ cn('text-sm', false && 'hidden'); // → 'text-sm' (ignora falsy)
 
 ## Personalización del tema
 
-Los design tokens se definen en `@3df/ui/theme.css` usando CSS custom properties. Para sobrescribirlos en tu proyecto, redefine las variables **después** del import:
+Los design tokens se definen en `@3df-spa/ui/theme.css` usando CSS custom properties. Para sobrescribirlos en tu proyecto, redefine las variables **después** del import:
 
 ```css
 @import 'tailwindcss';
-@import '@3df/ui/theme.css';
-@source '@3df/ui';
+@import '@3df-spa/ui/theme.css';
+@source '@3df-spa/ui';
 
 /* Tus overrides */
 @theme {
@@ -7551,8 +7551,8 @@ Desde la raíz del monorepo:
 | Script                   | Descripción                                              |
 | ------------------------ | -------------------------------------------------------- |
 | `pnpm dev`               | Dev server de la app playground                          |
-| `pnpm build:ui`          | Compila el paquete `@3df/ui`                             |
-| `pnpm build:charts`      | Compila el paquete `@3df/charts`                         |
+| `pnpm build:ui`          | Compila el paquete `@3df-spa/ui`                             |
+| `pnpm build:charts`      | Compila el paquete `@3df-spa/charts`                         |
 | `pnpm build`             | Compila todos los paquetes + la app                      |
 | `pnpm preview`           | Sirve el build de producción                             |
 | `pnpm lint`              | Linter (oxlint + eslint)                                 |
@@ -7573,7 +7573,7 @@ Desde `packages/ui/`:
 
 ## Versionado y publicación
 
-Este monorepo usa [**Changesets**](https://github.com/changesets/changesets) para gestionar versiones y changelogs de `@3df/ui` y `@3df/charts` de forma independiente.
+Este monorepo usa [**Changesets**](https://github.com/changesets/changesets) para gestionar versiones y changelogs de `@3df-spa/ui` y `@3df-spa/charts` de forma independiente.
 
 ### Flujo completo para publicar cambios
 
@@ -7584,7 +7584,7 @@ pnpm changeset
 ```
 
 Esto te preguntará:
-- **¿Qué paquetes cambiaron?** → selecciona `@3df/ui`, `@3df/charts`, o ambos
+- **¿Qué paquetes cambiaron?** → selecciona `@3df-spa/ui`, `@3df-spa/charts`, o ambos
 - **¿Qué tipo de cambio?** → `patch` (bug fix), `minor` (nueva feature), `major` (breaking change)
 - **Descripción del cambio** → ej: "Agregado componente Tabs"
 
@@ -7617,7 +7617,7 @@ Esto compila ambos paquetes y los publica al registro privado de GitHub Packages
 
 ```bash
 git add .
-git commit -m "chore: release @3df/ui@x.x.x, @3df/charts@x.x.x"
+git commit -m "chore: release @3df-spa/ui@x.x.x, @3df-spa/charts@x.x.x"
 git push
 ```
 
@@ -7631,36 +7631,36 @@ git push
 
 ## Actualizar paquetes en proyectos consumidores
 
-Cuando se publica una nueva versión, los proyectos que consumen `@3df/ui` o `@3df/charts` pueden obtener los cambios así:
+Cuando se publica una nueva versión, los proyectos que consumen `@3df-spa/ui` o `@3df-spa/charts` pueden obtener los cambios así:
 
 ### Actualizar a la última versión
 
 ```bash
 # Actualizar ambos paquetes
-pnpm update @3df/ui @3df/charts
+pnpm update @3df-spa/ui @3df-spa/charts
 
 # O solo uno
-pnpm update @3df/ui
+pnpm update @3df-spa/ui
 ```
 
 ### Actualizar a una versión específica
 
 ```bash
-pnpm add @3df/ui@0.2.0
-pnpm add @3df/charts@0.2.0
+pnpm add @3df-spa/ui@0.2.0
+pnpm add @3df-spa/charts@0.2.0
 ```
 
 ### Ver qué versión tienes instalada
 
 ```bash
-pnpm list @3df/ui @3df/charts
+pnpm list @3df-spa/ui @3df-spa/charts
 ```
 
 ### Ver qué versiones están disponibles
 
 ```bash
-npm view @3df/ui versions --registry=https://npm.pkg.github.com
-npm view @3df/charts versions --registry=https://npm.pkg.github.com
+npm view @3df-spa/ui versions --registry=https://npm.pkg.github.com
+npm view @3df-spa/charts versions --registry=https://npm.pkg.github.com
 ```
 
 ### Ver el changelog
@@ -7689,7 +7689,7 @@ O directamente en el repositorio de GitHub.
 │               CONSUMIDOR (otro proyecto)                     │
 │                                                             │
 │  1. Tiene .npmrc configurado con token read:packages        │
-│  2. pnpm update @3df/ui @3df/charts                         │
+│  2. pnpm update @3df-spa/ui @3df-spa/charts                         │
 │  3. Listo — los cambios están disponibles                   │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -7769,7 +7769,7 @@ const menu = inject(DROPDOWN_MENU_KEY)!; // ← tipo inferido automáticamente
 </script>
 ```
 
-Todos los `InjectionKey` y sus interfaces de contexto se exportan desde `@3df/ui` para que el consumidor pueda acceder al contexto si lo necesita:
+Todos los `InjectionKey` y sus interfaces de contexto se exportan desde `@3df-spa/ui` para que el consumidor pueda acceder al contexto si lo necesita:
 
 ```ts
 import {
@@ -7777,7 +7777,7 @@ import {
   TOOLTIP_KEY, type TooltipContext,
   POPOVER_KEY, type PopoverContext,
   SELECT_KEY, type SelectContext,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 ```
 
 ---
