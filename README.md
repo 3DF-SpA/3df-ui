@@ -70,6 +70,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Avatar](#avatar)
   - [Alert Dialog](#alert-dialog)
   - [Accordion](#accordion)
+  - [Logo Cloud & Marquee](#logo-cloud--marquee)
 - **Charts** (`@3df/charts`)
   - [Instalación Charts](#instalación-charts)
   - [Bar Chart](#bar-chart)
