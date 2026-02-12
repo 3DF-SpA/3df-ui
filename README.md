@@ -70,6 +70,10 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Avatar](#avatar)
   - [Alert Dialog](#alert-dialog)
   - [Accordion](#accordion)
+- **Charts** (`@3df/charts`)
+  - [Instalación Charts](#instalación-charts)
+  - [Bar Chart](#bar-chart)
+  - [Line Chart](#line-chart)
 - [Utilidades](#utilidades)
 - [Personalización del tema](#personalización-del-tema)
 - [Estructura del proyecto](#estructura-del-proyecto)
@@ -6161,6 +6165,237 @@ const value = ref('item-1');
 - `data-state="open" | "closed"` en todos los elementos.
 - Items deshabilitados usan `disabled` + `data-disabled`.
 - Chevron rota 180° al expandir via `[data-state=open]>svg`.
+
+---
+
+## Charts (`@3df/charts`)
+
+Paquete separado de visualización de datos — 100% SVG, cero dependencias externas. Comparte el sistema de tokens de `@3df/ui` para colores y dark mode.
+
+### Instalación Charts
+
+```bash
+pnpm add @3df/charts
+```
+
+> Peer dependency: `vue ^3.0.0`.
+> Los colores se toman de los tokens `--color-chart-1` a `--color-chart-5` definidos en `@3df/ui/theme.css`.
+
+### Características comunes
+
+- **SVG puro** — sin Canvas, sin recharts, sin chart.js
+- **Responsivo** — `ResizeObserver` + SVG viewBox
+- **Dot grid** en vez de líneas punteadas tradicionales
+- **Tooltip glassmorphism** — `backdrop-blur-xl`, fondo translúcido, animación de escala
+- **Legend interactiva** — click para toggle series, pills con glow dots
+- **Animación de entrada** — elementos crecen/aparecen desde la baseline
+- **Glow en hover** — filtro SVG `feGaussianBlur` en elementos activos
+- **Crosshair** — línea punteada vertical/horizontal al hacer hover
+- **Paleta pastel/oscura** — grises azulados, salvia, mauve, lavanda (no arcoíris primarios)
+
+### Tipos compartidos
+
+```ts
+import type {
+  ChartConfig,
+  ChartSeriesConfig,
+  ChartDataRow,
+  ChartOrientation,
+  ChartStackMode,
+  ChartTooltipData,
+} from '@3df/charts';
+
+// ChartConfig mapea cada serie a su label y color
+const config: ChartConfig = {
+  revenue:  { label: 'Revenue',  color: 'var(--color-chart-1)' },
+  expenses: { label: 'Expenses', color: 'var(--color-chart-2)' },
+};
+
+// ChartDataRow es un Record con index (string) + valores numéricos
+const data: ChartDataRow[] = [
+  { month: 'Jan', revenue: 4200, expenses: 2800 },
+  { month: 'Feb', revenue: 3800, expenses: 2600 },
+];
+```
+
+---
+
+### Bar Chart
+
+Gráfico de barras con soporte vertical/horizontal, agrupado/apilado.
+
+```vue
+<script setup lang="ts">
+import { UiChartBar, type ChartConfig, type ChartDataRow } from '@3df/charts';
+
+const data: ChartDataRow[] = [
+  { month: 'Jan', revenue: 4200, expenses: 2800 },
+  { month: 'Feb', revenue: 3800, expenses: 2600 },
+  { month: 'Mar', revenue: 5100, expenses: 3400 },
+  { month: 'Apr', revenue: 4600, expenses: 3100 },
+  { month: 'May', revenue: 6200, expenses: 3900 },
+  { month: 'Jun', revenue: 5800, expenses: 4200 },
+];
+
+const config: ChartConfig = {
+  revenue:  { label: 'Revenue',  color: 'var(--color-chart-1)' },
+  expenses: { label: 'Expenses', color: 'var(--color-chart-2)' },
+};
+</script>
+
+<template>
+  <!-- Vertical grouped (default) -->
+  <UiChartBar :config="config" :data="data" index="month" />
+
+  <!-- Horizontal -->
+  <UiChartBar :config="config" :data="data" index="month" orientation="horizontal" />
+
+  <!-- Stacked -->
+  <UiChartBar :config="config" :data="data" index="month" mode="stacked" />
+
+  <!-- Custom formatter, no grid, no animation -->
+  <UiChartBar
+    :config="config"
+    :data="data"
+    index="month"
+    :show-grid="false"
+    :animate="false"
+    :value-formatter="(v) => `$${(v / 1000).toFixed(1)}K`"
+    :radius="10"
+  />
+</template>
+```
+
+#### Props
+
+| Prop                | Tipo                                    | Default      | Descripción                                    |
+| ------------------- | --------------------------------------- | ------------ | ---------------------------------------------- |
+| `config`            | `ChartConfig`                           | **required** | Mapa de series → label + color                 |
+| `data`              | `ChartDataRow[]`                        | **required** | Array de filas de datos                        |
+| `index`             | `string`                                | **required** | Key del campo índice (categoría)               |
+| `orientation`       | `'vertical' \| 'horizontal'`           | `'vertical'` | Orientación del gráfico                        |
+| `mode`              | `'grouped' \| 'stacked'`               | `'grouped'`  | Modo de apilado                                |
+| `showTooltip`       | `boolean`                               | `true`       | Mostrar tooltip on hover                       |
+| `showLegend`        | `boolean`                               | `true`       | Mostrar legend interactiva                     |
+| `showGrid`          | `boolean`                               | `true`       | Mostrar dot grid                               |
+| `showXAxis`         | `boolean`                               | `true`       | Mostrar labels del eje X                       |
+| `showYAxis`         | `boolean`                               | `true`       | Mostrar labels del eje Y                       |
+| `tickCount`         | `number`                                | `5`          | Número aproximado de ticks                     |
+| `valueFormatter`    | `(value: number) => string`             | compact fmt  | Formateador del eje de valores                 |
+| `categoryFormatter` | `(value: string \| number) => string`  | `String()`   | Formateador del eje de categorías              |
+| `tooltipFormatter`  | `(value: number, key: string) => string`| —            | Formateador personalizado del tooltip          |
+| `radius`            | `number`                                | `6`          | Border radius de las barras                    |
+| `barGap`            | `number`                                | `0.15`       | Espacio entre barras (fracción)                |
+| `categoryGap`       | `number`                                | `0.25`       | Espacio entre categorías (fracción)            |
+| `minHeight`         | `number`                                | `350`        | Altura mínima en px                            |
+| `animate`           | `boolean`                               | `true`       | Habilitar animación de entrada                 |
+
+#### Visuales
+
+- **Gradient bars** — gradiente vertical de opacidad 1 → 0.6
+- **Glow on hover** — filtro SVG con `feGaussianBlur`
+- **Crosshair** — línea punteada en la categoría activa
+- **Hover highlight** — fondo sutil detrás de la categoría
+- **Dimming** — barras no-hover bajan a 25% opacidad
+- **Bouncy animation** — `cubic-bezier(0.34, 1.56, 0.64, 1)`
+
+---
+
+### Line Chart
+
+Gráfico de líneas con curvas monotone, linear o step.
+
+```vue
+<script setup lang="ts">
+import { UiChartLine, type ChartConfig, type ChartDataRow } from '@3df/charts';
+
+const data: ChartDataRow[] = [
+  { month: 'Jan', online: 3200, store: 1800 },
+  { month: 'Feb', online: 2800, store: 2100 },
+  { month: 'Mar', online: 4100, store: 2400 },
+  { month: 'Apr', online: 3600, store: 2000 },
+  { month: 'May', online: 5200, store: 2900 },
+  { month: 'Jun', online: 4800, store: 3200 },
+];
+
+const config: ChartConfig = {
+  online: { label: 'Online',   color: 'var(--color-chart-1)' },
+  store:  { label: 'In-Store', color: 'var(--color-chart-2)' },
+};
+</script>
+
+<template>
+  <!-- Monotone smooth (default) -->
+  <UiChartLine :config="config" :data="data" index="month" />
+
+  <!-- Linear, no area, with dots -->
+  <UiChartLine
+    :config="config"
+    :data="data"
+    index="month"
+    curve-type="linear"
+    :show-area="false"
+    :show-dots="true"
+  />
+
+  <!-- Step interpolation -->
+  <UiChartLine
+    :config="config"
+    :data="data"
+    index="month"
+    curve-type="step"
+    :show-legend="false"
+  />
+
+  <!-- Custom formatter -->
+  <UiChartLine
+    :config="config"
+    :data="data"
+    index="month"
+    :value-formatter="(v) => `$${(v / 1000).toFixed(1)}K`"
+    :show-dots="true"
+  />
+</template>
+```
+
+#### Props
+
+| Prop                | Tipo                                    | Default      | Descripción                                    |
+| ------------------- | --------------------------------------- | ------------ | ---------------------------------------------- |
+| `config`            | `ChartConfig`                           | **required** | Mapa de series → label + color                 |
+| `data`              | `ChartDataRow[]`                        | **required** | Array de filas de datos                        |
+| `index`             | `string`                                | **required** | Key del campo índice (categoría)               |
+| `curveType`         | `'monotone' \| 'linear' \| 'step'`    | `'monotone'` | Tipo de interpolación de la curva              |
+| `showTooltip`       | `boolean`                               | `true`       | Mostrar tooltip on hover                       |
+| `showLegend`        | `boolean`                               | `true`       | Mostrar legend interactiva                     |
+| `showGrid`          | `boolean`                               | `true`       | Mostrar dot grid                               |
+| `showXAxis`         | `boolean`                               | `true`       | Mostrar labels del eje X                       |
+| `showYAxis`         | `boolean`                               | `true`       | Mostrar labels del eje Y                       |
+| `showDots`          | `boolean`                               | `false`      | Mostrar puntos en cada dato                    |
+| `showArea`          | `boolean`                               | `true`       | Mostrar relleno degradado bajo las líneas      |
+| `tickCount`         | `number`                                | `5`          | Número aproximado de ticks                     |
+| `valueFormatter`    | `(value: number) => string`             | compact fmt  | Formateador del eje de valores                 |
+| `categoryFormatter` | `(value: string \| number) => string`  | `String()`   | Formateador del eje de categorías              |
+| `tooltipFormatter`  | `(value: number, key: string) => string`| —            | Formateador personalizado del tooltip          |
+| `strokeWidth`       | `number`                                | `2.5`        | Grosor de la línea                             |
+| `dotRadius`         | `number`                                | `4`          | Radio de los puntos                            |
+| `minHeight`         | `number`                                | `350`        | Altura mínima en px                            |
+| `animate`           | `boolean`                               | `true`       | Habilitar animación de entrada                 |
+
+#### Tipos de curva
+
+- **`monotone`** — Spline cúbico monotónico (Catmull-Rom). Curvas suaves que pasan por cada punto sin overshooting.
+- **`linear`** — Segmentos rectos entre puntos.
+- **`step`** — Escalones (cambio abrupto a mitad de camino entre puntos).
+
+#### Visuales
+
+- **Area gradient** — relleno degradado de 25% → 2% opacidad bajo cada línea
+- **Glow on hover** — filtro SVG aplicado a las líneas cuando hay hover
+- **Hover dots** — puntos grandes con borde + `drop-shadow` en la posición hover
+- **Static dots** — puntos pequeños opcionales (`showDots`) en cada dato
+- **Crosshair** — línea vertical punteada en la posición hover
+- **Bouncy animation** — líneas crecen desde la baseline
 
 ---
 

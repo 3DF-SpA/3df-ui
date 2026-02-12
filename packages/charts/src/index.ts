@@ -28,3 +28,7 @@ export {
 
 // Bar Chart
 export { default as UiChartBar } from './chartbar/UiChartBar.vue';
+
+// Line Chart
+export { default as UiChartLine } from './chartline/UiChartLine.vue';
+export type { CurveType } from './chartline/UiChartLine.vue';

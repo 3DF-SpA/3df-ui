@@ -237,6 +237,7 @@ const router = createRouter({
           name: 'MyAccordion',
           component: () => import('@/modules/ui/views/MyAccordion.vue'),
         },
+
       ],
     },
 
@@ -249,7 +250,12 @@ const router = createRouter({
           path: 'chartbar',
           name: 'chartbar',
           component: () => import('@/modules/charts/views/ChartBar.vue'),
-        }
+        },
+        {
+          path: 'chartline',
+          name: 'chartline',
+          component: () => import('@/modules/charts/views/ChartLine.vue'),
+        },
       ],
     }
   ],
