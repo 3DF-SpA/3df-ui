@@ -110,14 +110,14 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 Crea un archivo `.npmrc` en la raíz de tu proyecto (donde está tu `package.json`):
 
 ```ini
-@3df:registry=https://npm.pkg.github.com
+@3df-spa:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=TU_TOKEN_AQUI
 ```
 
 > **Seguridad:** No subas tu token a Git. Puedes usar una variable de entorno en lugar del token directo:
 >
 > ```ini
-> @3df:registry=https://npm.pkg.github.com
+> @3df-spa:registry=https://npm.pkg.github.com
 > //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 > ```
 >
