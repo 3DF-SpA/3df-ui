@@ -149,19 +149,43 @@ pnpm add @3df-spa/ui class-variance-authority clsx tailwind-merge
 
 ### 2. Configurar el CSS
 
-En tu archivo CSS principal (por ejemplo `src/assets/main.css` o `src/styles/global.css`):
+Existen **dos formas** de configurar los estilos. Elige la que se adapte a tu proyecto:
+
+#### Opción A — CSS pre-compilado (recomendada, más simple)
+
+Si quieres que todo funcione sin configuración adicional de Tailwind, importa el archivo de estilos pre-compilado que ya incluye **todos los tokens del tema + todas las clases utilitarias + animaciones de componentes**:
+
+```css
+@import '@3df-spa/ui/styles.css';
+```
+
+> **No necesitas instalar `tailwindcss` en tu proyecto con esta opción.** Todo el CSS ya viene pre-compilado.
+>
+> **Nota:** Este archivo (≈75 KB) ya contiene Tailwind CSS. Si tu proyecto también usa Tailwind para tus propios estilos, usa la **Opción B** para evitar duplicar Tailwind.
+
+#### Opción B — Integración con tu propio Tailwind CSS v4
+
+Si tu proyecto ya usa Tailwind CSS v4 (o necesitas personalizar los tokens del tema), usa esta opción. **Requiere `tailwindcss` v4 instalado en tu proyecto:**
+
+```bash
+pnpm add -D tailwindcss @tailwindcss/vite   # o @tailwindcss/postcss según tu setup
+```
 
 ```css
 @import 'tailwindcss';
 @import '@3df-spa/ui/theme.css';
-@source '@3df-spa/ui';
+@source "../node_modules/@3df-spa/ui";
 ```
 
-| Línea                         | Qué hace                                                            |
-| ----------------------------- | ------------------------------------------------------------------- |
-| `@import "tailwindcss"`       | Carga Tailwind CSS v4                                               |
-| `@import "@3df-spa/ui/theme.css"` | Importa los design tokens (colores, radios, dark mode)              |
-| `@source "@3df-spa/ui"`           | Le dice a Tailwind que escanee las clases usadas dentro del paquete |
+| Línea                                        | Qué hace                                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------------------------- |
+| `@import "tailwindcss"`                      | Carga Tailwind CSS v4                                                                 |
+| `@import "@3df-spa/ui/theme.css"`            | Importa los design tokens (colores, radios, dark mode)                                |
+| `@source "../node_modules/@3df-spa/ui"`      | Escanea las clases usadas en los componentes del paquete (requiere ruta relativa a `node_modules`) |
+
+> **⚠️ Importante:** La directiva `@source` **requiere una ruta relativa** apuntando al directorio del paquete dentro de `node_modules`. Tailwind CSS v4 ignora `node_modules` por defecto — `@source` es la forma de incluir paquetes externos explícitamente. Si la directiva `@source` no apunta correctamente al directorio del paquete, las clases de layout como `p-6`, `flex`, `gap-*`, `rounded-*` no se generarán y los componentes se verán sin espaciado ni diseño.
+
+> **Tip:** Si la ruta relativa desde tu CSS hasta `node_modules` es complicada (ej. monorepos), puedes usar el CSS pre-compilado (Opción A) y agregar solo `@import '@3df-spa/ui/theme.css'` para obtener el tema personalizable.
 
 ### 3. Importar el CSS en tu app
 
@@ -7248,12 +7272,14 @@ cn('text-sm', false && 'hidden'); // → 'text-sm' (ignora falsy)
 
 ## Personalización del tema
 
+> **Nota:** Para personalizar tokens necesitas Tailwind CSS v4 en tu proyecto (Opción B del CSS setup).
+
 Los design tokens se definen en `@3df-spa/ui/theme.css` usando CSS custom properties. Para sobrescribirlos en tu proyecto, redefine las variables **después** del import:
 
 ```css
 @import 'tailwindcss';
 @import '@3df-spa/ui/theme.css';
-@source '@3df-spa/ui';
+@source "../node_modules/@3df-spa/ui";
 
 /* Tus overrides */
 @theme {
@@ -7280,6 +7306,41 @@ Los design tokens se definen en `@3df-spa/ui/theme.css` usando CSS custom proper
 | `--radius-sm` / `--radius-md` / `--radius-lg` / `--radius-xl` | Border radius                 |
 
 Cada token tiene su equivalente dark mode en la clase `.dark`.
+
+---
+
+## Rendimiento y tree-shaking
+
+La librería está optimizada para no afectar el rendimiento de los proyectos consumidores:
+
+| Aspecto | Detalle |
+|---|---|
+| **Tree-shaking** | El build usa `preserveModules: true` — cada componente es un módulo independiente (~2 KB promedio). Solo se incluye el código de los componentes que importas. |
+| **Formato ESM** | Solo genera formato ES modules — los bundlers modernos (Vite, webpack 5+) lo optimizan al máximo. |
+| **Dependencias externalizadas** | `vue`, `cva`, `clsx`, `tailwind-merge`, `date-fns`, `embla-carousel` no se incluyen en el bundle — se usan las versiones del proyecto consumidor. |
+| **Zero-dep charts** | `@3df-spa/charts` solo depende de `vue` — SVG puro, ~88 KB total sin dependencias externas. |
+| **CSS ligero** | Los tokens del tema son CSS custom properties (~5 KB). Las utilidades se generan bajo demanda (Opción B) o se incluyen pre-compiladas (~75 KB, Opción A). |
+
+### Impacto típico en un proyecto consumidor
+
+Si importas 5-10 componentes: **~10-20 KB JS** + **~5-10 KB CSS** (con Opción B) o **~75 KB CSS** (con Opción A).
+
+### Imports directos (opcional)
+
+El import estándar desde el barrel funciona perfectamente con Vite:
+
+```ts
+import { Button, Card, CardContent } from '@3df-spa/ui';
+```
+
+Si prefieres imports directos por módulo, también puedes usar:
+
+```ts
+import Button from '@3df-spa/ui/dist/components/ui/buttons/UiButton.vue.js';
+import Card from '@3df-spa/ui/dist/components/ui/card/UiCard.vue.js';
+```
+
+> Con Vite como bundler, ambos métodos producen el mismo resultado. El barrel file es la forma recomendada.
 
 ---
 

@@ -40,13 +40,35 @@ pnpm add embla-carousel
 
 ### 3. CSS Setup
 
-In your main CSS file:
+There are **two options** for setting up CSS. Choose one:
+
+**Option A — Pre-compiled CSS (simplest, recommended for most projects):**
+
+```css
+@import '@3df-spa/ui/styles.css';
+```
+
+This single import includes all Tailwind utilities, theme tokens, and component animations. No additional Tailwind configuration needed.
+
+> **`tailwindcss` is NOT required** with this option. Everything is pre-compiled.
+>
+> **Note:** If your project also uses Tailwind CSS for your own styles, use Option B to avoid duplicating Tailwind's base styles.
+
+**Option B — Integration with your own Tailwind CSS v4:**
+
+Requires `tailwindcss` v4 installed in the consumer project:
+
+```bash
+pnpm add -D tailwindcss @tailwindcss/vite
+```
 
 ```css
 @import 'tailwindcss';
 @import '@3df-spa/ui/theme.css';
-@source '@3df-spa/ui';
+@source "../node_modules/@3df-spa/ui";
 ```
+
+> **Critical:** The `@source` directive MUST use a relative path pointing to the actual package directory inside `node_modules`. Tailwind CSS v4 ignores `node_modules` by default. Using a bare package name like `@source "@3df-spa/ui"` will NOT work — classes like `p-6`, `flex`, `gap-*`, `rounded-*` will be missing and components will render without proper layout/spacing.
 
 ### 4. Import & Use
 
@@ -67,6 +89,24 @@ import { Button, Badge, Input } from '@3df-spa/ui';
 ```bash
 pnpm update @3df-spa/ui @3df-spa/charts
 ```
+
+### 6. Tailwind Requirement Summary
+
+| Scenario | Need `tailwindcss`? |
+|---|---|
+| Option A (pre-compiled CSS) | **No** — all CSS is pre-built |
+| Option B (Tailwind integration) | **Yes** — `tailwindcss` v4 + `@tailwindcss/vite` or `@tailwindcss/postcss` |
+| Customizing theme tokens | **Yes** — requires Option B with `@theme` overrides |
+| Using `@3df-spa/charts` only | **No** — charts are pure SVG, no CSS framework needed |
+
+### 7. Tree-shaking & Performance
+
+- Build uses `preserveModules: true` — each component is a separate ES module (~2 KB avg)
+- Only imported components are included in the consumer's bundle
+- All heavy deps (`vue`, `cva`, `clsx`, `tailwind-merge`, `date-fns`, `embla-carousel`) are externalized
+- `@3df-spa/charts` has zero deps (only `vue` peer) — pure SVG, ~88 KB total
+- Standard barrel import works perfectly with Vite (tree-shaking is automatic)
+- Direct imports also available: `import Button from '@3df-spa/ui/dist/components/ui/buttons/UiButton.vue.js'`
 
 ---
 
