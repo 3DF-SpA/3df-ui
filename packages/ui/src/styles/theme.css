@@ -1,5 +1,10 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Auto-register compiled components as Tailwind source.
+   Resolved relative to THIS file → ../../dist = packages/ui/dist/.
+   Consumers no longer need their own @source directive. */
+@source "../../dist";
+
 @theme {
   --color-background: hsl(0 0% 100%);
   --color-foreground: hsl(0 0% 0%);

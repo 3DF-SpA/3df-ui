@@ -174,18 +174,14 @@ pnpm add -D tailwindcss @tailwindcss/vite   # o @tailwindcss/postcss según tu s
 ```css
 @import 'tailwindcss';
 @import '@3df-spa/ui/theme.css';
-@source "../node_modules/@3df-spa/ui";
 ```
 
 | Línea                                        | Qué hace                                                                              |
 | -------------------------------------------- | ------------------------------------------------------------------------------------- |
 | `@import "tailwindcss"`                      | Carga Tailwind CSS v4                                                                 |
-| `@import "@3df-spa/ui/theme.css"`            | Importa los design tokens (colores, radios, dark mode)                                |
-| `@source "../node_modules/@3df-spa/ui"`      | Escanea las clases usadas en los componentes del paquete (requiere ruta relativa a `node_modules`) |
+| `@import "@3df-spa/ui/theme.css"`            | Importa los design tokens (colores, radios, dark mode) + registra automáticamente las clases de los componentes vía `@source` interno |
 
-> **⚠️ Importante:** La directiva `@source` **requiere una ruta relativa** apuntando al directorio del paquete dentro de `node_modules`. Tailwind CSS v4 ignora `node_modules` por defecto — `@source` es la forma de incluir paquetes externos explícitamente. Si la directiva `@source` no apunta correctamente al directorio del paquete, las clases de layout como `p-6`, `flex`, `gap-*`, `rounded-*` no se generarán y los componentes se verán sin espaciado ni diseño.
-
-> **Tip:** Si la ruta relativa desde tu CSS hasta `node_modules` es complicada (ej. monorepos), puedes usar el CSS pre-compilado (Opción A) y agregar solo `@import '@3df-spa/ui/theme.css'` para obtener el tema personalizable.
+> **¿Y el `@source`?** No necesitas añadirlo manualmente. El archivo `theme.css` ya incluye `@source "../../dist"` internamente, que Tailwind resuelve relativo al archivo CSS importado — apuntando automáticamente a `node_modules/@3df-spa/ui/dist/`.
 
 ### 3. Importar el CSS en tu app
 
@@ -7279,7 +7275,6 @@ Los design tokens se definen en `@3df-spa/ui/theme.css` usando CSS custom proper
 ```css
 @import 'tailwindcss';
 @import '@3df-spa/ui/theme.css';
-@source "../node_modules/@3df-spa/ui";
 
 /* Tus overrides */
 @theme {

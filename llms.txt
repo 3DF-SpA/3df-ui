@@ -65,10 +65,9 @@ pnpm add -D tailwindcss @tailwindcss/vite
 ```css
 @import 'tailwindcss';
 @import '@3df-spa/ui/theme.css';
-@source "../node_modules/@3df-spa/ui";
 ```
 
-> **Critical:** The `@source` directive MUST use a relative path pointing to the actual package directory inside `node_modules`. Tailwind CSS v4 ignores `node_modules` by default. Using a bare package name like `@source "@3df-spa/ui"` will NOT work — classes like `p-6`, `flex`, `gap-*`, `rounded-*` will be missing and components will render without proper layout/spacing.
+> **No `@source` directive needed!** The `theme.css` file already includes `@source "../../dist"` internally, which Tailwind resolves relative to the imported CSS file — automatically pointing to `node_modules/@3df-spa/ui/dist/`.
 
 ### 4. Import & Use
 
