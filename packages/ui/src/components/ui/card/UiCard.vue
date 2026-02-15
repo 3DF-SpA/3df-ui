@@ -31,7 +31,7 @@ const isInteractive = computed(() => {
 });
 
 const variantClasses: Record<string, string> = {
-  default: 'bg-card text-card-foreground rounded-xl shadow-sm',
+  default: 'bg-card text-card-foreground rounded-xl border-2 border-border shadow-sm',
 };
 
 const classes = computed(() =>

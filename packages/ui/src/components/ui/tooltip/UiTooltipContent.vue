@@ -196,7 +196,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 max-w-xs',
             'bg-popover text-popover-foreground',
-            'rounded-md px-3 py-1.5 text-sm shadow-md',
+            'rounded-md border-2 border-border px-3 py-1.5 text-sm shadow-md',
             attrs.class,
           )
         "

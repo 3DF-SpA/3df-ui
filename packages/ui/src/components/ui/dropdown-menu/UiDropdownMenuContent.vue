@@ -190,7 +190,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 max-w-[calc(100vw-1rem)] min-w-[8rem]',
             'bg-popover text-popover-foreground',
-            'rounded-md p-1 shadow-md',
+            'rounded-md border-2 border-border p-1 shadow-md',
             'max-h-[var(--dropdown-max-h,20rem)] overflow-auto',
             attrs.class,
           )

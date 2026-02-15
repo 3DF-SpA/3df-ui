@@ -94,7 +94,7 @@ onBeforeUnmount(() => {
   <li
     :class="
       cn(
-        'pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg px-4 py-3 shadow-lg',
+        'pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg border-2 border-border px-4 py-3 shadow-lg',
         'transition-all duration-300 ease-out',
         isVisible && !isLeaving
           ? 'translate-y-0 scale-100 opacity-100'

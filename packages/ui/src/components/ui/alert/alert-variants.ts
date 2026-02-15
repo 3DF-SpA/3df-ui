@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 export const alertVariants = cva(
   [
-    'relative w-full rounded-lg px-4 py-3',
+    'relative w-full rounded-lg border-2 border-border px-4 py-3',
     'text-sm [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-3.5 [&>svg]:size-4 [&>svg]:text-current',
     '[&>svg+div]:translate-y-[-3px] [&>svg~*]:pl-7',
   ].join(' '),

@@ -54,7 +54,7 @@ const minimalActions: HeroAction[] = [
           Hero centrado estándar con headline, descripción y botones CTA.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroSimple
           headline="Build beautiful web applications faster"
           description="A comprehensive Vue 3 component library built with Tailwind CSS. Ship production-ready interfaces in record time."
@@ -71,7 +71,7 @@ const minimalActions: HeroAction[] = [
           Misma estructura, pero con texto alineado a la izquierda.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroSimple
           headline="Ship products faster with 3DF UI"
           description="Production-ready components for Vue 3 with TypeScript, Tailwind CSS, and full accessibility support."
@@ -90,7 +90,7 @@ const minimalActions: HeroAction[] = [
           Layout dividido: contenido de texto a la izquierda, imagen a la derecha.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroSplit
           headline="The modern way to build dashboards"
           description="Combine powerful data visualization with a rich component library. From charts to forms, everything you need in one package."
@@ -109,7 +109,7 @@ const minimalActions: HeroAction[] = [
           Split con la imagen a la izquierda y texto a la derecha usando <code>reverse</code>.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroSplit
           headline="Design systems made simple"
           description="Consistent, reusable components that scale with your team. Built for developers who care about quality."
@@ -130,7 +130,7 @@ const minimalActions: HeroAction[] = [
           Imagen de fondo a pantalla completa con overlay oscuro semi-transparente.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroImage
           headline="Explore the world of possibilities"
           description="Create stunning landing pages with beautiful background imagery and full customization options."
@@ -151,7 +151,7 @@ const minimalActions: HeroAction[] = [
           Overlay gradiente de abajo hacia arriba. Texto alineado a la izquierda.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroImage
           headline="Where creativity meets technology"
           description="Push the boundaries of web design with our flexible hero components and rich visual options."
@@ -174,7 +174,7 @@ const minimalActions: HeroAction[] = [
           Fondo gradiente moderno con blobs decorativos. Preset <code>purple</code>.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroGradient
           headline="Next-generation components"
           description="Beautiful, accessible, and performant. Built with Vue 3, TypeScript, and Tailwind CSS for the modern web."
@@ -192,7 +192,7 @@ const minimalActions: HeroAction[] = [
           Preset <code>blue</code> sin blobs decorativos. Look más limpio.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroGradient
           headline="Scale your frontend effortlessly"
           description="From prototyping to production, our components adapt to your needs without compromising on design quality."
@@ -212,7 +212,7 @@ const minimalActions: HeroAction[] = [
           Preset <code>rose</code> con alineación a la izquierda.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroGradient
           headline="Design with confidence"
           description="Every component is thoroughly tested and fully accessible. Build inclusive experiences by default."
@@ -231,7 +231,7 @@ const minimalActions: HeroAction[] = [
           Hero centrado con badge/anuncio, headline con texto resaltado en gradiente, y patrón de grid sutil.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroCentered
           badge="🚀 New: Charts package now available"
           badge-href="#"
@@ -252,7 +252,7 @@ const minimalActions: HeroAction[] = [
           Sin patrón de grid ni badge. Look más limpio y elegante.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroCentered
           headline="The future of web components"
           highlight-text="future"
@@ -272,7 +272,7 @@ const minimalActions: HeroAction[] = [
           Hero minimalista alineado a la izquierda con separador inferior. Ideal para headers de páginas.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroMinimal
           headline="Component Library"
           description="Browse our collection of production-ready Vue 3 components."
@@ -290,7 +290,7 @@ const minimalActions: HeroAction[] = [
           Versión centrada del hero minimalista. Perfecto para páginas internas.
         </p>
       </div>
-      <div class="overflow-hidden rounded-xl border border-border">
+      <div class="overflow-hidden rounded-xl">
         <HeroMinimal
           headline="Documentation"
           description="Everything you need to know to get started with 3DF UI."

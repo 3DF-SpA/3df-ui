@@ -1,5 +1,44 @@
 # @3df-spa/ui
 
+## 1.4.2
+
+### Patch Changes
+
+- Cambios importantes
+
+## 1.3.2
+
+### Patch Changes
+
+- cambios en bordes y agegando el banner
+
+## 1.3.1
+
+### Patch Changes
+
+- Diseño borderless: eliminados todos los bordes visibles (outline-1, outline-border) de todos los componentes.
+
+  La separación visual ahora se logra mediante fondos elevados, rellenos translúcidos y sombras.
+  Tokens de tema actualizados para background, card, popover y muted en dark mode.
+
+## 1.3.0
+
+### Minor Changes
+
+- Diseño borderless: eliminados todos los bordes visibles (outline-1, outline-border) de todos los componentes.
+
+  La separación visual ahora se logra mediante:
+  - Fondos elevados: bg-card/bg-popover al 5% en dark mode vs bg-background al 0%
+  - Rellenos translúcidos: bg-foreground/5 en form controls (Input, Textarea, Select, Combobox, DatePicker)
+  - bg-foreground/[0.06] en variantes "outline" de Button, Badge y Toggle
+  - Sombras (shadow-sm, shadow-md, shadow-lg) en paneles flotantes
+
+  Tokens actualizados en theme.css:
+  - Light: background → hsl(0 0% 98%) para que cards blancas destaquen
+  - Dark: card/popover → hsl(0 0% 5%), muted → hsl(0 0% 10%)
+
+  Documentación actualizada (README, llms.txt, AGENTS.md) con filosofía borderless y componente Banner.
+
 ## 1.2.1
 
 ### Patch Changes

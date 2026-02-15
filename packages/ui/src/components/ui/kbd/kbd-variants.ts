@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 export const kbdVariants = cva(
   [
     'inline-flex items-center justify-center',
-    'rounded-md',
+    'rounded-md border-2 border-border',
     'font-mono font-medium',
     'select-none align-middle',
     'leading-none',

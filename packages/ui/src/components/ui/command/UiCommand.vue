@@ -121,7 +121,7 @@ provide(COMMAND_KEY, {
     v-bind="restAttrs"
     :class="
       cn(
-        'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
+        'flex h-full w-full flex-col overflow-hidden rounded-md border-2 border-border bg-popover text-popover-foreground',
         attrs.class,
       )
     "

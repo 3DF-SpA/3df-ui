@@ -1,6 +1,6 @@
 {
   "name": "@3df-spa/ui",
-  "version": "1.2.1",
+  "version": "1.4.2",
   "type": "module",
   "sideEffects": [
     "**/*.css"

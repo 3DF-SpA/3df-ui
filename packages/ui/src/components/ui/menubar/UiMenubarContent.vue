@@ -184,7 +184,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 min-w-[12rem]',
             'bg-popover text-popover-foreground',
-            'rounded-md p-1 shadow-md',
+            'rounded-md border-2 border-border p-1 shadow-md',
             'max-h-[var(--menubar-max-h,20rem)] overflow-auto',
             attrs.class,
           )
