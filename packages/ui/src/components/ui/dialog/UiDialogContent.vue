@@ -10,12 +10,15 @@ defineOptions({ name: 'UiDialogContent', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
+    /** Visual variant */
+    variant?: 'default';
     /** Show close button (×) */
     showClose?: boolean;
     /** Close when clicking overlay */
     closeOnOverlay?: boolean;
   }>(),
   {
+    variant: 'default',
     showClose: true,
     closeOnOverlay: true,
   },
@@ -146,8 +149,9 @@ function onOverlayClick() {
           :aria-describedby="dialog.descriptionId"
           :class="
             cn(
-              'relative z-50 grid w-full max-w-lg gap-4 rounded-lg border border-border bg-background p-6 shadow-lg',
+              'relative z-50 grid w-full max-w-lg gap-4 rounded-lg border p-6 shadow-lg',
               'transition-all duration-200',
+              'border-border bg-background',
               isAnimating
                 ? 'scale-100 opacity-100'
                 : 'scale-95 opacity-0',

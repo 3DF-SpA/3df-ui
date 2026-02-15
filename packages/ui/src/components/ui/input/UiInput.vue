@@ -12,6 +12,7 @@ defineOptions({ name: 'UiInput', inheritAttrs: false });
 type InputVariants = VariantProps<typeof inputVariants>;
 
 interface UiInputProps {
+  variant?: InputVariants['variant'];
   size?: InputVariants['size'];
   modelValue?: string | number;
 }
@@ -32,7 +33,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const classes = computed(() => cn(inputVariants({ size: props.size }), attrs.class));
+const classes = computed(() => cn(inputVariants({ variant: props.variant, size: props.size }), attrs.class));
 
 function onInput(event: Event) {
   emit('update:modelValue', (event.target as HTMLInputElement).value);

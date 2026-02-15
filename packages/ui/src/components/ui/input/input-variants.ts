@@ -13,6 +13,9 @@ export const inputVariants = cva(
   ].join(' '),
   {
     variants: {
+      variant: {
+        default: '',
+      },
       size: {
         default: 'h-10 px-3 py-2',
         sm: 'h-9 px-3 py-1 text-xs',
@@ -20,6 +23,7 @@ export const inputVariants = cva(
       },
     },
     defaultVariants: {
+      variant: 'default',
       size: 'default',
     },
   },

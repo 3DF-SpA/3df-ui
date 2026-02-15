@@ -2,7 +2,7 @@
 import { computed, inject, nextTick, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
 import type { ClassValue } from 'clsx';
 import { cn } from '../../../lib/utils';
-import { sheetVariants, type SheetSide } from './sheet-variants';
+import { sheetVariants, type SheetSide, type SheetVariant } from './sheet-variants';
 import { SHEET_INJECTION_KEY, type SheetContext } from './sheet-types';
 
 defineOptions({ name: 'UiSheetContent', inheritAttrs: false });
@@ -10,11 +10,13 @@ defineOptions({ name: 'UiSheetContent', inheritAttrs: false });
 const props = withDefaults(
   defineProps<{
     side?: SheetSide;
+    variant?: SheetVariant;
     /** Mostrar botón de cierre (×) */
     showClose?: boolean;
   }>(),
   {
     side: 'right',
+    variant: 'default',
     showClose: true,
   },
 );
@@ -39,7 +41,7 @@ const translateHidden: Record<SheetSide, string> = {
 
 const panelClasses = computed(() =>
   cn(
-    sheetVariants({ side: props.side }),
+    sheetVariants({ variant: props.variant, side: props.side }),
     attrs.class,
   ),
 );

@@ -7,12 +7,15 @@ import { cva } from 'class-variance-authority';
 export const sheetVariants = cva(
   // ── Base ──
   [
-    'fixed z-50 flex flex-col gap-4 bg-background p-6 shadow-lg',
+    'fixed z-50 flex flex-col gap-4 p-6 shadow-lg',
     'transition-[transform,opacity] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
     'focus:outline-none',
   ],
   {
     variants: {
+      variant: {
+        default: 'bg-background',
+      },
       side: {
         top: 'inset-x-0 top-0 border-b border-border',
         bottom: 'inset-x-0 bottom-0 border-t border-border',
@@ -21,9 +24,11 @@ export const sheetVariants = cva(
       },
     },
     defaultVariants: {
+      variant: 'default',
       side: 'right',
     },
   },
 );
 
 export type SheetSide = 'top' | 'bottom' | 'left' | 'right';
+export type SheetVariant = 'default';

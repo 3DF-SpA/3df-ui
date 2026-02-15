@@ -1,5 +1,11 @@
 # @3df-spa/ui
 
+## 1.2.1
+
+### Patch Changes
+
+- fix: incluir @source en [theme.css](http://_vscodecontentref_/1) para que consumidores no necesiten configurarlo manualmente
+
 ## 1.0.1
 
 ### Patch Changes

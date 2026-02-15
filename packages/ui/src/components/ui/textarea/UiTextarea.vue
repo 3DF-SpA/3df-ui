@@ -8,10 +8,12 @@ import { cn } from '../../../lib/utils';
 defineOptions({ name: 'UiTextarea', inheritAttrs: false });
 
 interface UiTextareaProps {
+  variant?: 'default';
   modelValue?: string;
 }
 
-withDefaults(defineProps<UiTextareaProps>(), {
+const props = withDefaults(defineProps<UiTextareaProps>(), {
+  variant: 'default',
   modelValue: undefined,
 });
 
@@ -27,20 +29,23 @@ const restAttrs = computed(() => {
   return rest;
 });
 
+const baseClasses = [
+  'flex w-full min-h-[80px] rounded-md text-sm text-foreground',
+  'border px-3 py-2',
+  'transition-[color,border-color,box-shadow] duration-200',
+  'placeholder:text-muted-foreground',
+  'disabled:pointer-events-none disabled:opacity-50',
+  'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring focus-visible:border-ring',
+  'aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive/30',
+  'resize-y',
+].join(' ');
+
+const variantClasses: Record<string, string> = {
+  default: 'bg-background border-input',
+};
+
 const classes = computed(() =>
-  cn(
-    [
-      'flex w-full min-h-[80px] rounded-md bg-background text-sm text-foreground',
-      'border border-input px-3 py-2',
-      'transition-[color,border-color,box-shadow] duration-200',
-      'placeholder:text-muted-foreground',
-      'disabled:pointer-events-none disabled:opacity-50',
-      'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring focus-visible:border-ring',
-      'aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive/30',
-      'resize-y',
-    ].join(' '),
-    attrs.class,
-  ),
+  cn(baseClasses, variantClasses[props.variant] ?? variantClasses.default, attrs.class),
 );
 
 function onInput(event: Event) {

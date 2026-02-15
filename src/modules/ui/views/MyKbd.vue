@@ -92,7 +92,7 @@ import { Kbd } from '@3df-spa/ui';
       </p>
     </section>
 
-    <!-- 6. Con clases custom -->
+    <!-- 7. Con clases custom -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Override de clases</h2>
       <div class="flex items-center gap-3">

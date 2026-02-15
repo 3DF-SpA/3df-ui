@@ -105,7 +105,7 @@ export { default as SheetFooter } from './components/ui/sheet/UiSheetFooter.vue'
 export { default as SheetTitle } from './components/ui/sheet/UiSheetTitle.vue';
 export { default as SheetDescription } from './components/ui/sheet/UiSheetDescription.vue';
 export { default as SheetClose } from './components/ui/sheet/UiSheetClose.vue';
-export { sheetVariants, type SheetSide } from './components/ui/sheet/sheet-variants';
+export { sheetVariants, type SheetSide, type SheetVariant } from './components/ui/sheet/sheet-variants';
 export type { SheetContext } from './components/ui/sheet/sheet-types';
 
 // Separator
@@ -159,7 +159,7 @@ export type {
 
 // Kbd
 export { default as Kbd } from './components/ui/kbd/UiKbd.vue';
-export { kbdVariants } from './components/ui/kbd/kbd-variants';
+export { kbdVariants, type KbdVariants } from './components/ui/kbd/kbd-variants';
 
 // Item
 export { default as Item } from './components/ui/item/UiItem.vue';

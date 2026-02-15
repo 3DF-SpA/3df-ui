@@ -10,12 +10,15 @@ defineOptions({ name: 'UiDrawerContent', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
+    /** Visual variant */
+    variant?: 'default';
     /** Show close button (×) */
     showClose?: boolean;
     /** Threshold percentage to close on drag (0-1) */
     dragCloseThreshold?: number;
   }>(),
   {
+    variant: 'default',
     showClose: true,
     dragCloseThreshold: 0.4,
   },
@@ -203,7 +206,8 @@ const panelStyle = computed(() => {
         :aria-describedby="drawer.descriptionId"
         :class="
           cn(
-            'fixed inset-x-0 bottom-0 z-50 flex max-h-[96dvh] flex-col rounded-t-xl border border-border bg-background',
+            'fixed inset-x-0 bottom-0 z-50 flex max-h-[96dvh] flex-col rounded-t-xl border',
+            'border-border bg-background',
             'transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
             isAnimating && !isDragging && dragOffset === 0
               ? 'translate-y-0'

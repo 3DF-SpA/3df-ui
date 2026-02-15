@@ -9,11 +9,14 @@ import { kbdVariants, type KbdVariants } from './kbd-variants';
 defineOptions({ name: 'UiKbd', inheritAttrs: false });
 
 interface UiKbdProps {
+  /** Visual variant */
+  variant?: NonNullable<KbdVariants['variant']>;
   /** Size variant */
   size?: NonNullable<KbdVariants['size']>;
 }
 
 const props = withDefaults(defineProps<UiKbdProps>(), {
+  variant: 'default',
   size: 'default',
 });
 
@@ -24,7 +27,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const classes = computed(() => cn(kbdVariants({ size: props.size }), attrs.class));
+const classes = computed(() => cn(kbdVariants({ variant: props.variant, size: props.size }), attrs.class));
 </script>
 
 <template>
