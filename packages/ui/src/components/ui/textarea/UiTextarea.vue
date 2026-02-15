@@ -30,7 +30,7 @@ const restAttrs = computed(() => {
 });
 
 const baseClasses = [
-  'flex w-full min-h-[80px] rounded-md border-2 border-input text-sm text-foreground',
+  'flex w-full min-h-[80px] rounded-md border-ui border-input text-sm text-foreground',
   'px-3 py-2',
   'transition-[color,box-shadow,transform] duration-200 ease-out',
   'placeholder:text-muted-foreground',

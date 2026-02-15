@@ -17,10 +17,10 @@ export const sheetVariants = cva(
         default: 'bg-background',
       },
       side: {
-        top: 'inset-x-0 top-0 border-b-2 border-border',
-        bottom: 'inset-x-0 bottom-0 border-t-2 border-border',
-        left: 'inset-y-0 left-0 h-full w-3/4 border-r-2 border-border sm:max-w-sm',
-        right: 'inset-y-0 right-0 h-full w-3/4 border-l-2 border-border sm:max-w-sm',
+        top: 'inset-x-0 top-0 border-b-ui border-border',
+        bottom: 'inset-x-0 bottom-0 border-t-ui border-border',
+        left: 'inset-y-0 left-0 h-full w-3/4 border-r-ui border-border sm:max-w-sm',
+        right: 'inset-y-0 right-0 h-full w-3/4 border-l-ui border-border sm:max-w-sm',
       },
     },
     defaultVariants: {

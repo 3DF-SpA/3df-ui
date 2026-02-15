@@ -49,10 +49,33 @@
   --color-chart-4: hsl(340 18% 48%);
   --color-chart-5: hsl(255 18% 52%);
 
-  --radius-sm: 0.45rem;
-  --radius-md: 0.65rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
+  --radius-sm: calc(var(--ui-radius, 0.625rem) * 0.72);
+  --radius-md: var(--ui-radius, 0.625rem);
+  --radius-lg: calc(var(--ui-radius, 0.625rem) * 1.2);
+  --radius-xl: calc(var(--ui-radius, 0.625rem) * 1.6);
+}
+
+/* ── Customizable border width ────────────────────────────────
+   Consumer overrides:  :root { --ui-border-width: 1px; }
+   ──────────────────────────────────────────────────────────── */
+@utility border-ui {
+  border-width: var(--ui-border-width, 2px);
+}
+
+@utility border-t-ui {
+  border-top-width: var(--ui-border-width, 2px);
+}
+
+@utility border-r-ui {
+  border-right-width: var(--ui-border-width, 2px);
+}
+
+@utility border-b-ui {
+  border-bottom-width: var(--ui-border-width, 2px);
+}
+
+@utility border-l-ui {
+  border-left-width: var(--ui-border-width, 2px);
 }
 
 .dark {

@@ -79,7 +79,7 @@ function onSelect(value: string) {
           :aria-expanded="open"
           :class="
             cn(
-              'flex h-10 w-full min-w-[200px] items-center justify-between rounded-md border-2 border-input bg-foreground/5 px-3 py-2 text-sm ring-offset-background',
+              'flex h-10 w-full min-w-[200px] items-center justify-between rounded-md border-ui border-input bg-foreground/5 px-3 py-2 text-sm ring-offset-background',
               'hover:bg-accent/50',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
               !modelValue && 'text-muted-foreground',

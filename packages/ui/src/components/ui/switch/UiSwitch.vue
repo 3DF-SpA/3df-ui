@@ -31,7 +31,7 @@ const trackClasses = computed(() =>
   cn(
     [
       'peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center',
-      'rounded-full border-2 border-transparent',
+      'rounded-full border-ui border-transparent',
       'bg-input',
       'transition-colors duration-200',
       'disabled:pointer-events-none disabled:opacity-50',

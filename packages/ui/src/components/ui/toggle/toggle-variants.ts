@@ -17,7 +17,7 @@ export const toggleVariants = cva(
         default:
           'bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground data-[state=on]:bg-accent data-[state=on]:text-accent-foreground',
         outline:
-          'border-2 border-border bg-foreground/[0.06] text-muted-foreground shadow-sm hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-accent data-[state=on]:text-accent-foreground',
+          'border-ui border-border bg-foreground/[0.06] text-muted-foreground shadow-sm hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-accent data-[state=on]:text-accent-foreground',
       },
       size: {
         default: 'h-8 px-2.5 text-xs',

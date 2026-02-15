@@ -148,7 +148,18 @@ This project uses Tailwind v4 `@theme` syntax (NOT v3 `tailwind.config.js`). Tok
 
 Use token classes like `bg-primary`, `text-muted-foreground`, `bg-card`, `rounded-md`, etc. Dark mode is handled via `.dark` class with `@custom-variant dark`.
 
-**Borderless design:** Components do NOT use `border`, `ring`, or `outline` for visual edges. Separation is achieved via elevated background tokens (`bg-card` at 5% in dark mode vs `bg-background` at 0%) and shadows. Form controls use `bg-foreground/5` for a subtle adaptive fill. The `outline` variant on buttons/badges uses `bg-foreground/[0.06]`.
+**Configurable borders:** All components use `border-ui` (a custom `@utility` that reads `--ui-border-width`, default `2px`). Border radii scale from `--ui-radius` (default `0.625rem`). Consumers can globally change border thickness and corner radius with:
+
+```css
+:root {
+  --ui-border-width: 1px;  /* or 0px for borderless */
+  --ui-radius: 1rem;       /* rounder corners */
+}
+```
+
+Directional variants: `border-t-ui`, `border-r-ui`, `border-b-ui`, `border-l-ui` (used in Sheet).
+
+**When adding borders to components**, always use `border-ui` (NOT `border-2` or `border`). For form controls use `border-ui border-input`, for panels/overlays use `border-ui border-border`.
 
 ### Charts Architecture
 
@@ -220,5 +231,5 @@ Packages are private on GitHub Packages (`@3df` scope). Flow:
 - Add runtime dependencies to chart package — it must remain zero-dependency (only `vue` peer)
 - Use `<Transition>` in complex components — manual animation classes are used for control
 - Create components without `inheritAttrs: false` + `useAttrs()` pattern
-- Add `border`, `ring-1`, or `outline-1` to component edges — the design system is **borderless**
-- Use `border-border` or `outline-border` on Cards, Dialogs, Popovers, Inputs, or Buttons — use elevated backgrounds and shadows instead
+- Add `border`, `ring-1`, or `outline-1` to component edges — always use `border-ui` (reads `--ui-border-width`)
+- Use `border-2` or hardcoded border widths — use `border-ui` so consumers can customize globally

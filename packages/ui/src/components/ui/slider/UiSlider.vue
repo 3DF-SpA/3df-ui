@@ -182,7 +182,7 @@ watch(
 
     <!-- Thumb -->
     <div
-      class="bg-background absolute block size-4 rounded-full border-2 border-border shadow-md transition-[transform,box-shadow] duration-200 hover:scale-110"
+      class="bg-background absolute block size-4 rounded-full border-ui border-border shadow-md transition-[transform,box-shadow] duration-200 hover:scale-110"
       :class="[
         isDragging
           ? 'scale-110 ring-[3px] ring-ring/40 shadow-md'

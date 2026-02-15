@@ -60,7 +60,7 @@ function onSelect(value: unknown) {
         type="button"
         :class="
           cn(
-            'inline-flex h-10 w-full min-w-[240px] items-center justify-start gap-2 rounded-md border-2 border-input bg-foreground/5 px-3 py-2 text-left text-sm ring-offset-background transition-colors',
+            'inline-flex h-10 w-full min-w-[240px] items-center justify-start gap-2 rounded-md border-ui border-input bg-foreground/5 px-3 py-2 text-left text-sm ring-offset-background transition-colors',
             'hover:bg-accent/50',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
             !modelValue && 'text-muted-foreground',

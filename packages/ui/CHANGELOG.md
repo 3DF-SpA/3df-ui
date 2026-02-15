@@ -1,5 +1,28 @@
 # @3df-spa/ui
 
+## 1.5.1
+
+### Patch Changes
+
+- add
+
+## 1.5.0
+
+### Minor Changes
+
+- Bordes configurables globalmente con CSS custom properties
+  - Todos los componentes ahora usan `border-ui` (custom @utility) en vez de `border-2` hardcodeado
+  - Nueva variable `--ui-border-width` (default: `2px`) controla el grosor de TODOS los bordes
+  - Nueva variable `--ui-radius` (default: `0.625rem`) escala proporcionalmente `rounded-sm/md/lg/xl`
+  - Utilidades direccionales: `border-t-ui`, `border-r-ui`, `border-b-ui`, `border-l-ui`
+  - El consumidor personaliza todo el design system con solo 2 variables CSS:
+    ```css
+    :root {
+      --ui-border-width: 1px;
+      --ui-radius: 1rem;
+    }
+    ```
+
 ## 1.4.2
 
 ### Patch Changes

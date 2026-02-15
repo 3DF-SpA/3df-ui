@@ -189,7 +189,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 w-64',
             'bg-popover text-popover-foreground',
-            'rounded-md border-2 border-border p-4 shadow-md outline-none',
+            'rounded-md border-ui border-border p-4 shadow-md outline-none',
             attrs.class,
           )
         "

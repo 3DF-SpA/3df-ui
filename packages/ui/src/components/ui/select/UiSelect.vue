@@ -183,7 +183,7 @@ const triggerClasses = computed(() =>
   cn(
     [
       'flex h-10 w-full items-center justify-between',
-      'rounded-md border-2 border-input bg-foreground/5 text-sm text-foreground',
+      'rounded-md border-ui border-input bg-foreground/5 text-sm text-foreground',
       'px-3 py-2',
       'transition-[color,box-shadow] duration-200',
       'disabled:pointer-events-none disabled:opacity-50',
@@ -244,7 +244,7 @@ const triggerClasses = computed(() =>
         :class="
           cn(
             'absolute inset-x-0 top-0 z-50 w-full',
-            'bg-popover text-popover-foreground rounded-md border-2 border-border',
+            'bg-popover text-popover-foreground rounded-md border-ui border-border',
             'shadow-md',
             'p-1',
             'max-h-60 overflow-auto',

@@ -11,15 +11,25 @@
 Both packages are published privately to GitHub Packages under the `@3df` scope.
 All imports come from `@3df-spa/ui` or `@3df-spa/charts` — never from internal paths.
 
-### Design Philosophy: Borderless
+### Design Philosophy: Configurable Borders
 
-All components use a **borderless** approach — no visible `border`, `ring`, or `outline` on component edges. Visual separation is achieved through:
+All components use `border-ui` (a custom Tailwind utility) which reads `--ui-border-width` (default: `2px`). Border radius tokens (`--radius-*`) scale from `--ui-radius` (default: `0.625rem`).
 
-- **Elevated backgrounds**: `bg-card` / `bg-popover` are slightly lighter than `bg-background` in dark mode (5% vs 0%)
-- **Translucent fills**: form controls use `bg-foreground/5` — adapts automatically to light/dark
-- **Shadows**: `shadow-sm`, `shadow-md`, `shadow-lg` for floating elements
+The consumer can customize **all** borders and radii globally with just 2 CSS variables:
 
-This eliminates anti-aliasing artifacts (corner darkening, chromatic fringing) that occur with CSS `border`, `box-shadow` (ring), and `outline` on rounded elements.
+```css
+:root {
+  --ui-border-width: 1px;   /* thinner borders everywhere */
+  --ui-radius: 1rem;        /* rounder corners everywhere */
+}
+```
+
+| Variable | Default | Controls |
+|----------|---------|----------|
+| `--ui-border-width` | `2px` | All component borders (`border-ui`, `border-t-ui`, etc.) |
+| `--ui-radius` | `0.625rem` | `rounded-sm` (0.72×), `rounded-md` (1×), `rounded-lg` (1.2×), `rounded-xl` (1.6×) |
+
+Set `--ui-border-width: 0px` for a fully borderless look.
 
 ---
 

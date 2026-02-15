@@ -6,7 +6,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 
 - **Vue 3.5+** con `<script setup>` y TypeScript
 - **Tailwind CSS v4** con sistema de tokens vía `@theme`
-- **Diseño borderless** — sin bordes visibles; la separación visual se logra con diferencias sutiles de fondo y sombras, eliminando artefactos de anti-aliasing
+- **Bordes configurables** — `border-2` por defecto en todos los componentes, personalizable globalmente con `--ui-border-width`
 - **Tree-shakeable** — solo pagas por lo que importas
 - **Dark mode** integrado vía clase `.dark`
 - **Polimórfico** — renderiza como `<button>`, `<a>`, o cualquier componente
@@ -7368,21 +7368,46 @@ Los design tokens se definen en `@3df-spa/ui/theme.css` usando CSS custom proper
 | `--color-border`                                              | Separadores y líneas decorativas |
 | `--color-input`                                               | *(legacy)* — inputs usan `bg-foreground/5`  |
 | `--color-ring`                                                | Color del focus ring          |
-| `--radius-sm` / `--radius-md` / `--radius-lg` / `--radius-xl` | Border radius                 |
+| `--radius-sm` / `--radius-md` / `--radius-lg` / `--radius-xl` | Border radius (escalan desde `--ui-radius`) |
+| `--ui-border-width` | Grosor de bordes de TODOS los componentes (default: `2px`) |
+| `--ui-radius` | Radio base que escala `sm` / `md` / `lg` / `xl` (default: `0.625rem`) |
 
 Cada token tiene su equivalente dark mode en la clase `.dark`.
 
-### Filosofía de diseño: borderless
+### Personalización global de bordes y radio
 
-Esta librería usa un enfoque **borderless** (sin bordes visibles). En lugar de `border`, `ring` u `outline`, los componentes se separan visualmente mediante:
+Todos los componentes usan la utilidad `border-ui` que lee `--ui-border-width`, y los tokens `--radius-*` escalan desde `--ui-radius`. Con **2 variables CSS** cambias todo el design system:
 
-| Técnica | Dónde se usa | Ejemplo |
-|---------|-------------|--------|
-| Diferencia de fondo | Cards, popovers, toasts | `bg-card` (dark: 5%) sobre `bg-background` (dark: 0%) |
-| Relleno translúcido | Inputs, selects, variantes outline | `bg-foreground/5` — se adapta automáticamente a light/dark |
-| Sombras | Dropdowns, dialogs, tooltips | `shadow-sm`, `shadow-md`, `shadow-lg` |
+```css
+:root {
+  /* Bordes más finos */
+  --ui-border-width: 1px;
 
-Esto elimina problemas de anti-aliasing en esquinas redondeadas y artefactos de sub-pixel rendering.
+  /* Esquinas más redondeadas */
+  --ui-radius: 1rem;
+}
+```
+
+| Variable | Default | Qué controla |
+|----------|---------|---------------|
+| `--ui-border-width` | `2px` | Grosor de todos los bordes (`border-ui`, `border-t-ui`, `border-r-ui`, `border-b-ui`, `border-l-ui`) |
+| `--ui-radius` | `0.625rem` | Radio base → `rounded-sm` (0.72×), `rounded-md` (1×), `rounded-lg` (1.2×), `rounded-xl` (1.6×) |
+
+#### Ejemplos de personalización
+
+```css
+/* Sin bordes (borderless) */
+:root { --ui-border-width: 0px; }
+
+/* Bordes sutiles de 1px */
+:root { --ui-border-width: 1px; }
+
+/* Esquinas rectas (sin rounded) */
+:root { --ui-radius: 0px; }
+
+/* Esquinas muy redondeadas */
+:root { --ui-radius: 1.5rem; }
+```
 
 ---
 
