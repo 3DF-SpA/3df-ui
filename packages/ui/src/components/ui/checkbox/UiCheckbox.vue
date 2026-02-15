@@ -30,7 +30,11 @@ const restAttrs = computed(() => {
 });
 
 const wrapperClasses = computed(() =>
-  cn(['group relative inline-flex size-4 shrink-0'].join(' '), attrs.class),
+  cn(
+    'group relative inline-flex size-4 shrink-0',
+    'transition-transform duration-200 active:scale-[0.85] active:duration-100',
+    attrs.class,
+  ),
 );
 
 const inputClasses = computed(() =>

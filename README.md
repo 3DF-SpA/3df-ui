@@ -6,6 +6,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
 
 - **Vue 3.5+** con `<script setup>` y TypeScript
 - **Tailwind CSS v4** con sistema de tokens vía `@theme`
+- **Diseño borderless** — sin bordes visibles; la separación visual se logra con diferencias sutiles de fondo y sombras, eliminando artefactos de anti-aliasing
 - **Tree-shakeable** — solo pagas por lo que importas
 - **Dark mode** integrado vía clase `.dark`
 - **Polimórfico** — renderiza como `<button>`, `<a>`, o cualquier componente
@@ -73,6 +74,7 @@ Librería de componentes UI para Vue 3, construida con Tailwind CSS v4 y [class-
   - [Accordion](#accordion)
   - [Logo Cloud & Marquee](#logo-cloud--marquee)
   - [Hero Sections](#hero-sections)
+  - [Banner](#banner)
 - **Charts** (`@3df-spa/charts`)
   - [Instalación Charts](#instalación-charts)
   - [Bar Chart](#bar-chart)
@@ -6695,6 +6697,74 @@ Hero con video de fondo en autoplay (muted, loop). Misma API de overlay que Hero
 
 ---
 
+## Banner
+
+Banner de notificación/promoción de ancho completo. Soporta 6 variantes de color, 3 posiciones y es opcionalmente descartable.
+
+### Importación
+
+```vue
+<script setup lang="ts">
+import { Banner, bannerVariants } from '@3df-spa/ui';
+</script>
+```
+
+### Props
+
+| Prop | Tipo | Default | Descripción |
+|------|------|---------|-------------|
+| `variant` | `'default' \| 'info' \| 'success' \| 'warning' \| 'destructive' \| 'muted'` | `'default'` | Color del banner |
+| `position` | `'static' \| 'sticky' \| 'fixed'` | `'static'` | Posicionamiento CSS |
+| `align` | `'start' \| 'center' \| 'between'` | `'center'` | Alineación del contenido |
+| `dismissible` | `boolean` | `false` | Muestra botón de cerrar |
+
+### Eventos
+
+| Evento | Payload | Descripción |
+|--------|---------|-------------|
+| `dismiss` | — | Emitido al cerrar el banner |
+
+### Slots
+
+| Slot | Descripción |
+|------|-------------|
+| `default` | Contenido principal |
+| `icon` | Icono a la izquierda |
+| `action` | Área de acción a la derecha (botones, links) |
+
+### Ejemplos
+
+```vue
+<!-- Banner simple -->
+<Banner variant="info">
+  Nueva versión disponible.
+</Banner>
+
+<!-- Banner con icono y acción -->
+<Banner variant="success" dismissible @dismiss="onDismiss">
+  <template #icon>🎉</template>
+  Tu cuenta ha sido verificada.
+  <template #action>
+    <Button variant="ghost" size="sm" class="text-white">Ver detalles</Button>
+  </template>
+</Banner>
+
+<!-- Banner sticky -->
+<Banner variant="warning" position="sticky">
+  Mantenimiento programado para las 2:00 AM.
+</Banner>
+
+<!-- Banner muted (sutil, con borde inferior) -->
+<Banner variant="muted" align="between">
+  <span>🍪 Usamos cookies para mejorar tu experiencia.</span>
+  <template #action>
+    <Button variant="ghost" size="sm">Aceptar</Button>
+  </template>
+</Banner>
+```
+
+---
+
 ## Charts (`@3df-spa/charts`)
 
 Paquete separado de visualización de datos — 100% SVG, cero dependencias externas. Comparte el sistema de tokens de `@3df-spa/ui` para colores y dark mode.
@@ -7293,14 +7363,26 @@ Los design tokens se definen en `@3df-spa/ui/theme.css` usando CSS custom proper
 | `--color-muted` / `--color-muted-foreground`                  | Fondos y textos sutiles       |
 | `--color-accent` / `--color-accent-foreground`                | Resaltados (hover, selección) |
 | `--color-destructive` / `--color-destructive-foreground`      | Acciones peligrosas           |
-| `--color-card` / `--color-card-foreground`                    | Fondos de tarjetas            |
-| `--color-popover` / `--color-popover-foreground`              | Fondos de popovers/dropdowns  |
-| `--color-border`                                              | Bordes                        |
-| `--color-input`                                               | Bordes de inputs              |
+| `--color-card` / `--color-card-foreground`                    | Fondos de tarjetas (elevado en dark: 5%)   |
+| `--color-popover` / `--color-popover-foreground`              | Fondos de popovers/dropdowns (elevado en dark: 5%) |
+| `--color-border`                                              | Separadores y líneas decorativas |
+| `--color-input`                                               | *(legacy)* — inputs usan `bg-foreground/5`  |
 | `--color-ring`                                                | Color del focus ring          |
 | `--radius-sm` / `--radius-md` / `--radius-lg` / `--radius-xl` | Border radius                 |
 
 Cada token tiene su equivalente dark mode en la clase `.dark`.
+
+### Filosofía de diseño: borderless
+
+Esta librería usa un enfoque **borderless** (sin bordes visibles). En lugar de `border`, `ring` u `outline`, los componentes se separan visualmente mediante:
+
+| Técnica | Dónde se usa | Ejemplo |
+|---------|-------------|--------|
+| Diferencia de fondo | Cards, popovers, toasts | `bg-card` (dark: 5%) sobre `bg-background` (dark: 0%) |
+| Relleno translúcido | Inputs, selects, variantes outline | `bg-foreground/5` — se adapta automáticamente a light/dark |
+| Sombras | Dropdowns, dialogs, tooltips | `shadow-sm`, `shadow-md`, `shadow-lg` |
+
+Esto elimina problemas de anti-aliasing en esquinas redondeadas y artefactos de sub-pixel rendering.
 
 ---
 
@@ -7868,6 +7950,10 @@ import {
 <!-- No pases variant como clase, usa la prop -->
 <Button class="bg-destructive text-destructive-foreground">Mal</Button>
 <Badge class="bg-emerald-600 text-white">Mal</Badge>
+
+<!-- No añadas bordes a componentes — el diseño es borderless -->
+<Card class="border border-gray-200">Mal</Card>
+<Input class="border border-input">Mal</Input>
 ```
 
 ---

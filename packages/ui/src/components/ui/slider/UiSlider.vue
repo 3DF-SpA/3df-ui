@@ -182,10 +182,10 @@ watch(
 
     <!-- Thumb -->
     <div
-      class="border-primary/60 bg-background absolute block size-4 rounded-full border shadow transition-[transform,box-shadow,border-color] duration-200 hover:scale-110 hover:border-primary"
+      class="bg-background absolute block size-4 rounded-full shadow-md transition-[transform,box-shadow] duration-200 hover:scale-110"
       :class="[
         isDragging
-          ? 'scale-110 border-primary ring-[3px] ring-ring/40 shadow-md'
+          ? 'scale-110 ring-[3px] ring-ring/40 shadow-md'
           : 'shadow-sm',
       ]"
       :style="{ left: `calc(${percentage}% - 8px)` }"

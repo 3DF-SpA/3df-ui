@@ -183,14 +183,14 @@ const triggerClasses = computed(() =>
   cn(
     [
       'flex h-10 w-full items-center justify-between',
-      'rounded-md bg-background text-sm text-foreground',
-      'border border-input px-3 py-2',
-      'transition-[color,border-color,box-shadow] duration-200',
+      'rounded-md bg-foreground/5 text-sm text-foreground',
+      'px-3 py-2',
+      'transition-[color,box-shadow] duration-200',
       'disabled:pointer-events-none disabled:opacity-50',
-      'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring focus-visible:border-ring',
+      'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
       'cursor-pointer select-none',
     ].join(' '),
-    isInvalid.value && 'border-destructive focus-visible:ring-destructive/30',
+    isInvalid.value && 'ring-1 ring-destructive focus-visible:ring-destructive/30',
     attrs.class,
   ),
 );
@@ -244,7 +244,7 @@ const triggerClasses = computed(() =>
         :class="
           cn(
             'absolute inset-x-0 top-0 z-50 w-full',
-            'border-border bg-popover text-popover-foreground rounded-md border',
+            'bg-popover text-popover-foreground rounded-md',
             'shadow-md',
             'p-1',
             'max-h-60 overflow-auto',

@@ -31,17 +31,17 @@ const restAttrs = computed(() => {
 
 const baseClasses = [
   'flex w-full min-h-[80px] rounded-md text-sm text-foreground',
-  'border px-3 py-2',
-  'transition-[color,border-color,box-shadow] duration-200',
+  'px-3 py-2',
+  'transition-[color,box-shadow,transform] duration-200 ease-out',
   'placeholder:text-muted-foreground',
   'disabled:pointer-events-none disabled:opacity-50',
-  'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring focus-visible:border-ring',
-  'aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive/30',
+  'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring',
+  'aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-destructive aria-[invalid=true]:focus-visible:ring-destructive/30',
   'resize-y',
 ].join(' ');
 
 const variantClasses: Record<string, string> = {
-  default: 'bg-background border-input',
+  default: 'bg-foreground/5',
 };
 
 const classes = computed(() =>

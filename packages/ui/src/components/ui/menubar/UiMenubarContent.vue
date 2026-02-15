@@ -183,7 +183,7 @@ onBeforeUnmount(() => {
         :class="
           cn(
             'z-50 min-w-[12rem]',
-            'border-border bg-popover text-popover-foreground border',
+            'bg-popover text-popover-foreground',
             'rounded-md p-1 shadow-md',
             'max-h-[var(--menubar-max-h,20rem)] overflow-auto',
             attrs.class,

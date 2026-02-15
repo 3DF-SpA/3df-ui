@@ -188,7 +188,7 @@ onBeforeUnmount(() => {
         :class="
           cn(
             'z-50 w-64',
-            'border border-border bg-popover text-popover-foreground',
+            'bg-popover text-popover-foreground',
             'rounded-md p-4 shadow-md outline-none',
             attrs.class,
           )

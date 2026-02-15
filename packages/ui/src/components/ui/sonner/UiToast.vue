@@ -31,14 +31,14 @@ const icon = computed(() => iconMap[props.toast.variant]);
 
 const variantClasses = computed(() => {
   const map: Record<string, string> = {
-    default: 'bg-background text-foreground border-border',
+    default: 'bg-card text-foreground',
     success:
-      'bg-emerald-50 text-emerald-900 border-emerald-200 dark:bg-emerald-950 dark:text-emerald-100 dark:border-emerald-800',
+      'bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100',
     error:
-      'bg-red-50 text-red-900 border-red-200 dark:bg-red-950 dark:text-red-100 dark:border-red-800',
+      'bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100',
     warning:
-      'bg-amber-50 text-amber-900 border-amber-200 dark:bg-amber-950 dark:text-amber-100 dark:border-amber-800',
-    info: 'bg-blue-50 text-blue-900 border-blue-200 dark:bg-blue-950 dark:text-blue-100 dark:border-blue-800',
+      'bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
+    info: 'bg-blue-50 text-blue-900 dark:bg-blue-950 dark:text-blue-100',
   };
   return map[props.toast.variant] ?? map.default;
 });
@@ -94,7 +94,7 @@ onBeforeUnmount(() => {
   <li
     :class="
       cn(
-        'pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg border px-4 py-3 shadow-lg',
+        'pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg px-4 py-3 shadow-lg',
         'transition-all duration-300 ease-out',
         isVisible && !isLeaving
           ? 'translate-y-0 scale-100 opacity-100'

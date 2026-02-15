@@ -327,3 +327,7 @@ export { default as HeroCentered } from './components/ui/hero/UiHeroCentered.vue
 export { default as HeroMinimal } from './components/ui/hero/UiHeroMinimal.vue';
 export { default as HeroVideo } from './components/ui/hero/UiHeroVideo.vue';
 export type { HeroAction, HeroAlign } from './components/ui/hero/hero-types';
+
+// Banner
+export { default as Banner } from './components/ui/banner/UiBanner.vue';
+export { bannerVariants } from './components/ui/banner/banner-variants';

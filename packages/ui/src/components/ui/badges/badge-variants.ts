@@ -2,8 +2,9 @@ import { cva } from 'class-variance-authority';
 
 export const badgeVariants = cva(
   [
-    'inline-flex items-center gap-1 whitespace-nowrap',
+    'inline-flex items-center gap-1',
     'rounded-md text-xs font-semibold',
+    'transition-colors duration-200',
     'select-none',
     'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
     '[&>svg]:size-3 [&>svg]:pointer-events-none',
@@ -13,7 +14,7 @@ export const badgeVariants = cva(
       variant: {
         default: 'bg-primary text-primary-foreground shadow-sm',
         secondary: 'bg-secondary text-secondary-foreground',
-        outline: 'border border-border bg-background text-foreground',
+        outline: 'bg-foreground/[0.06] text-foreground',
         destructive: 'bg-destructive text-destructive-foreground shadow-sm',
         success: 'bg-emerald-600 text-white shadow-sm dark:bg-emerald-500',
         warning: 'bg-amber-500 text-white shadow-sm dark:bg-amber-400 dark:text-black',

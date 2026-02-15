@@ -109,8 +109,8 @@ function handleAction(action: HeroAction, index: number) {
           v-if="badge"
           v-bind="badgeHref ? { href: badgeHref } : {}"
           :class="cn(
-            'inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm transition-colors',
-            badgeHref && 'cursor-pointer hover:border-primary/40 hover:text-foreground',
+            'inline-flex items-center gap-2 rounded-full bg-muted/50 px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm transition-colors',
+            badgeHref && 'cursor-pointer hover:outline-primary/40 hover:text-foreground',
           )"
         >
           {{ badge }}
@@ -151,7 +151,7 @@ function handleAction(action: HeroAction, index: number) {
             :class="cn(
               'inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
               action.variant === 'outline'
-                ? 'border border-border bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground'
+                ? 'bg-foreground/[0.06] text-foreground hover:bg-accent hover:text-accent-foreground'
                 : action.variant === 'secondary'
                   ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
                   : action.variant === 'ghost'

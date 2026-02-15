@@ -15,6 +15,7 @@ interface UiBadgeProps {
   variant?: BadgeVariants['variant'];
   size?: BadgeVariants['size'];
   as?: string | Component;
+  truncate?: boolean;
 }
 
 const props = withDefaults(defineProps<UiBadgeProps>(), {
@@ -30,7 +31,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn(badgeVariants({ variant: props.variant, size: props.size }), attrs.class),
+  cn(badgeVariants({ variant: props.variant, size: props.size }), props.truncate && 'truncate', attrs.class),
 );
 </script>
 

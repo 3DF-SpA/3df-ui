@@ -6,7 +6,7 @@
 @source "../../dist";
 
 @theme {
-  --color-background: hsl(0 0% 100%);
+  --color-background: hsl(0 0% 98%);
   --color-foreground: hsl(0 0% 0%);
 
   --color-card: hsl(0 0% 100%);
@@ -22,12 +22,12 @@
   --color-secondary-foreground: hsl(0 0% 0%);
 
   --color-muted: hsl(0 0% 96%);
-  --color-muted-foreground: hsl(0 0% 35%);
+  --color-muted-foreground: hsl(0 0% 2%);
 
   --color-accent: hsl(0 0% 92%);
   --color-accent-foreground: hsl(0 0% 0%);
 
-  --color-destructive: hsl(0 84% 50%);
+  --color-destructive: hsl(0 100% 23%);
   --color-destructive-foreground: hsl(0 0% 100%);
 
   --color-border: hsl(0 0% 85%);
@@ -61,10 +61,10 @@
   --color-background: hsl(0 0% 0%);
   --color-foreground: hsl(0 0% 100%);
 
-  --color-card: hsl(0 0% 0%);
+  --color-card: hsl(0 0% 5%);
   --color-card-foreground: hsl(0 0% 100%);
 
-  --color-popover: hsl(0 0% 0%);
+  --color-popover: hsl(0 0% 5%);
   --color-popover-foreground: hsl(0 0% 100%);
 
   --color-primary: hsl(0 0% 100%);
@@ -74,12 +74,12 @@
   --color-secondary-foreground: hsl(0 0% 100%);
 
   --color-muted: hsl(0 0% 10%);
-  --color-muted-foreground: hsl(0 0% 65%);
+  --color-muted-foreground: hsl(0 0% 85%);
 
   --color-accent: hsl(0 0% 16%);
   --color-accent-foreground: hsl(0 0% 100%);
 
-  --color-destructive: hsl(0 70% 35%);
+  --color-destructive: hsl(0 100% 23%);
   --color-destructive-foreground: hsl(0 0% 100%);
 
   --color-border: hsl(0 0% 20%);
@@ -124,7 +124,7 @@
   --color-muted-foreground: hsl(160 10% 35%);
 
   --color-accent: hsl(180 70% 45%);
-  --color-accent-foreground: hsl(180 10% 98%);
+  --color-accent-foreground: hsl(160 50% 5%);
 
   --color-destructive: hsl(0 84% 50%);
   --color-destructive-foreground: hsl(0 0% 100%);

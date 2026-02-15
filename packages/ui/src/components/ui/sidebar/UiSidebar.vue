@@ -90,7 +90,7 @@ const sidebarClasses = computed(() => {
 
   const floatingInner =
     ctx.variant.value === 'floating'
-      ? 'rounded-lg border border-border shadow-lg'
+      ? 'rounded-lg shadow-lg'
       : '';
 
   return cn(base, width, floating, floatingInner, attrs.class);

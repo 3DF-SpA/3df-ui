@@ -24,6 +24,7 @@ const uiRoutes = [
   { path: 'sidebar', name: 'Sidebar', component: () => import('@/modules/ui/views/MySidebar.vue'), meta: { group: 'Layout' } },
   { path: 'item', name: 'Item', component: () => import('@/modules/ui/views/MyItem.vue'), meta: { group: 'Layout' } },
   { path: 'empty', name: 'Empty', component: () => import('@/modules/ui/views/MyEmpty.vue'), meta: { group: 'Layout' } },
+  { path: 'banner', name: 'Banner', component: () => import('@/modules/ui/views/MyBanners.vue'), meta: { group: 'Layout' } },
 
   // Formularios
   { path: 'input', name: 'Input / Textarea', component: () => import('@/modules/ui/views/MyForms.vue'), meta: { group: 'Formularios' } },

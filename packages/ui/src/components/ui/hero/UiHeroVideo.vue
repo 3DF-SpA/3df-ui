@@ -143,7 +143,7 @@ function handleAction(action: HeroAction, index: number) {
             :class="cn(
               'inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
               action.variant === 'outline'
-                ? 'border border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20'
+                ? 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25'
                 : action.variant === 'secondary'
                   ? 'bg-white/90 text-gray-900 hover:bg-white'
                   : action.variant === 'ghost'

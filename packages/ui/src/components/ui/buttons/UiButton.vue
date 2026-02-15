@@ -15,6 +15,7 @@ interface UiButtonProps {
   variant?: ButtonVariants['variant'];
   size?: ButtonVariants['size'];
   as?: string | Component;
+  truncate?: boolean;
 }
 
 const props = withDefaults(defineProps<UiButtonProps>(), {
@@ -30,7 +31,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn(buttonVariants({ variant: props.variant, size: props.size }), attrs.class),
+  cn(buttonVariants({ variant: props.variant, size: props.size }), props.truncate && 'truncate', attrs.class),
 );
 </script>
 

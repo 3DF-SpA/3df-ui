@@ -29,8 +29,8 @@ watch(
     isAnimating.value = true;
 
     if (open) {
-      // Expanding: measure scrollHeight, animate from 0 → scrollHeight
-      el.style.display = '';
+      // Expanding: remove hidden so we can measure, then animate 0 → scrollHeight
+      el.removeAttribute('hidden');
       const scrollH = el.scrollHeight;
       height.value = '0px';
       requestAnimationFrame(() => {

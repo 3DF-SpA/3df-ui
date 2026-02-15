@@ -2,14 +2,14 @@ import { cva } from 'class-variance-authority';
 
 export const inputVariants = cva(
   [
-    'flex w-full rounded-md bg-background text-sm text-foreground',
-    'border border-input',
-    'transition-[color,border-color,box-shadow] duration-200',
+    'flex w-full rounded-md bg-foreground/5 text-sm text-foreground',
+    '',
+    'transition-[color,box-shadow,transform] duration-200 ease-out',
     'placeholder:text-muted-foreground',
     'disabled:pointer-events-none disabled:opacity-50',
-    'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring focus-visible:border-ring',
+    'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring',
     'file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground',
-    'aria-[invalid=true]:border-destructive aria-[invalid=true]:focus-visible:ring-destructive/30',
+    'aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-destructive aria-[invalid=true]:focus-visible:ring-destructive/30',
   ].join(' '),
   {
     variants: {

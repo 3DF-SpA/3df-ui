@@ -29,7 +29,7 @@ watch(
     isAnimating.value = true;
 
     if (open) {
-      el.style.display = '';
+      el.removeAttribute('hidden');
       const scrollH = el.scrollHeight;
       height.value = '0px';
       requestAnimationFrame(() => {

@@ -211,7 +211,7 @@ function onDayClick(date: Date) {
             v-if="idx === 0"
             type="button"
             aria-label="Mes anterior"
-            class="absolute left-0 inline-flex h-7 w-7 items-center justify-center rounded-md border border-input bg-transparent text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            class="absolute left-0 inline-flex h-7 w-7 items-center justify-center rounded-md bg-transparent text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             @click="prevMonth"
           >
             <svg
@@ -236,7 +236,7 @@ function onDayClick(date: Date) {
             v-if="idx === months.length - 1"
             type="button"
             aria-label="Mes siguiente"
-            class="absolute right-0 inline-flex h-7 w-7 items-center justify-center rounded-md border border-input bg-transparent text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            class="absolute right-0 inline-flex h-7 w-7 items-center justify-center rounded-md bg-transparent text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             @click="nextMonth"
           >
             <svg

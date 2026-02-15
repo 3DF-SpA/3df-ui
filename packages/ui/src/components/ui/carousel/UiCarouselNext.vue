@@ -25,7 +25,7 @@ const restAttrs = computed(() => {
     aria-label="Siguiente slide"
     :class="
       cn(
-        'absolute z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border/60 bg-background shadow-sm transition-colors',
+        'absolute z-10 flex h-8 w-8 items-center justify-center rounded-full bg-card shadow-md transition-colors',
         'hover:bg-accent hover:text-accent-foreground',
         'disabled:pointer-events-none disabled:opacity-50',
         ctx.orientation.value === 'horizontal'

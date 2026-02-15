@@ -31,10 +31,10 @@
 ```
 3df-ui/                          # Root workspace (playground app)
 ├── packages/
-│   ├── ui/                      # @3df-spa/ui — 198 Vue components
+│   ├── ui/                      # @3df-spa/ui — 199 Vue components
 │   │   ├── src/
 │   │   │   ├── index.ts         # All public exports
-│   │   │   ├── components/ui/   # Component families (47 folders)
+│   │   │   ├── components/ui/   # Component families (48 folders)
 │   │   │   ├── lib/utils.ts     # cn() helper
 │   │   │   └── styles/theme.css # Design tokens (light + dark)
 │   │   ├── dist/                # Build output
@@ -133,7 +133,7 @@ This project uses Tailwind v4 `@theme` syntax (NOT v3 `tailwind.config.js`). Tok
 
 ```css
 @theme {
-  --color-background: hsl(0 0% 100%);
+  --color-background: hsl(0 0% 98%);
   --color-foreground: hsl(0 0% 0%);
   --color-primary: hsl(0 0% 0%);
   --color-primary-foreground: hsl(0 0% 100%);
@@ -146,7 +146,9 @@ This project uses Tailwind v4 `@theme` syntax (NOT v3 `tailwind.config.js`). Tok
 }
 ```
 
-Use token classes like `bg-primary`, `text-muted-foreground`, `border-border`, `rounded-md`, etc. Dark mode is handled via `.dark` class with `@custom-variant dark`.
+Use token classes like `bg-primary`, `text-muted-foreground`, `bg-card`, `rounded-md`, etc. Dark mode is handled via `.dark` class with `@custom-variant dark`.
+
+**Borderless design:** Components do NOT use `border`, `ring`, or `outline` for visual edges. Separation is achieved via elevated background tokens (`bg-card` at 5% in dark mode vs `bg-background` at 0%) and shadows. Form controls use `bg-foreground/5` for a subtle adaptive fill. The `outline` variant on buttons/badges uses `bg-foreground/[0.06]`.
 
 ### Charts Architecture
 
@@ -218,3 +220,5 @@ Packages are private on GitHub Packages (`@3df` scope). Flow:
 - Add runtime dependencies to chart package — it must remain zero-dependency (only `vue` peer)
 - Use `<Transition>` in complex components — manual animation classes are used for control
 - Create components without `inheritAttrs: false` + `useAttrs()` pattern
+- Add `border`, `ring-1`, or `outline-1` to component edges — the design system is **borderless**
+- Use `border-border` or `outline-border` on Cards, Dialogs, Popovers, Inputs, or Buttons — use elevated backgrounds and shadows instead

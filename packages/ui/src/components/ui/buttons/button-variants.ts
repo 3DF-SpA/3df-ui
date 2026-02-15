@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 export const buttonVariants = cva(
   [
-    'inline-flex items-center justify-center gap-2 whitespace-nowrap',
+    'inline-flex items-center justify-center gap-2',
     'rounded-md text-sm font-medium',
     'transition-[color,background-color,border-color,box-shadow,transform,filter] duration-200 ease-out',
     'disabled:pointer-events-none disabled:opacity-50',
@@ -18,7 +18,7 @@ export const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground/80 hover:bg-secondary/60 hover:text-secondary-foreground',
         outline:
-          'border border-border bg-background text-foreground/80 shadow-sm hover:bg-accent hover:text-accent-foreground',
+          'bg-foreground/[0.06] text-foreground/80 shadow-sm hover:bg-accent hover:text-accent-foreground',
         ghost: 'text-foreground/80 hover:bg-accent hover:text-accent-foreground',
         destructive:
           'bg-destructive text-destructive-foreground/90 shadow-sm hover:bg-destructive/80 hover:text-destructive-foreground',

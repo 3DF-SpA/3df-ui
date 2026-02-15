@@ -117,7 +117,7 @@ provide(MENUBAR_KEY, {
     role="menubar"
     :class="
       cn(
-        'flex h-9 items-center space-x-1 rounded-md border border-border bg-background p-1 shadow-sm',
+        'flex h-9 items-center space-x-1 rounded-md bg-card p-1 shadow-sm',
         attrs.class,
       )
     "
