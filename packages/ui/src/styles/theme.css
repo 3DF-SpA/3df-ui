@@ -55,9 +55,6 @@
   --radius-xl: calc(var(--ui-radius, 0.625rem) * 1.6);
 }
 
-/* ── Customizable border width ────────────────────────────────
-   Consumer overrides:  :root { --ui-border-width: 1px; }
-   ──────────────────────────────────────────────────────────── */
 @utility border-ui {
   border-width: var(--ui-border-width, 2px);
 }
@@ -217,6 +214,100 @@
   --color-chart-3: hsl(150 60% 50%);
   --color-chart-4: hsl(30 90% 60%);
   --color-chart-5: hsl(200 70% 60%);
+}
+
+.light-coffe {
+  color-scheme: light;
+
+  --color-background: hsl(36 30% 98%);
+  --color-foreground: hsl(25 20% 15%);
+
+  --color-card: hsl(36 30% 96%);
+  --color-card-foreground: hsl(25 20% 15%);
+
+  --color-popover: hsl(36 30% 98%);
+  --color-popover-foreground: hsl(25 20% 15%);
+
+  --color-primary: hsl(28 50% 45%);
+  --color-primary-foreground: hsl(36 30% 98%);
+
+  --color-secondary: hsl(30 25% 90%);
+  --color-secondary-foreground: hsl(25 30% 20%);
+
+  --color-muted: hsl(30 20% 94%);
+  --color-muted-foreground: hsl(25 10% 45%);
+
+  --color-accent: hsl(35 40% 92%);
+  --color-accent-foreground: hsl(28 50% 45%);
+
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+
+  --color-border: hsl(30 15% 88%);
+  --color-input: hsl(30 15% 88%);
+  --color-ring: hsl(28 50% 45%);
+
+  --color-sidebar: hsl(36 25% 95%);
+  --color-sidebar-foreground: hsl(25 20% 15%);
+  --color-sidebar-primary: hsl(28 50% 45%);
+  --color-sidebar-primary-foreground: hsl(36 30% 98%);
+  --color-sidebar-accent: hsl(35 30% 88%);
+  --color-sidebar-accent-foreground: hsl(28 50% 45%);
+  --color-sidebar-border: hsl(30 15% 85%);
+  --color-sidebar-ring: hsl(28 50% 45%);
+
+  --color-chart-1: hsl(28 60% 50%);
+  --color-chart-2: hsl(150 30% 40%);
+  --color-chart-3: hsl(35 80% 45%);
+  --color-chart-4: hsl(10 60% 55%);
+  --color-chart-5: hsl(200 40% 50%);
+}
+
+.dark-coffe {
+  color-scheme: dark;
+
+  --color-background: hsl(24 20% 8%);
+  --color-foreground: hsl(36 20% 90%);
+
+  --color-card: hsl(24 15% 12%);
+  --color-card-foreground: hsl(36 20% 90%);
+
+  --color-popover: hsl(24 15% 12%);
+  --color-popover-foreground: hsl(36 20% 90%);
+
+  --color-primary: hsl(35 85% 55%);
+  --color-primary-foreground: hsl(24 30% 10%);
+
+  --color-secondary: hsl(24 20% 18%);
+  --color-secondary-foreground: hsl(36 20% 90%);
+
+  --color-muted: hsl(24 15% 16%);
+  --color-muted-foreground: hsl(36 10% 65%);
+
+  --color-accent: hsl(24 25% 20%);
+  --color-accent-foreground: hsl(35 85% 55%);
+
+  --color-destructive: hsl(0 62% 30%);
+  --color-destructive-foreground: hsl(0 0% 100%);
+
+  --color-border: hsl(24 15% 20%);
+  --color-input: hsl(24 15% 20%);
+  --color-ring: hsl(35 85% 55%);
+
+  --color-sidebar: hsl(24 20% 6%);
+  --color-sidebar-foreground: hsl(36 20% 90%);
+  --color-sidebar-primary: hsl(35 85% 55%);
+  --color-sidebar-primary-foreground: hsl(24 30% 10%);
+  --color-sidebar-accent: hsl(24 20% 16%);
+  --color-sidebar-accent-foreground: hsl(35 85% 55%);
+  --color-sidebar-border: hsl(24 15% 18%);
+  --color-sidebar-ring: hsl(35 85% 55%);
+
+  --color-chart-1: hsl(35 90% 55%);
+  --color-chart-2: hsl(150 40% 50%);
+  --color-chart-3: hsl(28 80% 60%);
+  --color-chart-4: hsl(340 60% 60%);
+  --color-chart-5: hsl(200 60% 60%);
 }
 
 :root {
