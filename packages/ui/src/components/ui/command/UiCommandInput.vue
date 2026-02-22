@@ -32,7 +32,6 @@ const restAttrs = computed(() => {
 
 const inputRef = ref<HTMLInputElement>();
 
-// Sync external v-model → internal search (if provided)
 const value = computed({
   get: () => (props.modelValue !== undefined ? props.modelValue : cmd.search.value),
   set: (val: string) => {
@@ -47,8 +46,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex items-center border-b border-border/60 px-3" data-command-input-wrapper>
-    <!-- Search icon -->
+  <div class="border-border/60 flex items-center border-b px-3" data-command-input-wrapper>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"

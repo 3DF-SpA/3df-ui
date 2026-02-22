@@ -15,7 +15,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// Inject just to confirm we're inside a Drawer
 inject(DRAWER_KEY)!;
 </script>
 

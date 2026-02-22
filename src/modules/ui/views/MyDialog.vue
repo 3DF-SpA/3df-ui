@@ -22,7 +22,7 @@ const controlledOpen = ref(false);
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Dialog</h1>
 
-    <!-- Básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Básico</h2>
       <p class="text-muted-foreground text-xs">Dialog con header, contenido y footer.</p>
@@ -57,7 +57,7 @@ const controlledOpen = ref(false);
       </Dialog>
     </section>
 
-    <!-- Confirmación -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Confirmación</h2>
       <p class="text-muted-foreground text-xs">Dialog de confirmación con acción destructiva.</p>
@@ -82,7 +82,7 @@ const controlledOpen = ref(false);
       </Dialog>
     </section>
 
-    <!-- Controlado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Controlado (v-model)</h2>
       <p class="text-muted-foreground text-xs">
@@ -111,7 +111,7 @@ const controlledOpen = ref(false);
       </Dialog>
     </section>
 
-    <!-- Sin cierre por overlay -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Sin cierre por overlay</h2>
       <p class="text-muted-foreground text-xs">Solo se puede cerrar con el botón × o Escape.</p>
@@ -140,7 +140,7 @@ const controlledOpen = ref(false);
       </Dialog>
     </section>
 
-    <!-- Sin botón de cierre -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Sin botón ×</h2>
       <p class="text-muted-foreground text-xs">Dialog con botones de acción como única forma de cerrar.</p>

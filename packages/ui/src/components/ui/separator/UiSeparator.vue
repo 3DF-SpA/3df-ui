@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
+
 import type { ClassValue } from 'clsx';
+
 import { cn } from '../../../lib/utils';
 
 defineOptions({ name: 'UiSeparator', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    /** Orientación del separador */
     orientation?: 'horizontal' | 'vertical';
-    /** Si es puramente decorativo (sin role="separator") */
     decorative?: boolean;
   }>(),
   {

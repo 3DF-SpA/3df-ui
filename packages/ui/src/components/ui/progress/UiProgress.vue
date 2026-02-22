@@ -8,9 +8,7 @@ import { cn } from '../../../lib/utils';
 defineOptions({ name: 'UiProgress', inheritAttrs: false });
 
 interface UiProgressProps {
-  /** Current progress value (0–100). `undefined` = indeterminate. */
   modelValue?: number | undefined;
-  /** Maximum value. @default 100 */
   max?: number;
 }
 
@@ -29,7 +27,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// ─── Percentage (0–100) ───────────────────────────────────────
 const percentage = computed(() => {
   if (props.modelValue == null) return undefined;
   const clamped = Math.max(0, Math.min(props.max, props.modelValue));
@@ -38,15 +35,10 @@ const percentage = computed(() => {
 
 const isIndeterminate = computed(() => props.modelValue == null);
 
-// ─── Root classes ─────────────────────────────────────────────
 const rootClasses = computed(() =>
-  cn(
-    'relative h-4 w-full overflow-hidden rounded-full bg-secondary',
-    attrs.class,
-  ),
+  cn('relative h-4 w-full overflow-hidden rounded-full bg-secondary', attrs.class),
 );
 
-// ─── Indicator classes ────────────────────────────────────────
 const indicatorClasses = computed(() =>
   cn(
     'h-full w-full flex-1 rounded-full bg-primary transition-transform duration-400 ease-in-out',
@@ -55,7 +47,6 @@ const indicatorClasses = computed(() =>
   ),
 );
 
-// ─── Indicator inline style ──────────────────────────────────
 const indicatorStyle = computed(() => {
   if (isIndeterminate.value) return {};
   return { transform: `translateX(-${100 - (percentage.value ?? 0)}%)` };
@@ -74,11 +65,7 @@ const indicatorStyle = computed(() => {
     :data-max="max"
     :class="rootClasses"
   >
-    <div
-      :class="indicatorClasses"
-      :style="indicatorStyle"
-      data-state="indicator"
-    />
+    <div :class="indicatorClasses" :style="indicatorStyle" data-state="indicator" />
   </div>
 </template>
 

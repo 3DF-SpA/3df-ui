@@ -14,7 +14,7 @@ import {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Breadcrumb</h1>
 
-    <!-- Breadcrumb básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Breadcrumb básico</h2>
       <Breadcrumb>
@@ -34,7 +34,7 @@ import {
       </Breadcrumb>
     </section>
 
-    <!-- Con ellipsis -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con ellipsis (rutas largas)</h2>
       <Breadcrumb>
@@ -58,7 +58,7 @@ import {
       </Breadcrumb>
     </section>
 
-    <!-- Con separador personalizado (slash) -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Separador personalizado (/)</h2>
       <Breadcrumb>
@@ -82,7 +82,7 @@ import {
       </Breadcrumb>
     </section>
 
-    <!-- Navegación completa -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Navegación completa</h2>
       <Breadcrumb>

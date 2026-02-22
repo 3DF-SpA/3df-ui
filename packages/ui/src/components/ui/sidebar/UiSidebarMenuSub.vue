@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs, watch } from 'vue';
+
 import type { ClassValue } from 'clsx';
+
 import { cn } from '../../../lib/utils';
 import { useSidebar } from './use-sidebar';
 
@@ -27,12 +29,8 @@ watch(
   },
 );
 
-/* En modo icon colapsado, ocultar completamente */
 const isIconCollapsed = computed(
-  () =>
-    ctx.collapsible.value === 'icon' &&
-    ctx.state.value === 'collapsed' &&
-    !ctx.isMobile.value,
+  () => ctx.collapsible.value === 'icon' && ctx.state.value === 'collapsed' && !ctx.isMobile.value,
 );
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };

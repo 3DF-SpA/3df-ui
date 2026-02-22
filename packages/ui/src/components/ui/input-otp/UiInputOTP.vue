@@ -10,15 +10,10 @@ import type { OTPPatternType } from './input-otp-types';
 defineOptions({ name: 'UiInputOTP', inheritAttrs: false });
 
 interface UiInputOTPProps {
-  /** Current OTP value */
   modelValue?: string;
-  /** Number of expected digits/chars */
   length?: number;
-  /** Whether the input is disabled */
   disabled?: boolean;
-  /** Validation pattern: preset name or custom RegExp */
   pattern?: OTPPatternType | RegExp;
-  /** Auto-submit when all slots are filled */
   autoSubmit?: boolean;
 }
 
@@ -42,9 +37,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const classes = computed(() =>
-  cn('flex items-center gap-2', attrs.class),
-);
+const classes = computed(() => cn('flex items-center gap-2', attrs.class));
 
 const isDisabled = computed(() => props.disabled);
 
@@ -53,12 +46,10 @@ const validationPattern = computed<RegExp>(() => {
   return OTP_PATTERNS[props.pattern] ?? OTP_PATTERNS.numeric;
 });
 
-// --- Internal state ---
 const slots = ref<string[]>(Array.from({ length: props.length }, () => ''));
 const focusedIndex = ref(-1);
 const slotRefs = new Map<number, HTMLInputElement>();
 
-// Sync from modelValue prop → internal slots
 watch(
   () => props.modelValue,
   (val) => {
@@ -70,7 +61,6 @@ watch(
   { immediate: true },
 );
 
-// Sync from internal slots → modelValue prop
 function emitValue() {
   const value = slots.value.join('');
   emit('update:modelValue', value);
@@ -87,7 +77,6 @@ function setValue(index: number, value: string) {
   slots.value[index] = value;
   emitValue();
 
-  // Auto-advance to next slot
   if (value && index < props.length - 1) {
     focusSlot(index + 1);
   }
@@ -112,11 +101,9 @@ function onSlotKeydown(index: number, event: KeyboardEvent) {
   if (key === 'Backspace') {
     event.preventDefault();
     if (slots.value[index]) {
-      // Clear current slot
       slots.value[index] = '';
       emitValue();
     } else if (index > 0) {
-      // Move to previous slot and clear it
       slots.value[index - 1] = '';
       emitValue();
       focusSlot(index - 1);
@@ -161,7 +148,6 @@ function onPaste(event: ClipboardEvent) {
   const text = event.clipboardData?.getData('text/plain') ?? '';
   const chars = text.split('').filter((ch) => validationPattern.value.test(ch));
 
-  // Determine start index: current focused slot or 0
   const startIdx = focusedIndex.value >= 0 ? focusedIndex.value : 0;
 
   for (let i = 0; i < chars.length && startIdx + i < props.length; i++) {
@@ -170,7 +156,6 @@ function onPaste(event: ClipboardEvent) {
 
   emitValue();
 
-  // Focus the next empty slot or the last filled one
   const nextEmpty = slots.value.findIndex((s, idx) => idx >= startIdx && !s);
   focusSlot(nextEmpty >= 0 ? nextEmpty : Math.min(startIdx + chars.length - 1, props.length - 1));
 }
@@ -183,7 +168,6 @@ function registerSlotRef(index: number, el: HTMLInputElement) {
   }
 }
 
-// Reset slots array length when length prop changes
 watch(
   () => props.length,
   (newLen) => {

@@ -6,7 +6,7 @@ import { EmptyState, Button } from '@3df-spa/ui';
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Empty State</h1>
 
-    <!-- Sin resultados -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Sin resultados</h2>
       <div class="rounded-lg border border-border">
@@ -34,7 +34,7 @@ import { EmptyState, Button } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Carrito vacío -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Carrito vacío</h2>
       <div class="rounded-lg border border-border">
@@ -62,7 +62,7 @@ import { EmptyState, Button } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Sin notificaciones -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Sin notificaciones</h2>
       <div class="rounded-lg border border-border">
@@ -88,7 +88,7 @@ import { EmptyState, Button } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Solo título y descripción (sin icono ni acciones) -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Mínimo (solo texto)</h2>
       <div class="rounded-lg border border-border">
@@ -99,7 +99,7 @@ import { EmptyState, Button } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Con clase personalizada -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con altura mínima</h2>
       <div class="rounded-lg border border-border">

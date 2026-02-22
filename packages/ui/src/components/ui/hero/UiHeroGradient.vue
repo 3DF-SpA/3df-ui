@@ -9,21 +9,13 @@ import type { HeroAction, HeroAlign } from './hero-types';
 defineOptions({ name: 'UiHeroGradient', inheritAttrs: false });
 
 interface Props {
-  /** Main headline */
   headline?: string;
-  /** Supporting text */
   description?: string;
-  /** CTA buttons */
   actions?: HeroAction[];
-  /** Gradient preset */
   gradient?: 'purple' | 'blue' | 'green' | 'orange' | 'rose' | 'custom';
-  /** Custom gradient CSS (when gradient is 'custom') */
   customGradient?: string;
-  /** Show decorative blur blobs */
   blobs?: boolean;
-  /** Text alignment */
   align?: HeroAlign;
-  /** Reduce vertical padding */
   compact?: boolean;
 }
 
@@ -39,7 +31,6 @@ defineSlots<{
   headline?: () => unknown;
   description?: () => unknown;
   actions?: () => unknown;
-  /** Extra decorative elements */
   decoration?: () => unknown;
 }>();
 
@@ -100,7 +91,6 @@ function handleAction(action: HeroAction, index: number) {
     :class="cn('relative w-full overflow-hidden', attrs.class)"
     :style="{ background: gradientStyle }"
   >
-    <!-- Decorative blobs -->
     <template v-if="blobs">
       <div
         class="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl"
@@ -116,13 +106,14 @@ function handleAction(action: HeroAction, index: number) {
 
     <slot name="decoration" />
 
-    <!-- Content -->
     <div
-      :class="cn(
-        'relative z-10 mx-auto flex max-w-4xl flex-col gap-6 px-6 lg:px-8',
-        compact ? 'py-20 md:py-24' : 'py-28 md:py-36 lg:py-44',
-        alignClass,
-      )"
+      :class="
+        cn(
+          'relative z-10 mx-auto flex max-w-4xl flex-col gap-6 px-6 lg:px-8',
+          compact ? 'py-20 md:py-24' : 'py-28 md:py-36 lg:py-44',
+          alignClass,
+        )
+      "
     >
       <slot name="headline">
         <h1
@@ -136,11 +127,13 @@ function handleAction(action: HeroAction, index: number) {
       <slot name="description">
         <p
           v-if="description"
-          :class="cn(
-            'max-w-2xl text-lg text-white/80 sm:text-xl',
-            align === 'center' && 'mx-auto',
-            align === 'right' && 'ml-auto',
-          )"
+          :class="
+            cn(
+              'max-w-2xl text-lg text-white/80 sm:text-xl',
+              align === 'center' && 'mx-auto',
+              align === 'right' && 'ml-auto',
+            )
+          "
         >
           {{ description }}
         </p>
@@ -150,23 +143,38 @@ function handleAction(action: HeroAction, index: number) {
         <div
           v-if="actions?.length"
           class="mt-4 flex flex-wrap gap-4"
-          :class="align === 'center' ? 'justify-center' : align === 'right' ? 'justify-end' : 'justify-start'"
+          :class="
+            align === 'center'
+              ? 'justify-center'
+              : align === 'right'
+                ? 'justify-end'
+                : 'justify-start'
+          "
         >
           <component
             :is="action.href ? 'a' : 'button'"
             v-for="(action, i) in actions"
             :key="i"
-            v-bind="action.href ? { href: action.href, ...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) } : {}"
-            :class="cn(
-              'inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-              action.variant === 'outline'
-                ? 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25'
-                : action.variant === 'secondary'
-                  ? 'bg-white/90 text-gray-900 hover:bg-white'
-                  : action.variant === 'ghost'
-                    ? 'text-white hover:bg-white/10'
-                    : 'bg-white text-gray-900 shadow-lg hover:bg-white/90',
-            )"
+            v-bind="
+              action.href
+                ? {
+                    href: action.href,
+                    ...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+                  }
+                : {}
+            "
+            :class="
+              cn(
+                'focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none',
+                action.variant === 'outline'
+                  ? 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25'
+                  : action.variant === 'secondary'
+                    ? 'bg-white/90 text-gray-900 hover:bg-white'
+                    : action.variant === 'ghost'
+                      ? 'text-white hover:bg-white/10'
+                      : 'bg-white text-gray-900 shadow-lg hover:bg-white/90',
+              )
+            "
             @click="!action.href && handleAction(action, i)"
           >
             {{ action.label }}

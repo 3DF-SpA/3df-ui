@@ -16,7 +16,7 @@ const custom = ref(60);
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Slider</h1>
 
-    <!-- Básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Básico</h2>
       <div class="flex max-w-sm flex-col gap-3">
@@ -25,7 +25,7 @@ const custom = ref(60);
       </div>
     </section>
 
-    <!-- Con Label -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con Label</h2>
       <div class="flex max-w-sm flex-col gap-4">
@@ -47,7 +47,7 @@ const custom = ref(60);
       </div>
     </section>
 
-    <!-- Con step -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con step (step=25)</h2>
       <div class="flex max-w-sm flex-col gap-3">
@@ -66,7 +66,7 @@ const custom = ref(60);
       </div>
     </section>
 
-    <!-- Rango personalizado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Rango personalizado (min=0, max=1000, step=50)</h2>
       <div class="flex max-w-sm flex-col gap-3">
@@ -83,7 +83,7 @@ const custom = ref(60);
       </div>
     </section>
 
-    <!-- Disabled -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Disabled</h2>
       <div class="flex max-w-sm flex-col gap-3">
@@ -95,7 +95,7 @@ const custom = ref(60);
       </div>
     </section>
 
-    <!-- Custom styling -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Override de estilos</h2>
       <div class="flex max-w-sm flex-col gap-3">
@@ -107,7 +107,7 @@ const custom = ref(60);
       </div>
     </section>
 
-    <!-- Múltiples sliders en contexto -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">En contexto — Ecualizador</h2>
       <div class="bg-card border-border flex max-w-md flex-col gap-5 rounded-xl border p-6 shadow-sm">

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, provide, ref, useAttrs, watch } from 'vue';
+import { computed, provide, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
+import { useClickOutside } from '../../../composables/use-click-outside';
 import { cn } from '../../../lib/utils';
 import { SELECT_KEY } from './select-types';
 
@@ -27,7 +28,6 @@ const emit = defineEmits<{
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
@@ -85,11 +85,7 @@ function close() {
   focusedIndex.value = -1;
 }
 
-function onClickOutside(event: MouseEvent) {
-  if (containerRef.value && !containerRef.value.contains(event.target as Node)) {
-    close();
-  }
-}
+useClickOutside(containerRef, close);
 
 const enabledItems = computed(() =>
   items.value.map((item, index) => ({ ...item, index })).filter((item) => !item.disabled),
@@ -168,15 +164,9 @@ watch(isOpen, (open) => {
   if (open) {
     const selectedIdx = items.value.findIndex((i) => i.value === props.modelValue);
     focusedIndex.value = selectedIdx >= 0 ? selectedIdx : 0;
-    document.addEventListener('click', onClickOutside, true);
   } else {
     focusedIndex.value = -1;
-    document.removeEventListener('click', onClickOutside, true);
   }
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', onClickOutside, true);
 });
 
 const triggerClasses = computed(() =>
@@ -244,7 +234,7 @@ const triggerClasses = computed(() =>
         :class="
           cn(
             'absolute inset-x-0 top-0 z-50 w-full',
-            'bg-popover text-popover-foreground rounded-md border-ui border-border',
+            'bg-popover text-popover-foreground border-ui border-border rounded-md',
             'shadow-md',
             'p-1',
             'max-h-60 overflow-auto',

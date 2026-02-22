@@ -15,7 +15,6 @@ const contentRef = ref<HTMLElement>();
 const focusedIndex = ref(-1);
 const items = ref<ContextMenuItemData[]>([]);
 
-// Sub-menu
 const activeSubId = ref<string | null>(null);
 const subItems = ref<ContextMenuItemData[]>([]);
 const subFocusedIndex = ref(-1);
@@ -79,7 +78,6 @@ const enabledItems = computed(() =>
 function onKeydown(event: KeyboardEvent) {
   if (!isOpen.value) return;
 
-  // If sub-menu is open, handle sub-menu navigation
   if (activeSubId.value) {
     const subEnabled = subItems.value
       .map((item, index) => ({ ...item, index }))
@@ -196,7 +194,6 @@ function onPointerDown(event: PointerEvent) {
   }
 }
 
-// Listen globally when open
 watch(isOpen, (open) => {
   if (open) {
     document.addEventListener('pointerdown', onPointerDown, true);
@@ -207,9 +204,7 @@ watch(isOpen, (open) => {
   }
 });
 
-onMounted(() => {
-  // Cleanup if already open when mounted (edge case)
-});
+onMounted(() => {});
 
 onBeforeUnmount(() => {
   document.removeEventListener('pointerdown', onPointerDown, true);

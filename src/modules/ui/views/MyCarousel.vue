@@ -28,7 +28,7 @@ function onSetApi(embla: EmblaCarouselType) {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Carousel</h1>
 
-    <!-- Carousel básico (Image Slider) -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Image Slider</h2>
       <div class="mx-auto w-full max-w-xs">
@@ -55,7 +55,7 @@ function onSetApi(embla: EmblaCarouselType) {
       </div>
     </section>
 
-    <!-- Carousel con múltiples slides visibles (Testimonial) -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Testimonial Carousel (33% por slide)</h2>
       <div class="mx-auto w-full max-w-lg">
@@ -83,7 +83,7 @@ function onSetApi(embla: EmblaCarouselType) {
       </div>
     </section>
 
-    <!-- Carousel vertical -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Orientación vertical</h2>
       <div class="mx-auto w-full max-w-xs">
@@ -107,7 +107,7 @@ function onSetApi(embla: EmblaCarouselType) {
       </div>
     </section>
 
-    <!-- Carousel con loop  -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con loop infinito</h2>
       <div class="mx-auto w-full max-w-xs">

@@ -9,7 +9,6 @@ import { NAV_MENU_ITEM_KEY } from './navigation-menu-types';
 defineOptions({ name: 'UiNavigationMenuItem', inheritAttrs: false });
 
 interface UiNavigationMenuItemProps {
-  /** Unique value to identify this item. Auto-generated if not provided. */
   value?: string;
 }
 

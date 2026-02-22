@@ -23,7 +23,7 @@ const artworks = [
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">ScrollArea</h1>
 
-    <!-- ─── 1. Vertical básico ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Vertical — lista de tags</h2>
       <ScrollArea class="h-72 w-48 rounded-md border border-border">
@@ -37,7 +37,7 @@ const artworks = [
       </ScrollArea>
     </section>
 
-    <!-- ─── 2. Horizontal ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Horizontal — galería de arte</h2>
       <ScrollArea orientation="horizontal" class="w-full max-w-xl rounded-md border border-border">
@@ -56,7 +56,7 @@ const artworks = [
       </ScrollArea>
     </section>
 
-    <!-- ─── 3. Ambas direcciones ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Ambas direcciones</h2>
       <ScrollArea orientation="both" class="h-64 w-80 rounded-md border border-border">
@@ -81,7 +81,7 @@ const artworks = [
       </ScrollArea>
     </section>
 
-    <!-- ─── 4. Type: always ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">type="always" — scrollbar siempre visible</h2>
       <ScrollArea type="always" class="h-48 w-64 rounded-md border border-border">
@@ -93,7 +93,7 @@ const artworks = [
       </ScrollArea>
     </section>
 
-    <!-- ─── 5. Type: scroll ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">type="scroll" — visible solo al scrollear</h2>
       <ScrollArea type="scroll" class="h-48 w-64 rounded-md border border-border">
@@ -105,7 +105,7 @@ const artworks = [
       </ScrollArea>
     </section>
 
-    <!-- ─── 6. En contexto — Chat ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">En contexto — Chat</h2>
       <div class="flex w-80 flex-col rounded-lg border border-border bg-card shadow-sm">
@@ -127,7 +127,7 @@ const artworks = [
       </div>
     </section>
 
-    <!-- ─── 7. Referencia de Props ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Referencia de Props</h2>
       <div class="overflow-x-auto rounded-lg border border-border">

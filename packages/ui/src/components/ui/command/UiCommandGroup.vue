@@ -22,9 +22,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// We expose the command context so items can be filtered per slot rendering
-// The visibility is controlled at the item level, but group hides if all items are hidden
-// This is left to the consumer via CSS or we trust that items hide themselves
 void cmd;
 </script>
 
@@ -32,12 +29,9 @@ void cmd;
   <div
     v-bind="restAttrs"
     role="group"
-    :class="cn('overflow-hidden p-1 text-foreground', attrs.class)"
+    :class="cn('text-foreground overflow-hidden p-1', attrs.class)"
   >
-    <div
-      v-if="heading"
-      class="px-2 py-1.5 text-xs font-medium text-muted-foreground"
-    >
+    <div v-if="heading" class="text-muted-foreground px-2 py-1.5 text-xs font-medium">
       {{ heading }}
     </div>
     <slot />

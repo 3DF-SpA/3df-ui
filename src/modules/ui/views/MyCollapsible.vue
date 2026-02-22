@@ -10,7 +10,7 @@ const isOpen = ref(false);
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Collapsible</h1>
 
-    <!-- Collapsible básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Collapsible básico</h2>
       <div class="mx-auto w-full max-w-sm">
@@ -50,7 +50,7 @@ const isOpen = ref(false);
       </div>
     </section>
 
-    <!-- Collapsible controlado con v-model -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Controlado con v-model:open</h2>
       <div class="mx-auto w-full max-w-sm space-y-4">
@@ -97,7 +97,7 @@ const isOpen = ref(false);
       </div>
     </section>
 
-    <!-- Collapsible deshabilitado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Deshabilitado</h2>
       <div class="mx-auto w-full max-w-sm">
@@ -132,7 +132,7 @@ const isOpen = ref(false);
       </div>
     </section>
 
-    <!-- Collapsible abierto por  defecto -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Abierto por defecto</h2>
       <div class="mx-auto w-full max-w-sm">

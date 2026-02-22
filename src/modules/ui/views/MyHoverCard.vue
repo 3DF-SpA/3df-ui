@@ -6,7 +6,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Hover Card</h1>
 
-    <!-- Básico — perfil de usuario -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Perfil de usuario</h2>
       <p class="text-muted-foreground text-xs">Pasa el cursor sobre el enlace para ver la vista previa.</p>
@@ -57,7 +57,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Alineación start -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Alineación start</h2>
       <p class="text-muted-foreground text-xs">El card se alinea al inicio del trigger.</p>
@@ -77,7 +77,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Alineación end -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Alineación end</h2>
       <p class="text-muted-foreground text-xs">El card se alinea al final del trigger.</p>
@@ -97,7 +97,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Side top -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Posición superior</h2>
       <p class="text-muted-foreground text-xs">El card aparece por encima del trigger.</p>
@@ -117,7 +117,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Delays personalizados -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Delays personalizados</h2>
       <p class="text-muted-foreground text-xs">
@@ -142,7 +142,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Contenido rico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Contenido rico</h2>
       <p class="text-muted-foreground text-xs">Hover card con contenido enriquecido (avatar, stats, bio).</p>

@@ -23,9 +23,7 @@ type Side = 'top' | 'bottom';
 interface UiDropdownMenuContentProps {
   align?: Align;
   side?: Side;
-  /** Gap between trigger and content in px */
   sideOffset?: number;
-  /** Minimum distance from viewport edge in px */
   viewportPadding?: number;
 }
 
@@ -41,12 +39,10 @@ const menu = inject(DROPDOWN_MENU_KEY)!;
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
 
-// ── Auto-positioning (fixed to viewport) ──────────────────────
 const positionStyle = ref<CSSProperties>({});
 let rafId: number | undefined;
 
@@ -62,7 +58,6 @@ function updatePosition() {
   const pad = props.viewportPadding;
   const gap = props.sideOffset;
 
-  // ── Side (vertical): auto-flip if not enough space ──
   let side = props.side;
   if (side === 'bottom') {
     const spaceBelow = vh - triggerRect.bottom - gap;
@@ -76,7 +71,6 @@ function updatePosition() {
     }
   }
 
-  // ── Align (horizontal): auto-flip if overflows ──
   let align = props.align;
   if (align === 'start') {
     if (triggerRect.left + contentRect.width > vw - pad) align = 'end';
@@ -89,7 +83,6 @@ function updatePosition() {
     else if (cx + hw > vw - pad) align = 'end';
   }
 
-  // ── Compute fixed position (viewport coords) ──
   let top: number;
   if (side === 'bottom') {
     top = triggerRect.bottom + gap;
@@ -106,7 +99,6 @@ function updatePosition() {
     left = triggerRect.left + (triggerRect.width - contentRect.width) / 2;
   }
 
-  // ── Viewport clamping (shift) ──
   if (left < pad) {
     left = pad;
   } else if (left + contentRect.width > vw - pad) {
@@ -127,7 +119,6 @@ function updatePosition() {
 }
 
 function onScroll(event: Event) {
-  // Ignore scroll events from inside the dropdown content itself
   const target = event.target as Node | null;
   if (menu.contentRef.value && target && menu.contentRef.value.contains(target)) return;
   menu.close();
@@ -190,7 +181,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 max-w-[calc(100vw-1rem)] min-w-[8rem]',
             'bg-popover text-popover-foreground',
-            'rounded-md border-ui border-border p-1 shadow-md',
+            'border-ui border-border rounded-md p-1 shadow-md',
             'max-h-[var(--dropdown-max-h,20rem)] overflow-auto',
             attrs.class,
           )

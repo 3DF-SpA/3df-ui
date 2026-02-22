@@ -9,9 +9,7 @@ import { NAV_MENU_KEY } from './navigation-menu-types';
 defineOptions({ name: 'UiNavigationMenuLink', inheritAttrs: false });
 
 interface UiNavigationMenuLinkProps {
-  /** HTML tag or component to render */
   as?: string | Component;
-  /** Whether this link is currently active */
   active?: boolean;
 }
 

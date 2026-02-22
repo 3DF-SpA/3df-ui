@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, useAttrs, watchEffect } from 'vue';
+
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { useSidebar } from './use-sidebar';
 import type { SidebarCollapsible, SidebarSide, SidebarVariant } from './sidebar-types';
+import { useSidebar } from './use-sidebar';
 
 defineOptions({ name: 'UiSidebar', inheritAttrs: false });
 
@@ -23,11 +24,11 @@ const props = withDefaults(
 
 const ctx = useSidebar();
 
-/* Sync reactiva: si las props cambian, el contexto se actualiza */
 watchEffect(() => {
   if (props.side && ctx.side.value !== props.side) ctx.side.value = props.side;
   if (props.variant && ctx.variant.value !== props.variant) ctx.variant.value = props.variant;
-  if (props.collapsible && ctx.collapsible.value !== props.collapsible) ctx.collapsible.value = props.collapsible;
+  if (props.collapsible && ctx.collapsible.value !== props.collapsible)
+    ctx.collapsible.value = props.collapsible;
 });
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
@@ -35,8 +36,6 @@ const restAttrs = computed(() => {
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
-
-/* ─── Classnames ─── */
 
 const wrapperClasses = computed(() => {
   if (ctx.collapsible.value === 'none') {
@@ -48,7 +47,6 @@ const wrapperClasses = computed(() => {
   return '';
 });
 
-/* Spacer div que reserva espacio en el layout */
 const gapClasses = computed(() => {
   const base =
     'relative w-(--sidebar-width) bg-transparent transition-[width] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]';
@@ -62,7 +60,6 @@ const gapClasses = computed(() => {
   return cn(base, collapsed, rightSideFlip);
 });
 
-/* El sidebar real, fixed + inset */
 const sidebarClasses = computed(() => {
   const base = cn(
     'fixed inset-y-0 z-10 flex h-svh flex-col bg-sidebar text-sidebar-foreground transition-[left,right,width,padding] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
@@ -80,8 +77,7 @@ const sidebarClasses = computed(() => {
         : 'w-(--sidebar-width-icon)'
       : 'w-(--sidebar-width)';
 
-  const isIconCollapsed =
-    ctx.state.value === 'collapsed' && ctx.collapsible.value === 'icon';
+  const isIconCollapsed = ctx.state.value === 'collapsed' && ctx.collapsible.value === 'icon';
 
   const floating =
     (ctx.variant.value === 'floating' || ctx.variant.value === 'inset') && !isIconCollapsed
@@ -89,14 +85,11 @@ const sidebarClasses = computed(() => {
       : '';
 
   const floatingInner =
-    ctx.variant.value === 'floating'
-      ? 'rounded-lg border-ui border-border shadow-lg'
-      : '';
+    ctx.variant.value === 'floating' ? 'rounded-lg border-ui border-border shadow-lg' : '';
 
   return cn(base, width, floating, floatingInner, attrs.class);
 });
 
-/* Overlay móvil */
 const showMobileOverlay = computed(() => ctx.isMobile.value && ctx.openMobile.value);
 
 const mobileSheetClasses = computed(() =>
@@ -108,20 +101,13 @@ const mobileSheetClasses = computed(() =>
 </script>
 
 <template>
-  <!-- ═══ Non-collapsible ═══ -->
   <div v-if="ctx.collapsible.value === 'none'" v-bind="restAttrs" :class="wrapperClasses">
     <slot />
   </div>
 
-  <!-- ═══ Desktop collapsible ═══ -->
   <template v-else>
-    <!-- Spacer -->
-    <div
-      v-if="!ctx.isMobile.value"
-      :class="gapClasses"
-    />
+    <div v-if="!ctx.isMobile.value" :class="gapClasses" />
 
-    <!-- Sidebar panel (desktop) -->
     <aside
       v-if="!ctx.isMobile.value"
       v-bind="restAttrs"
@@ -142,7 +128,6 @@ const mobileSheetClasses = computed(() =>
       </div>
     </aside>
 
-    <!-- ═══ Mobile sheet / drawer ═══ -->
     <Teleport to="body">
       <Transition name="sidebar-overlay">
         <div
@@ -163,14 +148,23 @@ const mobileSheetClasses = computed(() =>
             <slot />
           </div>
 
-          <!-- Close button -->
           <button
-            class="absolute right-3 top-3 inline-flex size-7 items-center justify-center rounded-md text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            class="text-muted-foreground hover:text-foreground focus-visible:ring-ring absolute top-3 right-3 inline-flex size-7 items-center justify-center rounded-md focus-visible:ring-2 focus-visible:outline-none"
             aria-label="Close sidebar"
             @click="ctx.setOpenMobile(false)"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="size-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
             </svg>
           </button>
         </aside>

@@ -24,7 +24,7 @@ function isPastDate(date: Date) {
 
 <template>
   <div class="space-y-12">
-    <!-- 1. Single DatePicker -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">DatePicker — Fecha simple</h2>
       <p class="text-sm text-muted-foreground">
@@ -37,7 +37,7 @@ function isPastDate(date: Date) {
       </p>
     </section>
 
-    <!-- 2. DatePicker con locale español -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">DatePicker — Locale español</h2>
       <p class="text-sm text-muted-foreground">
@@ -55,7 +55,7 @@ function isPastDate(date: Date) {
       </p>
     </section>
 
-    <!-- 3. DatePicker con fechas deshabilitadas -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">DatePicker — Fechas pasadas deshabilitadas</h2>
       <p class="text-sm text-muted-foreground">
@@ -69,7 +69,7 @@ function isPastDate(date: Date) {
       />
     </section>
 
-    <!-- 4. Date Range Picker -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">DateRangePicker — Rango de fechas</h2>
       <p class="text-sm text-muted-foreground">
@@ -87,7 +87,7 @@ function isPastDate(date: Date) {
       </p>
     </section>
 
-    <!-- 5. Calendar standalone -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Calendar — Componente independiente</h2>
       <p class="text-sm text-muted-foreground">

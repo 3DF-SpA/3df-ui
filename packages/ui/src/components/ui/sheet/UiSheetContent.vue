@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, inject, nextTick, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
+
 import type { ClassValue } from 'clsx';
+
 import { cn } from '../../../lib/utils';
-import { sheetVariants, type SheetSide, type SheetVariant } from './sheet-variants';
 import { SHEET_INJECTION_KEY, type SheetContext } from './sheet-types';
+import { type SheetSide, type SheetVariant, sheetVariants } from './sheet-variants';
 
 defineOptions({ name: 'UiSheetContent', inheritAttrs: false });
 
@@ -11,7 +13,6 @@ const props = withDefaults(
   defineProps<{
     side?: SheetSide;
     variant?: SheetVariant;
-    /** Mostrar botón de cierre (×) */
     showClose?: boolean;
   }>(),
   {
@@ -31,7 +32,6 @@ const restAttrs = computed(() => {
 
 const panelRef = ref<HTMLElement>();
 
-/* ── Posición CSS para las transiciones ── */
 const translateHidden: Record<SheetSide, string> = {
   top: '-translate-y-full',
   bottom: 'translate-y-full',
@@ -40,13 +40,9 @@ const translateHidden: Record<SheetSide, string> = {
 };
 
 const panelClasses = computed(() =>
-  cn(
-    sheetVariants({ variant: props.variant, side: props.side }),
-    attrs.class,
-  ),
+  cn(sheetVariants({ variant: props.variant, side: props.side }), attrs.class),
 );
 
-/* ── Body scroll lock ── */
 let scrollLocked = false;
 function lockScroll() {
   if (!scrollLocked) {
@@ -61,16 +57,13 @@ function unlockScroll() {
   }
 }
 
-/* ── Focus trap ── */
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function trapFocus(e: KeyboardEvent) {
   if (e.key !== 'Tab' || !panelRef.value) return;
 
-  const focusable = Array.from(
-    panelRef.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-  );
+  const focusable = Array.from(panelRef.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
   if (focusable.length === 0) {
     e.preventDefault();
     return;
@@ -92,10 +85,8 @@ function trapFocus(e: KeyboardEvent) {
   }
 }
 
-/* Restaurar el foco al trigger al cerrar */
 let previousActiveElement: HTMLElement | null = null;
 
-/* ── Animación con clases manuales (sin <Transition>) ── */
 const isVisible = ref(false);
 const isAnimating = ref(false);
 let animFrame: number | undefined;
@@ -108,17 +99,14 @@ watch(
       isVisible.value = true;
       lockScroll();
       await nextTick();
-      // Forzar reflow para que la transición funcione
       panelRef.value?.getBoundingClientRect();
       isAnimating.value = true;
-      // Focus al panel
       await nextTick();
       const firstFocusable = panelRef.value?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
       (firstFocusable ?? panelRef.value)?.focus();
     } else {
       isAnimating.value = false;
       unlockScroll();
-      // Esperar que termine la animación (400ms)
       animFrame = window.setTimeout(() => {
         isVisible.value = false;
         previousActiveElement?.focus();
@@ -134,7 +122,6 @@ onBeforeUnmount(() => {
   document.removeEventListener('keydown', trapFocus);
 });
 
-/* Registrar/desregistrar focus trap */
 watch(isVisible, (val) => {
   if (val) {
     document.addEventListener('keydown', trapFocus);
@@ -151,7 +138,6 @@ function onOverlayClick() {
 <template>
   <Teleport to="body">
     <div v-if="isVisible" class="fixed inset-0 z-50">
-      <!-- Overlay -->
       <div
         class="fixed inset-0 bg-black/80 transition-opacity duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]"
         :class="isAnimating ? 'opacity-100' : 'opacity-0'"
@@ -159,7 +145,6 @@ function onOverlayClick() {
         @click="onOverlayClick"
       />
 
-      <!-- Panel -->
       <div
         ref="panelRef"
         v-bind="restAttrs"
@@ -167,17 +152,21 @@ function onOverlayClick() {
         aria-modal="true"
         :aria-labelledby="sheet.titleId"
         :aria-describedby="sheet.descriptionId"
-        :class="[panelClasses, isAnimating ? 'translate-x-0 translate-y-0 opacity-100' : [translateHidden[props.side], 'opacity-0']]"
+        :class="[
+          panelClasses,
+          isAnimating
+            ? 'translate-x-0 translate-y-0 opacity-100'
+            : [translateHidden[props.side], 'opacity-0'],
+        ]"
         :data-state="isAnimating ? 'open' : 'closed'"
         data-sheet="content"
       >
         <slot />
 
-        <!-- Botón cerrar -->
         <button
           v-if="showClose"
           type="button"
-          class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+          class="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none"
           aria-label="Close"
           @click="sheet.close()"
         >

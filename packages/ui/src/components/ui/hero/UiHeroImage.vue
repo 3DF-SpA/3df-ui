@@ -9,25 +9,15 @@ import type { HeroAction, HeroAlign } from './hero-types';
 defineOptions({ name: 'UiHeroImage', inheritAttrs: false });
 
 interface Props {
-  /** Main headline */
   headline?: string;
-  /** Supporting text */
   description?: string;
-  /** CTA buttons */
   actions?: HeroAction[];
-  /** Background image URL */
   imageSrc: string;
-  /** Image alt text for a11y */
   imageAlt?: string;
-  /** Overlay colour & opacity (default dark overlay) */
   overlay?: 'dark' | 'light' | 'gradient' | 'none';
-  /** Overlay custom opacity 0-100 */
   overlayOpacity?: number;
-  /** Text alignment */
   align?: HeroAlign;
-  /** Min height */
   minHeight?: string;
-  /** Reduce vertical padding */
   compact?: boolean;
 }
 
@@ -81,9 +71,7 @@ const alignClass = computed(() => {
   return map[props.align];
 });
 
-const textColor = computed(() =>
-  props.overlay === 'light' ? 'text-foreground' : 'text-white',
-);
+const textColor = computed(() => (props.overlay === 'light' ? 'text-foreground' : 'text-white'));
 
 const subtextColor = computed(() =>
   props.overlay === 'light' ? 'text-muted-foreground' : 'text-white/80',
@@ -100,7 +88,6 @@ function handleAction(action: HeroAction, index: number) {
     :class="cn('relative w-full overflow-hidden', attrs.class)"
     :style="{ minHeight }"
   >
-    <!-- Background image -->
     <img
       :src="imageSrc"
       :alt="imageAlt"
@@ -109,7 +96,6 @@ function handleAction(action: HeroAction, index: number) {
       aria-hidden="true"
     />
 
-    <!-- Overlay -->
     <div
       v-if="overlay !== 'none'"
       class="absolute inset-0"
@@ -117,13 +103,14 @@ function handleAction(action: HeroAction, index: number) {
       aria-hidden="true"
     />
 
-    <!-- Content -->
     <div
-      :class="cn(
-        'relative z-10 mx-auto flex max-w-4xl flex-col gap-6 px-6 lg:px-8',
-        compact ? 'py-20 md:py-24' : 'py-32 md:py-40 lg:py-48',
-        alignClass,
-      )"
+      :class="
+        cn(
+          'relative z-10 mx-auto flex max-w-4xl flex-col gap-6 px-6 lg:px-8',
+          compact ? 'py-20 md:py-24' : 'py-32 md:py-40 lg:py-48',
+          alignClass,
+        )
+      "
     >
       <slot name="headline">
         <h1
@@ -137,12 +124,14 @@ function handleAction(action: HeroAction, index: number) {
       <slot name="description">
         <p
           v-if="description"
-          :class="cn(
-            'max-w-2xl text-lg sm:text-xl',
-            subtextColor,
-            align === 'center' && 'mx-auto',
-            align === 'right' && 'ml-auto',
-          )"
+          :class="
+            cn(
+              'max-w-2xl text-lg sm:text-xl',
+              subtextColor,
+              align === 'center' && 'mx-auto',
+              align === 'right' && 'ml-auto',
+            )
+          "
         >
           {{ description }}
         </p>
@@ -152,23 +141,38 @@ function handleAction(action: HeroAction, index: number) {
         <div
           v-if="actions?.length"
           class="mt-4 flex flex-wrap gap-4"
-          :class="align === 'center' ? 'justify-center' : align === 'right' ? 'justify-end' : 'justify-start'"
+          :class="
+            align === 'center'
+              ? 'justify-center'
+              : align === 'right'
+                ? 'justify-end'
+                : 'justify-start'
+          "
         >
           <component
             :is="action.href ? 'a' : 'button'"
             v-for="(action, i) in actions"
             :key="i"
-            v-bind="action.href ? { href: action.href, ...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) } : {}"
-            :class="cn(
-              'inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-              action.variant === 'outline'
-                ? 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25'
-                : action.variant === 'secondary'
-                  ? 'bg-white/90 text-gray-900 hover:bg-white'
-                  : action.variant === 'ghost'
-                    ? 'text-white hover:bg-white/10'
-                    : 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
-            )"
+            v-bind="
+              action.href
+                ? {
+                    href: action.href,
+                    ...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+                  }
+                : {}
+            "
+            :class="
+              cn(
+                'focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none',
+                action.variant === 'outline'
+                  ? 'bg-white/15 text-white backdrop-blur-sm hover:bg-white/25'
+                  : action.variant === 'secondary'
+                    ? 'bg-white/90 text-gray-900 hover:bg-white'
+                    : action.variant === 'ghost'
+                      ? 'text-white hover:bg-white/10'
+                      : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm',
+              )
+            "
             @click="!action.href && handleAction(action, i)"
           >
             {{ action.label }}

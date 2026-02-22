@@ -34,7 +34,6 @@ const isOpen = ref(props.defaultOpen);
 const disabled = computed(() => props.disabled);
 const contentId = `collapsible-content-${Math.random().toString(36).slice(2, 9)}`;
 
-// Sync with optional v-model:open
 watch(
   () => props.open,
   (v) => {

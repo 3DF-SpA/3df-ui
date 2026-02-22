@@ -31,7 +31,6 @@ export interface MenubarMenuContext {
   registerItem: (data: MenubarItemData) => void;
   unregisterItem: (id: string) => void;
   close: () => void;
-  // Sub-menu management
   activeSubId: Ref<string | null>;
   subItems: Ref<MenubarItemData[]>;
   subFocusedIndex: Ref<number>;

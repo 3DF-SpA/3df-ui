@@ -29,7 +29,7 @@ function handleDelete() {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Alert Dialog</h1>
 
-    <!-- Delete Confirmation -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Delete Confirmation</h2>
       <AlertDialog>
@@ -55,7 +55,7 @@ function handleDelete() {
       <p v-if="deleteResult" class="text-sm text-destructive">{{ deleteResult }}</p>
     </section>
 
-    <!-- Confirmación genérica -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Confirmación genérica</h2>
       <AlertDialog>
@@ -78,7 +78,7 @@ function handleDelete() {
       </AlertDialog>
     </section>
 
-    <!-- Controlado programáticamente -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Controlado (v-model)</h2>
       <Button @click="programmaticOpen = true">Abrir programáticamente</Button>

@@ -32,12 +32,9 @@ const icon = computed(() => iconMap[props.toast.variant]);
 const variantClasses = computed(() => {
   const map: Record<string, string> = {
     default: 'bg-card text-foreground',
-    success:
-      'bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100',
-    error:
-      'bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100',
-    warning:
-      'bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
+    success: 'bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100',
+    error: 'bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100',
+    warning: 'bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
     info: 'bg-blue-50 text-blue-900 dark:bg-blue-950 dark:text-blue-100',
   };
   return map[props.toast.variant] ?? map.default;
@@ -94,7 +91,7 @@ onBeforeUnmount(() => {
   <li
     :class="
       cn(
-        'pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg border-ui border-border px-4 py-3 shadow-lg',
+        'border-ui border-border pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg px-4 py-3 shadow-lg',
         'transition-all duration-300 ease-out',
         isVisible && !isLeaving
           ? 'translate-y-0 scale-100 opacity-100'
@@ -108,7 +105,6 @@ onBeforeUnmount(() => {
     @mouseenter="pauseTimer()"
     @mouseleave="startTimer()"
   >
-    <!-- Icon -->
     <span
       v-if="icon"
       :class="
@@ -122,7 +118,6 @@ onBeforeUnmount(() => {
       {{ icon }}
     </span>
 
-    <!-- Content -->
     <div class="min-w-0 flex-1">
       <p v-if="toast.title" class="text-sm leading-tight font-semibold">
         {{ toast.title }}
@@ -135,7 +130,6 @@ onBeforeUnmount(() => {
       </p>
     </div>
 
-    <!-- Action -->
     <button
       v-if="toast.action"
       :class="
@@ -153,7 +147,6 @@ onBeforeUnmount(() => {
       {{ toast.action.label }}
     </button>
 
-    <!-- Dismiss -->
     <button
       v-if="toast.dismissible"
       :class="

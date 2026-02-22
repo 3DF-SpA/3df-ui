@@ -10,7 +10,6 @@ defineOptions({ name: 'UiAlertDialogAction', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    /** Visual variant */
     variant?: 'default' | 'destructive';
   }>(),
   { variant: 'default' },
@@ -31,8 +30,8 @@ const restAttrs = computed(() => {
     type="button"
     :class="
       cn(
-        'inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium ring-offset-background transition-colors',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'ring-offset-background inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors',
+        'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-50',
         props.variant === 'destructive'
           ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90'

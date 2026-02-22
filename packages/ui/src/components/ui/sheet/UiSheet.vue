@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { onBeforeUnmount, provide, ref, watch } from 'vue';
+
 import { SHEET_INJECTION_KEY } from './sheet-types';
 
 defineOptions({ name: 'UiSheet' });
 
 const props = withDefaults(
   defineProps<{
-    /** Estado externo (v-model:open) */
     open?: boolean;
-    /** Estado inicial por defecto */
     defaultOpen?: boolean;
   }>(),
   {
@@ -26,10 +25,8 @@ const triggerId = `sheet-trigger-${uid}`;
 const titleId = `sheet-title-${uid}`;
 const descriptionId = `sheet-desc-${uid}`;
 
-/* ── Estado ── */
 const isOpen = ref(props.open ?? props.defaultOpen);
 
-/* Sincronizar prop externa → estado interno */
 watch(
   () => props.open,
   (val) => {
@@ -54,7 +51,6 @@ function toggleSheet() {
   setOpen(!isOpen.value);
 }
 
-/* ── Escape global ── */
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && isOpen.value) {
     e.preventDefault();

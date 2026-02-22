@@ -13,26 +13,22 @@ import {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Skeleton</h1>
 
-    <!-- ═══════════════════════════════════════════════════
-         1. Formas básicas
-         ═══════════════════════════════════════════════════ -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Formas básicas</h2>
       <div class="flex flex-col gap-4">
-        <!-- Línea de texto -->
+        
         <Skeleton class="h-4 w-[250px]" />
-        <!-- Línea más corta -->
+        
         <Skeleton class="h-4 w-[200px]" />
-        <!-- Bloque -->
+        
         <Skeleton class="h-20 w-full max-w-md" />
-        <!-- Círculo (avatar) -->
+        
         <Skeleton class="size-12 rounded-full" />
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════
-         2. Skeleton de Card
-         ═══════════════════════════════════════════════════ -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Card skeleton</h2>
       <Card class="w-full max-w-sm">
@@ -57,20 +53,18 @@ import {
       </Card>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════
-         3. Skeleton de tabla
-         ═══════════════════════════════════════════════════ -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Tabla skeleton</h2>
       <div class="w-full max-w-2xl">
-        <!-- Header -->
+        
         <div class="flex gap-4 border-b border-border pb-3">
           <Skeleton class="h-4 w-[80px]" />
           <Skeleton class="h-4 w-[120px]" />
           <Skeleton class="h-4 flex-1" />
           <Skeleton class="h-4 w-[80px]" />
         </div>
-        <!-- Rows -->
+        
         <div
           v-for="i in 5"
           :key="i"
@@ -84,9 +78,7 @@ import {
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════
-         4. Skeleton de perfil
-         ═══════════════════════════════════════════════════ -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Perfil skeleton</h2>
       <div class="flex items-start gap-6">
@@ -103,9 +95,7 @@ import {
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════
-         5. Grid de cards skeleton (productos)
-         ═══════════════════════════════════════════════════ -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Grid de productos skeleton</h2>
       <div class="grid max-w-3xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -128,9 +118,7 @@ import {
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════
-         6. Skeleton de formulario
-         ═══════════════════════════════════════════════════ -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Formulario skeleton</h2>
       <div class="flex max-w-md flex-col gap-5">
@@ -154,13 +142,11 @@ import {
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════
-         7. Comparativa: Skeleton → Contenido
-         ═══════════════════════════════════════════════════ -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Comparativa: Loading vs Cargado</h2>
       <div class="grid max-w-2xl gap-8 sm:grid-cols-2">
-        <!-- Loading -->
+        
         <Card>
           <CardHeader>
             <div class="flex items-center gap-3">
@@ -181,7 +167,7 @@ import {
           </CardFooter>
         </Card>
 
-        <!-- Loaded -->
+        
         <Card>
           <CardHeader>
             <div class="flex items-center gap-3">

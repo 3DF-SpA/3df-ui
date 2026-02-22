@@ -1,26 +1,18 @@
 import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
 import {
+  SIDEBAR_INJECTION_KEY,
+  SIDEBAR_MOBILE_BREAKPOINT,
   type SidebarCollapsible,
   type SidebarContext,
   type SidebarSide,
   type SidebarVariant,
-  SIDEBAR_INJECTION_KEY,
-  SIDEBAR_MOBILE_BREAKPOINT,
 } from './sidebar-types';
 
-/**
- * Composable: acceso al contexto del sidebar desde cualquier descendiente.
- *
- * Si se llama sin argumentos (dentro de un hijo), devuelve el contexto inyectado.
- * Si se llama con opciones (desde SidebarProvider), crea el contexto raíz.
- */
 export function useSidebar(): SidebarContext {
   const ctx = inject(SIDEBAR_INJECTION_KEY, null);
   if (!ctx) {
-    throw new Error(
-      '[UiSidebar] useSidebar() debe usarse dentro de un <SidebarProvider>.',
-    );
+    throw new Error('[UiSidebar] useSidebar() debe usarse dentro de un <SidebarProvider>.');
   }
   return ctx;
 }
@@ -32,12 +24,7 @@ export interface CreateSidebarOptions {
   collapsible?: SidebarCollapsible;
 }
 
-/**
- * Crea el estado raíz del sidebar (solo para SidebarProvider).
- */
-export function createSidebarContext(
-  options: CreateSidebarOptions = {},
-): SidebarContext {
+export function createSidebarContext(options: CreateSidebarOptions = {}): SidebarContext {
   const {
     defaultOpen = true,
     side: initialSide = 'left',
@@ -52,11 +39,8 @@ export function createSidebarContext(
   const variant = ref<SidebarVariant>(initialVariant);
   const collapsible = ref<SidebarCollapsible>(initialCollapsible);
 
-  const state = computed<'expanded' | 'collapsed'>(() =>
-    open.value ? 'expanded' : 'collapsed',
-  );
+  const state = computed<'expanded' | 'collapsed'>(() => (open.value ? 'expanded' : 'collapsed'));
 
-  /* ─── Media query listener ─── */
   let mql: MediaQueryList | undefined;
 
   function onMediaChange(e: MediaQueryListEvent | MediaQueryList) {
@@ -76,7 +60,6 @@ export function createSidebarContext(
     mql?.removeEventListener('change', onMediaChange as EventListener);
   });
 
-  /* ─── Keyboard shortcut: Ctrl+B / ⌘+B ─── */
   function onKeydown(e: KeyboardEvent) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
       e.preventDefault();
@@ -86,7 +69,6 @@ export function createSidebarContext(
   onMounted(() => document.addEventListener('keydown', onKeydown));
   onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown));
 
-  /* ─── Métodos ─── */
   function setOpen(value: boolean) {
     open.value = value;
   }
@@ -103,12 +85,10 @@ export function createSidebarContext(
     }
   }
 
-  /* ─── Lock body scroll en mobile ─── */
   watch(openMobile, (val) => {
     document.body.style.overflow = val ? 'hidden' : '';
   });
 
-  /* Limpiar scroll lock si se desmonta con mobile abierto */
   onBeforeUnmount(() => {
     document.body.style.overflow = '';
   });

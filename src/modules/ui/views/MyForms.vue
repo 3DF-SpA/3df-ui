@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import {
-  Button,
-  Checkbox,
-  Input,
-  Label,
-  Radio,
-  Select,
-  SelectItem,
-  Switch,
-  Textarea,
-} from '@3df-spa/ui';
+import { Button, Checkbox, Input, Label, Select, SelectItem, Textarea } from '@3df-spa/ui';
+
+import FormsDemoComplete from './_components/FormsDemoComplete.vue';
+import FormsDemoRadioSwitch from './_components/FormsDemoRadioSwitch.vue';
 
 const name = ref('');
 const email = ref('');
@@ -21,13 +14,8 @@ const searchLg = ref('');
 const bio = ref('');
 const country = ref('');
 const role = ref('');
-const notifications = ref(true);
-const darkMode = ref(false);
-const marketing = ref(true);
 const terms = ref(false);
 const newsletter = ref(true);
-const plan = ref('pro');
-const contact = ref('email');
 const disabledInput = ref('No puedes editar esto');
 </script>
 
@@ -35,7 +23,6 @@ const disabledInput = ref('No puedes editar esto');
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Formularios</h1>
 
-    <!-- Input -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Input</h2>
       <div class="grid max-w-md gap-4">
@@ -54,7 +41,6 @@ const disabledInput = ref('No puedes editar esto');
       </div>
     </section>
 
-    <!-- Input sizes -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Input — Tamaños</h2>
       <div class="grid max-w-md gap-4">
@@ -73,7 +59,6 @@ const disabledInput = ref('No puedes editar esto');
       </div>
     </section>
 
-    <!-- Input states -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Input — Estados</h2>
       <div class="grid max-w-md gap-4">
@@ -98,7 +83,6 @@ const disabledInput = ref('No puedes editar esto');
       </div>
     </section>
 
-    <!-- Input with addons -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Input — Con botón</h2>
       <div class="flex max-w-md gap-2">
@@ -107,7 +91,6 @@ const disabledInput = ref('No puedes editar esto');
       </div>
     </section>
 
-    <!-- Textarea -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Textarea</h2>
       <div class="grid max-w-md gap-4">
@@ -132,7 +115,6 @@ const disabledInput = ref('No puedes editar esto');
       </div>
     </section>
 
-    <!-- Select -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Select</h2>
       <div class="grid max-w-md gap-4">
@@ -176,7 +158,6 @@ const disabledInput = ref('No puedes editar esto');
       </div>
     </section>
 
-    <!-- Checkbox -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Checkbox</h2>
       <div class="grid max-w-md gap-4">
@@ -199,122 +180,8 @@ const disabledInput = ref('No puedes editar esto');
       </div>
     </section>
 
-    <!-- Radio -->
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Radio</h2>
-      <div class="grid max-w-md gap-4">
-        <p class="text-sm font-medium">Plan</p>
-        <div class="flex flex-col gap-3">
-          <div class="flex items-center gap-2">
-            <Radio id="plan-free" v-model="plan" value="free" name="plan" />
-            <Label for="plan-free">Free</Label>
-          </div>
-          <div class="flex items-center gap-2">
-            <Radio id="plan-pro" v-model="plan" value="pro" name="plan" />
-            <Label for="plan-pro">Pro — $9/mes</Label>
-          </div>
-          <div class="flex items-center gap-2">
-            <Radio id="plan-enterprise" v-model="plan" value="enterprise" name="plan" />
-            <Label for="plan-enterprise">Enterprise — $29/mes</Label>
-          </div>
-          <div class="flex items-center gap-2">
-            <Radio id="plan-disabled" value="custom" name="plan" disabled />
-            <Label for="plan-disabled" :disabled="true">Custom (no disponible)</Label>
-          </div>
-        </div>
+    <FormsDemoRadioSwitch />
 
-        <p class="text-sm font-medium">Contacto preferido</p>
-        <div class="flex flex-col gap-3">
-          <div class="flex items-center gap-2">
-            <Radio id="contact-email" v-model="contact" value="email" name="contact" />
-            <Label for="contact-email">Email</Label>
-          </div>
-          <div class="flex items-center gap-2">
-            <Radio id="contact-phone" v-model="contact" value="phone" name="contact" />
-            <Label for="contact-phone">Teléfono</Label>
-          </div>
-          <div class="flex items-center gap-2">
-            <Radio id="contact-sms" v-model="contact" value="sms" name="contact" />
-            <Label for="contact-sms">SMS</Label>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Switch -->
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Switch</h2>
-      <div class="grid max-w-md gap-4">
-        <div class="flex items-center justify-between">
-          <Label for="notifications">Notificaciones</Label>
-          <Switch id="notifications" v-model="notifications" />
-        </div>
-        <div class="flex items-center justify-between">
-          <Label for="dark-mode">Modo oscuro</Label>
-          <Switch id="dark-mode" v-model="darkMode" />
-        </div>
-        <div class="flex items-center justify-between">
-          <Label for="marketing">Emails de marketing</Label>
-          <Switch id="marketing" v-model="marketing" />
-        </div>
-        <div class="flex items-center justify-between">
-          <Label for="switch-disabled" :disabled="true">Deshabilitado</Label>
-          <Switch id="switch-disabled" disabled :model-value="false" />
-        </div>
-      </div>
-    </section>
-
-    <!-- Complete form example -->
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Formulario completo</h2>
-      <form class="border-border grid max-w-md gap-5 rounded-lg border p-6" @submit.prevent>
-        <div class="flex flex-col gap-2">
-          <Label for="form-name">Nombre completo</Label>
-          <Input id="form-name" placeholder="Juan Pérez" />
-        </div>
-        <div class="flex flex-col gap-2">
-          <Label for="form-email">Email</Label>
-          <Input id="form-email" type="email" placeholder="juan@ejemplo.com" />
-        </div>
-        <div class="flex flex-col gap-2">
-          <Label for="form-country">País</Label>
-          <Select id="form-country" placeholder="Selecciona un país">
-            <SelectItem value="mx">México</SelectItem>
-            <SelectItem value="ar">Argentina</SelectItem>
-            <SelectItem value="co">Colombia</SelectItem>
-          </Select>
-        </div>
-        <div class="flex flex-col gap-2">
-          <Label for="form-bio">Mensaje</Label>
-          <Textarea id="form-bio" placeholder="¿En qué podemos ayudarte?" />
-        </div>
-
-        <div class="flex flex-col gap-3">
-          <p class="text-sm font-medium">Plan</p>
-          <div class="flex items-center gap-2">
-            <Radio id="form-free" value="free" name="form-plan" />
-            <Label for="form-free">Free</Label>
-          </div>
-          <div class="flex items-center gap-2">
-            <Radio id="form-pro" value="pro" name="form-plan" />
-            <Label for="form-pro">Pro</Label>
-          </div>
-        </div>
-
-        <div class="flex items-center justify-between">
-          <Label for="form-newsletter">Recibir novedades</Label>
-          <Switch id="form-newsletter" />
-        </div>
-        <div class="flex items-center gap-2">
-          <Checkbox id="form-terms" />
-          <Label for="form-terms">Acepto los términos y condiciones</Label>
-        </div>
-
-        <div class="flex gap-3 pt-2">
-          <Button type="submit" class="flex-1">Enviar</Button>
-          <Button type="reset" variant="outline">Limpiar</Button>
-        </div>
-      </form>
-    </section>
+    <FormsDemoComplete />
   </div>
 </template>

@@ -1,21 +1,8 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  provide,
-  ref,
-  useAttrs,
-  watch,
-} from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
-import type {
-  EmblaCarouselType,
-  EmblaOptionsType,
-  EmblaPluginType,
-} from 'embla-carousel';
+import type { EmblaCarouselType, EmblaOptionsType, EmblaPluginType } from 'embla-carousel';
 import EmblaCarousel from 'embla-carousel';
 
 import { cn } from '../../../lib/utils';
@@ -92,21 +79,18 @@ function initCarousel() {
   embla.on('reInit', onSelect);
 }
 
-// Init after viewport is mounted by CarouselContent
 onMounted(() => {
   nextTick(() => {
     if (viewportRef.value) initCarousel();
   });
 });
 
-// Watch for viewport ref becoming available (child mount)
 watch(viewportRef, (el) => {
   if (el) {
     nextTick(() => initCarousel());
   }
 });
 
-// Re-init on opts/orientation change
 watch(
   () => [props.opts, props.orientation],
   () => {

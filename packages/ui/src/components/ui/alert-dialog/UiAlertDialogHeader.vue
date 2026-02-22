@@ -14,7 +14,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// Confirm usage inside AlertDialog
 inject(ALERT_DIALOG_KEY)!;
 </script>
 

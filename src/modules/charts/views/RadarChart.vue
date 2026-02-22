@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { UiChartRadar, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
-/* ── Data: developer skills ────────────────────────────────── */
-
 const skillsData: ChartDataRow[] = [
   { skill: 'Frontend', alice: 90, bob: 70 },
   { skill: 'Backend', alice: 65, bob: 85 },
@@ -16,8 +14,6 @@ const skillsConfig: ChartConfig = {
   alice: { label: 'Alice', color: 'var(--color-chart-1)' },
   bob:   { label: 'Bob',   color: 'var(--color-chart-4)' },
 };
-
-/* ── Data: product comparison ──────────────────────────────── */
 
 const productData: ChartDataRow[] = [
   { metric: 'Performance', ours: 92, competitor: 78 },
@@ -34,8 +30,6 @@ const productConfig: ChartConfig = {
   competitor: { label: 'Competitor',   color: 'var(--color-chart-5)' },
 };
 
-/* ── Data: single series ───────────────────────────────────── */
-
 const fitnessData: ChartDataRow[] = [
   { area: 'Strength', score: 80 },
   { area: 'Endurance', score: 65 },
@@ -47,8 +41,6 @@ const fitnessData: ChartDataRow[] = [
 const fitnessConfig: ChartConfig = {
   score: { label: 'Score', color: 'var(--color-chart-1)' },
 };
-
-/* ── Data: circle variant ──────────────────────────────────── */
 
 const teamData: ChartDataRow[] = [
   { quarter: 'Q1', engineering: 78, marketing: 65, sales: 82 },
@@ -74,7 +66,7 @@ const teamConfig: ChartConfig = {
       </p>
     </div>
 
-    <!-- 1. Polygon (default) — developer skills -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Polygon Grid</h2>
@@ -91,7 +83,7 @@ const teamConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 2. Circle variant — product comparison -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Circle Grid</h2>
@@ -110,7 +102,7 @@ const teamConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 3. Single series — no fill -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Single Series &mdash; No Fill</h2>
@@ -131,7 +123,7 @@ const teamConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 4. Multi-series circle — 3 teams -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Multi-series &mdash; Three Teams</h2>

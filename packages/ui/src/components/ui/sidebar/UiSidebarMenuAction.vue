@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
+
 import type { ClassValue } from 'clsx';
+
 import { cn } from '../../../lib/utils';
 
 defineOptions({ name: 'UiSidebarMenuAction', inheritAttrs: false });
@@ -24,9 +26,7 @@ const classes = computed(() =>
     'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
     'focus-visible:ring-2',
     '[&>svg]:size-4 [&>svg]:shrink-0',
-    /* Ocultar en modo icon colapsado */
     'group-data-[collapsible=icon]/sidebar-wrapper:hidden',
-    /* showOnHover: solo visible al hacer hover sobre el menu-item */
     props.showOnHover &&
       'peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 md:opacity-0',
     attrs.class,

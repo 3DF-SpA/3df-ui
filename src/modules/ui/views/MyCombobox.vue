@@ -30,7 +30,7 @@ const selectedLanguage = ref('ts');
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Combobox</h1>
 
-    <!-- Combobox básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Combobox básico</h2>
       <div class="flex max-w-sm flex-col gap-2">
@@ -47,7 +47,7 @@ const selectedLanguage = ref('ts');
       </div>
     </section>
 
-    <!-- Combobox con valor por defecto -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con valor por defecto y opción deshabilitada</h2>
       <div class="flex max-w-sm flex-col gap-2">
@@ -64,7 +64,7 @@ const selectedLanguage = ref('ts');
       </div>
     </section>
 
-    <!-- Múltiples comboboxes lado a lado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Múltiples comboboxes</h2>
       <div class="flex flex-wrap gap-4">

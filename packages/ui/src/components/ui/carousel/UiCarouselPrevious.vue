@@ -25,18 +25,17 @@ const restAttrs = computed(() => {
     aria-label="Slide anterior"
     :class="
       cn(
-        'absolute z-10 flex h-8 w-8 items-center justify-center rounded-full border-ui border-border bg-card shadow-md transition-colors',
+        'border-ui border-border bg-card absolute z-10 flex h-8 w-8 items-center justify-center rounded-full shadow-md transition-colors',
         'hover:bg-accent hover:text-accent-foreground',
         'disabled:pointer-events-none disabled:opacity-50',
         ctx.orientation.value === 'horizontal'
-          ? '-left-12 top-1/2 -translate-y-1/2'
+          ? 'top-1/2 -left-12 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
         attrs.class,
       )
     "
     @click="ctx.scrollPrev()"
   >
-    <!-- Arrow left icon -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"

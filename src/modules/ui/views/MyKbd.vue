@@ -6,7 +6,7 @@ import { Kbd } from '@3df-spa/ui';
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Kbd (Keyboard Input)</h1>
 
-    <!-- 1. Tamaños -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Tamaños</h2>
       <div class="flex items-center gap-4">
@@ -18,7 +18,7 @@ import { Kbd } from '@3df-spa/ui';
       <p class="text-muted-foreground text-xs">xs · sm · default · lg</p>
     </section>
 
-    <!-- 2. Combinaciones de teclas -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Combinaciones de teclas</h2>
       <div class="flex flex-col gap-3">
@@ -51,7 +51,7 @@ import { Kbd } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- 3. Teclas especiales -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Teclas especiales</h2>
       <div class="flex flex-wrap items-center gap-2">
@@ -71,7 +71,7 @@ import { Kbd } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- 4. Teclas de función -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Teclas de función</h2>
       <div class="flex flex-wrap items-center gap-2">
@@ -79,7 +79,7 @@ import { Kbd } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- 5. Inline con texto -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Uso inline con texto</h2>
       <p class="text-sm">
@@ -92,7 +92,7 @@ import { Kbd } from '@3df-spa/ui';
       </p>
     </section>
 
-    <!-- 7. Con clases custom -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Override de clases</h2>
       <div class="flex items-center gap-3">

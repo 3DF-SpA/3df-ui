@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { type CSSProperties, computed, inject, nextTick, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
+import {
+  type CSSProperties,
+  computed,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  ref,
+  useAttrs,
+  watch,
+} from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -25,7 +34,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// ── Positioning at cursor coordinates ─────────────────────────
 const positionStyle = ref<CSSProperties>({});
 
 function updatePosition() {
@@ -39,13 +47,11 @@ function updatePosition() {
 
   let { x: left, y: top } = ctx.position.value;
 
-  // Flip horizontally if overflows to the right
   if (left + contentRect.width > vw - pad) {
     left = left - contentRect.width;
   }
   if (left < pad) left = pad;
 
-  // Flip vertically if overflows at the bottom
   if (top + contentRect.height > vh - pad) {
     top = top - contentRect.height;
   }
@@ -109,7 +115,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 max-w-[calc(100vw-1rem)] min-w-[8rem]',
             'bg-popover text-popover-foreground',
-            'rounded-md border-ui border-border p-1 shadow-md',
+            'border-ui border-border rounded-md p-1 shadow-md',
             'max-h-[var(--context-menu-max-h,20rem)] overflow-auto',
             attrs.class,
           )

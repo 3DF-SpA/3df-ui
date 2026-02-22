@@ -21,7 +21,6 @@ const viewportRef = ref<HTMLElement>();
 let enterTimer: ReturnType<typeof setTimeout> | undefined;
 let leaveTimer: ReturnType<typeof setTimeout> | undefined;
 
-// ─── Open / Close ─────────────────────────────────────────────
 function open(value: string) {
   clearTimeout(leaveTimer);
   clearTimeout(enterTimer);
@@ -34,11 +33,9 @@ function close() {
   activeValue.value = '';
 }
 
-// ─── Hover delays ─────────────────────────────────────────────
 function onTriggerEnter(value: string) {
   clearTimeout(leaveTimer);
   if (activeValue.value) {
-    // Already open → switch immediately
     activeValue.value = value;
   } else {
     clearTimeout(enterTimer);
@@ -65,7 +62,6 @@ function onContentLeave() {
   }, 300);
 }
 
-// ─── Click outside ────────────────────────────────────────────
 function onDocPointerDown(event: PointerEvent) {
   if (rootRef.value && !rootRef.value.contains(event.target as Node)) {
     close();
@@ -105,13 +101,7 @@ const classes = computed(() =>
 </script>
 
 <template>
-  <nav
-    ref="rootRef"
-    v-bind="restAttrs"
-    :class="classes"
-    aria-label="Main"
-    @keydown.escape="close"
-  >
+  <nav ref="rootRef" v-bind="restAttrs" :class="classes" aria-label="Main" @keydown.escape="close">
     <slot />
   </nav>
 </template>

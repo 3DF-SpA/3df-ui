@@ -21,7 +21,6 @@ const emit = defineEmits<{
 
 const isOpen = ref(props.defaultOpen);
 
-// Sync with optional v-model:open
 watch(
   () => props.open,
   (v) => {

@@ -41,7 +41,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// ── Auto-positioning (fixed to viewport) ──────────────────────
 const positionStyle = ref<CSSProperties>({});
 let rafId: number | undefined;
 
@@ -57,7 +56,6 @@ function updatePosition() {
   const pad = props.viewportPadding;
   const gap = props.sideOffset;
 
-  // ── Side: auto-flip ──
   let side: HoverCardSide = props.side;
   if (side === 'top') {
     if (
@@ -114,7 +112,6 @@ function updatePosition() {
     }
   }
 
-  // ── Viewport clamping ──
   if (left < pad) left = pad;
   else if (left + contentRect.width > vw - pad) left = vw - pad - contentRect.width;
 
@@ -189,7 +186,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 w-64',
             'bg-popover text-popover-foreground',
-            'rounded-md border-ui border-border p-4 shadow-md outline-none',
+            'border-ui border-border rounded-md p-4 shadow-md outline-none',
             attrs.class,
           )
         "

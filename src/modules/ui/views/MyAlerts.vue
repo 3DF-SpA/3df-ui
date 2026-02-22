@@ -6,7 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Alerts</h1>
 
-    <!-- Default -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Default</h2>
       <Alert>
@@ -33,7 +33,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </Alert>
     </section>
 
-    <!-- Success -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Success</h2>
       <Alert variant="success">
@@ -57,7 +57,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </Alert>
     </section>
 
-    <!-- Destructive -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Destructive</h2>
       <Alert variant="destructive">
@@ -82,7 +82,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </Alert>
     </section>
 
-    <!-- Warning -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Warning</h2>
       <Alert variant="warning">
@@ -107,7 +107,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </Alert>
     </section>
 
-    <!-- Info -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Info</h2>
       <Alert variant="info">
@@ -132,7 +132,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </Alert>
     </section>
 
-    <!-- Sin icono -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Sin icono</h2>
       <div class="flex flex-col gap-3">
@@ -147,7 +147,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Solo descripción -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Solo descripción</h2>
       <div class="flex flex-col gap-3">
@@ -164,7 +164,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Contenido rico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Contenido rico</h2>
       <Alert variant="destructive">
@@ -194,7 +194,7 @@ import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
       </Alert>
     </section>
 
-    <!-- Clases custom -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con clases personalizadas</h2>
       <Alert class="max-w-md border-dashed">

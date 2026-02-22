@@ -20,7 +20,7 @@ function onComplete(value: string) {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Input OTP</h1>
 
-    <!-- Básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Básico</h2>
       <p class="text-muted-foreground text-xs">Input OTP de 6 dígitos numéricos.</p>
@@ -39,7 +39,7 @@ function onComplete(value: string) {
       </p>
     </section>
 
-    <!-- Con separador -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con separador</h2>
       <p class="text-muted-foreground text-xs">Grupos de 3 dígitos separados visualmente.</p>
@@ -61,7 +61,7 @@ function onComplete(value: string) {
       </p>
     </section>
 
-    <!-- Separador personalizado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Separador personalizado</h2>
       <p class="text-muted-foreground text-xs">Separadores con guion como contenido personalizado.</p>
@@ -87,7 +87,7 @@ function onComplete(value: string) {
       </InputOTP>
     </section>
 
-    <!-- Prellenado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Valor inicial</h2>
       <p class="text-muted-foreground text-xs">Input OTP con valor prellenado.</p>
@@ -109,7 +109,7 @@ function onComplete(value: string) {
       </p>
     </section>
 
-    <!-- Alfanumérico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Patrón alfanumérico</h2>
       <p class="text-muted-foreground text-xs">Acepta letras y números (patrón alphanumeric).</p>
@@ -126,7 +126,7 @@ function onComplete(value: string) {
       </p>
     </section>
 
-    <!-- Deshabilitado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Deshabilitado</h2>
       <p class="text-muted-foreground text-xs">Input OTP en estado disabled con valor parcial.</p>
@@ -140,7 +140,7 @@ function onComplete(value: string) {
       </InputOTP>
     </section>
 
-    <!-- Auto-submit -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Auto-submit</h2>
       <p class="text-muted-foreground text-xs">Emite el evento <code>complete</code> al llenar todos los campos.</p>

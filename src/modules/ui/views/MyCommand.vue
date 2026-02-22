@@ -20,7 +20,7 @@ const dialogOpen = ref(false);
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Command</h1>
 
-    <!-- Command básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Command básico</h2>
       <div class="mx-auto w-full max-w-md">
@@ -163,7 +163,7 @@ const dialogOpen = ref(false);
       </div>
     </section>
 
-    <!-- Command Dialog -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Command Dialog (⌘K / Ctrl+K)</h2>
       <p class="text-muted-foreground text-sm">

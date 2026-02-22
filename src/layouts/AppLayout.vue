@@ -6,7 +6,7 @@ import { uiRoutes, chartRoutes } from '@/router';
 const route = useRoute();
 const sidebarOpen = ref(true);
 
-// Group routes by meta.group
+
 interface NavItem {
   path: string;
   name: string;
@@ -44,14 +44,14 @@ function isActive(fullPath: string) {
 
 <template>
   <div class="flex h-screen overflow-hidden bg-background text-foreground">
-    <!-- Sidebar -->
+    
     <aside
       :class="[
         'flex h-full shrink-0 flex-col border-r border-border bg-muted/50 transition-[width] duration-200',
         sidebarOpen ? 'w-60' : 'w-0 overflow-hidden border-r-0',
       ]"
     >
-      <!-- Header -->
+      
       <div class="flex h-14 items-center gap-2 border-b border-border px-4">
         <span class="text-sm font-bold tracking-tight">3DF UI</span>
         <span class="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
@@ -59,7 +59,7 @@ function isActive(fullPath: string) {
         </span>
       </div>
 
-      <!-- Section tabs -->
+      
       <div class="flex border-b border-border">
         <button
           :class="[
@@ -85,7 +85,7 @@ function isActive(fullPath: string) {
         </button>
       </div>
 
-      <!-- Nav links -->
+      
       <nav class="flex-1 overflow-y-auto px-3 py-3">
         <template v-if="activeSection === 'ui'">
           <div v-for="group in uiGroups" :key="group.label" class="mb-4">
@@ -135,9 +135,9 @@ function isActive(fullPath: string) {
       </nav>
     </aside>
 
-    <!-- Main -->
+    
     <div class="flex flex-1 flex-col overflow-hidden">
-      <!-- Topbar -->
+      
       <header class="flex h-14 shrink-0 items-center gap-3 border-b border-border px-4">
         <button
           class="inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
@@ -161,7 +161,7 @@ function isActive(fullPath: string) {
         </span>
       </header>
 
-      <!-- Content -->
+      
       <main class="flex-1 overflow-y-auto">
         <div class="mx-auto max-w-5xl p-8">
           <RouterView />

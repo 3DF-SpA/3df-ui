@@ -19,7 +19,6 @@ function open() {
 function close() {
   isOpen.value = false;
   focusedIndex.value = -1;
-  // Focus the first focusable element inside the trigger (e.g. the Button)
   const focusable = triggerRef.value?.querySelector<HTMLElement>(
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
   );

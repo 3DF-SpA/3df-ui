@@ -1,25 +1,15 @@
 import type { ComputedRef, InjectionKey, Ref } from 'vue';
 
 export interface InputOTPContext {
-  /** Array of individual slot values */
   slots: Ref<string[]>;
-  /** Total number of slots */
   length: number;
-  /** Currently focused slot index (-1 = none) */
   focusedIndex: Ref<number>;
-  /** Whether input is disabled */
   disabled: ComputedRef<boolean>;
-  /** Regular expression pattern for allowed characters */
   pattern: RegExp;
-  /** Set value for a specific slot */
   setValue: (index: number, value: string) => void;
-  /** Focus a specific slot */
   focusSlot: (index: number) => void;
-  /** Handle keydown on a slot */
   onSlotKeydown: (index: number, event: KeyboardEvent) => void;
-  /** Handle paste */
   onPaste: (event: ClipboardEvent) => void;
-  /** Register a slot input element */
   registerSlotRef: (index: number, el: HTMLInputElement) => void;
 }
 

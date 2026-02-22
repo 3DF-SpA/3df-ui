@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { UiChartPie, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
-/* ── Data: browser market share (valueKey mode) ────────────── */
-
 const browserData: ChartDataRow[] = [
   { browser: 'Chrome', share: 63 },
   { browser: 'Safari', share: 19 },
@@ -19,8 +17,6 @@ const browserConfig: ChartConfig = {
   Other:   { label: 'Other',   color: 'var(--color-chart-5)' },
 };
 
-/* ── Data: revenue by channel (multi-key single row) ───────── */
-
 const revenueData: ChartDataRow[] = [
   { label: 'Revenue', website: 42000, app: 28000, wholesale: 15000 },
 ];
@@ -30,8 +26,6 @@ const revenueConfig: ChartConfig = {
   app:       { label: 'App',       color: 'var(--color-chart-3)' },
   wholesale: { label: 'Wholesale', color: 'var(--color-chart-5)' },
 };
-
-/* ── Data: tasks status ────────────────────────────────────── */
 
 const tasksData: ChartDataRow[] = [
   { status: 'Done', count: 45 },
@@ -46,8 +40,6 @@ const tasksConfig: ChartConfig = {
   Todo:          { label: 'Todo',        color: 'var(--color-chart-2)' },
   Blocked:       { label: 'Blocked',     color: 'var(--color-chart-4)' },
 };
-
-/* ── Data: storage quotas ──────────────────────────────────── */
 
 const storageData: ChartDataRow[] = [
   { type: 'Photos', used: 48 },
@@ -73,7 +65,7 @@ const storageConfig: ChartConfig = {
       </p>
     </div>
 
-    <!-- 1. Full Pie — browser market share -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Full Pie</h2>
@@ -93,7 +85,7 @@ const storageConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 2. Donut — revenue by channel -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Donut</h2>
@@ -114,7 +106,7 @@ const storageConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 3. Donut — task status with name labels -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Task Status</h2>
@@ -135,7 +127,7 @@ const storageConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 4. Minimal — no labels, no animation -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Minimal &mdash; No Animation</h2>

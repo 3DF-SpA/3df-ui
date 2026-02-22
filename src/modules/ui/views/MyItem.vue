@@ -17,7 +17,7 @@ function onAction(action: string) {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Item (Generic List Item)</h1>
 
-    <!-- 1. Items de navegación -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Items de navegación</h2>
       <div class="border-border w-full max-w-md rounded-lg border">
@@ -56,7 +56,7 @@ function onAction(action: string) {
       </div>
     </section>
 
-    <!-- 2. Items con switch (settings) -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Settings con Switch</h2>
       <div class="border-border w-full max-w-md rounded-lg border">
@@ -106,7 +106,7 @@ function onAction(action: string) {
       </div>
     </section>
 
-    <!-- 3. Variantes -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Variantes</h2>
       <div class="w-full max-w-md space-y-2">
@@ -129,7 +129,7 @@ function onAction(action: string) {
       </div>
     </section>
 
-    <!-- 4. Tamaños -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Tamaños</h2>
       <div class="w-full max-w-md space-y-2">
@@ -154,7 +154,7 @@ function onAction(action: string) {
       </div>
     </section>
 
-    <!-- 5. Disabled -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Disabled</h2>
       <div class="w-full max-w-md space-y-2">
@@ -171,7 +171,7 @@ function onAction(action: string) {
       </div>
     </section>
 
-    <!-- 6. Como link -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Como enlace (&lt;a&gt;)</h2>
       <div class="w-full max-w-md space-y-2">
@@ -188,7 +188,7 @@ function onAction(action: string) {
       </div>
     </section>
 
-    <!-- 7. Solo label (sin slots) -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Uso simple (solo texto)</h2>
       <div class="border-border w-full max-w-md rounded-lg border">

@@ -39,12 +39,10 @@ const popover = inject(POPOVER_KEY)!;
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
 
-// ── Auto-positioning (fixed to viewport) ──────────────────────
 const positionStyle = ref<CSSProperties>({});
 let rafId: number | undefined;
 
@@ -60,7 +58,6 @@ function updatePosition() {
   const pad = props.viewportPadding;
   const gap = props.sideOffset;
 
-  // ── Side (vertical): auto-flip ──
   let side = props.side;
   if (side === 'bottom') {
     const spaceBelow = vh - triggerRect.bottom - gap;
@@ -74,7 +71,6 @@ function updatePosition() {
     }
   }
 
-  // ── Align (horizontal): auto-flip ──
   let align = props.align;
   if (align === 'start') {
     if (triggerRect.left + contentRect.width > vw - pad) align = 'end';
@@ -87,7 +83,6 @@ function updatePosition() {
     else if (cx + hw > vw - pad) align = 'end';
   }
 
-  // ── Compute fixed position ──
   let top: number;
   if (side === 'bottom') {
     top = triggerRect.bottom + gap;
@@ -104,7 +99,6 @@ function updatePosition() {
     left = triggerRect.left + (triggerRect.width - contentRect.width) / 2;
   }
 
-  // ── Viewport clamping ──
   if (left < pad) {
     left = pad;
   } else if (left + contentRect.width > vw - pad) {
@@ -188,7 +182,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 w-72 max-w-[calc(100vw-1rem)]',
             'bg-popover text-popover-foreground',
-            'rounded-md border-ui border-border p-4 shadow-md',
+            'border-ui border-border rounded-md p-4 shadow-md',
             attrs.class,
           )
         "

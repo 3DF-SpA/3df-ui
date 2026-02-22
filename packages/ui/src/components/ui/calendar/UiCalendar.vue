@@ -1,25 +1,12 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs, watch } from 'vue';
-import {
-  addDays,
-  addMonths,
-  eachDayOfInterval,
-  endOfMonth,
-  endOfWeek,
-  format,
-  isSameDay,
-  isSameMonth,
-  isToday as dateFnsIsToday,
-  startOfMonth,
-  startOfWeek,
-  subMonths,
-} from 'date-fns';
-import type { Locale } from 'date-fns/locale';
 
 import type { ClassValue } from 'clsx';
+import { addMonths, subMonths } from 'date-fns';
 
 import { cn } from '../../../lib/utils';
 import type { CalendarMode, DateRange } from './calendar-types';
+import { buildMonths, buildWeekDays, getInitialMonth } from './calendar-utils';
 
 defineOptions({ name: 'UiCalendar', inheritAttrs: false });
 
@@ -32,7 +19,7 @@ interface UiCalendarProps {
   showOutsideDays?: boolean;
   fixedWeeks?: boolean;
   disabled?: (date: Date) => boolean;
-  locale?: Locale;
+  locale?: import('date-fns/locale').Locale;
 }
 
 const props = withDefaults(defineProps<UiCalendarProps>(), {
@@ -58,20 +45,9 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// ── Currently displayed month ─────────────────────────────────
-const currentMonth = ref(new Date(getInitialMonth()));
-
-function getInitialMonth(): Date {
-  if (props.modelValue) {
-    if (props.mode === 'single' && props.modelValue instanceof Date) {
-      return props.modelValue;
-    }
-    if (props.mode === 'range' && 'from' in (props.modelValue as DateRange)) {
-      return (props.modelValue as DateRange).from;
-    }
-  }
-  return props.defaultMonth;
-}
+const currentMonth = ref(
+  new Date(getInitialMonth(props.mode, props.modelValue, props.defaultMonth)),
+);
 
 watch(
   () => props.defaultMonth,
@@ -80,7 +56,6 @@ watch(
   },
 );
 
-// ── Navigation ────────────────────────────────────────────────
 function prevMonth() {
   currentMonth.value = subMonths(currentMonth.value, 1);
 }
@@ -89,94 +64,21 @@ function nextMonth() {
   currentMonth.value = addMonths(currentMonth.value, 1);
 }
 
-// ── Week day headers ──────────────────────────────────────────
-const weekDays = computed(() => {
-  const start = startOfWeek(new Date(), { weekStartsOn: props.weekStartsOn });
-  return Array.from({ length: 7 }, (_, i) =>
-    format(addDays(start, i), 'EEEEEE', { locale: props.locale }),
-  );
-});
+const weekDays = computed(() => buildWeekDays(props.weekStartsOn, props.locale));
 
-// ── Day info type ─────────────────────────────────────────────
-interface DayInfo {
-  date: Date;
-  isCurrentMonth: boolean;
-  isToday: boolean;
-  isSelected: boolean;
-  isRangeStart: boolean;
-  isRangeEnd: boolean;
-  isInRange: boolean;
-  isDisabled: boolean;
-}
+const months = computed(() =>
+  buildMonths(
+    currentMonth.value,
+    props.numberOfMonths,
+    props.weekStartsOn,
+    props.fixedWeeks,
+    props.mode,
+    props.modelValue,
+    props.disabled,
+    props.locale,
+  ),
+);
 
-// ── Selection helpers ─────────────────────────────────────────
-function isDateSelected(date: Date): boolean {
-  if (!props.modelValue) return false;
-  if (props.mode === 'single') {
-    return isSameDay(date, props.modelValue as Date);
-  }
-  const range = props.modelValue as DateRange;
-  return isSameDay(date, range.from) || (range.to ? isSameDay(date, range.to) : false);
-}
-
-function isDateRangeStart(date: Date): boolean {
-  if (props.mode !== 'range' || !props.modelValue) return false;
-  return isSameDay(date, (props.modelValue as DateRange).from);
-}
-
-function isDateRangeEnd(date: Date): boolean {
-  if (props.mode !== 'range' || !props.modelValue) return false;
-  const range = props.modelValue as DateRange;
-  return range.to ? isSameDay(date, range.to) : false;
-}
-
-function isDateInRange(date: Date): boolean {
-  if (props.mode !== 'range' || !props.modelValue) return false;
-  const range = props.modelValue as DateRange;
-  if (!range.to) return false;
-  return date > range.from && date < range.to;
-}
-
-// ── Month grids ───────────────────────────────────────────────
-const months = computed(() => {
-  const result: { month: Date; label: string; days: DayInfo[] }[] = [];
-
-  for (let i = 0; i < props.numberOfMonths; i++) {
-    const monthDate = addMonths(currentMonth.value, i);
-    const firstDay = startOfMonth(monthDate);
-    const start = startOfWeek(firstDay, { weekStartsOn: props.weekStartsOn });
-
-    let days: Date[];
-    if (props.fixedWeeks) {
-      days = eachDayOfInterval({ start, end: addDays(start, 41) });
-    } else {
-      const lastDay = endOfMonth(monthDate);
-      const end = endOfWeek(lastDay, { weekStartsOn: props.weekStartsOn });
-      days = eachDayOfInterval({ start, end });
-    }
-
-    const dayInfos: DayInfo[] = days.map((date) => ({
-      date,
-      isCurrentMonth: isSameMonth(date, monthDate),
-      isToday: dateFnsIsToday(date),
-      isSelected: isDateSelected(date),
-      isRangeStart: isDateRangeStart(date),
-      isRangeEnd: isDateRangeEnd(date),
-      isInRange: isDateInRange(date),
-      isDisabled: props.disabled ? props.disabled(date) : false,
-    }));
-
-    result.push({
-      month: monthDate,
-      label: format(monthDate, 'MMMM yyyy', { locale: props.locale }),
-      days: dayInfos,
-    });
-  }
-
-  return result;
-});
-
-// ── Range selection state ─────────────────────────────────────
 const rangeSelecting = ref(false);
 
 function onDayClick(date: Date) {
@@ -205,13 +107,12 @@ function onDayClick(date: Date) {
   <div v-bind="restAttrs" :class="cn('p-3', attrs.class)">
     <div :class="cn('flex', numberOfMonths > 1 && 'gap-4')">
       <div v-for="(m, idx) in months" :key="m.label" class="w-full">
-        <!-- Header: nav + month label -->
-        <div class="relative flex items-center justify-center pb-4 pt-1">
+        <div class="relative flex items-center justify-center pt-1 pb-4">
           <button
             v-if="idx === 0"
             type="button"
             aria-label="Mes anterior"
-            class="absolute left-0 inline-flex h-7 w-7 items-center justify-center rounded-md bg-transparent text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            class="text-muted-foreground hover:bg-accent hover:text-accent-foreground absolute left-0 inline-flex h-7 w-7 items-center justify-center rounded-md bg-transparent text-sm font-medium transition-colors"
             @click="prevMonth"
           >
             <svg
@@ -236,7 +137,7 @@ function onDayClick(date: Date) {
             v-if="idx === months.length - 1"
             type="button"
             aria-label="Mes siguiente"
-            class="absolute right-0 inline-flex h-7 w-7 items-center justify-center rounded-md bg-transparent text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            class="text-muted-foreground hover:bg-accent hover:text-accent-foreground absolute right-0 inline-flex h-7 w-7 items-center justify-center rounded-md bg-transparent text-sm font-medium transition-colors"
             @click="nextMonth"
           >
             <svg
@@ -256,18 +157,16 @@ function onDayClick(date: Date) {
           </button>
         </div>
 
-        <!-- Week day headers -->
         <div class="grid grid-cols-7">
           <div
             v-for="day in weekDays"
             :key="day"
-            class="flex h-9 w-9 items-center justify-center text-[0.8rem] font-normal text-muted-foreground"
+            class="text-muted-foreground flex h-9 w-9 items-center justify-center text-[0.8rem] font-normal"
           >
             {{ day }}
           </div>
         </div>
 
-        <!-- Days grid -->
         <div class="grid grid-cols-7">
           <template v-for="(d, dIdx) in m.days" :key="dIdx">
             <div v-if="!d.isCurrentMonth && !showOutsideDays" class="h-9 w-9" />
@@ -283,11 +182,11 @@ function onDayClick(date: Date) {
                   'inline-flex h-9 w-9 items-center justify-center rounded-md p-0 text-sm font-normal',
                   'transition-colors duration-100',
                   'hover:bg-accent hover:text-accent-foreground',
-                  'focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
-                  d.isToday && !d.isSelected && 'bg-accent font-medium text-accent-foreground',
+                  'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
+                  d.isToday && !d.isSelected && 'bg-accent text-accent-foreground font-medium',
                   d.isSelected &&
                     !d.isInRange &&
-                    'bg-primary font-medium text-primary-foreground hover:bg-primary hover:text-primary-foreground',
+                    'bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground font-medium',
                   d.isInRange && 'bg-accent/50 rounded-none',
                   d.isRangeStart && d.isSelected && 'rounded-r-none',
                   d.isRangeEnd && d.isSelected && 'rounded-l-none',

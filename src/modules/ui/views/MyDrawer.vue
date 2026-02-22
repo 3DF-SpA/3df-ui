@@ -24,7 +24,7 @@ function adjustGoal(delta: number) {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Drawer</h1>
 
-    <!-- Básico -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Básico</h2>
       <p class="text-muted-foreground text-xs">Drawer con trigger, header, contenido y footer. Arrastra el handle para cerrar.</p>
@@ -51,7 +51,7 @@ function adjustGoal(delta: number) {
       </Drawer>
     </section>
 
-    <!-- Con objetivo interactivo -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Interactivo</h2>
       <p class="text-muted-foreground text-xs">Drawer con contenido interactivo (contador de objetivo).</p>
@@ -85,7 +85,7 @@ function adjustGoal(delta: number) {
       </Drawer>
     </section>
 
-    <!-- Controlado -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Controlado (v-model)</h2>
       <p class="text-muted-foreground text-xs">
@@ -115,7 +115,7 @@ function adjustGoal(delta: number) {
       </Drawer>
     </section>
 
-    <!-- Sin botón de cierre -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Sin botón de cierre</h2>
       <p class="text-muted-foreground text-xs">Drawer que solo se cierra con drag o Escape.</p>

@@ -19,7 +19,6 @@ export const badgeVariants = cva(
         success: 'bg-emerald-600 text-white shadow-sm dark:bg-emerald-500',
         warning: 'bg-amber-500 text-white shadow-sm dark:bg-amber-400 dark:text-black',
 
-        // Color variants
         red: 'bg-red-600 text-white shadow-sm dark:bg-red-500',
         orange: 'bg-orange-500 text-white shadow-sm dark:bg-orange-400 dark:text-black',
         yellow: 'bg-yellow-400 text-black shadow-sm dark:bg-yellow-300',

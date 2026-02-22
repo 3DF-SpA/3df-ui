@@ -44,7 +44,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// ── Provide item registration for children ────────────────────
 provide(MENUBAR_ITEM_CONTEXT_KEY, {
   register: menu.registerItem,
   unregister: menu.unregisterItem,
@@ -52,7 +51,6 @@ provide(MENUBAR_ITEM_CONTEXT_KEY, {
   items: menu.items,
 });
 
-// ── Auto-positioning (fixed to viewport) ──────────────────────
 const positionStyle = ref<CSSProperties>({});
 let rafId: number | undefined;
 
@@ -68,7 +66,6 @@ function updatePosition() {
   const pad = props.viewportPadding;
   const gap = props.sideOffset;
 
-  // ── Side (vertical): auto-flip ──
   let side = props.side;
   if (side === 'bottom') {
     const spaceBelow = vh - triggerRect.bottom - gap;
@@ -82,7 +79,6 @@ function updatePosition() {
     }
   }
 
-  // ── Align (horizontal): auto-flip ──
   let align = props.align;
   if (align === 'start') {
     if (triggerRect.left + contentRect.width > vw - pad) align = 'end';
@@ -111,7 +107,6 @@ function updatePosition() {
     left = triggerRect.left + (triggerRect.width - contentRect.width) / 2;
   }
 
-  // ── Viewport clamping ──
   if (left < pad) left = pad;
   else if (left + contentRect.width > vw - pad) left = vw - pad - contentRect.width;
   if (top < pad) top = pad;
@@ -184,7 +179,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 min-w-[12rem]',
             'bg-popover text-popover-foreground',
-            'rounded-md border-ui border-border p-1 shadow-md',
+            'border-ui border-border rounded-md p-1 shadow-md',
             'max-h-[var(--menubar-max-h,20rem)] overflow-auto',
             attrs.class,
           )

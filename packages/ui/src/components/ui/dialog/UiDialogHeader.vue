@@ -15,7 +15,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// Confirm usage inside Dialog
 inject(DIALOG_KEY)!;
 </script>
 

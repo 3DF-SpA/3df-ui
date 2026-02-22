@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { type Component, computed, useAttrs } from 'vue';
+
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
@@ -50,7 +51,6 @@ const classes = computed(() =>
     props.isActive && 'bg-sidebar-accent text-sidebar-accent-foreground font-medium',
     sizeClasses[props.size] ?? sizeClasses.default,
     '[&>span:last-child]:truncate',
-    /* icon-collapse: centra icono, oculta todo excepto el primer hijo */
     'group-data-[collapsible=icon]/sidebar-wrapper:!size-8 group-data-[collapsible=icon]/sidebar-wrapper:!p-2',
     'group-data-[collapsible=icon]/sidebar-wrapper:justify-center',
     'group-data-[collapsible=icon]/sidebar-wrapper:[&>*:not(:first-child)]:hidden',
@@ -58,7 +58,6 @@ const classes = computed(() =>
   ),
 );
 
-/* Tooltip para modo icon colapsado */
 const showTooltip = computed(
   () =>
     props.tooltip &&

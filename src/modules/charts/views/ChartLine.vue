@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { UiChartLine, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
-/* ── Data sets ─────────────────────────────────────────────── */
-
 const salesData: ChartDataRow[] = [
   { month: 'Jan', online: 3200, store: 1800 },
   { month: 'Feb', online: 2800, store: 2100 },
@@ -74,7 +72,7 @@ const stepConfig: ChartConfig = {
       </p>
     </div>
 
-    <!-- 1. Monotone (default) — smooth curves -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Monotone (Smooth)</h2>
@@ -91,7 +89,7 @@ const stepConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 2. Multi-line — server latency percentiles -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Multi-line &mdash; Latency Percentiles</h2>
@@ -110,7 +108,7 @@ const stepConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 3. Linear — no area fill -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Linear &mdash; No Area</h2>
@@ -131,7 +129,7 @@ const stepConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 4. Step — single series -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Step</h2>

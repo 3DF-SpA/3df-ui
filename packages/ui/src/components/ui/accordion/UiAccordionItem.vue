@@ -10,9 +10,7 @@ defineOptions({ name: 'UiAccordionItem', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    /** Unique value for this item */
     value: string;
-    /** Disable just this item */
     disabled?: boolean;
   }>(),
   { disabled: false },
@@ -47,7 +45,7 @@ provide(ACCORDION_ITEM_KEY, {
     v-bind="restAttrs"
     :data-state="isOpen ? 'open' : 'closed'"
     :data-disabled="itemDisabled ? '' : undefined"
-    :class="cn('border-b border-border/60', attrs.class)"
+    :class="cn('border-border/60 border-b', attrs.class)"
   >
     <slot :open="isOpen" />
   </div>

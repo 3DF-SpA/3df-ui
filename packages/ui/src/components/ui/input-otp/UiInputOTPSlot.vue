@@ -9,7 +9,6 @@ import { INPUT_OTP_KEY } from './input-otp-types';
 defineOptions({ name: 'UiInputOTPSlot', inheritAttrs: false });
 
 interface UiInputOTPSlotProps {
-  /** Zero-based slot index */
   index: number;
 }
 
@@ -46,11 +45,9 @@ function onInput(event: Event) {
   const target = event.target as HTMLInputElement;
   const value = target.value;
 
-  // Take only the last character typed
   const lastChar = value.slice(-1);
   otp.setValue(props.index, lastChar);
 
-  // Reset input value to current slot value
   target.value = otp.slots.value[props.index] ?? '';
 }
 
@@ -101,12 +98,11 @@ onBeforeUnmount(() => {
       @blur="onBlur"
       @paste="onPaste"
     />
-    <!-- Fake caret -->
     <div
       v-if="hasFakeCaret"
       class="pointer-events-none absolute inset-0 flex items-center justify-center"
     >
-      <div class="h-4 w-px animate-pulse bg-foreground duration-1000" />
+      <div class="bg-foreground h-4 w-px animate-pulse duration-1000" />
     </div>
   </div>
 </template>

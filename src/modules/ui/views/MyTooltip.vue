@@ -6,7 +6,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Tooltip</h1>
 
-    <!-- Básico -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Básico</h2>
       <div class="flex gap-4">
@@ -20,8 +19,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
         </Tooltip>
       </div>
     </section>
-
-    <!-- Posiciones (side) -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Posiciones</h2>
       <div class="flex flex-wrap gap-4">
@@ -55,7 +52,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Alineación -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Alineación</h2>
       <div class="flex flex-wrap gap-4">
@@ -82,7 +78,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Con iconos -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con botones de icono</h2>
       <div class="flex gap-3">
@@ -155,7 +150,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Delay personalizado -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Delay personalizado</h2>
       <div class="flex flex-wrap gap-4">
@@ -182,7 +176,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Contenido rico -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Contenido rico</h2>
       <div class="flex gap-4">
@@ -206,7 +199,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Auto-flip -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Auto-flip en bordes</h2>
       <p class="text-muted-foreground max-w-md text-sm">
@@ -223,7 +215,6 @@ import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- Focus trigger -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Se activa con focus (Tab)</h2>
       <p class="text-muted-foreground max-w-md text-sm">

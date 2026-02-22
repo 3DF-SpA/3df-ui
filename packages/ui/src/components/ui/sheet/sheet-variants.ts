@@ -1,11 +1,6 @@
 import { cva } from 'class-variance-authority';
 
-/**
- * Variantes de posición del panel Sheet.
- * Controla desde qué lado se desliza el contenido.
- */
 export const sheetVariants = cva(
-  // ── Base ──
   [
     'fixed z-50 flex flex-col gap-4 p-6 shadow-lg',
     'transition-[transform,opacity] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',

@@ -10,7 +10,7 @@ import {
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Avatar</h1>
 
-    <!-- Avatar básico con imagen -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">User Profile</h2>
       <div class="flex items-center gap-4">
@@ -28,7 +28,7 @@ import {
       </div>
     </section>
 
-    <!-- Tamaños -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Tamaños</h2>
       <div class="flex items-end gap-4">
@@ -70,7 +70,7 @@ import {
       </div>
     </section>
 
-    <!-- Fallback con iniciales -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Fallback (imagen rota)</h2>
       <div class="flex items-center gap-4">
@@ -88,7 +88,7 @@ import {
       </div>
     </section>
 
-    <!-- Team Members -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Team Members</h2>
       <div class="flex -space-x-3">
@@ -113,7 +113,7 @@ import {
       </div>
     </section>
 
-    <!-- Fallback con icono -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Fallback con icono</h2>
       <div class="flex items-center gap-4">

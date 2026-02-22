@@ -9,7 +9,6 @@ import { COMMAND_KEY, type CommandContext } from './command-types';
 defineOptions({ name: 'UiCommand', inheritAttrs: false });
 
 interface UiCommandProps {
-  /** Custom filter function. Return 1 for match, 0 for no match. Default: case-insensitive includes. */
   filter?: (value: string, search: string) => boolean;
 }
 
@@ -52,10 +51,7 @@ function unregisterItem(value: string) {
   allValues.value = allValues.value.filter((v) => v !== value);
 }
 
-// ── Compute visible items for keyboard nav ──
-const visibleValues = computed(() =>
-  allValues.value.filter((v) => filterFn(v, search.value)),
-);
+const visibleValues = computed(() => allValues.value.filter((v) => filterFn(v, search.value)));
 
 function navigateItems(direction: 'next' | 'prev') {
   const values = visibleValues.value;
@@ -66,8 +62,7 @@ function navigateItems(direction: 'next' | 'prev') {
   if (direction === 'next') {
     selectedValue.value = values[(currentIdx + 1) % values.length]!;
   } else {
-    selectedValue.value =
-      values[(currentIdx - 1 + values.length) % values.length]!;
+    selectedValue.value = values[(currentIdx - 1 + values.length) % values.length]!;
   }
 }
 
@@ -121,7 +116,7 @@ provide(COMMAND_KEY, {
     v-bind="restAttrs"
     :class="
       cn(
-        'flex h-full w-full flex-col overflow-hidden rounded-md border-ui border-border bg-popover text-popover-foreground',
+        'border-ui border-border bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md',
         attrs.class,
       )
     "

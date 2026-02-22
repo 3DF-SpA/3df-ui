@@ -6,7 +6,7 @@ import { Separator } from '@3df-spa/ui';
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Separator</h1>
 
-    <!-- ─── 1. Horizontal (default) ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Horizontal (default)</h2>
       <div class="max-w-md">
@@ -27,7 +27,7 @@ import { Separator } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- ─── 2. Vertical ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Vertical</h2>
       <div class="flex h-5 items-center gap-4 text-sm">
@@ -41,7 +41,7 @@ import { Separator } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- ─── 3. Decorativo ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Decorativo (sin role="separator")</h2>
       <p class="text-muted-foreground max-w-md text-sm">
@@ -56,7 +56,7 @@ import { Separator } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- ─── 4. Custom styling ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Estilos personalizados</h2>
       <div class="flex max-w-md flex-col gap-6">
@@ -79,7 +79,7 @@ import { Separator } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- ─── 5. En contexto ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">En contexto — Card con secciones</h2>
       <div class="max-w-sm rounded-lg border border-border bg-card p-6 shadow-sm">
@@ -105,7 +105,7 @@ import { Separator } from '@3df-spa/ui';
       </div>
     </section>
 
-    <!-- ─── 6. Referencia de Props ─── -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Referencia de Props</h2>
       <div class="overflow-x-auto rounded-lg border border-border">

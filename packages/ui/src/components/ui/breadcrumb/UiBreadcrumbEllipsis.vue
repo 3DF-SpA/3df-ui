@@ -22,7 +22,6 @@ const restAttrs = computed(() => {
     :class="cn('flex h-9 w-9 items-center justify-center', attrs.class)"
   >
     <slot>
-      <!-- Ellipsis icon (three dots) -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"

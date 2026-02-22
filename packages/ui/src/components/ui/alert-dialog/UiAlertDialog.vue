@@ -7,9 +7,7 @@ defineOptions({ name: 'UiAlertDialog' });
 
 const props = withDefaults(
   defineProps<{
-    /** External state (v-model:open) */
     open?: boolean;
-    /** Default initial state */
     defaultOpen?: boolean;
   }>(),
   {

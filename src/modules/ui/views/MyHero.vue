@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import {
-  HeroSimple,
-  HeroSplit,
-  HeroImage,
-  HeroGradient,
-  HeroCentered,
-  HeroMinimal,
-  type HeroAction,
-} from '@3df-spa/ui';
+import { type HeroAction, HeroImage, HeroSimple, HeroSplit } from '@3df-spa/ui';
 
-/* ── Action sets ─────────────────────────────────────────── */
+import HeroDemoGradients from './_components/HeroDemoGradients.vue';
 
 const primaryActions: HeroAction[] = [
   { label: 'Get Started', variant: 'primary', href: '#' },
@@ -20,37 +12,22 @@ const imageActions: HeroAction[] = [
   { label: 'Start Free Trial', variant: 'primary', href: '#' },
   { label: 'Watch Demo', variant: 'outline', href: '#' },
 ];
-
-const gradientActions: HeroAction[] = [
-  { label: 'Get Started Free', variant: 'primary', href: '#' },
-  { label: 'See Pricing', variant: 'secondary', href: '#' },
-];
-
-const centeredActions: HeroAction[] = [
-  { label: 'Start Building', variant: 'primary', href: '#' },
-  { label: 'View Documentation', variant: 'ghost', href: '#' },
-];
-
-const minimalActions: HeroAction[] = [
-  { label: 'Browse Components', variant: 'primary', href: '#' },
-];
 </script>
 
 <template>
   <div class="space-y-4 p-8">
     <div class="mx-auto max-w-5xl">
       <h1 class="text-3xl font-bold tracking-tight">Hero Sections</h1>
-      <p class="mt-2 text-muted-foreground">
-        Secciones hero para landing pages. 6 variantes: simple, split, imagen de fondo,
-        gradiente moderno, centrado con badge, y minimalista.
+      <p class="text-muted-foreground mt-2">
+        Secciones hero para landing pages. 6 variantes: simple, split, imagen de fondo, gradiente
+        moderno, centrado con badge, y minimalista.
       </p>
     </div>
 
-    <!-- 1. Hero Simple — Centered basic -->
     <section class="space-y-4">
       <div class="mx-auto max-w-5xl">
         <h2 class="text-xl font-semibold">Hero Simple — Centrado Básico</h2>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           Hero centrado estándar con headline, descripción y botones CTA.
         </p>
       </div>
@@ -63,11 +40,10 @@ const minimalActions: HeroAction[] = [
       </div>
     </section>
 
-    <!-- 2. Hero Simple — Left aligned -->
     <section class="space-y-4">
       <div class="mx-auto max-w-5xl">
         <h2 class="text-xl font-semibold">Hero Simple — Alineado a la Izquierda</h2>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           Misma estructura, pero con texto alineado a la izquierda.
         </p>
       </div>
@@ -82,11 +58,10 @@ const minimalActions: HeroAction[] = [
       </div>
     </section>
 
-    <!-- 3. Hero Split — Text + Image -->
     <section class="space-y-4">
       <div class="mx-auto max-w-5xl">
         <h2 class="text-xl font-semibold">Hero Split — Texto + Imagen</h2>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           Layout dividido: contenido de texto a la izquierda, imagen a la derecha.
         </p>
       </div>
@@ -101,11 +76,10 @@ const minimalActions: HeroAction[] = [
       </div>
     </section>
 
-    <!-- 4. Hero Split — Reversed -->
     <section class="space-y-4">
       <div class="mx-auto max-w-5xl">
         <h2 class="text-xl font-semibold">Hero Split — Invertido</h2>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           Split con la imagen a la izquierda y texto a la derecha usando <code>reverse</code>.
         </p>
       </div>
@@ -122,11 +96,10 @@ const minimalActions: HeroAction[] = [
       </div>
     </section>
 
-    <!-- 5. Hero Image Background — Dark overlay -->
     <section class="space-y-4">
       <div class="mx-auto max-w-5xl">
         <h2 class="text-xl font-semibold">Hero Image — Fondo con Overlay Oscuro</h2>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           Imagen de fondo a pantalla completa con overlay oscuro semi-transparente.
         </p>
       </div>
@@ -143,11 +116,10 @@ const minimalActions: HeroAction[] = [
       </div>
     </section>
 
-    <!-- 6. Hero Image — Gradient overlay, left aligned -->
     <section class="space-y-4">
       <div class="mx-auto max-w-5xl">
         <h2 class="text-xl font-semibold">Hero Image — Overlay Gradiente</h2>
-        <p class="text-sm text-muted-foreground">
+        <p class="text-muted-foreground text-sm">
           Overlay gradiente de abajo hacia arriba. Texto alineado a la izquierda.
         </p>
       </div>
@@ -166,142 +138,6 @@ const minimalActions: HeroAction[] = [
       </div>
     </section>
 
-    <!-- 7. Hero Gradient — Purple -->
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Gradient — Purple</h2>
-        <p class="text-sm text-muted-foreground">
-          Fondo gradiente moderno con blobs decorativos. Preset <code>purple</code>.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroGradient
-          headline="Next-generation components"
-          description="Beautiful, accessible, and performant. Built with Vue 3, TypeScript, and Tailwind CSS for the modern web."
-          :actions="gradientActions"
-          gradient="purple"
-        />
-      </div>
-    </section>
-
-    <!-- 8. Hero Gradient — Blue -->
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Gradient — Blue (Sin Blobs)</h2>
-        <p class="text-sm text-muted-foreground">
-          Preset <code>blue</code> sin blobs decorativos. Look más limpio.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroGradient
-          headline="Scale your frontend effortlessly"
-          description="From prototyping to production, our components adapt to your needs without compromising on design quality."
-          :actions="gradientActions"
-          gradient="blue"
-          :blobs="false"
-          compact
-        />
-      </div>
-    </section>
-
-    <!-- 9. Hero Gradient — Rose, left aligned -->
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Gradient — Rose, Izquierda</h2>
-        <p class="text-sm text-muted-foreground">
-          Preset <code>rose</code> con alineación a la izquierda.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroGradient
-          headline="Design with confidence"
-          description="Every component is thoroughly tested and fully accessible. Build inclusive experiences by default."
-          :actions="gradientActions"
-          gradient="rose"
-          align="left"
-        />
-      </div>
-    </section>
-
-    <!-- 10. Hero Centered — Con Badge + Highlight -->
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Centered — Badge + Highlight</h2>
-        <p class="text-sm text-muted-foreground">
-          Hero centrado con badge/anuncio, headline con texto resaltado en gradiente, y patrón de grid sutil.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroCentered
-          badge="🚀 New: Charts package now available"
-          badge-href="#"
-          headline="Build interfaces that feel like magic"
-          highlight-text="feel like magic"
-          description="A complete design system for Vue 3 with 45+ component families, charts, and everything you need to ship beautiful products."
-          :actions="centeredActions"
-          :grid-pattern="true"
-        />
-      </div>
-    </section>
-
-    <!-- 11. Hero Centered — Sin grid, sin badge -->
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Centered — Limpio, Sin Grid</h2>
-        <p class="text-sm text-muted-foreground">
-          Sin patrón de grid ni badge. Look más limpio y elegante.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroCentered
-          headline="The future of web components"
-          highlight-text="future"
-          description="Designed with precision, built for speed. Every pixel matters."
-          :actions="centeredActions"
-          :grid-pattern="false"
-          compact
-        />
-      </div>
-    </section>
-
-    <!-- 12. Hero Minimal — Izquierda -->
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Minimal — Izquierda con Separador</h2>
-        <p class="text-sm text-muted-foreground">
-          Hero minimalista alineado a la izquierda con separador inferior. Ideal para headers de páginas.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroMinimal
-          headline="Component Library"
-          description="Browse our collection of production-ready Vue 3 components."
-          :actions="minimalActions"
-          separator
-        />
-      </div>
-    </section>
-
-    <!-- 13. Hero Minimal — Centro -->
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Minimal — Centrado</h2>
-        <p class="text-sm text-muted-foreground">
-          Versión centrada del hero minimalista. Perfecto para páginas internas.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroMinimal
-          headline="Documentation"
-          description="Everything you need to know to get started with 3DF UI."
-          :actions="[
-            { label: 'Quick Start', variant: 'primary', href: '#' },
-            { label: 'API Reference', variant: 'outline', href: '#' },
-          ]"
-          align="center"
-          compact
-        />
-      </div>
-    </section>
+    <HeroDemoGradients />
   </div>
 </template>

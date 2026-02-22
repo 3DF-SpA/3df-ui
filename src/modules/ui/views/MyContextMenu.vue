@@ -23,7 +23,7 @@ const person = ref('pedro');
 
 <template>
   <div class="space-y-12">
-    <!-- 1. Context Menu básico -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Context Menu — Básico</h2>
       <p class="text-sm text-muted-foreground">
@@ -69,7 +69,7 @@ const person = ref('pedro');
       </ContextMenu>
     </section>
 
-    <!-- 2. Context Menu con sub-menú -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Context Menu — Sub-menú</h2>
       <p class="text-sm text-muted-foreground">
@@ -116,7 +116,7 @@ const person = ref('pedro');
       </ContextMenu>
     </section>
 
-    <!-- 3. Estado actual -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">Estado reactivo</h2>
       <div class="rounded-md border p-4 text-sm space-y-1">

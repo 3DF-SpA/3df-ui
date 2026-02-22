@@ -34,7 +34,7 @@ const faqItems = [
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Accordion</h1>
 
-    <!-- Single (default) -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Single (un item a la vez)</h2>
       <div class="mx-auto w-full max-w-lg">
@@ -51,7 +51,7 @@ const faqItems = [
       </div>
     </section>
 
-    <!-- Multiple -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Multiple (varios abiertos)</h2>
       <div class="mx-auto w-full max-w-lg">
@@ -68,7 +68,7 @@ const faqItems = [
       </div>
     </section>
 
-    <!-- Disabled -->
+    
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con item deshabilitado</h2>
       <div class="mx-auto w-full max-w-lg">

@@ -21,10 +21,8 @@ const positions = [
   <div class="flex min-h-screen flex-col gap-12 p-8">
     <h1 class="text-3xl font-bold">Sonner — Toast Notifications</h1>
 
-    <!-- Toaster global -->
     <Toaster :position="position" />
 
-    <!-- Variantes -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Variantes</h2>
       <div class="flex flex-wrap gap-3">
@@ -44,7 +42,6 @@ const positions = [
       </div>
     </section>
 
-    <!-- Con título y descripción -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con título y descripción</h2>
       <div class="flex flex-wrap gap-3">
@@ -94,8 +91,6 @@ const positions = [
         </Button>
       </div>
     </section>
-
-    <!-- Con acción -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Con acción</h2>
       <div class="flex flex-wrap gap-3">
@@ -132,7 +127,6 @@ const positions = [
       </div>
     </section>
 
-    <!-- Duración personalizada -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Duración personalizada</h2>
       <div class="flex flex-wrap gap-3">
@@ -163,7 +157,6 @@ const positions = [
       </div>
     </section>
 
-    <!-- Posición -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">
         Posición — <span class="text-foreground font-mono">{{ position }}</span>
@@ -186,7 +179,6 @@ const positions = [
       </div>
     </section>
 
-    <!-- No dismissible -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">No dismissible</h2>
       <div class="flex flex-wrap gap-3">
@@ -206,7 +198,6 @@ const positions = [
       </div>
     </section>
 
-    <!-- Dismiss programático -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Control programático</h2>
       <div class="flex flex-wrap gap-3">
@@ -226,7 +217,6 @@ const positions = [
       </div>
     </section>
 
-    <!-- Hover pausa -->
     <section class="flex flex-col gap-4">
       <h2 class="text-muted-foreground text-sm font-medium">Hover pausa el timer</h2>
       <p class="text-muted-foreground max-w-md text-sm">

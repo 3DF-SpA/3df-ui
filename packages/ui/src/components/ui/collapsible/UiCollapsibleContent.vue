@@ -29,7 +29,6 @@ watch(
     isAnimating.value = true;
 
     if (open) {
-      // Expanding: remove hidden so we can measure, then animate 0 → scrollHeight
       el.removeAttribute('hidden');
       const scrollH = el.scrollHeight;
       height.value = '0px';
@@ -37,7 +36,6 @@ watch(
         height.value = `${scrollH}px`;
       });
     } else {
-      // Collapsing: measure current height, animate from current → 0
       height.value = `${el.scrollHeight}px`;
       requestAnimationFrame(() => {
         height.value = '0px';
@@ -49,7 +47,6 @@ watch(
 function onTransitionEnd() {
   isAnimating.value = false;
   if (ctx.isOpen.value) {
-    // After expanding, allow content to grow naturally
     height.value = 'auto';
   }
 }
@@ -67,12 +64,7 @@ function onTransitionEnd() {
       overflow: isAnimating || !ctx.isOpen.value ? 'hidden' : undefined,
     }"
     :hidden="!ctx.isOpen.value && !isAnimating ? true : undefined"
-    :class="
-      cn(
-        'transition-[height] duration-200 ease-in-out',
-        attrs.class,
-      )
-    "
+    :class="cn('transition-[height] duration-200 ease-in-out', attrs.class)"
     @transitionend="onTransitionEnd"
   >
     <slot />

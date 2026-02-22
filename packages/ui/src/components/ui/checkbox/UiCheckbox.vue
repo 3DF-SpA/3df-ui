@@ -24,7 +24,6 @@ const emit = defineEmits<{
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
@@ -67,7 +66,6 @@ function onChange(event: Event) {
       @change="onChange"
     />
 
-    <!-- Check icon -->
     <svg
       :class="[
         'pointer-events-none absolute inset-0 size-4',
@@ -92,7 +90,6 @@ function onChange(event: Event) {
       />
     </svg>
 
-    <!-- Indeterminate icon -->
     <svg
       v-if="props.indeterminate && !props.modelValue"
       class="pointer-events-none absolute inset-0 size-4"

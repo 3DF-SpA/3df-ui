@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { LogoCloud, LogoMarquee, type LogoItem } from '@3df-spa/ui';
 
-/* ── Logo data (using SVG logos from CDN) ──────────────────── */
+
 
 const techLogos: LogoItem[] = [
   { name: 'Vue.js', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg', href: 'https://vuejs.org' },
@@ -48,7 +48,7 @@ const row2Logos: LogoItem[] = [
       </p>
     </div>
 
-    <!-- 1. Logo Cloud — grid estático con grayscale -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Logo Cloud — Grid con Grayscale</h2>
@@ -67,7 +67,7 @@ const row2Logos: LogoItem[] = [
       </div>
     </section>
 
-    <!-- 2. Logo Cloud — sin grayscale, 6 columnas -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Logo Cloud — Full Color, 6 Columnas</h2>
@@ -85,7 +85,7 @@ const row2Logos: LogoItem[] = [
       </div>
     </section>
 
-    <!-- 3. Logo Marquee — scroll infinito con hover-to-slow -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Logo Marquee — Hover to Slow</h2>
@@ -105,7 +105,7 @@ const row2Logos: LogoItem[] = [
       </div>
     </section>
 
-    <!-- 4. Logo Marquee — full color, hover-to-slow -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Marquee — Full Color, Hover to Slow</h2>
@@ -125,7 +125,7 @@ const row2Logos: LogoItem[] = [
       </div>
     </section>
 
-    <!-- 5. Logo Marquee — dos filas opuestas -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Dual Marquee — Dos Filas Opuestas</h2>
@@ -146,7 +146,7 @@ const row2Logos: LogoItem[] = [
       </div>
     </section>
 
-    <!-- 6. Logo Marquee — rápido, sin fade, sin grayscale -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Fast Marquee — Sin Fade Mask</h2>

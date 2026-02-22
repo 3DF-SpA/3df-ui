@@ -30,7 +30,6 @@ const emit = defineEmits<{
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
@@ -38,21 +37,17 @@ const restAttrs = computed(() => {
 const trackRef = ref<HTMLElement>();
 const isDragging = ref(false);
 
-// ─── Clamp & snap value ───────────────────────────────────────
 function clamp(value: number): number {
   const clamped = Math.min(props.max, Math.max(props.min, value));
-  // Snap to step
   const steps = Math.round((clamped - props.min) / props.step);
   return Math.min(props.max, props.min + steps * props.step);
 }
 
-// ─── Percentage for positioning ───────────────────────────────
 const percentage = computed(() => {
   if (props.max === props.min) return 0;
   return ((props.modelValue - props.min) / (props.max - props.min)) * 100;
 });
 
-// ─── Resolve value from pointer position ──────────────────────
 function resolveValue(clientX: number): number {
   if (!trackRef.value) return props.modelValue;
   const rect = trackRef.value.getBoundingClientRect();
@@ -61,7 +56,6 @@ function resolveValue(clientX: number): number {
   return clamp(rawValue);
 }
 
-// ─── Pointer handlers ─────────────────────────────────────────
 function onPointerDown(event: PointerEvent) {
   if (props.disabled) return;
   event.preventDefault();
@@ -82,7 +76,6 @@ function onPointerUp() {
   isDragging.value = false;
 }
 
-// ─── Keyboard handler ─────────────────────────────────────────
 function onKeydown(event: KeyboardEvent) {
   if (props.disabled) return;
 
@@ -123,7 +116,6 @@ function onKeydown(event: KeyboardEvent) {
   emit('update:modelValue', newValue);
 }
 
-// ─── Cleanup global listeners on unmount ──────────────────────
 function onDocumentPointerUp() {
   isDragging.value = false;
   document.removeEventListener('pointerup', onDocumentPointerUp);
@@ -133,7 +125,6 @@ onBeforeUnmount(() => {
   document.removeEventListener('pointerup', onDocumentPointerUp);
 });
 
-// ─── Ensure value is clamped when props change ────────────────
 watch(
   () => [props.min, props.max, props.step],
   () => {
@@ -159,7 +150,7 @@ watch(
     :class="
       cn(
         [
-          'relative flex w-full touch-none select-none items-center',
+          'relative flex w-full touch-none items-center select-none',
           'cursor-pointer',
           'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         ].join(' '),
@@ -171,23 +162,16 @@ watch(
     @pointerup="onPointerUp"
     @keydown="onKeydown"
   >
-    <!-- Track -->
     <div class="bg-secondary relative h-1.5 w-full overflow-hidden rounded-full">
-      <!-- Range (filled portion) -->
       <div
         class="bg-primary absolute h-full rounded-full transition-[width] duration-75 ease-out"
         :style="{ width: `${percentage}%` }"
       />
     </div>
 
-    <!-- Thumb -->
     <div
-      class="bg-background absolute block size-4 rounded-full border-ui border-border shadow-md transition-[transform,box-shadow] duration-200 hover:scale-110"
-      :class="[
-        isDragging
-          ? 'scale-110 ring-[3px] ring-ring/40 shadow-md'
-          : 'shadow-sm',
-      ]"
+      class="bg-background border-ui border-border absolute block size-4 rounded-full shadow-md transition-[transform,box-shadow] duration-200 hover:scale-110"
+      :class="[isDragging ? 'ring-ring/40 scale-110 shadow-md ring-[3px]' : 'shadow-sm']"
       :style="{ left: `calc(${percentage}% - 8px)` }"
     />
   </div>

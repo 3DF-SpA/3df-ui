@@ -9,17 +9,11 @@ import type { HeroAction, HeroAlign } from './hero-types';
 defineOptions({ name: 'UiHeroMinimal', inheritAttrs: false });
 
 interface Props {
-  /** Main headline */
   headline?: string;
-  /** Supporting text */
   description?: string;
-  /** CTA buttons */
   actions?: HeroAction[];
-  /** Text alignment */
   align?: HeroAlign;
-  /** Visual separator line below */
   separator?: boolean;
-  /** Reduce vertical padding */
   compact?: boolean;
 }
 
@@ -64,18 +58,20 @@ function handleAction(action: HeroAction, index: number) {
 <template>
   <section
     v-bind="restAttrs"
-    :class="cn(
-      'relative w-full',
-      compact ? 'py-12 md:py-16' : 'py-20 md:py-28',
-      separator && 'border-b border-border',
-      attrs.class,
-    )"
+    :class="
+      cn(
+        'relative w-full',
+        compact ? 'py-12 md:py-16' : 'py-20 md:py-28',
+        separator && 'border-border border-b',
+        attrs.class,
+      )
+    "
   >
     <div :class="cn('mx-auto flex max-w-4xl flex-col gap-5 px-6 lg:px-8', alignClass)">
       <slot name="headline">
         <h1
           v-if="headline"
-          class="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl"
+          class="text-foreground text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl"
         >
           {{ headline }}
         </h1>
@@ -84,11 +80,13 @@ function handleAction(action: HeroAction, index: number) {
       <slot name="description">
         <p
           v-if="description"
-          :class="cn(
-            'max-w-xl text-base text-muted-foreground sm:text-lg',
-            align === 'center' && 'mx-auto',
-            align === 'right' && 'ml-auto',
-          )"
+          :class="
+            cn(
+              'text-muted-foreground max-w-xl text-base sm:text-lg',
+              align === 'center' && 'mx-auto',
+              align === 'right' && 'ml-auto',
+            )
+          "
         >
           {{ description }}
         </p>
@@ -98,23 +96,38 @@ function handleAction(action: HeroAction, index: number) {
         <div
           v-if="actions?.length"
           class="mt-2 flex flex-wrap gap-3"
-          :class="align === 'center' ? 'justify-center' : align === 'right' ? 'justify-end' : 'justify-start'"
+          :class="
+            align === 'center'
+              ? 'justify-center'
+              : align === 'right'
+                ? 'justify-end'
+                : 'justify-start'
+          "
         >
           <component
             :is="action.href ? 'a' : 'button'"
             v-for="(action, i) in actions"
             :key="i"
-            v-bind="action.href ? { href: action.href, ...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) } : {}"
-            :class="cn(
-              'inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-              action.variant === 'outline'
-                ? 'bg-foreground/[0.06] text-foreground hover:bg-accent hover:text-accent-foreground'
-                : action.variant === 'secondary'
-                  ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                  : action.variant === 'ghost'
-                    ? 'text-muted-foreground hover:text-foreground'
-                    : 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
-            )"
+            v-bind="
+              action.href
+                ? {
+                    href: action.href,
+                    ...(action.external ? { target: '_blank', rel: 'noopener noreferrer' } : {}),
+                  }
+                : {}
+            "
+            :class="
+              cn(
+                'focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none',
+                action.variant === 'outline'
+                  ? 'bg-foreground/[0.06] text-foreground hover:bg-accent hover:text-accent-foreground'
+                  : action.variant === 'secondary'
+                    ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
+                    : action.variant === 'ghost'
+                      ? 'text-muted-foreground hover:text-foreground'
+                      : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm',
+              )
+            "
             @click="!action.href && handleAction(action, i)"
           >
             {{ action.label }}

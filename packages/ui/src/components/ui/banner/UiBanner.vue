@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs, useSlots } from 'vue';
-import type { ClassValue } from 'clsx';
+
 import type { VariantProps } from 'class-variance-authority';
+import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
 import { bannerVariants } from './banner-variants';
@@ -56,26 +57,22 @@ function dismiss() {
       )
     "
   >
-    <!-- Icon slot -->
     <span v-if="slots.icon" class="flex shrink-0 items-center">
       <slot name="icon" />
     </span>
 
-    <!-- Content -->
     <div class="flex min-w-0 flex-1 items-center gap-2">
       <slot />
     </div>
 
-    <!-- Action slot -->
     <div v-if="slots.action" class="flex shrink-0 items-center">
       <slot name="action" />
     </div>
 
-    <!-- Dismiss button -->
     <button
       v-if="dismissible"
       type="button"
-      class="ml-2 inline-flex shrink-0 items-center justify-center rounded-sm p-1 opacity-70 transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-current/30"
+      class="ml-2 inline-flex shrink-0 items-center justify-center rounded-sm p-1 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-current/30 focus:outline-none"
       aria-label="Cerrar"
       @click="dismiss"
     >

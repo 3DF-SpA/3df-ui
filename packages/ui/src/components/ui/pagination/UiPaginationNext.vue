@@ -8,9 +8,7 @@ import { cn } from '../../../lib/utils';
 defineOptions({ name: 'UiPaginationNext', inheritAttrs: false });
 
 interface UiPaginationNextProps {
-  /** HTML tag or component to render */
   as?: string | Component;
-  /** Disable the button */
   disabled?: boolean;
 }
 

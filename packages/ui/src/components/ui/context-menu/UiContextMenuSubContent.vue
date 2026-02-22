@@ -14,7 +14,11 @@ import {
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { CONTEXT_MENU_ITEM_KEY, CONTEXT_MENU_KEY, CONTEXT_MENU_SUB_KEY } from './context-menu-types';
+import {
+  CONTEXT_MENU_ITEM_KEY,
+  CONTEXT_MENU_KEY,
+  CONTEXT_MENU_SUB_KEY,
+} from './context-menu-types';
 
 defineOptions({ name: 'UiContextMenuSubContent', inheritAttrs: false });
 
@@ -38,7 +42,6 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// Provide sub-item registration for children
 provide(CONTEXT_MENU_ITEM_KEY, {
   register: menu.registerSubItem,
   unregister: menu.unregisterSubItem,
@@ -46,7 +49,6 @@ provide(CONTEXT_MENU_ITEM_KEY, {
   items: menu.subItems,
 });
 
-// ── Positioning (to the right of sub-trigger) ─────────────────
 const positionStyle = ref<CSSProperties>({});
 let rafId: number | undefined;
 
@@ -62,14 +64,12 @@ function updatePosition() {
   const pad = props.viewportPadding;
   const gap = props.sideOffset;
 
-  // Horizontal: try right, flip to left
   let left = triggerRect.right + gap;
   if (left + contentRect.width > vw - pad) {
     left = triggerRect.left - contentRect.width - gap;
   }
   if (left < pad) left = pad;
 
-  // Vertical: top-aligned with trigger
   let top = triggerRect.top;
   if (top + contentRect.height > vh - pad) {
     top = vh - pad - contentRect.height;
@@ -133,7 +133,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 min-w-[8rem]',
             'bg-popover text-popover-foreground',
-            'rounded-md border-ui border-border p-1 shadow-lg',
+            'border-ui border-border rounded-md p-1 shadow-lg',
             attrs.class,
           )
         "

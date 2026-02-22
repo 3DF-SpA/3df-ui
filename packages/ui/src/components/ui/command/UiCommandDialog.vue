@@ -39,7 +39,6 @@ function onSelect(val: string) {
   emit('select', val);
 }
 
-// ── Global keyboard shortcut (Ctrl+K / ⌘K) ──
 function onGlobalKeydown(e: KeyboardEvent) {
   if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
     e.preventDefault();
@@ -63,10 +62,7 @@ onBeforeUnmount(() => {
       :show-close="false"
       :class="cn('overflow-hidden p-0 shadow-lg', attrs.class)"
     >
-      <UiCommand
-        class="[&_[data-command-input-wrapper]]:border-b"
-        @select="onSelect"
-      >
+      <UiCommand class="[&_[data-command-input-wrapper]]:border-b" @select="onSelect">
         <slot />
       </UiCommand>
     </UiDialogContent>

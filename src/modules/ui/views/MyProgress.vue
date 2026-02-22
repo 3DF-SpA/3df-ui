@@ -3,10 +3,10 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 
 import { Progress } from '@3df-spa/ui';
 
-// ─── Sección 1: Básico ─────────────────────────────────────
+
 const basicValue = ref(33);
 
-// ─── Sección 2: Animado con intervalo ──────────────────────
+
 const animatedValue = ref(0);
 let animTimer: ReturnType<typeof setInterval>;
 
@@ -20,7 +20,7 @@ onBeforeUnmount(() => {
   clearInterval(animTimer);
 });
 
-// ─── Sección 3: Controlado ─────────────────────────────────
+
 const controlledValue = ref(60);
 
 function increase() {
@@ -33,13 +33,13 @@ function reset() {
   controlledValue.value = 0;
 }
 
-// ─── Sección 4: Diferentes tamaños ─────────────────────────
+
 const sizesValue = ref(55);
 
-// ─── Sección 5: Colores custom ─────────────────────────────
+
 const colorValue = ref(72);
 
-// ─── Sección 6: Multiple progress bars ─────────────────────
+
 const steps = ref([
   { label: 'Descarga', value: 100 },
   { label: 'Extracción', value: 78 },
@@ -58,7 +58,7 @@ const steps = ref([
       </p>
     </div>
 
-    <!-- ─── 1. BÁSICO ──────────────────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">1. Básico</h2>
       <p class="text-sm text-muted-foreground">
@@ -67,7 +67,7 @@ const steps = ref([
       <Progress :model-value="basicValue" class="w-full max-w-md" />
     </section>
 
-    <!-- ─── 2. ANIMADO ─────────────────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">2. Animado</h2>
       <p class="text-sm text-muted-foreground">
@@ -77,7 +77,7 @@ const steps = ref([
       <Progress :model-value="animatedValue" class="w-full max-w-md" />
     </section>
 
-    <!-- ─── 3. CONTROLADO ──────────────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">3. Controlado</h2>
       <p class="text-sm text-muted-foreground">
@@ -107,7 +107,7 @@ const steps = ref([
       </div>
     </section>
 
-    <!-- ─── 4. INDETERMINADO ───────────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">4. Indeterminado</h2>
       <p class="text-sm text-muted-foreground">
@@ -116,7 +116,7 @@ const steps = ref([
       <Progress class="w-full max-w-md" />
     </section>
 
-    <!-- ─── 5. TAMAÑOS ─────────────────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">5. Tamaños personalizados</h2>
       <p class="text-sm text-muted-foreground">
@@ -142,7 +142,7 @@ const steps = ref([
       </div>
     </section>
 
-    <!-- ─── 6. COLORES CUSTOM ──────────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">6. Colores personalizados</h2>
       <p class="text-sm text-muted-foreground">
@@ -156,7 +156,7 @@ const steps = ref([
       </div>
     </section>
 
-    <!-- ─── 7. MÚLTIPLES PASOS ─────────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">7. Pasos de instalación</h2>
       <p class="text-sm text-muted-foreground">
@@ -177,7 +177,7 @@ const steps = ref([
       </div>
     </section>
 
-    <!-- ─── 8. MAX PERSONALIZADO ───────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">8. Max personalizado</h2>
       <p class="text-sm text-muted-foreground">
@@ -186,7 +186,7 @@ const steps = ref([
       <Progress :model-value="150" :max="200" class="w-full max-w-md" />
     </section>
 
-    <!-- ─── 9. REFERENCIA DE PROPS ─────────────────────────── -->
+    
     <section class="space-y-4">
       <h2 class="text-xl font-semibold">9. Referencia de Props</h2>
       <div class="overflow-x-auto">

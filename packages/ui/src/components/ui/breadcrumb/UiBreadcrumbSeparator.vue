@@ -22,7 +22,6 @@ const restAttrs = computed(() => {
     :class="cn('[&>svg]:h-3.5 [&>svg]:w-3.5', attrs.class)"
   >
     <slot>
-      <!-- Default chevron right -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"

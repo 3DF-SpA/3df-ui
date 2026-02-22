@@ -9,9 +9,7 @@ import { COMMAND_KEY } from './command-types';
 defineOptions({ name: 'UiCommandItem', inheritAttrs: false });
 
 interface UiCommandItemProps {
-  /** Unique value for identification and filtering */
   value: string;
-  /** Display keywords for better search matching (optional) */
   keywords?: string[];
   disabled?: boolean;
 }
@@ -33,14 +31,12 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-// Compute the full searchable string (value + keywords)
 const searchableValue = computed(() => {
   const parts = [props.value];
   if (props.keywords?.length) parts.push(...props.keywords);
   return parts.join(' ');
 });
 
-// Register with the command context
 onMounted(() => {
   cmd.registerItem(searchableValue.value);
 });
@@ -49,7 +45,6 @@ onBeforeUnmount(() => {
   cmd.unregisterItem(searchableValue.value);
 });
 
-// Re-register if keywords or value changes
 watch(
   () => searchableValue.value,
   (newVal, oldVal) => {
@@ -58,9 +53,7 @@ watch(
   },
 );
 
-const isVisible = computed(() =>
-  cmd.filterFn(searchableValue.value, cmd.search.value),
-);
+const isVisible = computed(() => cmd.filterFn(searchableValue.value, cmd.search.value));
 
 const isSelected = computed(() => cmd.selectedValue.value === searchableValue.value);
 
@@ -89,7 +82,7 @@ function onPointerEnter() {
     :class="
       cn(
         'relative flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm',
-        'select-none outline-none',
+        'outline-none select-none',
         'transition-colors duration-100',
         isSelected && 'bg-accent text-accent-foreground',
         disabled && 'pointer-events-none opacity-50',

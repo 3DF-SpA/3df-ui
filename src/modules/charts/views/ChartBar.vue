@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { UiChartBar, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
 
-/* ── Data sets ─────────────────────────────────────────────── */
-
 const monthlyData: ChartDataRow[] = [
   { month: 'Jan', revenue: 4200, expenses: 2800 },
   { month: 'Feb', revenue: 3800, expenses: 2600 },
@@ -66,7 +64,7 @@ const performanceConfig: ChartConfig = {
       </p>
     </div>
 
-    <!-- 1. Vertical grouped (default) -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Vertical Grouped</h2>
@@ -83,7 +81,7 @@ const performanceConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 2. Horizontal grouped -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Horizontal</h2>
@@ -102,7 +100,7 @@ const performanceConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 3. Stacked vertical -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Stacked</h2>
@@ -120,7 +118,7 @@ const performanceConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 4. Interactive legend + 3 series -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Interactive Legend</h2>
@@ -138,7 +136,7 @@ const performanceConfig: ChartConfig = {
       </div>
     </section>
 
-    <!-- 5. No animation + custom formatter + no grid -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Custom Formatter &mdash; No Animation</h2>

@@ -35,7 +35,6 @@ const ctx = createSidebarContext({
   collapsible: props.collapsible,
 });
 
-/* ─── Sync v-model:open ─── */
 watch(
   () => props.open,
   (val) => {

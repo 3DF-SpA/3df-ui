@@ -7,9 +7,7 @@ defineOptions({ name: 'UiHoverCard' });
 
 const props = withDefaults(
   defineProps<{
-    /** Delay in ms before the card opens on hover */
     openDelay?: number;
-    /** Delay in ms before the card closes when leaving */
     closeDelay?: number;
   }>(),
   {

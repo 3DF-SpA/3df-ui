@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { UiChartGauge, type GaugeSegment } from '@3df-spa/charts';
 
-/* ── Gauge segments for zones ──────────────────────────────── */
-
 const speedSegments: GaugeSegment[] = [
   { max: 60, color: 'var(--color-chart-3)', label: 'Safe' },
   { max: 100, color: 'var(--color-chart-1)', label: 'Normal' },
@@ -27,7 +25,7 @@ const healthSegments: GaugeSegment[] = [
       </p>
     </div>
 
-    <!-- 1. Semicircle — default -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Semicircle &mdash; Default</h2>
@@ -44,7 +42,7 @@ const healthSegments: GaugeSegment[] = [
       </div>
     </section>
 
-    <!-- 2. Arc 270° with segments -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Arc 270° &mdash; Speed Zones</h2>
@@ -65,7 +63,7 @@ const healthSegments: GaugeSegment[] = [
       </div>
     </section>
 
-    <!-- 3. Full circle -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Full Circle &mdash; Temperature</h2>
@@ -87,7 +85,7 @@ const healthSegments: GaugeSegment[] = [
       </div>
     </section>
 
-    <!-- 4. Health score with segments -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Health Score &mdash; Segments, No Animation</h2>

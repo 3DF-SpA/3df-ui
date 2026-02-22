@@ -10,11 +10,8 @@ defineOptions({ name: 'UiDialogContent', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    /** Visual variant */
     variant?: 'default';
-    /** Show close button (×) */
     showClose?: boolean;
-    /** Close when clicking overlay */
     closeOnOverlay?: boolean;
   }>(),
   {
@@ -34,7 +31,6 @@ const restAttrs = computed(() => {
 
 const panelRef = ref<HTMLElement>();
 
-// ── Visibility & animation ──
 const isVisible = ref(false);
 const isAnimating = ref(false);
 let animTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -47,16 +43,13 @@ function unlockScroll() {
   document.body.style.overflow = '';
 }
 
-// ── Focus trap ──
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function trapFocus(e: KeyboardEvent) {
   if (e.key !== 'Tab' || !panelRef.value) return;
 
-  const focusable = Array.from(
-    panelRef.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-  );
+  const focusable = Array.from(panelRef.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
   if (focusable.length === 0) {
     e.preventDefault();
     return;
@@ -129,7 +122,6 @@ function onOverlayClick() {
 <template>
   <Teleport to="body">
     <div v-if="isVisible" class="fixed inset-0 z-50">
-      <!-- Overlay with backdrop blur -->
       <div
         class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-200"
         :class="isAnimating ? 'opacity-100' : 'opacity-0'"
@@ -137,9 +129,7 @@ function onOverlayClick() {
         @click="onOverlayClick"
       />
 
-      <!-- Centering wrapper -->
       <div class="fixed inset-0 flex items-center justify-center p-4">
-        <!-- Panel -->
         <div
           ref="panelRef"
           v-bind="restAttrs"
@@ -149,12 +139,10 @@ function onOverlayClick() {
           :aria-describedby="dialog.descriptionId"
           :class="
             cn(
-              'relative z-50 grid w-full max-w-lg gap-4 rounded-lg border-ui border-border p-6 shadow-lg',
+              'border-ui border-border relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-lg',
               'transition-all duration-200',
               'bg-popover',
-              isAnimating
-                ? 'scale-100 opacity-100'
-                : 'scale-95 opacity-0',
+              isAnimating ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
               attrs.class,
             )
           "
@@ -163,11 +151,10 @@ function onOverlayClick() {
         >
           <slot />
 
-          <!-- Close button -->
           <button
             v-if="showClose"
             type="button"
-            class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+            class="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none"
             aria-label="Close"
             @click="dialog.close()"
           >

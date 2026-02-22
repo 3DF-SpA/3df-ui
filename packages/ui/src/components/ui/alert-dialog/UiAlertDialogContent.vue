@@ -18,7 +18,6 @@ const restAttrs = computed(() => {
 
 const panelRef = ref<HTMLElement>();
 
-// ── Visibility & animation ──
 const isVisible = ref(false);
 const isAnimating = ref(false);
 let animTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -31,16 +30,13 @@ function unlockScroll() {
   document.body.style.overflow = '';
 }
 
-// ── Focus trap ──
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 function trapFocus(e: KeyboardEvent) {
   if (e.key !== 'Tab' || !panelRef.value) return;
 
-  const focusable = Array.from(
-    panelRef.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR),
-  );
+  const focusable = Array.from(panelRef.value.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
   if (focusable.length === 0) {
     e.preventDefault();
     return;
@@ -75,8 +71,6 @@ watch(
       panelRef.value?.getBoundingClientRect();
       isAnimating.value = true;
       await nextTick();
-      // Focus the cancel button (data-alert-dialog-cancel) for safety,
-      // otherwise fall back to first focusable element
       const cancelBtn = panelRef.value?.querySelector<HTMLElement>('[data-alert-dialog-cancel]');
       const firstFocusable = panelRef.value?.querySelector<HTMLElement>(FOCUSABLE_SELECTOR);
       (cancelBtn ?? firstFocusable ?? panelRef.value)?.focus();
@@ -110,16 +104,13 @@ onBeforeUnmount(() => {
 <template>
   <Teleport to="body">
     <div v-if="isVisible" class="fixed inset-0 z-50">
-      <!-- Overlay — does NOT close on click (AlertDialog behavior) -->
       <div
         class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-200"
         :class="isAnimating ? 'opacity-100' : 'opacity-0'"
         aria-hidden="true"
       />
 
-      <!-- Centering wrapper -->
       <div class="fixed inset-0 flex items-center justify-center p-4">
-        <!-- Panel -->
         <div
           ref="panelRef"
           v-bind="restAttrs"
@@ -129,11 +120,9 @@ onBeforeUnmount(() => {
           :aria-describedby="ctx.descriptionId"
           :class="
             cn(
-              'relative z-50 grid w-full max-w-lg gap-4 rounded-lg border-ui border-border bg-popover p-6 shadow-lg',
+              'border-ui border-border bg-popover relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-lg',
               'transition-all duration-200',
-              isAnimating
-                ? 'scale-100 opacity-100'
-                : 'scale-95 opacity-0',
+              isAnimating ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
               attrs.class,
             )
           "

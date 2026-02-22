@@ -21,7 +21,6 @@ function setViewportRef(el: unknown) {
 }
 
 onMounted(() => {
-  // Ensure the parent carousel can init Embla with this viewport
   if (ctx.viewportRef.value) return;
 });
 </script>
@@ -31,11 +30,7 @@ onMounted(() => {
     <div
       v-bind="restAttrs"
       :class="
-        cn(
-          'flex',
-          ctx.orientation.value === 'horizontal' ? '-ml-4' : '-mt-4 flex-col',
-          attrs.class,
-        )
+        cn('flex', ctx.orientation.value === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', attrs.class)
       "
     >
       <slot />

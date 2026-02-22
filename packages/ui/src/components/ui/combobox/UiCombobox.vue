@@ -4,15 +4,15 @@ import { computed, ref, useAttrs } from 'vue';
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import UiPopover from '../popover/UiPopover.vue';
-import UiPopoverTrigger from '../popover/UiPopoverTrigger.vue';
-import UiPopoverContent from '../popover/UiPopoverContent.vue';
 import UiCommand from '../command/UiCommand.vue';
-import UiCommandInput from '../command/UiCommandInput.vue';
-import UiCommandList from '../command/UiCommandList.vue';
 import UiCommandEmpty from '../command/UiCommandEmpty.vue';
 import UiCommandGroup from '../command/UiCommandGroup.vue';
+import UiCommandInput from '../command/UiCommandInput.vue';
 import UiCommandItem from '../command/UiCommandItem.vue';
+import UiCommandList from '../command/UiCommandList.vue';
+import UiPopover from '../popover/UiPopover.vue';
+import UiPopoverContent from '../popover/UiPopoverContent.vue';
+import UiPopoverTrigger from '../popover/UiPopoverTrigger.vue';
 
 defineOptions({ name: 'UiCombobox', inheritAttrs: false });
 
@@ -56,13 +56,11 @@ const selectedLabel = computed(() => {
 });
 
 function onSelect(value: string) {
-  // Toggle selection
   if (props.modelValue === value) {
     emit('update:modelValue', '');
   } else {
     emit('update:modelValue', value);
   }
-  // Close popover after selection
   isOpen.value = false;
   search.value = '';
 }
@@ -79,16 +77,15 @@ function onSelect(value: string) {
           :aria-expanded="open"
           :class="
             cn(
-              'flex h-10 w-full min-w-[200px] items-center justify-between rounded-md border-ui border-input bg-foreground/5 px-3 py-2 text-sm ring-offset-background',
+              'border-ui border-input bg-foreground/5 ring-offset-background flex h-10 w-full min-w-[200px] items-center justify-between rounded-md px-3 py-2 text-sm',
               'hover:bg-accent/50',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+              'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
               !modelValue && 'text-muted-foreground',
               attrs.class,
             )
           "
         >
           <span class="truncate">{{ selectedLabel ?? placeholder }}</span>
-          <!-- Chevron up/down -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -120,7 +117,6 @@ function onSelect(value: string) {
               :disabled="option.disabled"
               @select="onSelect(option.value)"
             >
-              <!-- Checkmark -->
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -131,7 +127,9 @@ function onSelect(value: string) {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                :class="cn('mr-2 h-4 w-4', modelValue === option.value ? 'opacity-100' : 'opacity-0')"
+                :class="
+                  cn('mr-2 h-4 w-4', modelValue === option.value ? 'opacity-100' : 'opacity-0')
+                "
               >
                 <path d="M20 6 9 17l-5-5" />
               </svg>

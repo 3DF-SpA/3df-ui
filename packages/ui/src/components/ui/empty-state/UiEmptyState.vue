@@ -8,9 +8,7 @@ import { cn } from '../../../lib/utils';
 defineOptions({ name: 'UiEmptyState', inheritAttrs: false });
 
 interface UiEmptyStateProps {
-  /** Heading text */
   title?: string;
-  /** Description text */
   description?: string;
 }
 
@@ -27,37 +25,30 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn(
-    'flex flex-col items-center justify-center gap-4 px-6 py-16 text-center',
-    attrs.class,
-  ),
+  cn('flex flex-col items-center justify-center gap-4 px-6 py-16 text-center', attrs.class),
 );
 </script>
 
 <template>
   <div v-bind="restAttrs" :class="classes">
-    <!-- Icon slot -->
     <div v-if="$slots.icon" class="text-muted-foreground [&>svg]:size-12">
       <slot name="icon" />
     </div>
 
-    <!-- Title -->
     <h3
       v-if="props.title || $slots.title"
-      class="text-lg font-semibold tracking-tight text-foreground"
+      class="text-foreground text-lg font-semibold tracking-tight"
     >
       <slot name="title">{{ props.title }}</slot>
     </h3>
 
-    <!-- Description -->
     <p
       v-if="props.description || $slots.description"
-      class="max-w-sm text-sm text-muted-foreground"
+      class="text-muted-foreground max-w-sm text-sm"
     >
       <slot name="description">{{ props.description }}</slot>
     </p>
 
-    <!-- Actions (children) -->
     <div v-if="$slots.default" class="mt-2 flex gap-2">
       <slot />
     </div>

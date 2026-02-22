@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { UiChartScatter, type ScatterConfig } from '@3df-spa/charts';
 
-/* ── Data: height vs weight ────────────────────────────────── */
-
 const bodyData = [
   { height: 160, weight: 55, bmi: 21.5 },
   { height: 165, weight: 62, bmi: 22.8 },
@@ -26,8 +24,6 @@ const bodyConfig: ScatterConfig = {
     yKey: 'weight',
   },
 };
-
-/* ── Data: multi-series comparison ─────────────────────────── */
 
 const salesData = [
   { adSpend: 500, revenue: 2200, region: 'NA' },
@@ -58,10 +54,7 @@ const salesConfig: ScatterConfig = {
   },
 };
 
-/* Filter data per series */
 const salesDataFiltered = salesData;
-
-/* ── Data: bubble chart (with size) ────────────────────────── */
 
 const projectData = [
   { complexity: 3, duration: 12, budget: 50 },
@@ -84,8 +77,6 @@ const bubbleConfig: ScatterConfig = {
     sizeKey: 'budget',
   },
 };
-
-/* ── Data: square shape ────────────────────────────────────── */
 
 const cpuData = [
   { threads: 2, throughput: 1200 },
@@ -116,7 +107,7 @@ const cpuConfig: ScatterConfig = {
       </p>
     </div>
 
-    <!-- 1. Basic scatter — height vs weight -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Basic Scatter</h2>
@@ -134,7 +125,7 @@ const cpuConfig: ScatterConfig = {
       </div>
     </section>
 
-    <!-- 2. Multi-series with different shapes -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Multi-series &mdash; Different Shapes</h2>
@@ -152,7 +143,7 @@ const cpuConfig: ScatterConfig = {
       </div>
     </section>
 
-    <!-- 3. Bubble chart — size mapping -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Bubble Chart</h2>
@@ -172,7 +163,7 @@ const cpuConfig: ScatterConfig = {
       </div>
     </section>
 
-    <!-- 4. Square shape — no animation -->
+    
     <section class="space-y-4">
       <div>
         <h2 class="text-xl font-semibold">Square Shape &mdash; No Animation</h2>

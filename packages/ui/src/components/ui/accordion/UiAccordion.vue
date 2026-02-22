@@ -10,15 +10,10 @@ defineOptions({ name: 'UiAccordion', inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    /** 'single' = one open at a time; 'multiple' = many can be open */
     type?: AccordionType;
-    /** Currently expanded item(s). String for single, string[] for multiple. v-model:value */
     modelValue?: string | string[];
-    /** Default expanded item(s) (uncontrolled) */
     defaultValue?: string | string[];
-    /** Allow closing all items in single mode */
     collapsible?: boolean;
-    /** Disable all items */
     disabled?: boolean;
   }>(),
   {
@@ -47,7 +42,6 @@ function normalizeValue(val: string | string[] | undefined): string[] {
 
 const internalValue = ref<string[]>(normalizeValue(props.defaultValue));
 
-// Sync with v-model
 watch(
   () => props.modelValue,
   (v) => {
@@ -76,12 +70,10 @@ function toggle(itemValue: string) {
       if (props.collapsible) {
         internalValue.value = [];
       }
-      // If not collapsible, do nothing (keep open)
     } else {
       internalValue.value = [itemValue];
     }
   } else {
-    // multiple
     if (isActive) {
       internalValue.value = current.filter((v) => v !== itemValue);
     } else {
@@ -109,11 +101,7 @@ provide(ACCORDION_KEY, {
 </script>
 
 <template>
-  <div
-    v-bind="restAttrs"
-    :data-orientation="'vertical'"
-    :class="cn(attrs.class)"
-  >
+  <div v-bind="restAttrs" :data-orientation="'vertical'" :class="cn(attrs.class)">
     <slot />
   </div>
 </template>

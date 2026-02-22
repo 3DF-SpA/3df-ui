@@ -39,12 +39,10 @@ const tooltip = inject(TOOLTIP_KEY)!;
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
 
-// ── Auto-positioning (fixed to viewport) ──────────────────────
 const positionStyle = ref<CSSProperties>({});
 let rafId: number | undefined;
 
@@ -60,7 +58,6 @@ function updatePosition() {
   const pad = props.viewportPadding;
   const gap = props.sideOffset;
 
-  // ── Side: auto-flip ──
   let side = props.side;
   if (side === 'top') {
     if (
@@ -96,10 +93,8 @@ function updatePosition() {
   let left: number;
 
   if (side === 'top' || side === 'bottom') {
-    // Vertical positioning
     top = side === 'top' ? triggerRect.top - contentRect.height - gap : triggerRect.bottom + gap;
 
-    // Horizontal alignment
     if (props.align === 'start') {
       left = triggerRect.left;
     } else if (props.align === 'end') {
@@ -108,10 +103,8 @@ function updatePosition() {
       left = triggerRect.left + (triggerRect.width - contentRect.width) / 2;
     }
   } else {
-    // Horizontal positioning (left/right)
     left = side === 'left' ? triggerRect.left - contentRect.width - gap : triggerRect.right + gap;
 
-    // Vertical alignment
     if (props.align === 'start') {
       top = triggerRect.top;
     } else if (props.align === 'end') {
@@ -121,7 +114,6 @@ function updatePosition() {
     }
   }
 
-  // ── Viewport clamping ──
   if (left < pad) left = pad;
   else if (left + contentRect.width > vw - pad) left = vw - pad - contentRect.width;
 
@@ -196,7 +188,7 @@ onBeforeUnmount(() => {
           cn(
             'z-50 max-w-xs',
             'bg-popover text-popover-foreground',
-            'rounded-md border-ui border-border px-3 py-1.5 text-sm shadow-md',
+            'border-ui border-border rounded-md px-3 py-1.5 text-sm shadow-md',
             attrs.class,
           )
         "
