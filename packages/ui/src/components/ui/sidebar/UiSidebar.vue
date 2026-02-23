@@ -64,8 +64,8 @@ const sidebarClasses = computed(() => {
   const base = cn(
     'fixed inset-y-0 z-10 flex h-svh flex-col bg-sidebar text-sidebar-foreground transition-[left,right,width,padding] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
     ctx.side.value === 'left'
-      ? 'left-0 border-r border-sidebar-border'
-      : 'right-0 border-l border-sidebar-border',
+      ? 'left-0 border-r-ui border-sidebar-border'
+      : 'right-0 border-l-ui border-sidebar-border',
   );
 
   const width =

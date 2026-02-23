@@ -10,11 +10,26 @@ import {
   Switch,
   Textarea,
 } from '@3df-spa/ui';
+
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 </script>
 
 <template>
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Formulario completo</h2>
+  <DocShowcase
+    title="Formulario completo"
+    description="Ejemplo de formulario combinando todos los componentes."
+    code='<form @submit.prevent>
+  <Input placeholder="Juan Pérez" />
+  <Select placeholder="Selecciona un país">
+    <SelectItem value="mx">México</SelectItem>
+  </Select>
+  <Textarea placeholder="¿En qué podemos ayudarte?" />
+  <Radio value="pro" name="plan" />
+  <Switch id="newsletter" />
+  <Checkbox id="terms" />
+  <Button type="submit">Enviar</Button>
+</form>'
+  >
     <form class="border-border grid max-w-md gap-5 rounded-lg border p-6" @submit.prevent>
       <div class="flex flex-col gap-2">
         <Label for="form-name">Nombre completo</Label>
@@ -60,5 +75,5 @@ import {
         <Button type="reset" variant="outline">Limpiar</Button>
       </div>
     </form>
-  </section>
+  </DocShowcase>
 </template>

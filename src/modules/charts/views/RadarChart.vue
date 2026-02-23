@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { UiChartRadar, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
+import { type ChartConfig, type ChartDataRow, UiChartRadar } from '@3df-spa/charts';
+
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const skillsData: ChartDataRow[] = [
   { skill: 'Frontend', alice: 90, bob: 70 },
@@ -12,7 +17,7 @@ const skillsData: ChartDataRow[] = [
 
 const skillsConfig: ChartConfig = {
   alice: { label: 'Alice', color: 'var(--color-chart-1)' },
-  bob:   { label: 'Bob',   color: 'var(--color-chart-4)' },
+  bob: { label: 'Bob', color: 'var(--color-chart-4)' },
 };
 
 const productData: ChartDataRow[] = [
@@ -26,8 +31,8 @@ const productData: ChartDataRow[] = [
 ];
 
 const productConfig: ChartConfig = {
-  ours:       { label: 'Our Product',  color: 'var(--color-chart-3)' },
-  competitor: { label: 'Competitor',   color: 'var(--color-chart-5)' },
+  ours: { label: 'Our Product', color: 'var(--color-chart-3)' },
+  competitor: { label: 'Competitor', color: 'var(--color-chart-5)' },
 };
 
 const fitnessData: ChartDataRow[] = [
@@ -52,46 +57,133 @@ const teamData: ChartDataRow[] = [
 
 const teamConfig: ChartConfig = {
   engineering: { label: 'Engineering', color: 'var(--color-chart-1)' },
-  marketing:   { label: 'Marketing',   color: 'var(--color-chart-3)' },
-  sales:       { label: 'Sales',       color: 'var(--color-chart-5)' },
+  marketing: { label: 'Marketing', color: 'var(--color-chart-3)' },
+  sales: { label: 'Sales', color: 'var(--color-chart-5)' },
 };
+
+const polygonCode = `<UiChartRadar :config="config" :data="data" index="skill" />`;
+
+const circleCode = `<UiChartRadar
+  :config="config"
+  :data="data"
+  index="metric"
+  variant="circle"
+  :fill-opacity="0.3"
+/>`;
+
+const noFillCode = `<UiChartRadar
+  :config="config"
+  :data="data"
+  index="area"
+  :show-fill="false"
+  :stroke-width="3"
+  :dot-radius="5"
+  :show-legend="false"
+/>`;
+
+const multiCode = `<UiChartRadar
+  :config="config"
+  :data="data"
+  index="quarter"
+  variant="circle"
+  :animate="false"
+  :levels="4"
+/>`;
+
+const radarProps: PropItem[] = [
+  {
+    name: 'data',
+    type: 'ChartDataRow[]',
+    default: '-',
+    description: 'Array de objetos con los datos del gráfico.',
+  },
+  {
+    name: 'config',
+    type: 'ChartConfig',
+    default: '-',
+    description: 'Configuración de series: label y color por cada key.',
+  },
+  {
+    name: 'index',
+    type: 'string',
+    default: '-',
+    description: 'Key del eje dimensional (ej. "skill").',
+  },
+  {
+    name: 'variant',
+    type: "'polygon' | 'circle'",
+    default: "'polygon'",
+    description: 'Forma de la grilla: polígono o círculos concéntricos.',
+  },
+  {
+    name: 'showFill',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra el relleno del área de cada serie.',
+  },
+  {
+    name: 'fillOpacity',
+    type: 'number',
+    default: '0.15',
+    description: 'Opacidad del relleno (0-1).',
+  },
+  {
+    name: 'strokeWidth',
+    type: 'number',
+    default: '2',
+    description: 'Grosor de la línea en píxeles.',
+  },
+  {
+    name: 'dotRadius',
+    type: 'number',
+    default: '3',
+    description: 'Radio de los puntos en cada vértice.',
+  },
+  {
+    name: 'levels',
+    type: 'number',
+    default: '5',
+    description: 'Cantidad de niveles concéntricos en la grilla.',
+  },
+  {
+    name: 'showLegend',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra la leyenda interactiva.',
+  },
+  {
+    name: 'animate',
+    type: 'boolean',
+    default: 'true',
+    description: 'Habilita la animación de entrada.',
+  },
+];
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl space-y-12 p-8">
-    <div>
-      <h1 class="text-3xl font-bold tracking-tight">Radar Chart</h1>
-      <p class="mt-2 text-muted-foreground">
-        Multi-dimensional comparison — polygon &amp; circle grids, filled areas, interactive legend. 100% SVG, zero dependencies.
-      </p>
-    </div>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Radar Chart"
+      description="Comparación multidimensional — grillas de polígono y círculo, áreas rellenas, leyenda interactiva. 100% SVG, sin dependencias."
+      import-code="import { UiChartRadar } from '@3df-spa/charts'"
+    />
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Polygon Grid</h2>
-        <p class="text-sm text-muted-foreground">
-          Compare two profiles across multiple dimensions. Hover dots for values, click legend to toggle.
-        </p>
+    <DocShowcase
+      title="Grilla de polígono"
+      description="Compara dos perfiles en múltiples dimensiones. Hover en puntos para ver valores."
+      :code="polygonCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
+        <UiChartRadar :config="skillsConfig" :data="skillsData" index="skill" />
       </div>
-      <div class="rounded-xl border border-border bg-card p-6">
-        <UiChartRadar
-          :config="skillsConfig"
-          :data="skillsData"
-          index="skill"
-        />
-      </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Circle Grid</h2>
-        <p class="text-sm text-muted-foreground">
-          Circular grid with 7 axes. Higher fill opacity for emphasis.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Grilla circular"
+      description="Grilla circular con 7 ejes y mayor opacidad de relleno."
+      :code="circleCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartRadar
           :config="productConfig"
           :data="productData"
@@ -100,17 +192,14 @@ const teamConfig: ChartConfig = {
           :fill-opacity="0.3"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Single Series &mdash; No Fill</h2>
-        <p class="text-sm text-muted-foreground">
-          Outline-only style with larger dots, thicker stroke.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Serie única — Sin relleno"
+      description="Solo contorno con puntos más grandes y línea más gruesa."
+      :code="noFillCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartRadar
           :config="fitnessConfig"
           :data="fitnessData"
@@ -121,17 +210,14 @@ const teamConfig: ChartConfig = {
           :show-legend="false"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Multi-series &mdash; Three Teams</h2>
-        <p class="text-sm text-muted-foreground">
-          Circle variant with 3 overlapping series. No animation.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Multi-serie — Tres equipos"
+      description="Variante circular con 3 series superpuestas. Sin animación."
+      :code="multiCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartRadar
           :config="teamConfig"
           :data="teamData"
@@ -141,6 +227,8 @@ const teamConfig: ChartConfig = {
           :levels="4"
         />
       </div>
-    </section>
+    </DocShowcase>
+
+    <DocPropsTable :props="radarProps" />
   </div>
 </template>

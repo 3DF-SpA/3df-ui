@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { UiChartLine, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
+import { type ChartConfig, type ChartDataRow, UiChartLine } from '@3df-spa/charts';
+
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const salesData: ChartDataRow[] = [
   { month: 'Jan', online: 3200, store: 1800 },
@@ -61,43 +66,127 @@ const stepData: ChartDataRow[] = [
 const stepConfig: ChartConfig = {
   users: { label: 'Active Users', color: 'var(--color-chart-5)' },
 };
+
+const monotoneCode = `<UiChartLine :config="config" :data="data" index="month" />`;
+
+const multiLineCode = `<UiChartLine
+  :config="config"
+  :data="data"
+  index="time"
+  :show-dots="true"
+  :value-formatter="(v) => \`\${v}ms\`"
+/>`;
+
+const linearCode = `<UiChartLine
+  :config="config"
+  :data="data"
+  index="day"
+  curve-type="linear"
+  :show-area="false"
+  :show-dots="true"
+  :value-formatter="(v) => \`\${v}°C\`"
+/>`;
+
+const stepCode = `<UiChartLine
+  :config="config"
+  :data="data"
+  index="hour"
+  curve-type="step"
+  :show-legend="false"
+  :show-grid="false"
+  :animate="false"
+  :stroke-width="3"
+/>`;
+
+const lineProps: PropItem[] = [
+  {
+    name: 'data',
+    type: 'ChartDataRow[]',
+    default: '-',
+    description: 'Array de objetos con los datos del gráfico.',
+  },
+  {
+    name: 'config',
+    type: 'ChartConfig',
+    default: '-',
+    description: 'Configuración de series: label y color por cada key.',
+  },
+  { name: 'index', type: 'string', default: '-', description: 'Key del eje de categorías.' },
+  {
+    name: 'curveType',
+    type: "'monotone' | 'linear' | 'step'",
+    default: "'monotone'",
+    description: 'Tipo de interpolación de la curva.',
+  },
+  {
+    name: 'showDots',
+    type: 'boolean',
+    default: 'false',
+    description: 'Muestra puntos en cada dato.',
+  },
+  {
+    name: 'showArea',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra relleno de área con gradiente.',
+  },
+  {
+    name: 'strokeWidth',
+    type: 'number',
+    default: '2',
+    description: 'Grosor de la línea en píxeles.',
+  },
+  {
+    name: 'showLegend',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra la leyenda interactiva.',
+  },
+  {
+    name: 'showGrid',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra la grilla de puntos de fondo.',
+  },
+  {
+    name: 'animate',
+    type: 'boolean',
+    default: 'true',
+    description: 'Habilita la animación de entrada.',
+  },
+  {
+    name: 'valueFormatter',
+    type: '(v: number) => string',
+    default: '-',
+    description: 'Formateador personalizado para valores del tooltip.',
+  },
+];
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl space-y-12 p-8">
-    <div>
-      <h1 class="text-3xl font-bold tracking-tight">Line Chart</h1>
-      <p class="mt-2 text-muted-foreground">
-        Monotone, linear &amp; step interpolation — gradient area fill, glow on hover, interactive legend. 100% SVG, zero dependencies.
-      </p>
-    </div>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Line Chart"
+      description="Interpolación monotone, linear y step — relleno de área con gradiente, glow en hover, leyenda interactiva. 100% SVG, sin dependencias."
+      import-code="import { UiChartLine } from '@3df-spa/charts'"
+    />
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Monotone (Smooth)</h2>
-        <p class="text-sm text-muted-foreground">
-          Default curve type. Gradient area fill, crosshair on hover. Click legend to toggle series.
-        </p>
+    <DocShowcase
+      title="Monotone (suave)"
+      description="Curva suave por defecto con relleno de área y crosshair en hover."
+      :code="monotoneCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
+        <UiChartLine :config="salesConfig" :data="salesData" index="month" />
       </div>
-      <div class="rounded-xl border border-border bg-card p-6">
-        <UiChartLine
-          :config="salesConfig"
-          :data="salesData"
-          index="month"
-        />
-      </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Multi-line &mdash; Latency Percentiles</h2>
-        <p class="text-sm text-muted-foreground">
-          Three series with visible dots, custom formatter. Toggle any series via legend.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Multi-línea — Percentiles de latencia"
+      description="Tres series con puntos visibles y formatter personalizado."
+      :code="multiLineCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartLine
           :config="latencyConfig"
           :data="latencyData"
@@ -106,17 +195,14 @@ const stepConfig: ChartConfig = {
           :value-formatter="(v: number) => `${v}ms`"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Linear &mdash; No Area</h2>
-        <p class="text-sm text-muted-foreground">
-          Straight line segments. Area fill disabled, dots visible.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Linear — Sin área"
+      description="Segmentos de línea recta sin relleno de área, con puntos visibles."
+      :code="linearCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartLine
           :config="temperatureConfig"
           :data="temperatureData"
@@ -127,17 +213,14 @@ const stepConfig: ChartConfig = {
           :value-formatter="(v: number) => `${v}°C`"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Step</h2>
-        <p class="text-sm text-muted-foreground">
-          Step interpolation for discrete jumps. No animation, dot grid hidden.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Step"
+      description="Interpolación step para saltos discretos. Sin animación ni grilla."
+      :code="stepCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartLine
           :config="stepConfig"
           :data="stepData"
@@ -149,6 +232,8 @@ const stepConfig: ChartConfig = {
           :stroke-width="3"
         />
       </div>
-    </section>
+    </DocShowcase>
+
+    <DocPropsTable :props="lineProps" />
   </div>
 </template>

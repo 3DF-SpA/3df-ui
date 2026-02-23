@@ -10,12 +10,11 @@ defineOptions({ name: 'UiTableHeader', inheritAttrs: false });
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
 
-const classes = computed(() => cn('[&_tr]:border-b', attrs.class));
+const classes = computed(() => cn('[&_tr]:border-b-ui', attrs.class));
 </script>
 
 <template>

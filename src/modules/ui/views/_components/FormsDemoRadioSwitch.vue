@@ -3,6 +3,8 @@ import { ref } from 'vue';
 
 import { Label, Radio, Switch } from '@3df-spa/ui';
 
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 const plan = ref('pro');
 const contact = ref('email');
 const notifications = ref(true);
@@ -11,8 +13,12 @@ const marketing = ref(true);
 </script>
 
 <template>
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Radio</h2>
+  <DocShowcase
+    title="Radio"
+    description="Botones de opción para selección única dentro de un grupo."
+    code='<Radio id="plan-pro" v-model="plan" value="pro" name="plan" />
+<Label for="plan-pro">Pro — $9/mes</Label>'
+  >
     <div class="grid max-w-md gap-4">
       <p class="text-sm font-medium">Plan</p>
       <div class="flex flex-col gap-3">
@@ -49,10 +55,14 @@ const marketing = ref(true);
         </div>
       </div>
     </div>
-  </section>
+  </DocShowcase>
 
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Switch</h2>
+  <DocShowcase
+    title="Switch"
+    description="Interruptores para activar o desactivar opciones."
+    code='<Label for="notifications">Notificaciones</Label>
+<Switch id="notifications" v-model="notifications" />'
+  >
     <div class="grid max-w-md gap-4">
       <div class="flex items-center justify-between">
         <Label for="notifications">Notificaciones</Label>
@@ -71,5 +81,5 @@ const marketing = ref(true);
         <Switch id="switch-disabled" disabled :model-value="false" />
       </div>
     </div>
-  </section>
+  </DocShowcase>
 </template>

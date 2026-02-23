@@ -40,7 +40,7 @@ const inputClasses = computed(() =>
   cn(
     [
       'peer size-4 shrink-0 cursor-pointer appearance-none',
-      'rounded-sm border border-input bg-background',
+      'rounded-sm border-ui border-input bg-background',
       'transition-[background-color,border-color,box-shadow] duration-150',
       'disabled:pointer-events-none disabled:opacity-50',
       'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring focus-visible:border-ring',

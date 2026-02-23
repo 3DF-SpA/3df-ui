@@ -1,89 +1,154 @@
 <script setup lang="ts">
 import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df-spa/ui';
 
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 import PopoverDemoRichContent from './_components/PopoverDemoRichContent.vue';
+
+const popoverProps: PropItem[] = [
+  {
+    name: 'Popover: open',
+    type: 'boolean',
+    default: '-',
+    description: 'Estado abierto/cerrado (v-model:open).',
+  },
+  {
+    name: 'Popover: defaultOpen',
+    type: 'boolean',
+    default: 'false',
+    description: 'Estado inicial del popover.',
+  },
+  {
+    name: 'PopoverContent: align',
+    type: "'start' | 'center' | 'end'",
+    default: "'center'",
+    description: 'Alineación respecto al trigger.',
+  },
+  {
+    name: 'PopoverContent: side',
+    type: "'top' | 'right' | 'bottom' | 'left'",
+    default: "'bottom'",
+    description: 'Lado de apertura.',
+  },
+  {
+    name: 'PopoverContent: sideOffset',
+    type: 'number',
+    default: '8',
+    description: 'Distancia del popover al trigger.',
+  },
+  {
+    name: 'PopoverContent: viewportPadding',
+    type: 'number',
+    default: '8',
+    description: 'Padding respecto al borde del viewport.',
+  },
+];
+
+const basicCode = `<Popover>
+  <PopoverTrigger>
+    <Button variant="outline">Abrir popover</Button>
+  </PopoverTrigger>
+  <PopoverContent>
+    <p class="text-sm">Contenido del popover.</p>
+  </PopoverContent>
+</Popover>`;
+
+const formCode = `<Popover>
+  <PopoverTrigger>
+    <Button variant="outline">Configuración</Button>
+  </PopoverTrigger>
+  <PopoverContent class="w-80">
+    <div class="grid gap-3">
+      <div class="grid grid-cols-3 items-center gap-4">
+        <Label class="text-right">Ancho</Label>
+        <Input class="col-span-2 h-8" value="100%" />
+      </div>
+    </div>
+  </PopoverContent>
+</Popover>`;
+
+const alignCode = `<PopoverContent align="start">...</PopoverContent>
+<PopoverContent align="center">...</PopoverContent>
+<PopoverContent align="end">...</PopoverContent>`;
+
+const sideCode = `<PopoverContent side="top">
+  Se abre hacia arriba. Si no cabe, auto-flip a abajo.
+</PopoverContent>`;
+
+const anatomyCode = `<Popover>
+  <PopoverTrigger />
+  <PopoverContent>
+    <!-- contenido -->
+  </PopoverContent>
+</Popover>`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Popover</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Popover"
+      description="Panel flotante para mostrar contenido contextual, formularios rápidos o acciones adicionales."
+      import-code="import { Popover, PopoverTrigger, PopoverContent } from '@3df-spa/ui'"
+    />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Popover básico</h2>
-      <div class="flex gap-4">
-        <Popover>
-          <PopoverTrigger>
-            <Button variant="outline">Abrir popover</Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div class="flex flex-col gap-2">
+      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" lang="vue" />
+    </section>
+
+    <DocShowcase title="Básico" :code="basicCode">
+      <Popover>
+        <PopoverTrigger>
+          <Button variant="outline">Abrir popover</Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <div class="flex flex-col gap-2">
+            <h3 class="text-sm font-medium">Dimensiones</h3>
+            <p class="text-muted-foreground text-sm">Configura las dimensiones del componente.</p>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </DocShowcase>
+
+    <DocShowcase title="Con formulario" :code="formCode">
+      <Popover>
+        <PopoverTrigger>
+          <Button variant="outline">Configuración</Button>
+        </PopoverTrigger>
+        <PopoverContent class="w-80">
+          <div class="flex flex-col gap-4">
+            <div>
               <h3 class="text-sm font-medium">Dimensiones</h3>
               <p class="text-muted-foreground text-sm">Configura las dimensiones del componente.</p>
             </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-    </section>
-
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Con formulario</h2>
-      <div class="flex gap-4">
-        <Popover>
-          <PopoverTrigger>
-            <Button variant="outline">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-                />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-              Configuración
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent class="w-80">
-            <div class="flex flex-col gap-4">
-              <div>
-                <h3 class="text-sm font-medium">Dimensiones</h3>
-                <p class="text-muted-foreground text-sm">
-                  Configura las dimensiones del componente.
-                </p>
+            <div class="grid gap-3">
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label class="text-right">Ancho</Label>
+                <Input class="col-span-2 h-8" value="100%" />
               </div>
-              <div class="grid gap-3">
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label class="text-right">Ancho</Label>
-                  <Input class="col-span-2 h-8" value="100%" />
-                </div>
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label class="text-right">Max ancho</Label>
-                  <Input class="col-span-2 h-8" value="300px" />
-                </div>
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label class="text-right">Alto</Label>
-                  <Input class="col-span-2 h-8" value="25px" />
-                </div>
-                <div class="grid grid-cols-3 items-center gap-4">
-                  <Label class="text-right">Max alto</Label>
-                  <Input class="col-span-2 h-8" value="none" />
-                </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label class="text-right">Max ancho</Label>
+                <Input class="col-span-2 h-8" value="300px" />
+              </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label class="text-right">Alto</Label>
+                <Input class="col-span-2 h-8" value="25px" />
+              </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label class="text-right">Max alto</Label>
+                <Input class="col-span-2 h-8" value="none" />
               </div>
             </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-    </section>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Alineación</h2>
+    <DocShowcase title="Alineación" :code="alignCode">
       <div class="flex gap-4">
         <Popover>
           <PopoverTrigger>
@@ -110,11 +175,10 @@ import PopoverDemoRichContent from './_components/PopoverDemoRichContent.vue';
           </PopoverContent>
         </Popover>
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Abre hacia arriba</h2>
-      <div class="mt-24 flex gap-4">
+    <DocShowcase title="Abre hacia arriba" :code="sideCode">
+      <div class="mt-24">
         <Popover>
           <PopoverTrigger>
             <Button variant="outline">Popover arriba</Button>
@@ -129,8 +193,10 @@ import PopoverDemoRichContent from './_components/PopoverDemoRichContent.vue';
           </PopoverContent>
         </Popover>
       </div>
-    </section>
+    </DocShowcase>
 
     <PopoverDemoRichContent />
+
+    <DocPropsTable :props="popoverProps" />
   </div>
 </template>

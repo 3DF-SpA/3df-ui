@@ -10,14 +10,13 @@ defineOptions({ name: 'UiTableRow', inheritAttrs: false });
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
 
 const classes = computed(() =>
   cn(
-    'border-b border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+    'border-b-ui border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
     attrs.class,
   ),
 );

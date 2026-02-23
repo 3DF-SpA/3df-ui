@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { UiChartPie, type ChartConfig, type ChartDataRow } from '@3df-spa/charts';
+import { type ChartConfig, type ChartDataRow, UiChartPie } from '@3df-spa/charts';
+
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const browserData: ChartDataRow[] = [
   { browser: 'Chrome', share: 63 },
@@ -10,11 +15,11 @@ const browserData: ChartDataRow[] = [
 ];
 
 const browserConfig: ChartConfig = {
-  Chrome:  { label: 'Chrome',  color: 'var(--color-chart-1)' },
-  Safari:  { label: 'Safari',  color: 'var(--color-chart-2)' },
+  Chrome: { label: 'Chrome', color: 'var(--color-chart-1)' },
+  Safari: { label: 'Safari', color: 'var(--color-chart-2)' },
   Firefox: { label: 'Firefox', color: 'var(--color-chart-3)' },
-  Edge:    { label: 'Edge',    color: 'var(--color-chart-4)' },
-  Other:   { label: 'Other',   color: 'var(--color-chart-5)' },
+  Edge: { label: 'Edge', color: 'var(--color-chart-4)' },
+  Other: { label: 'Other', color: 'var(--color-chart-5)' },
 };
 
 const revenueData: ChartDataRow[] = [
@@ -22,8 +27,8 @@ const revenueData: ChartDataRow[] = [
 ];
 
 const revenueConfig: ChartConfig = {
-  website:   { label: 'Website',   color: 'var(--color-chart-1)' },
-  app:       { label: 'App',       color: 'var(--color-chart-3)' },
+  website: { label: 'Website', color: 'var(--color-chart-1)' },
+  app: { label: 'App', color: 'var(--color-chart-3)' },
   wholesale: { label: 'Wholesale', color: 'var(--color-chart-5)' },
 };
 
@@ -35,10 +40,10 @@ const tasksData: ChartDataRow[] = [
 ];
 
 const tasksConfig: ChartConfig = {
-  Done:          { label: 'Done',        color: 'var(--color-chart-3)' },
+  Done: { label: 'Done', color: 'var(--color-chart-3)' },
   'In Progress': { label: 'In Progress', color: 'var(--color-chart-1)' },
-  Todo:          { label: 'Todo',        color: 'var(--color-chart-2)' },
-  Blocked:       { label: 'Blocked',     color: 'var(--color-chart-4)' },
+  Todo: { label: 'Todo', color: 'var(--color-chart-2)' },
+  Blocked: { label: 'Blocked', color: 'var(--color-chart-4)' },
 };
 
 const storageData: ChartDataRow[] = [
@@ -51,29 +56,128 @@ const storageData: ChartDataRow[] = [
 const storageConfig: ChartConfig = {
   Photos: { label: 'Photos', color: 'var(--color-chart-1)' },
   Videos: { label: 'Videos', color: 'var(--color-chart-4)' },
-  Docs:   { label: 'Docs',   color: 'var(--color-chart-3)' },
-  Free:   { label: 'Free',   color: 'var(--color-chart-2)' },
+  Docs: { label: 'Docs', color: 'var(--color-chart-3)' },
+  Free: { label: 'Free', color: 'var(--color-chart-2)' },
 };
+
+const fullPieCode = `<UiChartPie
+  :config="config"
+  :data="data"
+  index="browser"
+  value-key="share"
+  :show-labels="true"
+  label-type="percent"
+/>`;
+
+const donutCode = `<UiChartPie
+  :config="config"
+  :data="data"
+  index="label"
+  :inner-radius="70"
+  :show-labels="true"
+  label-type="value"
+  :value-formatter="(v) => \`$\${(v / 1000).toFixed(0)}K\`"
+/>`;
+
+const taskCode = `<UiChartPie
+  :config="config"
+  :data="data"
+  index="status"
+  value-key="count"
+  :inner-radius="60"
+  :show-labels="true"
+  label-type="name"
+/>`;
+
+const minimalCode = `<UiChartPie
+  :config="config"
+  :data="data"
+  index="type"
+  value-key="used"
+  :inner-radius="50"
+  :animate="false"
+  :pad-angle="2"
+  :value-formatter="(v) => \`\${v} GB\`"
+/>`;
+
+const pieProps: PropItem[] = [
+  {
+    name: 'data',
+    type: 'ChartDataRow[]',
+    default: '-',
+    description: 'Array de objetos con los datos del gráfico.',
+  },
+  {
+    name: 'config',
+    type: 'ChartConfig',
+    default: '-',
+    description: 'Configuración de series: label y color por cada key.',
+  },
+  {
+    name: 'index',
+    type: 'string',
+    default: '-',
+    description: 'Key de categoría que identifica cada fila/segmento.',
+  },
+  {
+    name: 'valueKey',
+    type: 'string',
+    default: '-',
+    description: 'Key numérica para el valor de cada slice (modo fila por slice).',
+  },
+  {
+    name: 'innerRadius',
+    type: 'number',
+    default: '0',
+    description: 'Radio interior en px. Valores > 0 crean un donut.',
+  },
+  {
+    name: 'showLabels',
+    type: 'boolean',
+    default: 'false',
+    description: 'Muestra etiquetas en cada slice.',
+  },
+  {
+    name: 'labelType',
+    type: "'percent' | 'value' | 'name'",
+    default: "'percent'",
+    description: 'Tipo de etiqueta a mostrar.',
+  },
+  {
+    name: 'padAngle',
+    type: 'number',
+    default: '0',
+    description: 'Ángulo de separación entre slices en grados.',
+  },
+  {
+    name: 'animate',
+    type: 'boolean',
+    default: 'true',
+    description: 'Habilita la animación de entrada.',
+  },
+  {
+    name: 'valueFormatter',
+    type: '(v: number) => string',
+    default: '-',
+    description: 'Formateador personalizado para valores.',
+  },
+];
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl space-y-12 p-8">
-    <div>
-      <h1 class="text-3xl font-bold tracking-tight">Pie Chart</h1>
-      <p class="mt-2 text-muted-foreground">
-        Pie &amp; donut variants — hover to explode slices, click legend to toggle. 100% SVG, zero dependencies.
-      </p>
-    </div>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Pie Chart"
+      description="Pie y donut — hover para expandir slices, click en leyenda para alternar. 100% SVG, sin dependencias."
+      import-code="import { UiChartPie } from '@3df-spa/charts'"
+    />
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Full Pie</h2>
-        <p class="text-sm text-muted-foreground">
-          Hover to explode slices outward. Click legend items to hide/show.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Pie completo"
+      description="Hover para expandir slices hacia afuera. Click en leyenda para ocultar/mostrar."
+      :code="fullPieCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartPie
           :config="browserConfig"
           :data="browserData"
@@ -83,17 +187,14 @@ const storageConfig: ChartConfig = {
           label-type="percent"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Donut</h2>
-        <p class="text-sm text-muted-foreground">
-          Inner radius creates a donut with centered total. Multi-key single-row data.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Donut"
+      description="Radio interior crea un donut con total centrado. Datos multi-key en una sola fila."
+      :code="donutCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartPie
           :config="revenueConfig"
           :data="revenueData"
@@ -104,17 +205,14 @@ const storageConfig: ChartConfig = {
           :value-formatter="(v: number) => `$${(v / 1000).toFixed(0)}K`"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Task Status</h2>
-        <p class="text-sm text-muted-foreground">
-          Donut with name labels. valueKey mode — each row is a slice.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Estado de tareas"
+      description="Donut con etiquetas de nombre. Modo valueKey — cada fila es un slice."
+      :code="taskCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartPie
           :config="tasksConfig"
           :data="tasksData"
@@ -125,17 +223,14 @@ const storageConfig: ChartConfig = {
           label-type="name"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Minimal &mdash; No Animation</h2>
-        <p class="text-sm text-muted-foreground">
-          Clean look without labels. Animation disabled.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Minimal — Sin animación"
+      description="Aspecto limpio sin etiquetas. Animación deshabilitada."
+      :code="minimalCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartPie
           :config="storageConfig"
           :data="storageData"
@@ -147,6 +242,8 @@ const storageConfig: ChartConfig = {
           :value-formatter="(v: number) => `${v} GB`"
         />
       </div>
-    </section>
+    </DocShowcase>
+
+    <DocPropsTable :props="pieProps" />
   </div>
 </template>

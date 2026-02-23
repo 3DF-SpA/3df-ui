@@ -18,6 +18,12 @@ import {
   MenubarTrigger,
 } from '@3df-spa/ui';
 
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 import MenubarDemoIde from './_components/MenubarDemoIde.vue';
 
 const showBookmarks = ref(true);
@@ -27,17 +33,115 @@ const selectedProfile = ref('benoit');
 function onAction(action: string) {
   alert(`Acción: ${action}`);
 }
+
+const menubarProps: PropItem[] = [
+  {
+    name: 'MenubarMenu: value',
+    type: 'string',
+    default: 'auto-generado',
+    description: 'Identificador único del menú dentro del menubar.',
+  },
+  {
+    name: 'MenubarContent: align',
+    type: "'start' | 'center' | 'end'",
+    default: "'start'",
+    description: 'Alineación horizontal respecto al trigger.',
+  },
+  {
+    name: 'MenubarContent: side',
+    type: "'top' | 'bottom' | 'left' | 'right'",
+    default: "'bottom'",
+    description: 'Lado en que se abre el dropdown.',
+  },
+  {
+    name: 'MenubarContent: sideOffset',
+    type: 'number',
+    default: '4',
+    description: 'Distancia en px desde el trigger.',
+  },
+  {
+    name: 'MenubarItem: disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Deshabilita el item (gris, no interactivo).',
+  },
+  {
+    name: 'MenubarItem: inset',
+    type: 'boolean',
+    default: 'false',
+    description: 'Agrega padding izquierdo para alineación con checkboxes/radios.',
+  },
+  {
+    name: 'MenubarCheckboxItem: checked',
+    type: 'boolean',
+    default: 'false',
+    description: 'Estado de check. Soporta v-model:checked.',
+  },
+  {
+    name: 'MenubarRadioGroup: modelValue',
+    type: 'string',
+    default: "''",
+    description: 'Valor seleccionado del grupo. Soporta v-model.',
+  },
+  {
+    name: 'MenubarRadioItem: value',
+    type: 'string',
+    default: '(requerido)',
+    description: 'Valor que representa este item en el grupo.',
+  },
+  {
+    name: 'MenubarSubTrigger: disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Deshabilita el sub-trigger.',
+  },
+];
+
+const completeCode = `<Menubar>
+  <MenubarMenu value="file">
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem @select="onAction('New')">
+        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+      </MenubarItem>
+      <MenubarSeparator />
+      <MenubarSub>
+        <MenubarSubTrigger>Share</MenubarSubTrigger>
+        <MenubarSubContent>
+          <MenubarItem>Email Link</MenubarItem>
+        </MenubarSubContent>
+      </MenubarSub>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>`;
+
+const anatomyCode = `import {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarCheckboxItem,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarLabel,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubTrigger,
+  MenubarSubContent,
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Menubar</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Menubar"
+      description="Barra de menú con submenús anidados, checkboxes, radios y atajos de teclado. Patrón compound component con soporte completo de teclado."
+      import-code="import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubTrigger, MenubarSubContent, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarLabel } from '@3df-spa/ui'"
+    />
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">
-        Menubar completo — menús anidados, checkboxes, radios y shortcuts
-      </h2>
-
+    <DocShowcase title="Completo" :code="completeCode">
       <Menubar>
         <MenubarMenu value="file">
           <MenubarTrigger>File</MenubarTrigger>
@@ -78,7 +182,7 @@ function onAction(action: string) {
             <MenubarSub>
               <MenubarSubTrigger>Find</MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarItem @select="onAction('Search the web')"> Search the web… </MenubarItem>
+                <MenubarItem @select="onAction('Search the web')">Search the web…</MenubarItem>
                 <MenubarSeparator />
                 <MenubarItem @select="onAction('Find')">
                   Find… <MenubarShortcut>⌘F</MenubarShortcut>
@@ -122,7 +226,7 @@ function onAction(action: string) {
               Toggle Fullscreen
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem inset @select="onAction('Hide Sidebar')"> Hide Sidebar </MenubarItem>
+            <MenubarItem inset @select="onAction('Hide Sidebar')">Hide Sidebar</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
 
@@ -141,18 +245,25 @@ function onAction(action: string) {
               Edit… <MenubarShortcut>⌘E</MenubarShortcut>
             </MenubarItem>
             <MenubarSeparator />
-            <MenubarItem inset @select="onAction('Add Profile')"> Add Profile… </MenubarItem>
+            <MenubarItem inset @select="onAction('Add Profile')">Add Profile…</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>
 
-      <p class="text-muted-foreground mt-2 text-xs">
+      <p class="text-muted-foreground mt-3 text-xs">
         Estado: Bookmarks={{ showBookmarks }}, Full URLs={{ showFullUrls }}, Perfil={{
           selectedProfile
         }}
       </p>
-    </section>
+    </DocShowcase>
 
     <MenubarDemoIde />
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" language="typescript" />
+    </section>
+
+    <DocPropsTable :props="menubarProps" />
   </div>
 </template>

@@ -19,12 +19,8 @@ export interface BarRect {
   width: number;
   height: number;
   gradientId: string;
-  seriesKey: string;
   dataIndex: number;
-  value: number;
   rx: number;
-  targetY: number;
-  targetH: number;
 }
 
 export interface GridDot {

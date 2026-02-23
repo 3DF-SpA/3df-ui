@@ -31,9 +31,9 @@ const hasFakeCaret = computed(() => isFocused.value && !char.value);
 const classes = computed(() =>
   cn(
     'relative flex h-10 w-10 items-center justify-center',
-    'border-y border-r border-input bg-background text-sm font-medium text-foreground',
+    'border-y-ui border-r-ui border-input bg-background text-sm font-medium text-foreground',
     'transition-all duration-100',
-    'first:rounded-l-md first:border-l',
+    'first:rounded-l-md first:border-l-ui',
     'last:rounded-r-md',
     isFocused.value && 'z-10 ring-[2.2px] ring-ring border-ring',
     otp.disabled.value && 'pointer-events-none opacity-50',

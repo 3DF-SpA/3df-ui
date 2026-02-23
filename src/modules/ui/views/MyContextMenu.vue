@@ -1,38 +1,136 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+
 import {
   ContextMenu,
-  ContextMenuTrigger,
+  ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuCheckboxItem,
+  ContextMenuLabel,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
-  ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuSub,
-  ContextMenuSubTrigger,
   ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
 } from '@3df-spa/ui';
+
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const showBookmarks = ref(true);
 const showFullUrls = ref(false);
 const person = ref('pedro');
+
+const contextMenuProps: PropItem[] = [
+  {
+    name: 'ContextMenuItem: disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Deshabilita el item.',
+  },
+  {
+    name: 'ContextMenuItem: destructive',
+    type: 'boolean',
+    default: 'false',
+    description: 'Estilo destructivo para acciones peligrosas.',
+  },
+  {
+    name: 'ContextMenuCheckboxItem: checked',
+    type: 'boolean',
+    default: 'false',
+    description: 'Estado del checkbox (v-model:checked).',
+  },
+  {
+    name: 'ContextMenuRadioGroup: modelValue',
+    type: 'string',
+    default: '-',
+    description: 'Valor seleccionado del grupo (v-model).',
+  },
+  {
+    name: 'ContextMenuRadioItem: value',
+    type: 'string',
+    default: '-',
+    description: 'Valor del radio item.',
+  },
+  {
+    name: 'ContextMenuLabel: inset',
+    type: 'boolean',
+    default: 'false',
+    description: 'Agrega padding izquierdo para alinear con items.',
+  },
+];
+
+const basicCode = `<ContextMenu>
+  <ContextMenuTrigger>
+    <div class="flex h-[150px] items-center justify-center rounded-md border border-dashed">
+      Clic derecho aquí
+    </div>
+  </ContextMenuTrigger>
+  <ContextMenuContent class="w-64">
+    <ContextMenuItem>Atrás <ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuCheckboxItem v-model:checked="checked">
+      Mostrar marcadores
+    </ContextMenuCheckboxItem>
+    <ContextMenuLabel inset>Personas</ContextMenuLabel>
+    <ContextMenuRadioGroup v-model="person">
+      <ContextMenuRadioItem value="pedro">Pedro</ContextMenuRadioItem>
+    </ContextMenuRadioGroup>
+  </ContextMenuContent>
+</ContextMenu>`;
+
+const subMenuCode = `<ContextMenuSub>
+  <ContextMenuSubTrigger>Compartir</ContextMenuSubTrigger>
+  <ContextMenuSubContent>
+    <ContextMenuItem>Email</ContextMenuItem>
+    <ContextMenuItem>Mensaje</ContextMenuItem>
+    <ContextMenuSeparator />
+    <ContextMenuItem>Copiar enlace</ContextMenuItem>
+  </ContextMenuSubContent>
+</ContextMenuSub>`;
+
+const anatomyCode = `<ContextMenu>
+  <ContextMenuTrigger />
+  <ContextMenuContent>
+    <ContextMenuItem />
+    <ContextMenuSeparator />
+    <ContextMenuCheckboxItem />
+    <ContextMenuLabel />
+    <ContextMenuRadioGroup>
+      <ContextMenuRadioItem />
+    </ContextMenuRadioGroup>
+    <ContextMenuSub>
+      <ContextMenuSubTrigger />
+      <ContextMenuSubContent />
+    </ContextMenuSub>
+  </ContextMenuContent>
+</ContextMenu>`;
 </script>
 
 <template>
-  <div class="space-y-12">
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Context Menu — Básico</h2>
-      <p class="text-sm text-muted-foreground">
-        Haz clic derecho sobre el área para abrir el menú contextual.
-      </p>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Context Menu"
+      description="Menú contextual que aparece al hacer clic derecho, con soporte para checkboxes, radios y sub-menús."
+      import-code="import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df-spa/ui'"
+    />
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" lang="vue" />
+    </section>
+
+    <DocShowcase title="Básico con checkboxes y radios" :code="basicCode">
       <ContextMenu>
         <ContextMenuTrigger>
           <div
-            class="flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground"
+            class="text-muted-foreground flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm"
           >
             Clic derecho aquí
           </div>
@@ -67,38 +165,26 @@ const person = ref('pedro');
           </ContextMenuRadioGroup>
         </ContextMenuContent>
       </ContextMenu>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Context Menu — Sub-menú</h2>
-      <p class="text-sm text-muted-foreground">
-        Menú contextual con sub-menús anidados para acciones de archivo.
-      </p>
+    <DocShowcase title="Sub-menú" :code="subMenuCode">
       <ContextMenu>
         <ContextMenuTrigger>
           <div
-            class="flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground"
+            class="text-muted-foreground flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm"
           >
             Clic derecho para acciones de archivo
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent class="w-56">
           <ContextMenuItem>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/></svg>
             Editar
             <ContextMenuShortcut>⌘E</ContextMenuShortcut>
           </ContextMenuItem>
-          <ContextMenuItem>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-            Duplicar
-          </ContextMenuItem>
+          <ContextMenuItem>Duplicar</ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuSub>
-            <ContextMenuSubTrigger>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
-              Compartir
-            </ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>Compartir</ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem>Email</ContextMenuItem>
               <ContextMenuItem>Mensaje</ContextMenuItem>
@@ -108,22 +194,22 @@ const person = ref('pedro');
           </ContextMenuSub>
           <ContextMenuSeparator />
           <ContextMenuItem destructive>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-4 w-4"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
             Eliminar
             <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
           </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Estado reactivo</h2>
-      <div class="rounded-md border p-4 text-sm space-y-1">
+    <section class="flex flex-col gap-4">
+      <h2 class="text-lg font-semibold">Estado reactivo</h2>
+      <div class="space-y-1 rounded-md border p-4 text-sm">
         <p><strong>Marcadores:</strong> {{ showBookmarks ? 'Visible' : 'Oculto' }}</p>
         <p><strong>URLs completas:</strong> {{ showFullUrls ? 'Sí' : 'No' }}</p>
         <p><strong>Persona:</strong> {{ person }}</p>
       </div>
     </section>
+
+    <DocPropsTable :props="contextMenuProps" />
   </div>
 </template>

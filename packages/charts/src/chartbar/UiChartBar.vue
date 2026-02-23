@@ -5,7 +5,6 @@ import UiChartContainer from '../shared/UiChartContainer.vue';
 import UiChartLegend from '../shared/UiChartLegend.vue';
 import UiChartTooltip from '../shared/UiChartTooltip.vue';
 import type {
-  ChartAxisConfig,
   ChartConfig,
   ChartDataRow,
   ChartOrientation,
@@ -47,8 +46,6 @@ const props = withDefaults(
     categoryGap?: number;
     minHeight?: number;
     class?: string;
-    xAxis?: ChartAxisConfig;
-    yAxis?: ChartAxisConfig;
     tooltipFormatter?: (value: number, key: string) => string;
     animate?: boolean;
   }>(),

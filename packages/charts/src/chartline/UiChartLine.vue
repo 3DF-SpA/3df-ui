@@ -4,7 +4,7 @@ import { computed, ref, useAttrs } from 'vue';
 import UiChartContainer from '../shared/UiChartContainer.vue';
 import UiChartLegend from '../shared/UiChartLegend.vue';
 import UiChartTooltip from '../shared/UiChartTooltip.vue';
-import type { ChartAxisConfig, ChartConfig, ChartDataRow } from '../shared/chart-types';
+import type { ChartConfig, ChartDataRow } from '../shared/chart-types';
 import {
   formatNumber,
   getDataExtent,
@@ -50,8 +50,6 @@ const props = withDefaults(
     dotRadius?: number;
     minHeight?: number;
     class?: string;
-    xAxis?: ChartAxisConfig;
-    yAxis?: ChartAxisConfig;
     tooltipFormatter?: (value: number, key: string) => string;
     animate?: boolean;
   }>(),

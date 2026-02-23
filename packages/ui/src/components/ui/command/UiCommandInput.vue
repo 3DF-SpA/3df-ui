@@ -46,7 +46,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="border-border/60 flex items-center border-b px-3" data-command-input-wrapper>
+  <div class="border-border/60 border-b-ui flex items-center px-3" data-command-input-wrapper>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"

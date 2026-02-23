@@ -7,28 +7,9 @@ import UiChartTooltip from '../shared/UiChartTooltip.vue';
 import type { ChartConfig, ChartContext, ChartTooltipData } from '../shared/chart-types';
 import { CHART_KEY } from '../shared/chart-types';
 import { formatNumber, niceScale, resolveColor } from '../shared/chart-utils';
+import type { ScatterConfig, ScatterSeriesConfig, ScatterShape } from './scatter-types';
 
 defineOptions({ inheritAttrs: false });
-
-export type ScatterShape = 'circle' | 'square' | 'diamond';
-
-/**
- * Each scatter series config: x/y keys, optional size key, shape.
- */
-export interface ScatterSeriesConfig {
-  label: string;
-  color: string;
-  /** Key in data for X values */
-  xKey: string;
-  /** Key in data for Y values */
-  yKey: string;
-  /** Optional key for bubble size */
-  sizeKey?: string;
-  /** Dot shape */
-  shape?: ScatterShape;
-}
-
-export type ScatterConfig = Record<string, ScatterSeriesConfig>;
 
 const props = withDefaults(
   defineProps<{

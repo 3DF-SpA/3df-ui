@@ -21,7 +21,6 @@ const emit = defineEmits<{
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
@@ -32,7 +31,7 @@ const classes = computed(() =>
   cn(
     [
       'peer size-4 shrink-0 cursor-pointer appearance-none',
-      'rounded-full border border-input bg-background',
+      'rounded-full border-ui border-input bg-background',
       'transition-[color,background-color,border-color,box-shadow] duration-200',
       'disabled:pointer-events-none disabled:opacity-50',
       'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring focus-visible:border-ring',

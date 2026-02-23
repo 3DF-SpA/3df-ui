@@ -1,143 +1,224 @@
 <script setup lang="ts">
-import { type HeroAction, HeroImage, HeroSimple, HeroSplit } from '@3df-spa/ui';
+import { type HeroAction, HeroSimple } from '@3df-spa/ui';
+
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import HeroDemoGradients from './_components/HeroDemoGradients.vue';
+import HeroDemoImage from './_components/HeroDemoImage.vue';
+import HeroDemoSplit from './_components/HeroDemoSplit.vue';
 
-const primaryActions: HeroAction[] = [
+const actions: HeroAction[] = [
   { label: 'Get Started', variant: 'primary', href: '#' },
   { label: 'Learn More', variant: 'outline', href: '#' },
 ];
 
-const imageActions: HeroAction[] = [
-  { label: 'Start Free Trial', variant: 'primary', href: '#' },
-  { label: 'Watch Demo', variant: 'outline', href: '#' },
+const centeredCode = `<HeroSimple
+  headline="Build beautiful web applications faster"
+  description="A comprehensive Vue 3 component library built with Tailwind CSS."
+  :actions="actions"
+/>`;
+
+const leftCode = `<HeroSimple
+  headline="Ship products faster with 3DF UI"
+  description="Production-ready components for Vue 3 with TypeScript."
+  :actions="actions"
+  align="left"
+  compact
+/>`;
+
+const heroProps: PropItem[] = [
+  {
+    name: 'HeroAction: label',
+    type: 'string',
+    default: '-',
+    description: 'Texto del botón de acción.',
+  },
+  {
+    name: 'HeroAction: href',
+    type: 'string',
+    default: '-',
+    description: 'URL del enlace. Si se omite, renderiza un <button>.',
+  },
+  {
+    name: 'HeroAction: external',
+    type: 'boolean',
+    default: 'false',
+    description: 'Abre el enlace en una nueva pestaña.',
+  },
+  {
+    name: 'HeroAction: variant',
+    type: "'primary' | 'secondary' | 'outline' | 'ghost'",
+    default: '-',
+    description: 'Variante visual del botón.',
+  },
+  {
+    name: 'HeroSimple: headline',
+    type: 'string',
+    default: '-',
+    description: 'Título principal del hero.',
+  },
+  {
+    name: 'HeroSimple: description',
+    type: 'string',
+    default: '-',
+    description: 'Texto descriptivo debajo del headline.',
+  },
+  {
+    name: 'HeroSimple: actions',
+    type: 'HeroAction[]',
+    default: '-',
+    description: 'Botones CTA del hero.',
+  },
+  {
+    name: 'HeroSimple: align',
+    type: "'left' | 'center' | 'right'",
+    default: "'center'",
+    description: 'Alineación del contenido.',
+  },
+  {
+    name: 'HeroSimple: compact',
+    type: 'boolean',
+    default: 'false',
+    description: 'Reduce el padding vertical del hero.',
+  },
+  {
+    name: 'HeroSplit: imageSrc',
+    type: 'string',
+    default: '-',
+    description: 'URL de la imagen lateral.',
+  },
+  {
+    name: 'HeroSplit: imageAlt',
+    type: 'string',
+    default: "''",
+    description: 'Texto alternativo de la imagen.',
+  },
+  {
+    name: 'HeroSplit: reverse',
+    type: 'boolean',
+    default: 'false',
+    description: 'Invierte el orden: imagen a la izquierda, texto a la derecha.',
+  },
+  {
+    name: 'HeroImage: imageSrc',
+    type: 'string',
+    default: '-',
+    description: 'URL de la imagen de fondo (requerido).',
+  },
+  {
+    name: 'HeroImage: overlay',
+    type: "'dark' | 'light' | 'gradient' | 'none'",
+    default: "'dark'",
+    description: 'Tipo de overlay sobre la imagen.',
+  },
+  {
+    name: 'HeroImage: overlayOpacity',
+    type: 'number',
+    default: '60',
+    description: 'Opacidad del overlay (0-100).',
+  },
+  {
+    name: 'HeroImage: minHeight',
+    type: 'string',
+    default: "'500px'",
+    description: 'Altura mínima del hero.',
+  },
+  {
+    name: 'HeroCentered: badge',
+    type: 'string',
+    default: '-',
+    description: 'Texto del badge de anuncio.',
+  },
+  {
+    name: 'HeroCentered: badgeHref',
+    type: 'string',
+    default: '-',
+    description: 'Enlace del badge.',
+  },
+  {
+    name: 'HeroCentered: highlightText',
+    type: 'string',
+    default: '-',
+    description: 'Texto dentro del headline que se resalta con gradiente.',
+  },
+  {
+    name: 'HeroCentered: gridPattern',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra un patrón de grid decorativo en el fondo.',
+  },
+  {
+    name: 'HeroGradient: gradient',
+    type: "'purple' | 'blue' | 'green' | 'orange' | 'rose' | 'custom'",
+    default: "'purple'",
+    description: 'Preset de gradiente. Usa custom junto con customGradient.',
+  },
+  {
+    name: 'HeroGradient: customGradient',
+    type: 'string',
+    default: '-',
+    description: 'Clase CSS de gradiente personalizado (cuando gradient="custom").',
+  },
+  {
+    name: 'HeroGradient: blobs',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra blobs decorativos animados en el fondo.',
+  },
+  {
+    name: 'HeroMinimal: separator',
+    type: 'boolean',
+    default: 'false',
+    description: 'Muestra un separador inferior.',
+  },
 ];
 </script>
 
 <template>
-  <div class="space-y-4 p-8">
-    <div class="mx-auto max-w-5xl">
-      <h1 class="text-3xl font-bold tracking-tight">Hero Sections</h1>
-      <p class="text-muted-foreground mt-2">
-        Secciones hero para landing pages. 6 variantes: simple, split, imagen de fondo, gradiente
-        moderno, centrado con badge, y minimalista.
-      </p>
-    </div>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Hero Sections"
+      description="Secciones hero para landing pages. 6 variantes: simple, split, imagen de fondo, gradiente, centrado con badge, y minimalista."
+      import-code="import { HeroSimple, HeroSplit, HeroImage, HeroCentered, HeroGradient, HeroMinimal } from '@3df-spa/ui'"
+    />
 
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Simple — Centrado Básico</h2>
-        <p class="text-muted-foreground text-sm">
-          Hero centrado estándar con headline, descripción y botones CTA.
-        </p>
-      </div>
+    <DocShowcase
+      title="Hero Simple — Centrado"
+      description="Hero centrado estándar con headline, descripción y botones CTA."
+      :code="centeredCode"
+    >
       <div class="overflow-hidden rounded-xl">
         <HeroSimple
           headline="Build beautiful web applications faster"
           description="A comprehensive Vue 3 component library built with Tailwind CSS. Ship production-ready interfaces in record time."
-          :actions="primaryActions"
+          :actions="actions"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Simple — Alineado a la Izquierda</h2>
-        <p class="text-muted-foreground text-sm">
-          Misma estructura, pero con texto alineado a la izquierda.
-        </p>
-      </div>
+    <DocShowcase
+      title="Hero Simple — Alineado a la izquierda"
+      description="Misma estructura con texto alineado a la izquierda y modo compacto."
+      :code="leftCode"
+    >
       <div class="overflow-hidden rounded-xl">
         <HeroSimple
           headline="Ship products faster with 3DF UI"
           description="Production-ready components for Vue 3 with TypeScript, Tailwind CSS, and full accessibility support."
-          :actions="primaryActions"
+          :actions="actions"
           align="left"
           compact
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Split — Texto + Imagen</h2>
-        <p class="text-muted-foreground text-sm">
-          Layout dividido: contenido de texto a la izquierda, imagen a la derecha.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroSplit
-          headline="The modern way to build dashboards"
-          description="Combine powerful data visualization with a rich component library. From charts to forms, everything you need in one package."
-          :actions="primaryActions"
-          image-src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
-          image-alt="Dashboard preview"
-        />
-      </div>
-    </section>
-
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Split — Invertido</h2>
-        <p class="text-muted-foreground text-sm">
-          Split con la imagen a la izquierda y texto a la derecha usando <code>reverse</code>.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroSplit
-          headline="Design systems made simple"
-          description="Consistent, reusable components that scale with your team. Built for developers who care about quality."
-          :actions="primaryActions"
-          image-src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
-          image-alt="Design system"
-          reverse
-          compact
-        />
-      </div>
-    </section>
-
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Image — Fondo con Overlay Oscuro</h2>
-        <p class="text-muted-foreground text-sm">
-          Imagen de fondo a pantalla completa con overlay oscuro semi-transparente.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroImage
-          headline="Explore the world of possibilities"
-          description="Create stunning landing pages with beautiful background imagery and full customization options."
-          :actions="imageActions"
-          image-src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1600&h=900&fit=crop"
-          image-alt="Mountain landscape"
-          overlay="dark"
-          :overlay-opacity="50"
-        />
-      </div>
-    </section>
-
-    <section class="space-y-4">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-xl font-semibold">Hero Image — Overlay Gradiente</h2>
-        <p class="text-muted-foreground text-sm">
-          Overlay gradiente de abajo hacia arriba. Texto alineado a la izquierda.
-        </p>
-      </div>
-      <div class="overflow-hidden rounded-xl">
-        <HeroImage
-          headline="Where creativity meets technology"
-          description="Push the boundaries of web design with our flexible hero components and rich visual options."
-          :actions="imageActions"
-          image-src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&h=900&fit=crop"
-          image-alt="Landscape"
-          overlay="gradient"
-          :overlay-opacity="40"
-          align="left"
-          min-height="550px"
-        />
-      </div>
-    </section>
-
+    <HeroDemoSplit />
+    <HeroDemoImage />
     <HeroDemoGradients />
+
+    <DocPropsTable :props="heroProps" />
   </div>
 </template>

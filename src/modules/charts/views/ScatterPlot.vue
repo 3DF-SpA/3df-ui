@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { UiChartScatter, type ScatterConfig } from '@3df-spa/charts';
+import { type ScatterConfig, UiChartScatter } from '@3df-spa/charts';
+
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const bodyData = [
   { height: 160, weight: 55, bmi: 21.5 },
@@ -54,8 +59,6 @@ const salesConfig: ScatterConfig = {
   },
 };
 
-const salesDataFiltered = salesData;
-
 const projectData = [
   { complexity: 3, duration: 12, budget: 50 },
   { complexity: 5, duration: 24, budget: 120 },
@@ -96,26 +99,134 @@ const cpuConfig: ScatterConfig = {
     shape: 'square',
   },
 };
+
+const basicCode = `<UiChartScatter
+  :config="config"
+  :data="data"
+  :x-formatter="(v) => \`\${v} cm\`"
+  :y-formatter="(v) => \`\${v} kg\`"
+/>`;
+
+const multiCode = `<UiChartScatter
+  :config="config"
+  :data="data"
+  :x-formatter="(v) => \`$\${v}\`"
+  :y-formatter="(v) => \`$\${(v / 1000).toFixed(1)}K\`"
+/>`;
+
+const bubbleCode = `<UiChartScatter
+  :config="config"
+  :data="data"
+  :x-formatter="(v) => \`\${v}/10\`"
+  :y-formatter="(v) => \`\${v} wks\`"
+  :min-dot-radius="6"
+  :max-dot-radius="30"
+/>`;
+
+const squareCode = `<UiChartScatter
+  :config="config"
+  :data="data"
+  :dot-radius="8"
+  :animate="false"
+  :show-legend="false"
+/>`;
+
+const scatterProps: PropItem[] = [
+  {
+    name: 'data',
+    type: 'Record<string, unknown>[]',
+    default: '-',
+    description: 'Array de objetos con los datos del gráfico.',
+  },
+  {
+    name: 'config',
+    type: 'ScatterConfig',
+    default: '-',
+    description: 'Configuración de series con xKey, yKey, sizeKey, shape y color.',
+  },
+  {
+    name: 'dotRadius',
+    type: 'number',
+    default: '5',
+    description: 'Radio base de los puntos en px.',
+  },
+  {
+    name: 'minDotRadius',
+    type: 'number',
+    default: '4',
+    description: 'Radio mínimo en modo bubble (con sizeKey).',
+  },
+  {
+    name: 'maxDotRadius',
+    type: 'number',
+    default: '20',
+    description: 'Radio máximo en modo bubble (con sizeKey).',
+  },
+  {
+    name: 'xFormatter',
+    type: '(v: number) => string',
+    default: '-',
+    description: 'Formateador del eje X en el tooltip.',
+  },
+  {
+    name: 'yFormatter',
+    type: '(v: number) => string',
+    default: '-',
+    description: 'Formateador del eje Y en el tooltip.',
+  },
+  {
+    name: 'showLegend',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra la leyenda interactiva.',
+  },
+  {
+    name: 'animate',
+    type: 'boolean',
+    default: 'true',
+    description: 'Habilita la animación de entrada.',
+  },
+  {
+    name: 'ScatterSeriesConfig: xKey',
+    type: 'string',
+    default: '-',
+    description: 'Key numérica para el eje X.',
+  },
+  {
+    name: 'ScatterSeriesConfig: yKey',
+    type: 'string',
+    default: '-',
+    description: 'Key numérica para el eje Y.',
+  },
+  {
+    name: 'ScatterSeriesConfig: sizeKey',
+    type: 'string',
+    default: '-',
+    description: 'Key numérica para mapear el tamaño del punto (modo bubble).',
+  },
+  {
+    name: 'ScatterSeriesConfig: shape',
+    type: "'circle' | 'square' | 'diamond'",
+    default: "'circle'",
+    description: 'Forma del marcador.',
+  },
+];
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl space-y-12 p-8">
-    <div>
-      <h1 class="text-3xl font-bold tracking-tight">Scatter Plot</h1>
-      <p class="mt-2 text-muted-foreground">
-        Correlation, clusters &amp; bubbles — circle/square/diamond shapes, size mapping, interactive legend. 100% SVG, zero dependencies.
-      </p>
-    </div>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Scatter Plot"
+      description="Correlación, clusters y burbujas — formas circle/square/diamond, mapeo de tamaño, leyenda interactiva. 100% SVG, sin dependencias."
+      import-code="import { UiChartScatter, type ScatterConfig } from '@3df-spa/charts'"
+    />
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Basic Scatter</h2>
-        <p class="text-sm text-muted-foreground">
-          Simple correlation plot. Hover points for axis values.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Scatter básico"
+      description="Gráfico de correlación simple. Hover en los puntos para ver valores de ambos ejes."
+      :code="basicCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartScatter
           :config="bodyConfig"
           :data="bodyData"
@@ -123,35 +234,29 @@ const cpuConfig: ScatterConfig = {
           :y-formatter="(v: number) => `${v} kg`"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Multi-series &mdash; Different Shapes</h2>
-        <p class="text-sm text-muted-foreground">
-          Two regions with circle and diamond shapes. Toggle series via legend.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Multi-serie — Formas diferentes"
+      description="Dos regiones con formas circle y diamond. Alternar series en la leyenda."
+      :code="multiCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartScatter
           :config="salesConfig"
-          :data="salesDataFiltered"
+          :data="salesData"
           :x-formatter="(v: number) => `$${v}`"
           :y-formatter="(v: number) => `$${(v / 1000).toFixed(1)}K`"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Bubble Chart</h2>
-        <p class="text-sm text-muted-foreground">
-          Dot size mapped to budget. Three variables in one chart.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Bubble chart"
+      description="Tamaño del punto mapeado a presupuesto. Tres variables en un solo gráfico."
+      :code="bubbleCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartScatter
           :config="bubbleConfig"
           :data="projectData"
@@ -161,17 +266,14 @@ const cpuConfig: ScatterConfig = {
           :max-dot-radius="30"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Square Shape &mdash; No Animation</h2>
-        <p class="text-sm text-muted-foreground">
-          Square markers. Larger dots, no entrance animation.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-6">
+    <DocShowcase
+      title="Forma square — Sin animación"
+      description="Marcadores cuadrados con mayor tamaño, sin animación de entrada."
+      :code="squareCode"
+    >
+      <div class="border-border bg-card rounded-xl border p-6">
         <UiChartScatter
           :config="cpuConfig"
           :data="cpuData"
@@ -180,6 +282,8 @@ const cpuConfig: ScatterConfig = {
           :show-legend="false"
         />
       </div>
-    </section>
+    </DocShowcase>
+
+    <DocPropsTable :props="scatterProps" />
   </div>
 </template>

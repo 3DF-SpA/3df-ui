@@ -2,30 +2,141 @@
 import { ref } from 'vue';
 
 import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
   Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
   Input,
   Label,
 } from '@3df-spa/ui';
 
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 const controlledOpen = ref(false);
+
+const dialogProps: PropItem[] = [
+  {
+    name: 'Dialog: open',
+    type: 'boolean',
+    default: '-',
+    description: 'Estado abierto/cerrado (v-model:open).',
+  },
+  {
+    name: 'Dialog: defaultOpen',
+    type: 'boolean',
+    default: 'false',
+    description: 'Estado inicial del dialog.',
+  },
+  {
+    name: 'DialogContent: showClose',
+    type: 'boolean',
+    default: 'true',
+    description: 'Muestra el botón de cierre (×).',
+  },
+  {
+    name: 'DialogContent: closeOnOverlay',
+    type: 'boolean',
+    default: 'true',
+    description: 'Permite cerrar haciendo clic en el overlay.',
+  },
+  {
+    name: 'DialogContent: closeLabel',
+    type: 'string',
+    default: "'Cerrar'",
+    description: 'Etiqueta accesible del botón de cierre.',
+  },
+];
+
+const basicCode = `<Dialog>
+  <DialogTrigger>
+    <Button variant="outline">Editar perfil</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Editar perfil</DialogTitle>
+      <DialogDescription>Realiza cambios en tu perfil.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose><Button variant="outline">Cancelar</Button></DialogClose>
+      <Button>Guardar</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`;
+
+const confirmCode = `<Dialog>
+  <DialogTrigger>
+    <Button variant="destructive">Eliminar cuenta</Button>
+  </DialogTrigger>
+  <DialogContent class="max-w-md">
+    <DialogHeader>
+      <DialogTitle>¿Estás seguro?</DialogTitle>
+      <DialogDescription>Esta acción no se puede deshacer.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose><Button variant="outline">Cancelar</Button></DialogClose>
+      <Button variant="destructive">Eliminar</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`;
+
+const controlledCode = `const open = ref(false)
+
+<Dialog v-model:open="open">
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Dialog controlado</DialogTitle>
+    </DialogHeader>
+    <DialogFooter>
+      <Button @click="open = false">Entendido</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`;
+
+const noOverlayCode = `<DialogContent :close-on-overlay="false">
+  <!-- Solo se cierra con × o Escape -->
+</DialogContent>`;
+
+const noCloseCode = `<DialogContent :show-close="false" :close-on-overlay="false">
+  <!-- Solo se cierra con botones de acción -->
+</DialogContent>`;
+
+const anatomyCode = `<Dialog>
+  <DialogTrigger />
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle />
+      <DialogDescription />
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose />
+    </DialogFooter>
+  </DialogContent>
+</Dialog>`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Dialog</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Dialog"
+      description="Ventana modal que interrumpe al usuario para confirmar una acción o mostrar información importante."
+      import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df-spa/ui'"
+    />
 
-    
     <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Básico</h2>
-      <p class="text-muted-foreground text-xs">Dialog con header, contenido y footer.</p>
+      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" lang="vue" />
+    </section>
+
+    <DocShowcase title="Básico" :code="basicCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="outline">Editar perfil</Button>
@@ -55,12 +166,9 @@ const controlledOpen = ref(false);
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Confirmación</h2>
-      <p class="text-muted-foreground text-xs">Dialog de confirmación con acción destructiva.</p>
+    <DocShowcase title="Confirmación destructiva" :code="confirmCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="destructive">Eliminar cuenta</Button>
@@ -69,7 +177,8 @@ const controlledOpen = ref(false);
           <DialogHeader>
             <DialogTitle>¿Estás seguro?</DialogTitle>
             <DialogDescription>
-              Esta acción no se puede deshacer. Se eliminará permanentemente tu cuenta y todos tus datos de nuestros servidores.
+              Esta acción no se puede deshacer. Se eliminará permanentemente tu cuenta y todos tus
+              datos de nuestros servidores.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -80,11 +189,9 @@ const controlledOpen = ref(false);
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Controlado (v-model)</h2>
+    <DocShowcase title="Controlado (v-model)" :code="controlledCode">
       <p class="text-muted-foreground text-xs">
         Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
       </p>
@@ -100,7 +207,7 @@ const controlledOpen = ref(false);
             </DialogDescription>
           </DialogHeader>
           <div class="py-4">
-            <p class="text-sm text-muted-foreground">
+            <p class="text-muted-foreground text-sm">
               Puedes abrirlo y cerrarlo programáticamente desde fuera del componente.
             </p>
           </div>
@@ -109,12 +216,9 @@ const controlledOpen = ref(false);
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Sin cierre por overlay</h2>
-      <p class="text-muted-foreground text-xs">Solo se puede cerrar con el botón × o Escape.</p>
+    <DocShowcase title="Sin cierre por overlay" :code="noOverlayCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="outline">Abrir (sin cierre overlay)</Button>
@@ -126,11 +230,6 @@ const controlledOpen = ref(false);
               Debes completar esta acción. No puedes cerrar haciendo clic fuera.
             </DialogDescription>
           </DialogHeader>
-          <div class="py-4">
-            <p class="text-sm text-muted-foreground">
-              Usa el botón × o presiona Escape para cerrar.
-            </p>
-          </div>
           <DialogFooter>
             <DialogClose>
               <Button>Aceptar</Button>
@@ -138,12 +237,9 @@ const controlledOpen = ref(false);
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Sin botón ×</h2>
-      <p class="text-muted-foreground text-xs">Dialog con botones de acción como única forma de cerrar.</p>
+    <DocShowcase title="Sin botón de cierre" :code="noCloseCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="outline">Términos y condiciones</Button>
@@ -155,9 +251,10 @@ const controlledOpen = ref(false);
               Por favor lee y acepta los términos de servicio para continuar.
             </DialogDescription>
           </DialogHeader>
-          <div class="max-h-60 overflow-y-auto rounded-md border border-border p-4">
-            <p class="text-sm text-muted-foreground">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+          <div class="border-border max-h-60 overflow-y-auto rounded-md border p-4">
+            <p class="text-muted-foreground text-sm">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
           <DialogFooter>
@@ -170,6 +267,8 @@ const controlledOpen = ref(false);
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </section>
+    </DocShowcase>
+
+    <DocPropsTable :props="dialogProps" />
   </div>
 </template>

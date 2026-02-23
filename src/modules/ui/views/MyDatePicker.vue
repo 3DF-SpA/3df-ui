@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import {
-  Calendar,
-  DatePicker,
-  DateRangePicker,
-  type DateRange,
-} from '@3df-spa/ui';
+
+import { Calendar, DatePicker, type DateRange, DateRangePicker } from '@3df-spa/ui';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const singleDate = ref<Date>();
 const rangeDate = ref<DateRange>();
@@ -20,86 +21,164 @@ function isPastDate(date: Date) {
   today.setHours(0, 0, 0, 0);
   return date < today;
 }
+
+const datePickerProps: PropItem[] = [
+  {
+    name: 'modelValue',
+    type: 'Date | undefined',
+    default: 'undefined',
+    description: 'Fecha seleccionada (v-model)',
+  },
+  {
+    name: 'placeholder',
+    type: 'string',
+    default: "'Pick a date'",
+    description: 'Texto placeholder del boton',
+  },
+  {
+    name: 'formatStr',
+    type: 'string',
+    default: "'PPP'",
+    description: 'Formato de fecha (date-fns)',
+  },
+  {
+    name: 'locale',
+    type: 'Locale',
+    default: '-',
+    description: 'Locale de date-fns para formateo localizado',
+  },
+  {
+    name: 'disabled',
+    type: '(date: Date) => boolean',
+    default: '-',
+    description: 'Funcion que deshabilita fechas especificas',
+  },
+  {
+    name: 'weekStartsOn',
+    type: '0 | 1 | 2 | 3 | 4 | 5 | 6',
+    default: '1',
+    description: 'Dia de inicio de semana (0=Domingo)',
+  },
+];
+
+const simpleCode = `<DatePicker v-model="singleDate" class="max-w-sm" />
+<p>Valor: {{ singleDate ? format(singleDate, 'PPP') : 'Sin seleccionar' }}</p>`;
+
+const localeCode = `<DatePicker
+  v-model="spanishDate"
+  :locale="es"
+  placeholder="Selecciona una fecha"
+  class="max-w-sm"
+/>`;
+
+const disabledCode = `<DatePicker
+  v-model="disabledDate"
+  :disabled="isPastDate"
+  placeholder="Solo fechas futuras"
+  class="max-w-sm"
+/>`;
+
+const rangeCode = `<DateRangePicker v-model="rangeDate" class="max-w-md" />
+<p>
+  {{ format(rangeDate.from, 'PP') }}
+  <template v-if="rangeDate.to"> – {{ format(rangeDate.to, 'PP') }}</template>
+</p>`;
+
+const calendarCode = `<Calendar v-model="calendarDate" />
+<p>Seleccionado: {{ calendarDate ? format(calendarDate, 'PPP') : 'Ninguno' }}</p>`;
 </script>
 
 <template>
-  <div class="space-y-12">
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">DatePicker — Fecha simple</h2>
-      <p class="text-sm text-muted-foreground">
-        Selector de fecha individual con formato automático.
-      </p>
-      <DatePicker v-model="singleDate" class="max-w-sm" />
-      <p class="text-sm">
-        <strong>Valor:</strong>
-        {{ singleDate ? format(singleDate, 'PPP') : 'Sin seleccionar' }}
-      </p>
-    </section>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="DatePicker"
+      description="Selector de fecha con calendario desplegable. Soporta fechas simples, rangos y localización."
+      import-code="import { DatePicker, DateRangePicker, Calendar, type DateRange } from '@3df-spa/ui'"
+    />
 
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">DatePicker — Locale español</h2>
-      <p class="text-sm text-muted-foreground">
-        Usando <code>date-fns/locale/es</code> para nombres en español.
-      </p>
-      <DatePicker
-        v-model="spanishDate"
-        :locale="es"
-        placeholder="Selecciona una fecha"
-        class="max-w-sm"
-      />
-      <p class="text-sm">
-        <strong>Valor:</strong>
-        {{ spanishDate ? format(spanishDate, 'PPP', { locale: es }) : 'Sin seleccionar' }}
-      </p>
-    </section>
-
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">DatePicker — Fechas pasadas deshabilitadas</h2>
-      <p class="text-sm text-muted-foreground">
-        No permite seleccionar fechas anteriores a hoy.
-      </p>
-      <DatePicker
-        v-model="disabledDate"
-        :disabled="isPastDate"
-        placeholder="Solo fechas futuras"
-        class="max-w-sm"
-      />
-    </section>
-
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">DateRangePicker — Rango de fechas</h2>
-      <p class="text-sm text-muted-foreground">
-        Selector de rango con dos meses visibles. Click en la fecha inicio, luego en la fecha fin.
-      </p>
-      <DateRangePicker v-model="rangeDate" class="max-w-md" />
-      <p class="text-sm">
-        <strong>Rango:</strong>
-        <template v-if="rangeDate">
-          {{ format(rangeDate.from, 'PP') }}
-          <template v-if="rangeDate.to"> – {{ format(rangeDate.to, 'PP') }}</template>
-          <template v-else> (selecciona fecha fin)</template>
-        </template>
-        <template v-else>Sin seleccionar</template>
-      </p>
-    </section>
-
-    
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">Calendar — Componente independiente</h2>
-      <p class="text-sm text-muted-foreground">
-        El calendario se puede usar directamente sin el wrapper de DatePicker.
-      </p>
-      <div class="w-fit rounded-md border">
-        <Calendar v-model="calendarDate" />
+    <DocShowcase
+      title="Fecha simple"
+      description="Selector de fecha individual con formato automático."
+      :code="simpleCode"
+    >
+      <div class="flex max-w-sm flex-col gap-4">
+        <DatePicker v-model="singleDate" class="max-w-sm" />
+        <p class="text-sm">
+          <strong>Valor:</strong>
+          {{ singleDate ? format(singleDate, 'PPP') : 'Sin seleccionar' }}
+        </p>
       </div>
-      <p class="text-sm">
-        <strong>Seleccionado:</strong>
-        {{ calendarDate ? format(calendarDate, 'PPP') : 'Ninguno' }}
-      </p>
-    </section>
+    </DocShowcase>
+
+    <DocShowcase
+      title="Locale español"
+      description="Usando date-fns/locale/es para nombres en español."
+      :code="localeCode"
+    >
+      <div class="flex max-w-sm flex-col gap-4">
+        <DatePicker
+          v-model="spanishDate"
+          :locale="es"
+          placeholder="Selecciona una fecha"
+          class="max-w-sm"
+        />
+        <p class="text-sm">
+          <strong>Valor:</strong>
+          {{ spanishDate ? format(spanishDate, 'PPP', { locale: es }) : 'Sin seleccionar' }}
+        </p>
+      </div>
+    </DocShowcase>
+
+    <DocShowcase
+      title="Fechas deshabilitadas"
+      description="No permite seleccionar fechas anteriores a hoy."
+      :code="disabledCode"
+    >
+      <div class="max-w-sm">
+        <DatePicker
+          v-model="disabledDate"
+          :disabled="isPastDate"
+          placeholder="Solo fechas futuras"
+          class="max-w-sm"
+        />
+      </div>
+    </DocShowcase>
+
+    <DocShowcase
+      title="Rango de fechas"
+      description="Selector de rango con dos meses visibles. Click en la fecha inicio, luego en la fecha fin."
+      :code="rangeCode"
+    >
+      <div class="flex max-w-md flex-col gap-4">
+        <DateRangePicker v-model="rangeDate" class="max-w-md" />
+        <p class="text-sm">
+          <strong>Rango:</strong>
+          <template v-if="rangeDate">
+            {{ format(rangeDate.from, 'PP') }}
+            <template v-if="rangeDate.to"> – {{ format(rangeDate.to, 'PP') }}</template>
+            <template v-else> (selecciona fecha fin)</template>
+          </template>
+          <template v-else>Sin seleccionar</template>
+        </p>
+      </div>
+    </DocShowcase>
+
+    <DocShowcase
+      title="Calendario independiente"
+      description="El calendario se puede usar directamente sin el wrapper de DatePicker."
+      :code="calendarCode"
+    >
+      <div class="flex flex-col gap-4">
+        <div class="w-fit rounded-md border">
+          <Calendar v-model="calendarDate" />
+        </div>
+        <p class="text-sm">
+          <strong>Seleccionado:</strong>
+          {{ calendarDate ? format(calendarDate, 'PPP') : 'Ninguno' }}
+        </p>
+      </div>
+    </DocShowcase>
+
+    <DocPropsTable :props="datePickerProps" />
   </div>
 </template>

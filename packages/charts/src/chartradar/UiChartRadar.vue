@@ -12,10 +12,9 @@ import type {
 } from '../shared/chart-types';
 import { CHART_KEY } from '../shared/chart-types';
 import { getSeriesKeys, resolveColor, resolveConfigColors } from '../shared/chart-utils';
+import type { RadarVariant } from './radar-types';
 
 defineOptions({ inheritAttrs: false });
-
-export type RadarVariant = 'polygon' | 'circle';
 
 const props = withDefaults(
   defineProps<{
@@ -45,8 +44,6 @@ const props = withDefaults(
     dotRadius?: number;
     /** Min chart height */
     minHeight?: number;
-    /** Custom value formatter */
-    valueFormatter?: (value: number) => string;
     tooltipFormatter?: (value: number, key: string) => string;
     /** Enable entrance animation */
     animate?: boolean;

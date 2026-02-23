@@ -1,78 +1,109 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from '@3df-spa/ui';
 
-import PaginationDemoReference from './_components/PaginationDemoReference.vue';
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+import PaginationDemoCompactDisabled from './_components/PaginationDemoCompactDisabled.vue';
+import PaginationDemoDynamic from './_components/PaginationDemoDynamic.vue';
 
 const basicPage = ref(1);
-const totalPages = ref(20);
-const currentPage = ref(1);
-
-function goToPage(page: number) {
-  if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page;
-  }
-}
-
-const visiblePages = computed(() => {
-  const total = totalPages.value;
-  const current = currentPage.value;
-  const pages: (number | 'ellipsis')[] = [];
-
-  if (total <= 7) {
-    for (let i = 1; i <= total; i++) pages.push(i);
-    return pages;
-  }
-
-  pages.push(1);
-
-  if (current > 3) {
-    pages.push('ellipsis');
-  }
-
-  const start = Math.max(2, current - 1);
-  const end = Math.min(total - 1, current + 1);
-
-  for (let i = start; i <= end; i++) {
-    pages.push(i);
-  }
-
-  if (current < total - 2) {
-    pages.push('ellipsis');
-  }
-
-  pages.push(total);
-
-  return pages;
-});
-
 const borderedPage = ref(3);
+
+const paginationLinkProps: PropItem[] = [
+  {
+    name: 'isActive',
+    type: 'boolean',
+    default: 'false',
+    description: 'Marca la página como activa. Aplica aria-current="page".',
+  },
+  {
+    name: 'as',
+    type: 'string | Component',
+    default: "'button'",
+    description: 'Elemento HTML o componente a renderizar.',
+  },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Deshabilita el enlace con pointer-events-none y opacidad reducida.',
+  },
+];
+
+const paginationNavProps: PropItem[] = [
+  {
+    name: 'as',
+    type: 'string | Component',
+    default: "'button'",
+    description: 'Elemento HTML o componente a renderizar.',
+  },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Deshabilita el botón de navegación.',
+  },
+];
+
+const basicCode = `<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious :disabled="page <= 1" @click="page--" />
+    </PaginationItem>
+    <PaginationItem v-for="p in 5" :key="p">
+      <PaginationLink :is-active="page === p" @click="page = p">
+        {{ p }}
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext :disabled="page >= 5" @click="page++" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>`;
+
+const borderedCode = `<PaginationLink
+  :is-active="page === p"
+  class="border-border border"
+  @click="page = p"
+>
+  {{ p }}
+</PaginationLink>`;
+
+const anatomyCode = `import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationEllipsis,
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
-  <div class="space-y-12 p-8">
-    <div>
-      <h1 class="text-3xl font-bold">Pagination</h1>
-      <p class="text-muted-foreground mt-2">
-        Sistema de paginación con patrón compound component. Semántica <code>&lt;nav&gt;</code> y
-        accesibilidad ARIA completa.
-      </p>
-    </div>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Pagination"
+      description="Sistema de paginación con patrón compound component. Semántica <nav> y accesibilidad ARIA completa."
+      import-code="import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@3df-spa/ui'"
+    />
 
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">1. Básico</h2>
-      <p class="text-muted-foreground text-sm">
-        Paginación estática con 5 páginas. Página actual:
-        <span class="font-mono font-medium">{{ basicPage }}</span>
+    <DocShowcase title="Básico" :code="basicCode">
+      <p class="text-muted-foreground mb-3 text-sm">
+        Página actual: <span class="font-mono font-medium">{{ basicPage }}</span>
       </p>
       <Pagination>
         <PaginationContent>
@@ -95,43 +126,11 @@ const borderedPage = ref(3);
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </section>
+    </DocShowcase>
 
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">2. Dinámica con ellipsis</h2>
-      <p class="text-muted-foreground text-sm">
-        {{ totalPages }} páginas con ventana deslizante y ellipsis. Página
-        <span class="font-mono font-medium">{{ currentPage }}</span>
-        de {{ totalPages }}.
-      </p>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious :disabled="currentPage <= 1" @click="goToPage(currentPage - 1)" />
-          </PaginationItem>
-          <template v-for="(item, idx) in visiblePages" :key="idx">
-            <PaginationItem v-if="item === 'ellipsis'">
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem v-else>
-              <PaginationLink :is-active="currentPage === item" @click="goToPage(item)">
-                {{ item }}
-              </PaginationLink>
-            </PaginationItem>
-          </template>
-          <PaginationItem>
-            <PaginationNext
-              :disabled="currentPage >= totalPages"
-              @click="goToPage(currentPage + 1)"
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    </section>
+    <PaginationDemoDynamic />
 
-    <section class="space-y-4">
-      <h2 class="text-xl font-semibold">3. Variante con bordes</h2>
-      <p class="text-muted-foreground text-sm">Links con borde vía <code>class</code> override.</p>
+    <DocShowcase title="Variante con bordes" :code="borderedCode">
       <Pagination>
         <PaginationContent>
           <PaginationItem>
@@ -159,8 +158,19 @@ const borderedPage = ref(3);
           </PaginationItem>
         </PaginationContent>
       </Pagination>
+    </DocShowcase>
+
+    <PaginationDemoCompactDisabled />
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" language="typescript" />
     </section>
 
-    <PaginationDemoReference />
+    <DocPropsTable title="Props de PaginationLink" :props="paginationLinkProps" />
+    <DocPropsTable
+      title="Props de PaginationPrevious / PaginationNext"
+      :props="paginationNavProps"
+    />
   </div>
 </template>

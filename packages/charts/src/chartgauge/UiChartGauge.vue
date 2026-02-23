@@ -1,18 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, useAttrs, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, useAttrs } from 'vue';
+
+import type { GaugeSegment, GaugeVariant } from './gauge-types';
 
 defineOptions({ inheritAttrs: false });
-
-export type GaugeVariant = 'semicircle' | 'arc' | 'full';
-
-export interface GaugeSegment {
-  /** Label for this zone */
-  label?: string;
-  /** Max value of this zone (min is previous segment's max, or overall min) */
-  max: number;
-  /** Color for this zone */
-  color: string;
-}
 
 const props = withDefaults(
   defineProps<{
@@ -93,9 +84,7 @@ onBeforeUnmount(() => {
 
 /* ── Derived ───────────────────────────────────────────────── */
 
-const clampedValue = computed(() =>
-  Math.min(Math.max(props.value, props.min), props.max),
-);
+const clampedValue = computed(() => Math.min(Math.max(props.value, props.min), props.max));
 
 const progress = computed(() => {
   const range = props.max - props.min || 1;
@@ -189,12 +178,14 @@ function computeSegments(cx: number, cy: number, r: number): ComputedSegment[] {
     // Single color — draw progress arc
     if (progress.value <= 0) return [];
     const endAngle = startAngle + sweepAngle * progress.value;
-    return [{
-      path: describeArc(cx, cy, r, startAngle, endAngle),
-      color: props.color,
-      labelX: cx,
-      labelY: cy,
-    }];
+    return [
+      {
+        path: describeArc(cx, cy, r, startAngle, endAngle),
+        color: props.color,
+        labelX: cx,
+        labelY: cy,
+      },
+    ];
   }
 
   // Multi-segment
@@ -202,8 +193,8 @@ function computeSegments(cx: number, cy: number, r: number): ComputedSegment[] {
   let prevMax = props.min;
 
   for (const seg of props.segments) {
-    const segStart = ((prevMax - props.min) / range);
-    const segEnd = ((seg.max - props.min) / range);
+    const segStart = (prevMax - props.min) / range;
+    const segEnd = (seg.max - props.min) / range;
     const sa = startAngle + sweepAngle * segStart;
     const ea = startAngle + sweepAngle * segEnd;
 
@@ -279,10 +270,14 @@ const showMinMax = computed(() => {
 
 const valueY = computed(() => {
   switch (props.variant) {
-    case 'semicircle': return CY - 10;
-    case 'arc': return CY + 8;
-    case 'full': return CY - 2;
-    default: return CY;
+    case 'semicircle':
+      return CY - 10;
+    case 'arc':
+      return CY + 8;
+    case 'full':
+      return CY - 2;
+    default:
+      return CY;
   }
 });
 
@@ -319,9 +314,15 @@ const cachedNeedle = computed(() => computeNeedle(CX, CY, ARC_R.value));
 
       <!-- Track (background arc) -->
       <path
-        :d="describeArc(CX, CY, ARC_R,
-          angleConfig.startAngle,
-          angleConfig.startAngle + angleConfig.sweepAngle)"
+        :d="
+          describeArc(
+            CX,
+            CY,
+            ARC_R,
+            angleConfig.startAngle,
+            angleConfig.startAngle + angleConfig.sweepAngle,
+          )
+        "
         fill="none"
         :stroke="trackColor"
         :stroke-width="strokeWidth"
@@ -385,18 +386,8 @@ const cachedNeedle = computed(() => computeNeedle(CX, CY, ARC_R.value));
           }"
         />
         <!-- Center dot -->
-        <circle
-          :cx="CX"
-          :cy="CY"
-          r="8"
-          class="fill-foreground"
-        />
-        <circle
-          :cx="CX"
-          :cy="CY"
-          r="4"
-          class="fill-background"
-        />
+        <circle :cx="CX" :cy="CY" r="8" class="fill-foreground" />
+        <circle :cx="CX" :cy="CY" r="4" class="fill-background" />
       </template>
 
       <!-- Value text -->

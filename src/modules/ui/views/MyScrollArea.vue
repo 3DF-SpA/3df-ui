@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ScrollArea, Separator } from '@3df-spa/ui';
 
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 const tags = Array.from({ length: 50 }, (_, i) => `v1.${i}.0-beta`);
 
 const artworks = [
@@ -17,61 +22,144 @@ const artworks = [
   { title: 'Composición VIII', artist: 'Wassily Kandinsky', year: '1923' },
   { title: 'Broadway Boogie Woogie', artist: 'Piet Mondrian', year: '1943' },
 ];
+
+const scrollAreaProps: PropItem[] = [
+  {
+    name: 'type',
+    type: "'auto' | 'always' | 'scroll' | 'hover'",
+    default: "'hover'",
+    description: 'Cuándo mostrar la scrollbar.',
+  },
+  {
+    name: 'orientation',
+    type: "'vertical' | 'horizontal' | 'both'",
+    default: "'vertical'",
+    description: 'Ejes de scroll habilitados.',
+  },
+];
+
+const verticalCode = `<ScrollArea class="h-72 w-48 rounded-md border">
+  <div class="p-4">
+    <h4 class="mb-4 text-sm font-medium">Tags</h4>
+    <template v-for="(tag, i) in tags" :key="tag">
+      <div class="text-sm">{{ tag }}</div>
+      <Separator v-if="i < tags.length - 1" class="my-2" decorative />
+    </template>
+  </div>
+</ScrollArea>`;
+
+const horizontalCode = `<ScrollArea orientation="horizontal" class="w-full max-w-xl rounded-md border">
+  <div class="flex gap-4 p-4">
+    <div v-for="artwork in artworks" :key="artwork.title" class="w-36 shrink-0 rounded-md border p-3">
+      <div class="bg-muted mb-2 aspect-square rounded-md" />
+      <p class="text-sm font-medium">{{ artwork.title }}</p>
+      <p class="text-muted-foreground text-xs">{{ artwork.artist }}</p>
+    </div>
+  </div>
+</ScrollArea>`;
+
+const bothCode = `<ScrollArea orientation="both" class="h-64 w-80 rounded-md border">
+  <div class="w-[600px] p-4">
+    <table class="w-full text-sm">
+      <!-- Tabla ancha con scroll en ambos ejes -->
+    </table>
+  </div>
+</ScrollArea>`;
+
+const alwaysCode = `<ScrollArea type="always" class="h-48 w-64 rounded-md border">
+  <div class="p-4">
+    <p v-for="i in 15" :key="i" class="mb-3 text-sm">Párrafo {{ i }}...</p>
+  </div>
+</ScrollArea>`;
+
+const scrollTypeCode = `<ScrollArea type="scroll" class="h-48 w-64 rounded-md border">
+  <div class="p-4">
+    <p v-for="i in 15" :key="i" class="mb-3 text-sm">Párrafo {{ i }}...</p>
+  </div>
+</ScrollArea>`;
+
+const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
+  <div class="border-b px-4 py-3">
+    <h3 class="text-sm font-semibold">Mensajes</h3>
+  </div>
+  <ScrollArea class="h-64">
+    <div class="flex flex-col gap-3 p-4">
+      <div v-for="i in 20" :key="i" class="rounded-lg px-3 py-2 text-sm"
+        :class="i % 3 === 0 ? 'bg-primary text-primary-foreground self-end' : 'bg-muted'">
+        Mensaje {{ i }}
+      </div>
+    </div>
+  </ScrollArea>
+</div>`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">ScrollArea</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="ScrollArea"
+      description="Área de scroll personalizada con scrollbars estilizados que reemplazan los nativos del navegador."
+      import-code="import { ScrollArea } from '@3df-spa/ui'"
+    />
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Vertical — lista de tags</h2>
-      <ScrollArea class="h-72 w-48 rounded-md border border-border">
+    <DocShowcase
+      title="Vertical — lista de tags"
+      description="Scroll vertical estándar para listas largas."
+      :code="verticalCode"
+    >
+      <ScrollArea class="border-border h-72 w-48 rounded-md border">
         <div class="p-4">
-          <h4 class="mb-4 text-sm font-medium leading-none">Tags</h4>
+          <h4 class="mb-4 text-sm leading-none font-medium">Tags</h4>
           <template v-for="(tag, i) in tags" :key="tag">
             <div class="text-sm">{{ tag }}</div>
             <Separator v-if="i < tags.length - 1" class="my-2" decorative />
           </template>
         </div>
       </ScrollArea>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Horizontal — galería de arte</h2>
-      <ScrollArea orientation="horizontal" class="w-full max-w-xl rounded-md border border-border">
+    <DocShowcase
+      title="Horizontal — galería de arte"
+      description="Scroll horizontal para contenido que desborda el ancho."
+      :code="horizontalCode"
+    >
+      <ScrollArea orientation="horizontal" class="border-border w-full max-w-xl rounded-md border">
         <div class="flex gap-4 p-4">
           <div
             v-for="artwork in artworks"
             :key="artwork.title"
-            class="w-36 shrink-0 rounded-md border border-border bg-card p-3"
+            class="border-border bg-card w-36 shrink-0 rounded-md border p-3"
           >
-            <div class="mb-2 aspect-square rounded-md bg-muted" />
-            <p class="text-sm font-medium leading-tight">{{ artwork.title }}</p>
+            <div class="bg-muted mb-2 aspect-square rounded-md" />
+            <p class="text-sm leading-tight font-medium">{{ artwork.title }}</p>
             <p class="text-muted-foreground mt-1 text-xs">{{ artwork.artist }}</p>
             <p class="text-muted-foreground text-xs">{{ artwork.year }}</p>
           </div>
         </div>
       </ScrollArea>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Ambas direcciones</h2>
-      <ScrollArea orientation="both" class="h-64 w-80 rounded-md border border-border">
+    <DocShowcase
+      title="Ambas direcciones"
+      description="Scroll en ambos ejes con orientation='both'."
+      :code="bothCode"
+    >
+      <ScrollArea orientation="both" class="border-border h-64 w-80 rounded-md border">
         <div class="w-[600px] p-4">
           <table class="w-full text-sm">
             <thead>
               <tr>
-                <th v-for="col in 8" :key="col" class="whitespace-nowrap px-4 py-2 text-left font-medium">
+                <th
+                  v-for="col in 8"
+                  :key="col"
+                  class="px-4 py-2 text-left font-medium whitespace-nowrap"
+                >
                   Columna {{ col }}
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="row in 20" :key="row" class="border-t border-border">
-                <td v-for="col in 8" :key="col" class="whitespace-nowrap px-4 py-2">
+              <tr v-for="row in 20" :key="row" class="border-border border-t">
+                <td v-for="col in 8" :key="col" class="px-4 py-2 whitespace-nowrap">
                   Celda {{ row }}-{{ col }}
                 </td>
               </tr>
@@ -79,37 +167,43 @@ const artworks = [
           </table>
         </div>
       </ScrollArea>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">type="always" — scrollbar siempre visible</h2>
-      <ScrollArea type="always" class="h-48 w-64 rounded-md border border-border">
+    <DocShowcase
+      title="type='always'"
+      description="La scrollbar permanece siempre visible."
+      :code="alwaysCode"
+    >
+      <ScrollArea type="always" class="border-border h-48 w-64 rounded-md border">
         <div class="p-4">
           <p v-for="i in 15" :key="i" class="text-muted-foreground mb-3 text-sm">
             Párrafo {{ i }} — Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </p>
         </div>
       </ScrollArea>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">type="scroll" — visible solo al scrollear</h2>
-      <ScrollArea type="scroll" class="h-48 w-64 rounded-md border border-border">
+    <DocShowcase
+      title="type='scroll'"
+      description="La scrollbar aparece solo mientras se hace scroll."
+      :code="scrollTypeCode"
+    >
+      <ScrollArea type="scroll" class="border-border h-48 w-64 rounded-md border">
         <div class="p-4">
           <p v-for="i in 15" :key="i" class="text-muted-foreground mb-3 text-sm">
             Párrafo {{ i }} — Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
       </ScrollArea>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">En contexto — Chat</h2>
-      <div class="flex w-80 flex-col rounded-lg border border-border bg-card shadow-sm">
-        <div class="border-b border-border px-4 py-3">
+    <DocShowcase
+      title="En contexto — Chat"
+      description="ScrollArea integrado en un panel de mensajes tipo chat."
+      :code="chatCode"
+    >
+      <div class="border-border bg-card flex w-80 flex-col rounded-lg border shadow-sm">
+        <div class="border-border border-b px-4 py-3">
           <h3 class="text-sm font-semibold">Mensajes</h3>
         </div>
         <ScrollArea class="h-64">
@@ -118,44 +212,15 @@ const artworks = [
               v-for="i in 20"
               :key="i"
               class="rounded-lg px-3 py-2 text-sm"
-              :class="i % 3 === 0 ? 'self-end bg-primary text-primary-foreground' : 'bg-muted'"
+              :class="i % 3 === 0 ? 'bg-primary text-primary-foreground self-end' : 'bg-muted'"
             >
               {{ i % 3 === 0 ? 'Mensaje enviado #' + i : 'Mensaje recibido #' + i }}
             </div>
           </div>
         </ScrollArea>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Referencia de Props</h2>
-      <div class="overflow-x-auto rounded-lg border border-border">
-        <table class="w-full text-sm">
-          <thead>
-            <tr class="border-b border-border bg-muted/50">
-              <th class="px-4 py-2 text-left font-medium">Prop</th>
-              <th class="px-4 py-2 text-left font-medium">Tipo</th>
-              <th class="px-4 py-2 text-left font-medium">Default</th>
-              <th class="px-4 py-2 text-left font-medium">Descripción</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-b border-border">
-              <td class="px-4 py-2 font-mono text-xs">type</td>
-              <td class="px-4 py-2 font-mono text-xs">'auto' | 'always' | 'scroll' | 'hover'</td>
-              <td class="px-4 py-2 font-mono text-xs">'hover'</td>
-              <td class="px-4 py-2">Cuándo mostrar la scrollbar</td>
-            </tr>
-            <tr class="border-b border-border">
-              <td class="px-4 py-2 font-mono text-xs">orientation</td>
-              <td class="px-4 py-2 font-mono text-xs">'vertical' | 'horizontal' | 'both'</td>
-              <td class="px-4 py-2 font-mono text-xs">'vertical'</td>
-              <td class="px-4 py-2">Ejes de scroll habilitados</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
+    <DocPropsTable :props="scrollAreaProps" />
   </div>
 </template>

@@ -3,6 +3,8 @@ import { ref } from 'vue';
 
 import { Toggle } from '@3df-spa/ui';
 
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 const leftAlign = ref(true);
 const centerAlign = ref(false);
 const rightAlign = ref(false);
@@ -16,85 +18,120 @@ function setAlign(align: 'left' | 'center' | 'right') {
 const muted = ref(false);
 const favorite = ref(false);
 const pinned = ref(false);
+
+const groupCode = `<Toggle :pressed="leftAlign" variant="outline"
+  class="rounded-r-none border-r-0" @update:pressed="setAlign('left')">
+  <AlignLeftIcon class="size-4" />
+</Toggle>
+<Toggle :pressed="centerAlign" variant="outline"
+  class="rounded-none border-r-0" @update:pressed="setAlign('center')">
+  <AlignCenterIcon class="size-4" />
+</Toggle>
+<Toggle :pressed="rightAlign" variant="outline"
+  class="rounded-l-none" @update:pressed="setAlign('right')">
+  <AlignRightIcon class="size-4" />
+</Toggle>`;
+
+const scopedCode = `<Toggle v-model:pressed="muted">
+  <template #default="{ pressed }">
+    <VolumeIcon v-if="!pressed" class="size-4" />
+    <VolumeMutedIcon v-else class="size-4" />
+    {{ pressed ? 'Muted' : 'Sound' }}
+  </template>
+</Toggle>
+<Toggle v-model:pressed="favorite">
+  <template #default="{ pressed }">
+    <HeartIcon class="size-4" :fill="pressed ? 'currentColor' : 'none'" />
+    {{ pressed ? 'Favorito' : 'Agregar' }}
+  </template>
+</Toggle>`;
 </script>
 
 <template>
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Grupo exclusivo (alineación)</h2>
-    <div class="flex">
-      <Toggle
-        :pressed="leftAlign"
-        variant="outline"
-        class="rounded-r-none border-r-0"
-        @update:pressed="setAlign('left')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+  <DocShowcase
+    title="Grupo exclusivo (alineación)"
+    description="Toggles agrupados visualmente donde solo uno puede estar activo."
+    :code="groupCode"
+  >
+    <div class="flex flex-col gap-4">
+      <div class="flex">
+        <Toggle
+          :pressed="leftAlign"
+          variant="outline"
+          class="rounded-r-none border-r-0"
+          @update:pressed="setAlign('left')"
         >
-          <line x1="21" x2="3" y1="6" y2="6" />
-          <line x1="15" x2="3" y1="12" y2="12" />
-          <line x1="17" x2="3" y1="18" y2="18" />
-        </svg>
-      </Toggle>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="21" x2="3" y1="6" y2="6" />
+            <line x1="15" x2="3" y1="12" y2="12" />
+            <line x1="17" x2="3" y1="18" y2="18" />
+          </svg>
+        </Toggle>
 
-      <Toggle
-        :pressed="centerAlign"
-        variant="outline"
-        class="rounded-none border-r-0"
-        @update:pressed="setAlign('center')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+        <Toggle
+          :pressed="centerAlign"
+          variant="outline"
+          class="rounded-none border-r-0"
+          @update:pressed="setAlign('center')"
         >
-          <line x1="21" x2="3" y1="6" y2="6" />
-          <line x1="17" x2="7" y1="12" y2="12" />
-          <line x1="19" x2="5" y1="18" y2="18" />
-        </svg>
-      </Toggle>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="21" x2="3" y1="6" y2="6" />
+            <line x1="17" x2="7" y1="12" y2="12" />
+            <line x1="19" x2="5" y1="18" y2="18" />
+          </svg>
+        </Toggle>
 
-      <Toggle
-        :pressed="rightAlign"
-        variant="outline"
-        class="rounded-l-none"
-        @update:pressed="setAlign('right')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="size-4"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+        <Toggle
+          :pressed="rightAlign"
+          variant="outline"
+          class="rounded-l-none"
+          @update:pressed="setAlign('right')"
         >
-          <line x1="21" x2="3" y1="6" y2="6" />
-          <line x1="21" x2="9" y1="12" y2="12" />
-          <line x1="21" x2="7" y1="18" y2="18" />
-        </svg>
-      </Toggle>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="21" x2="3" y1="6" y2="6" />
+            <line x1="21" x2="9" y1="12" y2="12" />
+            <line x1="21" x2="7" y1="18" y2="18" />
+          </svg>
+        </Toggle>
+      </div>
+      <p class="text-muted-foreground text-sm">
+        Alineación: {{ leftAlign ? 'Izquierda' : centerAlign ? 'Centro' : 'Derecha' }}
+      </p>
     </div>
-    <p class="text-muted-foreground text-sm">
-      Alineación: {{ leftAlign ? 'Izquierda' : centerAlign ? 'Centro' : 'Derecha' }}
-    </p>
-  </section>
+  </DocShowcase>
 
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Scoped slot (estado dinámico)</h2>
+  <DocShowcase
+    title="Scoped slot (estado dinámico)"
+    description="Uso del scoped slot para cambiar contenido según el estado."
+    :code="scopedCode"
+  >
     <div class="flex gap-3">
       <Toggle v-model:pressed="muted">
         <template #default="{ pressed }">
@@ -173,5 +210,5 @@ const pinned = ref(false);
         </template>
       </Toggle>
     </div>
-  </section>
+  </DocShowcase>
 </template>

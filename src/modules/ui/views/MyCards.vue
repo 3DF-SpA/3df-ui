@@ -17,20 +17,136 @@ import {
   Switch,
 } from '@3df-spa/ui';
 
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 import CardsDemoFeatures from './_components/CardsDemoFeatures.vue';
 import CardsDemoPricing from './_components/CardsDemoPricing.vue';
 import CardsDemoProducts from './_components/CardsDemoProducts.vue';
 
 const notifications = ref(true);
 const framework = ref('vue');
+
+const cardProps: PropItem[] = [
+  {
+    name: 'as',
+    type: "'string' | Component",
+    default: "'div'",
+    description:
+      'Elemento HTML o componente Vue a renderizar. Al usar "a" o "button", la card se vuelve interactiva.',
+  },
+  {
+    name: 'variant',
+    type: "'default'",
+    default: "'default'",
+    description: 'Variante visual de la card.',
+  },
+];
+
+const subComponentProps: PropItem[] = [
+  {
+    name: 'CardTitle: as',
+    type: "'string' | Component",
+    default: "'h3'",
+    description: 'Elemento HTML del título (permite cambiar nivel de heading).',
+  },
+];
+
+const basicCode = `<Card>
+  <CardHeader>
+    <CardTitle>Título</CardTitle>
+    <CardDescription>Descripción breve.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <p>Contenido principal.</p>
+  </CardContent>
+  <CardFooter>
+    <Button size="sm">Acción</Button>
+  </CardFooter>
+</Card>`;
+
+const formCode = `<Card>
+  <CardHeader>
+    <CardTitle>Crear proyecto</CardTitle>
+    <CardDescription>Configura tu nuevo proyecto.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <form class="flex flex-col gap-4">
+      <Input placeholder="Mi proyecto" />
+      <Select v-model="framework" placeholder="Framework">
+        <SelectItem value="vue">Vue</SelectItem>
+      </Select>
+    </form>
+  </CardContent>
+  <CardFooter class="justify-between">
+    <Button variant="ghost">Cancelar</Button>
+    <Button>Crear</Button>
+  </CardFooter>
+</Card>`;
+
+const notifCode = `<Card>
+  <CardHeader>
+    <CardTitle>Notificaciones</CardTitle>
+    <CardDescription>Configura cómo recibirlas.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <div class="flex items-center justify-between">
+      <span class="text-sm font-medium">Push</span>
+      <Switch v-model="notifications" />
+    </div>
+  </CardContent>
+</Card>`;
+
+const badgeCode = `<Card>
+  <CardHeader>
+    <div class="flex items-center justify-between">
+      <CardTitle>Deploy #1234</CardTitle>
+      <Badge variant="success" size="sm">Exitoso</Badge>
+    </div>
+    <CardDescription>Desplegado hace 3 minutos.</CardDescription>
+  </CardHeader>
+</Card>`;
+
+const hoverCode = `<Card class="cursor-pointer transition-shadow hover:shadow-md">
+  <CardHeader>
+    <CardTitle>Documentación</CardTitle>
+    <CardDescription>Guías y ejemplos.</CardDescription>
+  </CardHeader>
+</Card>`;
+
+const contentOnlyCode = `<Card>
+  <CardContent class="pt-6">
+    <p>Card solo con contenido, sin header ni footer.</p>
+  </CardContent>
+</Card>`;
+
+const anatomyCode = `import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Cards</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Card"
+      description="Contenedor flexible para agrupar contenido relacionado con header, contenido y footer opcionales."
+      import-code="import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df-spa/ui'"
+    />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Card básica</h2>
+      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" lang="typescript" />
+    </section>
+
+    <DocShowcase title="Card básica" :code="basicCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -47,10 +163,9 @@ const framework = ref('vue');
           </CardFooter>
         </Card>
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Card con formulario</h2>
+    <DocShowcase title="Con formulario" :code="formCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -84,10 +199,9 @@ const framework = ref('vue');
           </CardFooter>
         </Card>
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Card con notificaciones</h2>
+    <DocShowcase title="Con notificaciones" :code="notifCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -121,10 +235,9 @@ const framework = ref('vue');
           </CardContent>
         </Card>
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Card con badges</h2>
+    <DocShowcase title="Con badges" :code="badgeCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -155,10 +268,9 @@ const framework = ref('vue');
           </CardFooter>
         </Card>
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Card interactiva (hover)</h2>
+    <DocShowcase title="Interactiva (hover)" :code="hoverCode">
       <div class="grid max-w-md gap-4">
         <Card class="cursor-pointer transition-shadow duration-200 hover:shadow-md">
           <CardHeader>
@@ -172,10 +284,9 @@ const framework = ref('vue');
           </CardContent>
         </Card>
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Card solo contenido</h2>
+    <DocShowcase title="Solo contenido" :code="contentOnlyCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardContent class="pt-6">
@@ -187,10 +298,13 @@ const framework = ref('vue');
           </CardContent>
         </Card>
       </div>
-    </section>
+    </DocShowcase>
 
     <CardsDemoPricing />
     <CardsDemoProducts />
     <CardsDemoFeatures />
+
+    <DocPropsTable :props="cardProps" />
+    <DocPropsTable title="Sub-componentes" :props="subComponentProps" />
   </div>
 </template>

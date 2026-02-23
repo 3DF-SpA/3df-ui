@@ -48,12 +48,8 @@ export function computeVerticalBars(w: number, h: number, p: BarParams): BarRect
           width: usableWidth,
           height: Math.max(barH * animProgress, 0.5),
           gradientId: `bar-grad-${key}`,
-          seriesKey: key,
           dataIndex: di,
-          value: v,
           rx: radius,
-          targetY: y,
-          targetH: barH,
         });
       }
     } else {
@@ -74,12 +70,8 @@ export function computeVerticalBars(w: number, h: number, p: BarParams): BarRect
           width: Math.max(effectiveBarW, 2),
           height: Math.max(barH * animProgress, 0.5),
           gradientId: `bar-grad-${key}`,
-          seriesKey: key,
           dataIndex: di,
-          value: v,
           rx: radius,
-          targetY,
-          targetH: barH,
         });
       }
     }
@@ -129,12 +121,8 @@ export function computeHorizontalBars(w: number, h: number, p: BarParams): BarRe
           width: Math.max(animW, 0.5),
           height: usableHeight,
           gradientId: `bar-grad-${key}`,
-          seriesKey: key,
           dataIndex: di,
-          value: v,
           rx: radius,
-          targetY: categoryY,
-          targetH: usableHeight,
         });
       }
     } else {
@@ -156,12 +144,8 @@ export function computeHorizontalBars(w: number, h: number, p: BarParams): BarRe
           width: Math.max(animW, 0.5),
           height: Math.max(effectiveBarH, 2),
           gradientId: `bar-grad-${key}`,
-          seriesKey: key,
           dataIndex: di,
-          value: v,
           rx: radius,
-          targetY: y,
-          targetH: effectiveBarH,
         });
       }
     }

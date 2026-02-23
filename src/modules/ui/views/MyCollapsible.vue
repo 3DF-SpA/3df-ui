@@ -1,18 +1,92 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger, Button } from '@3df-spa/ui';
+import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df-spa/ui';
+
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+import CollapsibleDemoStates from './_components/CollapsibleDemoStates.vue';
 
 const isOpen = ref(false);
+
+const collapsibleProps: PropItem[] = [
+  {
+    name: 'Collapsible: open',
+    type: 'boolean',
+    default: '-',
+    description: 'Estado abierto/cerrado (v-model:open).',
+  },
+  {
+    name: 'Collapsible: defaultOpen',
+    type: 'boolean',
+    default: 'false',
+    description: 'Abierto por defecto (no controlado).',
+  },
+  {
+    name: 'Collapsible: disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Deshabilita el collapsible completo.',
+  },
+];
+
+const anatomyCode = `<Collapsible>
+  <CollapsibleTrigger />
+  <CollapsibleContent />
+</Collapsible>`;
+
+const basicCode = `<Collapsible class="space-y-2">
+  <div class="flex items-center justify-between">
+    <h4 class="text-sm font-semibold">@peduarte starred 3 repositories</h4>
+    <CollapsibleTrigger>
+      <template #default="{ open }">
+        <Button variant="ghost" size="sm" :class="open ? 'rotate-180' : ''">⇅</Button>
+      </template>
+    </CollapsibleTrigger>
+  </div>
+  <div class="rounded-md border px-4 py-3 font-mono text-sm">@radix-ui/primitives</div>
+  <CollapsibleContent class="space-y-2">
+    <div class="rounded-md border px-4 py-3 font-mono text-sm">@radix-ui/colors</div>
+    <div class="rounded-md border px-4 py-3 font-mono text-sm">@stitches/react</div>
+  </CollapsibleContent>
+</Collapsible>`;
+
+const controlledCode = `const isOpen = ref(false)
+
+<Button @click="isOpen = !isOpen">{{ isOpen ? 'Cerrar' : 'Abrir' }}</Button>
+
+<Collapsible v-model:open="isOpen">
+  <CollapsibleTrigger>
+    <Button variant="ghost" size="sm">Toggle</Button>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    <p>Controlado con v-model:open.</p>
+  </CollapsibleContent>
+</Collapsible>`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Collapsible</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Collapsible"
+      description="Componente interactivo que permite expandir y contraer secciones de contenido."
+      import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui'"
+    />
 
-    
     <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Collapsible básico</h2>
+      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" />
+    </section>
+
+    <DocShowcase
+      title="Básico"
+      description="Usa el slot del trigger para reaccionar al estado de apertura."
+      :code="basicCode"
+    >
       <div class="mx-auto w-full max-w-sm">
         <Collapsible class="space-y-2">
           <div class="flex items-center justify-between space-x-4">
@@ -41,18 +115,26 @@ const isOpen = ref(false);
               </template>
             </CollapsibleTrigger>
           </div>
-          <div class="rounded-md border border-border/60 px-4 py-3 font-mono text-sm">@radix-ui/primitives</div>
+          <div class="border-border/60 rounded-md border px-4 py-3 font-mono text-sm">
+            @radix-ui/primitives
+          </div>
           <CollapsibleContent class="space-y-2">
-            <div class="rounded-md border border-border/60 px-4 py-3 font-mono text-sm">@radix-ui/colors</div>
-            <div class="rounded-md border border-border/60 px-4 py-3 font-mono text-sm">@stitches/react</div>
+            <div class="border-border/60 rounded-md border px-4 py-3 font-mono text-sm">
+              @radix-ui/colors
+            </div>
+            <div class="border-border/60 rounded-md border px-4 py-3 font-mono text-sm">
+              @stitches/react
+            </div>
           </CollapsibleContent>
         </Collapsible>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Controlado con v-model:open</h2>
+    <DocShowcase
+      title="Controlado con v-model:open"
+      description="El estado se controla externamente y se sincroniza con el trigger interno."
+      :code="controlledCode"
+    >
       <div class="mx-auto w-full max-w-sm space-y-4">
         <div class="flex items-center gap-2">
           <Button variant="outline" size="sm" @click="isOpen = !isOpen">
@@ -86,78 +168,19 @@ const isOpen = ref(false);
             </CollapsibleTrigger>
           </div>
           <CollapsibleContent>
-            <div class="rounded-md border border-border/60 p-4">
+            <div class="border-border/60 rounded-md border p-4">
               <p class="text-sm">
-                Este contenido se puede controlar tanto con el trigger interno como
-                con el botón externo, gracias al binding bidireccional de v-model.
+                Este contenido se puede controlar tanto con el trigger interno como con el botón
+                externo, gracias al binding bidireccional de v-model.
               </p>
             </div>
           </CollapsibleContent>
         </Collapsible>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Deshabilitado</h2>
-      <div class="mx-auto w-full max-w-sm">
-        <Collapsible disabled class="space-y-2">
-          <div class="flex items-center justify-between space-x-4">
-            <h4 class="text-sm font-semibold opacity-50">Sección deshabilitada</h4>
-            <CollapsibleTrigger>
-              <Button variant="ghost" size="sm" class="w-9 p-0" disabled>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="h-4 w-4"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </Button>
-            </CollapsibleTrigger>
-          </div>
-          <CollapsibleContent>
-            <div class="rounded-md border border-border/60 p-4">
-              <p class="text-sm">Este contenido no debería mostrarse.</p>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
-    </section>
+    <CollapsibleDemoStates />
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Abierto por defecto</h2>
-      <div class="mx-auto w-full max-w-sm">
-        <Collapsible default-open class="space-y-2">
-          <div class="flex items-center justify-between space-x-4">
-            <h4 class="text-sm font-semibold">FAQ: ¿Qué es un Collapsible?</h4>
-            <CollapsibleTrigger>
-              <template #default="{ open }">
-                <Button variant="ghost" size="sm">
-                  {{ open ? 'Ocultar' : 'Mostrar' }}
-                </Button>
-              </template>
-            </CollapsibleTrigger>
-          </div>
-          <CollapsibleContent>
-            <div class="rounded-md border border-border/60 p-4">
-              <p class="text-sm">
-                Un Collapsible es un componente interactivo que permite expandir y
-                contraer una sección de contenido. Es ideal para FAQs, menús
-                laterales, y paneles de configuración.
-              </p>
-            </div>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
-    </section>
+    <DocPropsTable :props="collapsibleProps" />
   </div>
 </template>

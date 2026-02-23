@@ -62,7 +62,7 @@ function handleAction(action: HeroAction, index: number) {
       cn(
         'relative w-full',
         compact ? 'py-12 md:py-16' : 'py-20 md:py-28',
-        separator && 'border-border border-b',
+        separator && 'border-border border-b-ui',
         attrs.class,
       )
     "

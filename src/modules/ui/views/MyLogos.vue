@@ -1,62 +1,223 @@
 <script setup lang="ts">
-import { LogoCloud, LogoMarquee, type LogoItem } from '@3df-spa/ui';
+import { LogoCloud, type LogoItem, LogoMarquee } from '@3df-spa/ui';
 
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+import LogosDemoMarquee from './_components/LogosDemoMarquee.vue';
 
 const techLogos: LogoItem[] = [
-  { name: 'Vue.js', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg', href: 'https://vuejs.org' },
-  { name: 'TypeScript', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', href: 'https://typescriptlang.org' },
-  { name: 'Tailwind', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg', href: 'https://tailwindcss.com' },
-  { name: 'Vite', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg', href: 'https://vitejs.dev' },
-  { name: 'Node.js', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg', href: 'https://nodejs.org' },
-  { name: 'PostgreSQL', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
-  { name: 'Docker', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-  { name: 'GitHub', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg' },
+  {
+    name: 'Vue.js',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
+    href: 'https://vuejs.org',
+  },
+  {
+    name: 'TypeScript',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
+    href: 'https://typescriptlang.org',
+  },
+  {
+    name: 'Tailwind',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
+    href: 'https://tailwindcss.com',
+  },
+  {
+    name: 'Vite',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg',
+    href: 'https://vitejs.dev',
+  },
+  {
+    name: 'Node.js',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+    href: 'https://nodejs.org',
+  },
+  {
+    name: 'PostgreSQL',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+  },
+  {
+    name: 'Docker',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
+  },
+  {
+    name: 'GitHub',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
+  },
 ];
 
 const brandLogos: LogoItem[] = [
-  { name: 'React', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-  { name: 'Angular', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg' },
-  { name: 'Svelte', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/svelte/svelte-original.svg' },
-  { name: 'Python', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
+  {
+    name: 'React',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+  },
+  {
+    name: 'Angular',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg',
+  },
+  {
+    name: 'Svelte',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/svelte/svelte-original.svg',
+  },
+  {
+    name: 'Python',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+  },
   { name: 'Go', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg' },
-  { name: 'Rust', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg' },
-  { name: 'Redis', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg' },
-  { name: 'AWS', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
-  { name: 'Figma', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' },
-  { name: 'Linux', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+  {
+    name: 'Rust',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg',
+  },
+  {
+    name: 'Redis',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg',
+  },
+  {
+    name: 'AWS',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg',
+  },
+  {
+    name: 'Figma',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg',
+  },
+  {
+    name: 'Linux',
+    src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg',
+  },
 ];
 
-const row2Logos: LogoItem[] = [
-  { name: 'Firebase', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-original.svg' },
-  { name: 'GraphQL', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg' },
-  { name: 'Kubernetes', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg' },
-  { name: 'MongoDB', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg' },
-  { name: 'Nginx', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg' },
-  { name: 'Sass', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg' },
-  { name: 'Webpack', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg' },
-  { name: 'Jest', src: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg' },
+const cloudProps: PropItem[] = [
+  {
+    name: 'logos',
+    type: 'LogoItem[]',
+    default: '—',
+    description: 'Array de logos a mostrar en el grid.',
+  },
+  {
+    name: 'columns',
+    type: '3 | 4 | 5 | 6',
+    default: '4',
+    description: 'Número de columnas del grid (responsive).',
+  },
+  {
+    name: 'showNames',
+    type: 'boolean',
+    default: 'false',
+    description: 'Muestra el nombre del logo debajo de la imagen.',
+  },
+  {
+    name: 'logoHeight',
+    type: 'number',
+    default: '40',
+    description: 'Altura máxima en px de cada logo.',
+  },
+  {
+    name: 'grayscale',
+    type: 'boolean',
+    default: 'true',
+    description: 'Logos en escala de grises con color al hover.',
+  },
+  {
+    name: 'heading',
+    type: 'string',
+    default: 'undefined',
+    description: 'Título opcional sobre el grid.',
+  },
 ];
+
+const marqueeProps: PropItem[] = [
+  {
+    name: 'logos',
+    type: 'LogoItem[]',
+    default: '—',
+    description: 'Array de logos para el scroll infinito.',
+  },
+  {
+    name: 'direction',
+    type: "'left' | 'right'",
+    default: "'left'",
+    description: 'Dirección del scroll.',
+  },
+  {
+    name: 'duration',
+    type: 'number',
+    default: '30',
+    description: 'Duración de un ciclo completo en segundos.',
+  },
+  {
+    name: 'hoverDuration',
+    type: 'number',
+    default: '80',
+    description: 'Duración al hacer hover (más lento).',
+  },
+  { name: 'logoHeight', type: 'number', default: '40', description: 'Altura de cada logo en px.' },
+  { name: 'gap', type: 'number', default: '48', description: 'Espacio entre logos en px.' },
+  {
+    name: 'grayscale',
+    type: 'boolean',
+    default: 'true',
+    description: 'Logos en escala de grises.',
+  },
+  {
+    name: 'fadeMask',
+    type: 'boolean',
+    default: 'true',
+    description: 'Desvanecimiento en los bordes laterales.',
+  },
+  {
+    name: 'pauseOnHover',
+    type: 'boolean',
+    default: 'false',
+    description: 'Pausa la animación al hover (en vez de frenar).',
+  },
+  {
+    name: 'showNames',
+    type: 'boolean',
+    default: 'false',
+    description: 'Muestra nombres debajo de cada logo.',
+  },
+  {
+    name: 'heading',
+    type: 'string',
+    default: 'undefined',
+    description: 'Título opcional sobre el marquee.',
+  },
+  {
+    name: 'reverse',
+    type: 'boolean',
+    default: 'false',
+    description: 'Agrega segunda fila con dirección opuesta.',
+  },
+];
+
+const cloudCode = `<LogoCloud
+  :logos="logos"
+  heading="Tecnologías que usamos"
+  :columns="4"
+  :show-names="true"
+  :logo-height="44"
+/>`;
+
+const cloudColorCode = `<LogoCloud
+  :logos="logos"
+  :columns="5"
+  :grayscale="false"
+  :logo-height="36"
+/>`;
 </script>
 
 <template>
-  <div class="mx-auto max-w-5xl space-y-16 p-8">
-    <div>
-      <h1 class="text-3xl font-bold tracking-tight">Logo Cloud & Marquee</h1>
-      <p class="mt-2 text-muted-foreground">
-        Muestra marcas, sponsors y partners. Grid estático o marquee infinito con efecto hover-to-slow.
-      </p>
-    </div>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="LogoCloud & LogoMarquee"
+      description="Muestra logos de marcas, sponsors y partners. Grid estático o marquee infinito con efecto hover-to-slow."
+      import-code="import { LogoCloud, LogoMarquee, type LogoItem } from '@3df-spa/ui'"
+    />
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Logo Cloud — Grid con Grayscale</h2>
-        <p class="text-sm text-muted-foreground">
-          Grid estático 4 columnas. Logos en grayscale, color al hover. Con nombres.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card p-8">
+    <DocShowcase title="Logo Cloud — Grid con Grayscale" :code="cloudCode">
+      <div class="border-border bg-card rounded-xl border p-8">
         <LogoCloud
           :logos="techLogos"
           heading="Tecnologías que usamos"
@@ -65,106 +226,17 @@ const row2Logos: LogoItem[] = [
           :logo-height="44"
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Logo Cloud — Full Color, 6 Columnas</h2>
-        <p class="text-sm text-muted-foreground">
-          Sin filtro grayscale, 6 columnas, sin nombres.
-        </p>
+    <DocShowcase title="Logo Cloud — Full Color" :code="cloudColorCode">
+      <div class="border-border bg-card rounded-xl border p-8">
+        <LogoCloud :logos="brandLogos" :columns="5" :grayscale="false" :logo-height="36" />
       </div>
-      <div class="rounded-xl border border-border bg-card p-8">
-        <LogoCloud
-          :logos="brandLogos"
-          :columns="5"
-          :grayscale="false"
-          :logo-height="36"
-        />
-      </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Logo Marquee — Hover to Slow</h2>
-        <p class="text-sm text-muted-foreground">
-          Scroll infinito. Al hacer hover el scroll se desacelera suavemente (30s → 80s).
-          Logos en grayscale, color al hover individual.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card py-10">
-        <LogoMarquee
-          :logos="techLogos"
-          heading="Trusted by leading companies"
-          :duration="25"
-          :hover-duration="70"
-          :logo-height="44"
-        />
-      </div>
-    </section>
+    <LogosDemoMarquee />
 
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Marquee — Full Color, Hover to Slow</h2>
-        <p class="text-sm text-muted-foreground">
-          Sin grayscale, con nombres. Al hacer hover se frena drásticamente (35s → 150s).
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card py-10">
-        <LogoMarquee
-          :logos="brandLogos"
-          :grayscale="false"
-          :show-names="true"
-          :duration="35"
-          :hover-duration="150"
-          :logo-height="36"
-        />
-      </div>
-    </section>
-
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Dual Marquee — Dos Filas Opuestas</h2>
-        <p class="text-sm text-muted-foreground">
-          Usa <code>reverse</code> para una segunda fila que va en dirección contraria.
-          Efecto muy visual para landing pages.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card py-10">
-        <LogoMarquee
-          :logos="row2Logos"
-          :reverse="true"
-          :duration="20"
-          :hover-duration="60"
-          :logo-height="40"
-          heading="Our Partners"
-        />
-      </div>
-    </section>
-
-    
-    <section class="space-y-4">
-      <div>
-        <h2 class="text-xl font-semibold">Fast Marquee — Sin Fade Mask</h2>
-        <p class="text-sm text-muted-foreground">
-          Sin máscara de desvanecimiento, velocidad alta (12s), sin grayscale.
-        </p>
-      </div>
-      <div class="rounded-xl border border-border bg-card py-10">
-        <LogoMarquee
-          :logos="[...techLogos, ...row2Logos.slice(0, 4)]"
-          :duration="12"
-          :hover-duration="40"
-          :fade-mask="false"
-          :grayscale="false"
-          :logo-height="32"
-          :gap="64"
-        />
-      </div>
-    </section>
+    <DocPropsTable title="LogoCloud Props" :props="cloudProps" />
+    <DocPropsTable title="LogoMarquee Props" :props="marqueeProps" />
   </div>
 </template>

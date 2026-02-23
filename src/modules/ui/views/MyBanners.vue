@@ -3,6 +3,11 @@ import { ref } from 'vue';
 
 import { Banner, Button } from '@3df-spa/ui';
 
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 import BannersDemoFeatureCards from './_components/BannersDemoFeatureCards.vue';
 import BannersDemoVariants from './_components/BannersDemoVariants.vue';
 
@@ -12,23 +17,95 @@ const showFixed = ref(false);
 function resetDismissible() {
   showDismissible.value = true;
 }
+
+const bannerProps: PropItem[] = [
+  {
+    name: 'variant',
+    type: "'default' | 'info' | 'success' | 'warning' | 'destructive' | 'muted'",
+    default: "'default'",
+    description: 'Estilo visual del banner.',
+  },
+  {
+    name: 'position',
+    type: "'static' | 'sticky' | 'fixed'",
+    default: "'static'",
+    description: 'Posicionamiento CSS del banner.',
+  },
+  {
+    name: 'align',
+    type: "'start' | 'center' | 'between'",
+    default: "'center'",
+    description: 'Alineación horizontal del contenido.',
+  },
+  {
+    name: 'dismissible',
+    type: 'boolean',
+    default: 'false',
+    description: 'Muestra un botón de cierre que emite el evento dismiss.',
+  },
+];
+
+const defaultCode = `<Banner>
+  Nueva versión disponible — Actualiza ahora.
+</Banner>`;
+
+const actionCode = `<Banner variant="info" align="between">
+  <template #icon>
+    <svg class="size-4">...</svg>
+  </template>
+  Hay 5 notificaciones sin leer.
+  <template #action>
+    <button class="rounded-md bg-white/20 px-3 py-1 text-xs">
+      Ver todas
+    </button>
+  </template>
+</Banner>`;
+
+const dismissibleCode = `<Banner
+  v-if="showDismissible"
+  variant="success"
+  dismissible
+  @dismiss="showDismissible = false"
+>
+  Este banner se puede cerrar.
+</Banner>`;
+
+const alignCode = `<Banner variant="muted" align="start">Inicio</Banner>
+<Banner variant="muted" align="center">Centro</Banner>
+<Banner variant="muted" align="between">
+  Distribuido
+  <template #action>
+    <button>Acción</button>
+  </template>
+</Banner>`;
+
+const fixedCode = `<Banner
+  variant="warning"
+  position="fixed"
+  dismissible
+  @dismiss="showFixed = false"
+>
+  Banner fijo en la parte superior.
+</Banner>`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Banners</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Banner"
+      description="Barra informativa para anuncios, alertas y notificaciones globales. Soporta variantes, posicionamiento fijo/sticky y acciones."
+      import-code="import { Banner } from '@3df-spa/ui'"
+    />
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Default</h2>
+    <DocShowcase title="Default" :code="defaultCode">
       <Banner>
-        🚀 Nueva versión disponible — Actualiza ahora para acceder a las últimas funcionalidades.
+        Nueva versión disponible — Actualiza ahora para acceder a las últimas funcionalidades.
       </Banner>
-    </section>
+    </DocShowcase>
 
     <BannersDemoVariants />
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Con acción</h2>
+    <DocShowcase title="Con acción" :code="actionCode">
       <Banner variant="info" align="between">
         <template #icon>
           <svg
@@ -54,10 +131,9 @@ function resetDismissible() {
           </button>
         </template>
       </Banner>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Dismissible</h2>
+    <DocShowcase title="Dismissible" :code="dismissibleCode">
       <Banner
         v-if="showDismissible"
         variant="success"
@@ -84,10 +160,9 @@ function resetDismissible() {
       <Button v-if="!showDismissible" variant="outline" size="sm" @click="resetDismissible">
         Mostrar de nuevo
       </Button>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Alineación</h2>
+    <DocShowcase title="Alineación" :code="alignCode">
       <div class="flex flex-col gap-3">
         <Banner variant="muted" align="start">Alineado al inicio (start)</Banner>
         <Banner variant="muted" align="center">Alineado al centro (center)</Banner>
@@ -102,10 +177,9 @@ function resetDismissible() {
           </template>
         </Banner>
       </div>
-    </section>
+    </DocShowcase>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Posición fija (demo)</h2>
+    <DocShowcase title="Posición fija (demo)" :code="fixedCode">
       <Button variant="outline" size="sm" @click="showFixed = !showFixed">
         {{ showFixed ? 'Ocultar' : 'Mostrar' }} banner fijo
       </Button>
@@ -134,7 +208,7 @@ function resetDismissible() {
               <path d="M12 17h.01" />
             </svg>
           </template>
-          ⚠️ Este banner está fijo en la parte superior de la ventana.
+          Este banner está fijo en la parte superior de la ventana.
           <template #action>
             <button
               class="rounded-md bg-white/20 px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors hover:bg-white/30"
@@ -145,8 +219,10 @@ function resetDismissible() {
           </template>
         </Banner>
       </Teleport>
-    </section>
+    </DocShowcase>
 
     <BannersDemoFeatureCards />
+
+    <DocPropsTable :props="bannerProps" />
   </div>
 </template>

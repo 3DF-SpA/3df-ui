@@ -3,14 +3,39 @@ import { ref } from 'vue';
 
 import { Toggle } from '@3df-spa/ui';
 
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 const bold = ref(false);
 const italic = ref(false);
 const underline = ref(false);
+
+const outlineCode = `<Toggle v-model:pressed="bold" variant="outline">
+  <BoldIcon class="size-4" />
+</Toggle>
+<Toggle v-model:pressed="italic" variant="outline">
+  <ItalicIcon class="size-4" />
+</Toggle>`;
+
+const sizesCode = `<Toggle v-model:pressed="bold" size="sm">
+  <BoldIcon class="size-4" /> Small
+</Toggle>
+<Toggle v-model:pressed="italic">
+  <ItalicIcon class="size-4" /> Default
+</Toggle>
+<Toggle v-model:pressed="underline" size="lg">
+  <UnderlineIcon class="size-4" /> Large
+</Toggle>`;
+
+const disabledCode = `<Toggle disabled>
+  <BoldIcon class="size-4" />
+</Toggle>
+<Toggle disabled variant="outline">
+  <ItalicIcon class="size-4" />
+</Toggle>`;
 </script>
 
 <template>
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Variante outline</h2>
+  <DocShowcase title="Variante outline" description="Toggle con borde visible." :code="outlineCode">
     <div class="flex gap-3">
       <Toggle v-model:pressed="bold" variant="outline">
         <svg
@@ -61,10 +86,9 @@ const underline = ref(false);
         </svg>
       </Toggle>
     </div>
-  </section>
+  </DocShowcase>
 
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Tamaños</h2>
+  <DocShowcase title="Tamaños" description="Tamaños sm, default y lg." :code="sizesCode">
     <div class="flex items-center gap-3">
       <Toggle v-model:pressed="bold" size="sm">
         <svg
@@ -118,10 +142,13 @@ const underline = ref(false);
         Large
       </Toggle>
     </div>
-  </section>
+  </DocShowcase>
 
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Disabled</h2>
+  <DocShowcase
+    title="Disabled"
+    description="Toggles deshabilitados en ambas variantes."
+    :code="disabledCode"
+  >
     <div class="flex gap-3">
       <Toggle disabled>
         <svg
@@ -156,5 +183,5 @@ const underline = ref(false);
         </svg>
       </Toggle>
     </div>
-  </section>
+  </DocShowcase>
 </template>

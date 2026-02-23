@@ -62,7 +62,7 @@ onBeforeUnmount(() => {
       :show-close="false"
       :class="cn('overflow-hidden p-0 shadow-lg', attrs.class)"
     >
-      <UiCommand class="[&_[data-command-input-wrapper]]:border-b" @select="onSelect">
+      <UiCommand class="[&_[data-command-input-wrapper]]:border-b-ui" @select="onSelect">
         <slot />
       </UiCommand>
     </UiDialogContent>

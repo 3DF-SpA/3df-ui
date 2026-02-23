@@ -3,6 +3,11 @@ import { ref } from 'vue';
 
 import { Label, Slider } from '@3df-spa/ui';
 
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
 const basic = ref(50);
 const volume = ref(75);
 const brightness = ref(30);
@@ -10,25 +15,75 @@ const price = ref(250);
 const disabled = ref(40);
 const stepped = ref(25);
 const custom = ref(60);
+
+const sliderProps: PropItem[] = [
+  {
+    name: 'modelValue',
+    type: 'number',
+    default: '0',
+    description: 'Valor actual del slider (v-model)',
+  },
+  { name: 'min', type: 'number', default: '0', description: 'Valor mínimo' },
+  { name: 'max', type: 'number', default: '100', description: 'Valor máximo' },
+  { name: 'step', type: 'number', default: '1', description: 'Incremento entre valores' },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    default: 'false',
+    description: 'Deshabilita la interacción',
+  },
+];
+
+const basicCode = `<Slider v-model="basic" />
+<p class="text-muted-foreground text-sm">Valor: {{ basic }}</p>
+
+<Label>Volumen</Label>
+<Slider v-model="volume" />
+
+<Label>Brillo</Label>
+<Slider v-model="brightness" />`;
+
+const stepCode = `<Slider v-model="stepped" :step="25" />
+<div class="flex justify-between text-xs">
+  <span>0%</span>
+  <span>25%</span>
+  <span>50%</span>
+  <span>75%</span>
+  <span>100%</span>
+</div>`;
+
+const rangeCode = `<Slider v-model="price" :min="0" :max="1000" :step="50" />
+<div class="flex justify-between text-xs">
+  <span>$0</span>
+  <span>$500</span>
+  <span>$1000</span>
+</div>`;
+
+const disabledCode = `<Slider v-model="disabled" :disabled="true" />
+<Slider v-model="custom" class="h-3" />`;
+
+const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-center gap-4">
+  <span class="w-16 text-right text-xs">{{ band.label }}</span>
+  <Slider :model-value="band.value" class="flex-1" />
+  <span class="w-8 text-xs">{{ band.value }}%</span>
+</div>`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Slider</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Slider"
+      description="Control deslizante para seleccionar un valor numérico dentro de un rango."
+      import-code="import { Slider } from '@3df-spa/ui'"
+    />
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Básico</h2>
-      <div class="flex max-w-sm flex-col gap-3">
-        <Slider v-model="basic" />
-        <p class="text-muted-foreground text-sm">Valor: {{ basic }}</p>
-      </div>
-    </section>
+    <DocShowcase title="Básico y con Label" :code="basicCode">
+      <div class="flex max-w-sm flex-col gap-6">
+        <div class="flex flex-col gap-3">
+          <Slider v-model="basic" />
+          <p class="text-muted-foreground text-sm">Valor: {{ basic }}</p>
+        </div>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Con Label</h2>
-      <div class="flex max-w-sm flex-col gap-4">
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
             <Label>Volumen</Label>
@@ -45,11 +100,9 @@ const custom = ref(60);
           <Slider v-model="brightness" />
         </div>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Con step (step=25)</h2>
+    <DocShowcase title="Con step" description="Incremento de 25 entre valores" :code="stepCode">
       <div class="flex max-w-sm flex-col gap-3">
         <div class="flex items-center justify-between">
           <Label>Progreso</Label>
@@ -64,11 +117,13 @@ const custom = ref(60);
           <span>100%</span>
         </div>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Rango personalizado (min=0, max=1000, step=50)</h2>
+    <DocShowcase
+      title="Rango personalizado"
+      description="min=0, max=1000, step=50"
+      :code="rangeCode"
+    >
       <div class="flex max-w-sm flex-col gap-3">
         <div class="flex items-center justify-between">
           <Label>Precio máximo</Label>
@@ -81,36 +136,32 @@ const custom = ref(60);
           <span>$1000</span>
         </div>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Disabled</h2>
-      <div class="flex max-w-sm flex-col gap-3">
-        <div class="flex items-center justify-between">
-          <Label :disabled="true">Deshabilitado</Label>
-          <span class="text-muted-foreground text-sm">{{ disabled }}%</span>
+    <DocShowcase title="Deshabilitado y estilos personalizados" :code="disabledCode">
+      <div class="flex max-w-sm flex-col gap-6">
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <Label :disabled="true">Deshabilitado</Label>
+            <span class="text-muted-foreground text-sm">{{ disabled }}%</span>
+          </div>
+          <Slider v-model="disabled" :disabled="true" />
         </div>
-        <Slider v-model="disabled" :disabled="true" />
-      </div>
-    </section>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Override de estilos</h2>
-      <div class="flex max-w-sm flex-col gap-3">
-        <div class="flex items-center justify-between">
-          <Label>Personalizado</Label>
-          <span class="text-muted-foreground text-sm">{{ custom }}%</span>
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <Label>Personalizado</Label>
+            <span class="text-muted-foreground text-sm">{{ custom }}%</span>
+          </div>
+          <Slider v-model="custom" class="h-3" />
         </div>
-        <Slider v-model="custom" class="h-3" />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">En contexto — Ecualizador</h2>
-      <div class="bg-card border-border flex max-w-md flex-col gap-5 rounded-xl border p-6 shadow-sm">
+    <DocShowcase title="En contexto — Ecualizador" :code="eqCode">
+      <div
+        class="bg-card border-border flex max-w-md flex-col gap-5 rounded-xl border p-6 shadow-sm"
+      >
         <h3 class="text-sm font-semibold">Ecualizador de audio</h3>
         <div
           v-for="(band, i) in [
@@ -128,6 +179,8 @@ const custom = ref(60);
           <span class="text-muted-foreground w-8 text-xs">{{ band.value }}%</span>
         </div>
       </div>
-    </section>
+    </DocShowcase>
+
+    <DocPropsTable :props="sliderProps" />
   </div>
 </template>

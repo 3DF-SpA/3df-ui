@@ -1,22 +1,103 @@
 <script setup lang="ts">
 import {
   Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@3df-spa/ui';
+
+import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const breadcrumbLinkProps: PropItem[] = [
+  {
+    name: 'href',
+    type: 'string',
+    default: 'undefined',
+    description: 'URL del enlace. Si se proporciona y as no está definido, renderiza como <a>.',
+  },
+  {
+    name: 'as',
+    type: 'string',
+    default: 'undefined',
+    description: 'Elemento HTML o componente a renderizar. Toma precedencia sobre href.',
+  },
+];
+
+const basicCode = `<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Componentes</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`;
+
+const ellipsisCode = `<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbEllipsis />
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Perfil</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`;
+
+const customSeparatorCode = `<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator>/</BreadcrumbSeparator>
+    <BreadcrumbItem>
+      <BreadcrumbPage>Dashboard</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`;
+
+const iconCode = `<BreadcrumbLink href="#">
+  <HomeIcon class="h-4 w-4" />
+</BreadcrumbLink>`;
+
+const anatomyCode = `import {
+  Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
-} from '@3df-spa/ui';
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Breadcrumb</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="Breadcrumb"
+      description="Navegación jerárquica que muestra la ubicación actual del usuario dentro de la estructura del sitio."
+      import-code="import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df-spa/ui'"
+    />
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Breadcrumb básico</h2>
+    <DocShowcase title="Básico" :code="basicCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -32,11 +113,9 @@ import {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Con ellipsis (rutas largas)</h2>
+    <DocShowcase title="Con ellipsis (rutas largas)" :code="ellipsisCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -56,11 +135,9 @@ import {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Separador personalizado (/)</h2>
+    <DocShowcase title="Separador personalizado" :code="customSeparatorCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -80,11 +157,9 @@ import {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Navegación completa</h2>
+    <DocShowcase title="Con icono" :code="iconCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -120,6 +195,13 @@ import {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+    </DocShowcase>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <DocCodeBlock :code="anatomyCode" language="typescript" />
     </section>
+
+    <DocPropsTable title="Props de BreadcrumbLink" :props="breadcrumbLinkProps" />
   </div>
 </template>

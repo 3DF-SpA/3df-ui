@@ -45,7 +45,7 @@ provide(ACCORDION_ITEM_KEY, {
     v-bind="restAttrs"
     :data-state="isOpen ? 'open' : 'closed'"
     :data-disabled="itemDisabled ? '' : undefined"
-    :class="cn('border-border/60 border-b', attrs.class)"
+    :class="cn('border-border/60 border-b-ui', attrs.class)"
   >
     <slot :open="isOpen" />
   </div>

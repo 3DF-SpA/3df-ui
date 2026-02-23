@@ -1,15 +1,64 @@
 <script setup lang="ts">
-import { EmptyState, Button } from '@3df-spa/ui';
+import { Button, EmptyState } from '@3df-spa/ui';
+
+import DocHeader from '@/components/docs/DocHeader.vue';
+import DocPropsTable from '@/components/docs/DocPropsTable.vue';
+import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const emptyProps: PropItem[] = [
+  {
+    name: 'title',
+    type: 'string',
+    default: 'undefined',
+    description: 'Título del estado vacío. También disponible como slot.',
+  },
+  {
+    name: 'description',
+    type: 'string',
+    default: 'undefined',
+    description: 'Descripción del estado vacío. También disponible como slot.',
+  },
+];
+
+const searchCode = `<EmptyState
+  title="No se encontraron resultados"
+  description="Intenta ajustar los filtros de búsqueda."
+>
+  <template #icon>
+    <svg>...</svg>
+  </template>
+  <Button variant="outline" size="sm">Limpiar filtros</Button>
+  <Button size="sm">Crear nuevo</Button>
+</EmptyState>`;
+
+const minimalCode = `<EmptyState
+  title="Sin datos disponibles"
+  description="Los datos se mostrarán aquí cuando estén disponibles."
+/>`;
+
+const heightCode = `<EmptyState
+  class="min-h-80"
+  title="Sube tu primer archivo"
+  description="Arrastra y suelta archivos aquí."
+>
+  <template #icon>
+    <svg>...</svg>
+  </template>
+  <Button variant="outline" size="sm">Seleccionar</Button>
+</EmptyState>`;
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col gap-12 p-8">
-    <h1 class="text-3xl font-bold">Empty State</h1>
+  <div class="flex flex-col gap-10">
+    <DocHeader
+      title="EmptyState"
+      description="Indicador visual para secciones sin contenido. Incluye icono, título, descripción y acciones opcionales."
+      import-code="import { EmptyState } from '@3df-spa/ui'"
+    />
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Sin resultados</h2>
-      <div class="rounded-lg border border-border">
+    <DocShowcase title="Sin resultados" :code="searchCode">
+      <div class="border-border rounded-lg border">
         <EmptyState
           title="No se encontraron resultados"
           description="Intenta ajustar los filtros de búsqueda o crea un nuevo elemento."
@@ -32,12 +81,10 @@ import { EmptyState, Button } from '@3df-spa/ui';
           <Button size="sm">Crear nuevo</Button>
         </EmptyState>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Carrito vacío</h2>
-      <div class="rounded-lg border border-border">
+    <DocShowcase title="Carrito vacío" code="">
+      <div class="border-border rounded-lg border">
         <EmptyState
           title="Tu carrito está vacío"
           description="Agrega productos para comenzar tu compra."
@@ -54,18 +101,18 @@ import { EmptyState, Button } from '@3df-spa/ui';
             >
               <circle cx="8" cy="21" r="1" />
               <circle cx="19" cy="21" r="1" />
-              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+              <path
+                d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
+              />
             </svg>
           </template>
           <Button size="sm">Explorar productos</Button>
         </EmptyState>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Sin notificaciones</h2>
-      <div class="rounded-lg border border-border">
+    <DocShowcase title="Sin notificaciones" code="">
+      <div class="border-border rounded-lg border">
         <EmptyState
           title="Todo al día"
           description="No tienes notificaciones nuevas. Relájate y disfruta."
@@ -86,23 +133,19 @@ import { EmptyState, Button } from '@3df-spa/ui';
           </template>
         </EmptyState>
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Mínimo (solo texto)</h2>
-      <div class="rounded-lg border border-border">
+    <DocShowcase title="Mínimo (solo texto)" :code="minimalCode">
+      <div class="border-border rounded-lg border">
         <EmptyState
           title="Sin datos disponibles"
           description="Los datos se mostrarán aquí cuando estén disponibles."
         />
       </div>
-    </section>
+    </DocShowcase>
 
-    
-    <section class="flex flex-col gap-4">
-      <h2 class="text-muted-foreground text-sm font-medium">Con altura mínima</h2>
-      <div class="rounded-lg border border-border">
+    <DocShowcase title="Con altura mínima" :code="heightCode">
+      <div class="border-border rounded-lg border">
         <EmptyState
           class="min-h-80"
           title="Sube tu primer archivo"
@@ -126,6 +169,8 @@ import { EmptyState, Button } from '@3df-spa/ui';
           <Button variant="outline" size="sm">Seleccionar archivos</Button>
         </EmptyState>
       </div>
-    </section>
+    </DocShowcase>
+
+    <DocPropsTable :props="emptyProps" />
   </div>
 </template>

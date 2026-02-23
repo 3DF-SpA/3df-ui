@@ -9,11 +9,45 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@3df-spa/ui';
+
+import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const codeTable = `<table class="w-full text-sm">
+  <thead>
+    <tr class="border-b">
+      <th>Nombre</th>
+      <th>Estado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>María García</td>
+      <td><Badge variant="success">Activo</Badge></td>
+      <td>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant="ghost" size="icon" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Ver perfil</DropdownMenuItem>
+            <DropdownMenuItem :destructive="true">Suspender</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </td>
+    </tr>
+  </tbody>
+</table>`;
 </script>
 
 <template>
-  <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">En contexto — Tabla con acciones</h2>
+  <DocShowcase
+    title="En contexto — Tabla con acciones"
+    description="Integración del dropdown como menú de acciones por fila en una tabla."
+    :code="codeTable"
+  >
     <div class="border-border max-w-2xl rounded-lg border">
       <table class="w-full text-sm">
         <thead>
@@ -138,5 +172,5 @@ import {
         </tbody>
       </table>
     </div>
-  </section>
+  </DocShowcase>
 </template>
