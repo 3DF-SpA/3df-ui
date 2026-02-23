@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import {
-  type CSSProperties,
-  computed,
-  inject,
-  nextTick,
-  onBeforeUnmount,
-  provide,
-  ref,
-  useAttrs,
-  watch,
-} from 'vue';
+import { computed, inject, provide, ref, useAttrs } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
+import { useFloatingLifecycle } from '../../../composables/use-floating-lifecycle';
+import { useSubMenuPosition } from '../../../composables/use-floating-position';
 import { cn } from '../../../lib/utils';
 import {
   CONTEXT_MENU_ITEM_KEY,
@@ -49,62 +41,16 @@ provide(CONTEXT_MENU_ITEM_KEY, {
   items: menu.subItems,
 });
 
-const positionStyle = ref<CSSProperties>({});
-let rafId: number | undefined;
+const contentRef = ref<HTMLElement>();
 
-function updatePosition() {
-  const trigger = sub.triggerRef.value;
-  const content = sub.contentRef.value;
-  if (!trigger || !content) return;
+const { positionStyle, updatePosition } = useSubMenuPosition(sub.triggerRef, contentRef, () => ({
+  sideOffset: props.sideOffset,
+  viewportPadding: props.viewportPadding,
+}));
 
-  const triggerRect = trigger.getBoundingClientRect();
-  const contentRect = content.getBoundingClientRect();
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const pad = props.viewportPadding;
-  const gap = props.sideOffset;
-
-  let left = triggerRect.right + gap;
-  if (left + contentRect.width > vw - pad) {
-    left = triggerRect.left - contentRect.width - gap;
-  }
-  if (left < pad) left = pad;
-
-  let top = triggerRect.top;
-  if (top + contentRect.height > vh - pad) {
-    top = vh - pad - contentRect.height;
-  }
-  if (top < pad) top = pad;
-
-  positionStyle.value = { position: 'fixed', top: `${top}px`, left: `${left}px` };
-}
-
-function onResize() {
-  if (rafId) return;
-  rafId = requestAnimationFrame(() => {
-    updatePosition();
-    rafId = undefined;
-  });
-}
-
-watch(
-  () => sub.isOpen.value,
-  async (open) => {
-    if (open) {
-      await nextTick();
-      updatePosition();
-      await nextTick();
-      updatePosition();
-      window.addEventListener('resize', onResize);
-    } else {
-      window.removeEventListener('resize', onResize);
-    }
-  },
-);
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', onResize);
-  if (rafId) cancelAnimationFrame(rafId);
+useFloatingLifecycle({
+  isOpen: sub.isOpen,
+  updatePosition,
 });
 </script>
 
@@ -122,7 +68,9 @@ onBeforeUnmount(() => {
         v-if="sub.isOpen.value"
         :ref="
           (el: any) => {
-            sub.contentRef.value = el as HTMLElement;
+            const element = el as HTMLElement;
+            sub.contentRef.value = element;
+            contentRef = element;
           }
         "
         v-bind="restAttrs"

@@ -23,6 +23,8 @@ const itemIndex = computed(() => select.items.value.findIndex((i) => i.value ===
 
 const isFocused = computed(() => select.focusedIndex.value === itemIndex.value);
 
+const itemId = computed(() => `${select.listboxId}-option-${props.value}`);
+
 const itemRef = ref<HTMLElement>();
 
 onMounted(() => {
@@ -42,6 +44,7 @@ function onClick() {
 
 <template>
   <li
+    :id="itemId"
     ref="itemRef"
     role="option"
     :aria-selected="isSelected"
@@ -74,6 +77,7 @@ function onClick() {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
+      aria-hidden="true"
       class="ml-2 shrink-0"
     >
       <path d="M20 6 9 17l-5-5" />

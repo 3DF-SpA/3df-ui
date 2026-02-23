@@ -10,13 +10,10 @@ export const alertVariants = cva(
     variants: {
       variant: {
         default: 'bg-card text-foreground',
-        destructive:
-          'bg-red-50 text-red-900 [&>svg]:text-red-600 dark:bg-red-950 dark:text-red-100 dark:[&>svg]:text-red-400',
-        success:
-          'bg-emerald-50 text-emerald-900 [&>svg]:text-emerald-600 dark:bg-emerald-950 dark:text-emerald-100 dark:[&>svg]:text-emerald-400',
-        warning:
-          'bg-amber-50 text-amber-900 [&>svg]:text-amber-600 dark:bg-amber-950 dark:text-amber-100 dark:[&>svg]:text-amber-400',
-        info: 'bg-blue-50 text-blue-900 [&>svg]:text-blue-600 dark:bg-blue-950 dark:text-blue-100 dark:[&>svg]:text-blue-400',
+        destructive: 'bg-destructive/10 text-destructive [&>svg]:text-destructive',
+        success: 'bg-success/10 text-success [&>svg]:text-success',
+        warning: 'bg-warning/10 text-warning [&>svg]:text-warning',
+        info: 'bg-info/10 text-info [&>svg]:text-info',
       },
     },
     defaultVariants: {

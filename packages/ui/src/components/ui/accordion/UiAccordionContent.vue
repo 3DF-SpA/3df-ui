@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, useAttrs, watch } from 'vue';
+import { computed, inject, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -19,6 +19,7 @@ const restAttrs = computed(() => {
 const contentRef = ref<HTMLElement>();
 const height = ref<string>('0px');
 const isAnimating = ref(false);
+let rafId = 0;
 
 watch(
   () => item.isOpen.value,
@@ -32,17 +33,21 @@ watch(
       el.removeAttribute('hidden');
       const scrollH = el.scrollHeight;
       height.value = '0px';
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         height.value = `${scrollH}px`;
       });
     } else {
       height.value = `${el.scrollHeight}px`;
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         height.value = '0px';
       });
     }
   },
 );
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
+});
 
 function onTransitionEnd() {
   isAnimating.value = false;
@@ -65,15 +70,10 @@ function onTransitionEnd() {
       overflow: isAnimating || !item.isOpen.value ? 'hidden' : undefined,
     }"
     :hidden="!item.isOpen.value && !isAnimating ? true : undefined"
-    :class="
-      cn(
-        'transition-[height] duration-200 ease-in-out',
-        attrs.class,
-      )
-    "
+    :class="cn('transition-[height] duration-200 ease-in-out', attrs.class)"
     @transitionend="onTransitionEnd"
   >
-    <div class="pb-4 pt-0 text-sm">
+    <div class="pt-0 pb-4 text-sm">
       <slot />
     </div>
   </div>

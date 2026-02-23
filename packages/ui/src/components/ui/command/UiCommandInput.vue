@@ -57,6 +57,7 @@ onMounted(() => {
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
+      aria-hidden="true"
       class="mr-2 h-4 w-4 shrink-0 opacity-50"
     >
       <circle cx="11" cy="11" r="8" />
@@ -80,8 +81,10 @@ onMounted(() => {
       autocorrect="off"
       spellcheck="false"
       role="combobox"
-      aria-expanded="true"
+      :aria-expanded="cmd.allValues.value.length > 0"
       aria-autocomplete="list"
+      :aria-controls="cmd.listId"
+      :aria-activedescendant="cmd.activeDescendantId.value"
       @input="value = ($event.target as HTMLInputElement).value"
     />
   </div>

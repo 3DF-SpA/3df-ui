@@ -14,11 +14,13 @@ const props = withDefaults(
     side?: SheetSide;
     variant?: SheetVariant;
     showClose?: boolean;
+    closeLabel?: string;
   }>(),
   {
     side: 'right',
     variant: 'default',
     showClose: true,
+    closeLabel: 'Cerrar',
   },
 );
 
@@ -167,7 +169,7 @@ function onOverlayClick() {
           v-if="showClose"
           type="button"
           class="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none"
-          aria-label="Close"
+          :aria-label="props.closeLabel"
           @click="sheet.close()"
         >
           <svg
@@ -184,7 +186,7 @@ function onOverlayClick() {
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
           </svg>
-          <span class="sr-only">Close</span>
+          <span class="sr-only">{{ props.closeLabel }}</span>
         </button>
       </div>
     </div>

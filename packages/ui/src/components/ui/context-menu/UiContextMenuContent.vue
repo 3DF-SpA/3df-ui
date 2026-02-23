@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import {
-  type CSSProperties,
-  computed,
-  inject,
-  nextTick,
-  onBeforeUnmount,
-  ref,
-  useAttrs,
-  watch,
-} from 'vue';
+import { type CSSProperties, computed, inject, ref, useAttrs } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
+import { useFloatingLifecycle } from '../../../composables/use-floating-lifecycle';
 import { cn } from '../../../lib/utils';
 import { CONTEXT_MENU_KEY } from './context-menu-types';
 
@@ -34,10 +26,11 @@ const restAttrs = computed(() => {
   return rest;
 });
 
+const contentRef = ref<HTMLElement>();
 const positionStyle = ref<CSSProperties>({});
 
 function updatePosition() {
-  const content = ctx.contentRef.value;
+  const content = contentRef.value;
   if (!content) return;
 
   const contentRect = content.getBoundingClientRect();
@@ -47,14 +40,10 @@ function updatePosition() {
 
   let { x: left, y: top } = ctx.position.value;
 
-  if (left + contentRect.width > vw - pad) {
-    left = left - contentRect.width;
-  }
+  if (left + contentRect.width > vw - pad) left = left - contentRect.width;
   if (left < pad) left = pad;
 
-  if (top + contentRect.height > vh - pad) {
-    top = top - contentRect.height;
-  }
+  if (top + contentRect.height > vh - pad) top = top - contentRect.height;
   if (top < pad) top = pad;
 
   positionStyle.value = {
@@ -64,29 +53,11 @@ function updatePosition() {
   };
 }
 
-function onScroll(event: Event) {
-  const target = event.target as Node | null;
-  if (ctx.contentRef.value && target && ctx.contentRef.value.contains(target)) return;
-  ctx.close();
-}
-
-watch(
-  () => ctx.isOpen.value,
-  async (open) => {
-    if (open) {
-      await nextTick();
-      updatePosition();
-      await nextTick();
-      updatePosition();
-      window.addEventListener('scroll', onScroll, true);
-    } else {
-      window.removeEventListener('scroll', onScroll, true);
-    }
-  },
-);
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll, true);
+useFloatingLifecycle({
+  isOpen: ctx.isOpen,
+  updatePosition,
+  contentRef,
+  closeFn: ctx.close,
 });
 </script>
 
@@ -104,7 +75,9 @@ onBeforeUnmount(() => {
         v-if="ctx.isOpen.value"
         :ref="
           (el) => {
-            ctx.contentRef.value = el as HTMLElement;
+            const element = el as HTMLElement;
+            ctx.contentRef.value = element;
+            contentRef = element;
           }
         "
         v-bind="restAttrs"

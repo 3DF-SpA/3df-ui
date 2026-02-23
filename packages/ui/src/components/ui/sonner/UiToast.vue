@@ -32,20 +32,20 @@ const icon = computed(() => iconMap[props.toast.variant]);
 const variantClasses = computed(() => {
   const map: Record<string, string> = {
     default: 'bg-card text-foreground',
-    success: 'bg-emerald-50 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100',
-    error: 'bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100',
-    warning: 'bg-amber-50 text-amber-900 dark:bg-amber-950 dark:text-amber-100',
-    info: 'bg-blue-50 text-blue-900 dark:bg-blue-950 dark:text-blue-100',
+    success: 'bg-success/10 text-success',
+    error: 'bg-destructive/10 text-destructive',
+    warning: 'bg-warning/10 text-warning',
+    info: 'bg-info/10 text-info',
   };
   return map[props.toast.variant] ?? map.default;
 });
 
 const iconClasses = computed(() => {
   const map: Record<string, string> = {
-    success: 'text-emerald-600 dark:text-emerald-400',
-    error: 'text-red-600 dark:text-red-400',
-    warning: 'text-amber-600 dark:text-amber-400',
-    info: 'text-blue-600 dark:text-blue-400',
+    success: 'text-success',
+    error: 'text-destructive',
+    warning: 'text-warning',
+    info: 'text-info',
   };
   return map[props.toast.variant] ?? '';
 });

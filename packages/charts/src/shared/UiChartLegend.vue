@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { inject, computed, useAttrs } from 'vue';
+import { computed, inject, useAttrs } from 'vue';
+
 import type { ChartContext } from './chart-types';
 import { CHART_KEY } from './chart-types';
 import { getSeriesKeys } from './chart-utils';
@@ -9,12 +10,11 @@ defineOptions({ inheritAttrs: false });
 const props = withDefaults(
   defineProps<{
     class?: string;
-    /** Layout direction */
     direction?: 'horizontal' | 'vertical';
-    /** Set of hidden series keys (for interactive toggle) */
     hiddenKeys?: Set<string>;
+    ariaLabel?: string;
   }>(),
-  { direction: 'horizontal' },
+  { direction: 'horizontal', ariaLabel: 'Leyenda del gráfico' },
 );
 
 const emit = defineEmits<{
@@ -55,7 +55,7 @@ function onClick(key: string) {
       props.class,
     ]"
     role="list"
-    aria-label="Chart legend"
+    :aria-label="props.ariaLabel"
   >
     <button
       v-for="entry in entries"
@@ -64,12 +64,8 @@ function onClick(key: string) {
       type="button"
       :class="[
         'flex items-center gap-2 rounded-full px-3 py-1 transition-all duration-200',
-        isInteractive
-          ? 'cursor-pointer hover:bg-accent active:scale-95'
-          : 'cursor-default',
-        entry.hidden
-          ? 'opacity-40'
-          : 'opacity-100',
+        isInteractive ? 'hover:bg-accent cursor-pointer active:scale-95' : 'cursor-default',
+        entry.hidden ? 'opacity-40' : 'opacity-100',
       ]"
       :aria-pressed="isInteractive ? !entry.hidden : undefined"
       @click="onClick(entry.key)"

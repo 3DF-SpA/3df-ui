@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import { ref, computed, provide, onMounted, onUnmounted, useAttrs, watch } from 'vue';
-import type { ChartConfig, ChartContext } from './chart-types';
-import { CHART_KEY } from './chart-types';
-import { resolveConfigColors } from './chart-utils';
+import { onMounted, onUnmounted, ref, useAttrs } from 'vue';
 
 defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    config: ChartConfig;
     class?: string;
-    /** Minimum height in px (default 300) */
     minHeight?: number;
   }>(),
   { minHeight: 300 },
@@ -22,11 +17,6 @@ const containerRef = ref<HTMLDivElement>();
 const width = ref(0);
 const height = ref(0);
 
-const resolvedColors = ref<Record<string, string>>({});
-
-const configRef = computed(() => props.config);
-
-// ResizeObserver for responsive sizing
 let observer: ResizeObserver | null = null;
 
 function updateSize() {
@@ -36,13 +26,8 @@ function updateSize() {
   height.value = Math.round(rect.height);
 }
 
-function updateColors() {
-  resolvedColors.value = resolveConfigColors(props.config, containerRef.value ?? undefined);
-}
-
 onMounted(() => {
   updateSize();
-  updateColors();
 
   observer = new ResizeObserver(() => {
     updateSize();
@@ -57,15 +42,6 @@ onUnmounted(() => {
   observer = null;
 });
 
-watch(() => props.config, updateColors, { deep: true });
-
-// Provide chart context to children
-provide<ChartContext>(CHART_KEY, {
-  config: configRef,
-  resolvedColors,
-});
-
-// Expose dimensions for child components
 defineExpose({ width, height });
 </script>
 
@@ -86,7 +62,6 @@ defineExpose({ width, height });
     >
       <slot :width="width" :height="height" />
     </svg>
-    <!-- HTML overlay layer for tooltips -->
     <slot name="overlay" :width="width" :height="height" />
   </div>
 </template>

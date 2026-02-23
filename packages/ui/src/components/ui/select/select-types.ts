@@ -10,6 +10,7 @@ export interface SelectContext {
   modelValue: ComputedRef<string>;
   focusedIndex: Ref<number>;
   items: Ref<SelectItemData[]>;
+  listboxId: string;
   registerItem: (value: string, label: string, disabled: boolean) => void;
   unregisterItem: (value: string) => void;
   selectItem: (value: string) => void;

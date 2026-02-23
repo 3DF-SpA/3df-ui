@@ -85,12 +85,6 @@ onMounted(() => {
   });
 });
 
-watch(viewportRef, (el) => {
-  if (el) {
-    nextTick(() => initCarousel());
-  }
-});
-
 watch(
   () => [props.opts, props.orientation],
   () => {

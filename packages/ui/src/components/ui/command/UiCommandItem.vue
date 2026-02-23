@@ -57,6 +57,10 @@ const isVisible = computed(() => cmd.filterFn(searchableValue.value, cmd.search.
 
 const isSelected = computed(() => cmd.selectedValue.value === searchableValue.value);
 
+const itemId = computed(
+  () => `${cmd.listId}-item-${searchableValue.value.replace(/\s+/g, '-').toLowerCase()}`,
+);
+
 function onClick() {
   if (props.disabled) return;
   cmd.selectedValue.value = searchableValue.value;
@@ -74,6 +78,7 @@ function onPointerEnter() {
 <template>
   <div
     v-if="isVisible"
+    :id="itemId"
     v-bind="restAttrs"
     role="option"
     :aria-selected="isSelected || undefined"

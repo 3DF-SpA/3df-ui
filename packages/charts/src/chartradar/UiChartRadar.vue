@@ -1,20 +1,17 @@
 <script setup lang="ts">
-import { ref, computed, provide, useAttrs, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref, useAttrs, watch } from 'vue';
+
+import UiChartContainer from '../shared/UiChartContainer.vue';
+import UiChartLegend from '../shared/UiChartLegend.vue';
+import UiChartTooltip from '../shared/UiChartTooltip.vue';
 import type {
   ChartConfig,
+  ChartContext,
   ChartDataRow,
   ChartTooltipData,
-  ChartContext,
 } from '../shared/chart-types';
 import { CHART_KEY } from '../shared/chart-types';
-import {
-  getSeriesKeys,
-  resolveColor,
-  resolveConfigColors,
-} from '../shared/chart-utils';
-import UiChartContainer from '../shared/UiChartContainer.vue';
-import UiChartTooltip from '../shared/UiChartTooltip.vue';
-import UiChartLegend from '../shared/UiChartLegend.vue';
+import { getSeriesKeys, resolveColor, resolveConfigColors } from '../shared/chart-utils';
 
 defineOptions({ inheritAttrs: false });
 
@@ -76,6 +73,11 @@ const attrs = useAttrs();
 /* ── Provide chart context ─────────────────────────────────── */
 
 const rootRef = ref<HTMLDivElement>();
+
+let _radarUid = 0;
+const chartUid = `radar-${++_radarUid}-${Math.random().toString(36).slice(2, 6)}`;
+const filtGlow = computed(() => `${chartUid}-glow`);
+
 const resolvedColors = ref<Record<string, string>>({});
 const configRef = computed(() => props.config);
 
@@ -175,7 +177,9 @@ function computeGrid(cx: number, cy: number, radius: number) {
     const r = (radius / props.levels) * lvl;
 
     if (props.variant === 'circle') {
-      levelPaths.push(`M${cx - r},${cy}A${r},${r} 0 1,1 ${cx + r},${cy}A${r},${r} 0 1,1 ${cx - r},${cy}Z`);
+      levelPaths.push(
+        `M${cx - r},${cy}A${r},${r} 0 1,1 ${cx + r},${cy}A${r},${r} 0 1,1 ${cx - r},${cy}Z`,
+      );
     } else {
       let path = '';
       for (let i = 0; i < n; i++) {
@@ -300,140 +304,155 @@ function onDotLeave() {
 
 <template>
   <div ref="rootRef" v-bind="attrs" :class="['flex flex-col gap-4', props.class]">
-    <UiChartContainer
-      :config="config"
-      :min-height="minHeight"
-      class="w-full"
-    >
+    <UiChartContainer :min-height="minHeight" class="w-full">
       <template #default="{ width: w, height: h }">
         <!-- Compute center & radius from available space -->
         <!-- eslint-disable-next-line vue/no-unused-vars -->
-        <g v-if="categories.length >= 3"
-          :transform="`translate(0,0)`"
-        >
-          <template v-for="c in [{ grid: computeGrid(w / 2, h / 2, Math.min(w, h) / 2 - 50), series: computeSeries(w / 2, h / 2, Math.min(w, h) / 2 - 50), labels: computeAxisLabels(w / 2, h / 2, Math.min(w, h) / 2 - 50), cx: w / 2, cy: h / 2, r: Math.min(w, h) / 2 - 50 }]" :key="0">
-          <defs>
-            <!-- Gradient fill per series -->
-            <radialGradient
-              v-for="key in visibleSeriesKeys"
-              :id="`radar-fill-${key}`"
-              :key="`grad-${key}`"
-            >
-              <stop offset="0%" :stop-color="config[key]!.color" :stop-opacity="fillOpacity * 1.5" />
-              <stop offset="100%" :stop-color="config[key]!.color" :stop-opacity="fillOpacity * 0.5" />
-            </radialGradient>
-
-            <!-- Glow filter for hovered dots -->
-            <filter id="radar-glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          <!-- Grid levels -->
-          <path
-            v-for="(path, i) in c.grid.levelPaths"
-            :key="`level-${i}`"
-            :d="path"
-            fill="none"
-            class="stroke-border"
-            :stroke-width="i === props.levels - 1 ? 1 : 0.5"
-            :opacity="i === props.levels - 1 ? 0.6 : 0.3"
-          />
-
-          <!-- Spokes -->
-          <path
-            v-for="(path, i) in c.grid.axisPaths"
-            :key="`spoke-${i}`"
-            :d="path"
-            fill="none"
-            class="stroke-border"
-            stroke-width="0.5"
-            opacity="0.3"
-          />
-
-          <!-- Axis labels (category names) -->
-          <template v-if="showAxisLabels">
-          <text
-            v-for="(label, i) in c.labels"
-            :key="`axlabel-${i}`"
-            :x="label.x"
-            :y="label.y"
-            :text-anchor="label.anchor"
-            :dy="label.dy"
-            class="fill-muted-foreground"
-            font-size="12"
-            font-weight="500"
+        <g v-if="categories.length >= 3" :transform="`translate(0,0)`">
+          <template
+            v-for="c in [
+              {
+                grid: computeGrid(w / 2, h / 2, Math.min(w, h) / 2 - 50),
+                series: computeSeries(w / 2, h / 2, Math.min(w, h) / 2 - 50),
+                labels: computeAxisLabels(w / 2, h / 2, Math.min(w, h) / 2 - 50),
+                cx: w / 2,
+                cy: h / 2,
+                r: Math.min(w, h) / 2 - 50,
+              },
+            ]"
+            :key="0"
           >
-            {{ label.text }}
-          </text>
-          </template>
+            <defs>
+              <!-- Gradient fill per series -->
+              <radialGradient
+                v-for="key in visibleSeriesKeys"
+                :id="`radar-fill-${key}`"
+                :key="`grad-${key}`"
+              >
+                <stop
+                  offset="0%"
+                  :stop-color="config[key]!.color"
+                  :stop-opacity="fillOpacity * 1.5"
+                />
+                <stop
+                  offset="100%"
+                  :stop-color="config[key]!.color"
+                  :stop-opacity="fillOpacity * 0.5"
+                />
+              </radialGradient>
 
-          <!-- Series polygons -->
-          <template v-for="series in c.series" :key="series.key">
-            <!-- Filled area -->
-            <path
-              v-if="showFill"
-              :d="series.path"
-              :fill="`url(#radar-fill-${series.key})`"
-              :opacity="hoveredIndex !== null ? 0.5 : 1"
-              :style="{
-                transition: 'opacity 300ms ease, d 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-              }"
-            />
+              <!-- Glow filter for hovered dots -->
+              <filter :id="filtGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
 
-            <!-- Outline -->
+            <!-- Grid levels -->
             <path
-              :d="series.path"
+              v-for="(path, i) in c.grid.levelPaths"
+              :key="`level-${i}`"
+              :d="path"
               fill="none"
-              :stroke="series.color"
-              :stroke-width="strokeWidth"
-              stroke-linejoin="round"
-              :opacity="hoveredIndex !== null ? 0.7 : 1"
-              :style="{
-                transition: 'opacity 300ms ease, d 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-              }"
+              class="stroke-border"
+              :stroke-width="i === props.levels - 1 ? 1 : 0.5"
+              :opacity="i === props.levels - 1 ? 0.6 : 0.3"
             />
 
-            <!-- Data dots -->
-            <template v-if="showDots">
-              <circle
-                v-for="pt in series.points"
-                :key="`dot-${series.key}-${pt.dataIndex}`"
-                :cx="pt.x"
-                :cy="pt.y"
-                :r="hoveredIndex === pt.dataIndex ? dotRadius * 1.4 : dotRadius * 0.7"
-                :fill="hoveredIndex === pt.dataIndex ? 'var(--color-background)' : series.color"
-                :stroke="series.color"
-                :stroke-width="hoveredIndex === pt.dataIndex ? strokeWidth : 0"
-                :filter="hoveredIndex === pt.dataIndex ? 'url(#radar-glow)' : undefined"
+            <!-- Spokes -->
+            <path
+              v-for="(path, i) in c.grid.axisPaths"
+              :key="`spoke-${i}`"
+              :d="path"
+              fill="none"
+              class="stroke-border"
+              stroke-width="0.5"
+              opacity="0.3"
+            />
+
+            <!-- Axis labels (category names) -->
+            <template v-if="showAxisLabels">
+              <text
+                v-for="(label, i) in c.labels"
+                :key="`axlabel-${i}`"
+                :x="label.x"
+                :y="label.y"
+                :text-anchor="label.anchor"
+                :dy="label.dy"
+                class="fill-muted-foreground"
+                font-size="12"
+                font-weight="500"
+              >
+                {{ label.text }}
+              </text>
+            </template>
+
+            <!-- Series polygons -->
+            <template v-for="series in c.series" :key="series.key">
+              <!-- Filled area -->
+              <path
+                v-if="showFill"
+                :d="series.path"
+                :fill="`url(#radar-fill-${series.key})`"
+                :opacity="hoveredIndex !== null ? 0.5 : 1"
                 :style="{
-                  transition: 'r 200ms cubic-bezier(0.34, 1.56, 0.64, 1), cx 500ms ease, cy 500ms ease',
-                  cursor: 'pointer',
+                  transition: 'opacity 300ms ease, d 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
                 }"
-                @mousemove="onDotHover(pt.dataIndex, $event)"
+              />
+
+              <!-- Outline -->
+              <path
+                :d="series.path"
+                fill="none"
+                :stroke="series.color"
+                :stroke-width="strokeWidth"
+                stroke-linejoin="round"
+                :opacity="hoveredIndex !== null ? 0.7 : 1"
+                :style="{
+                  transition: 'opacity 300ms ease, d 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+                }"
+              />
+
+              <!-- Data dots -->
+              <template v-if="showDots">
+                <circle
+                  v-for="pt in series.points"
+                  :key="`dot-${series.key}-${pt.dataIndex}`"
+                  :cx="pt.x"
+                  :cy="pt.y"
+                  :r="hoveredIndex === pt.dataIndex ? dotRadius * 1.4 : dotRadius * 0.7"
+                  :fill="hoveredIndex === pt.dataIndex ? 'var(--color-background)' : series.color"
+                  :stroke="series.color"
+                  :stroke-width="hoveredIndex === pt.dataIndex ? strokeWidth : 0"
+                  :filter="hoveredIndex === pt.dataIndex ? `url(#${filtGlow})` : undefined"
+                  :style="{
+                    transition:
+                      'r 200ms cubic-bezier(0.34, 1.56, 0.64, 1), cx 500ms ease, cy 500ms ease',
+                    cursor: 'pointer',
+                  }"
+                  @mousemove="onDotHover(pt.dataIndex, $event)"
+                  @mouseleave="onDotLeave"
+                />
+              </template>
+            </template>
+
+            <!-- Invisible hover regions per axis if no dots -->
+            <template v-if="!showDots">
+              <circle
+                v-for="(_, i) in categories"
+                :key="`hover-${i}`"
+                :cx="polarToCartesian(c.cx, c.cy, c.r, angleFor(i, categories.length)).x"
+                :cy="polarToCartesian(c.cx, c.cy, c.r, angleFor(i, categories.length)).y"
+                r="16"
+                fill="transparent"
+                style="cursor: pointer"
+                @mousemove="onDotHover(i, $event)"
                 @mouseleave="onDotLeave"
               />
             </template>
-          </template>
-
-          <!-- Invisible hover regions per axis if no dots -->
-          <template v-if="!showDots">
-            <circle
-              v-for="(_, i) in categories"
-              :key="`hover-${i}`"
-              :cx="polarToCartesian(c.cx, c.cy, c.r, angleFor(i, categories.length)).x"
-              :cy="polarToCartesian(c.cx, c.cy, c.r, angleFor(i, categories.length)).y"
-              r="16"
-              fill="transparent"
-              style="cursor: pointer"
-              @mousemove="onDotHover(i, $event)"
-              @mouseleave="onDotLeave"
-            />
-          </template>
           </template>
         </g>
 

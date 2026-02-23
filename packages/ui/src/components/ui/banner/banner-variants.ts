@@ -8,11 +8,10 @@ export const bannerVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-primary-foreground',
-        info: 'bg-blue-600 text-white dark:bg-blue-500',
-        success: 'bg-emerald-600 text-white dark:bg-emerald-500',
-        warning: 'bg-amber-500 text-white dark:bg-amber-400 dark:text-black',
+        default: 'bg-primary text-primary-foreground',
+        info: 'bg-info text-info-foreground',
+        success: 'bg-success text-success-foreground',
+        warning: 'bg-warning text-warning-foreground',
         destructive: 'bg-destructive text-destructive-foreground',
         muted: 'bg-muted text-muted-foreground border-b border-border',
       },

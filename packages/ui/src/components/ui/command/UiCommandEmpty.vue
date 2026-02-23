@@ -25,6 +25,8 @@ const hasVisibleItems = computed(() =>
   <div
     v-if="!hasVisibleItems"
     v-bind="restAttrs"
+    role="status"
+    aria-live="polite"
     :class="cn('py-6 text-center text-sm', attrs.class)"
   >
     <slot>No se encontraron resultados.</slot>

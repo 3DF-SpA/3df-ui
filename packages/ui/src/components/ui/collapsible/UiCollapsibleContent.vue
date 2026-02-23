@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, useAttrs, watch } from 'vue';
+import { computed, inject, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -19,6 +19,7 @@ const restAttrs = computed(() => {
 const contentRef = ref<HTMLElement>();
 const height = ref<string>('0px');
 const isAnimating = ref(false);
+let rafId = 0;
 
 watch(
   () => ctx.isOpen.value,
@@ -32,17 +33,21 @@ watch(
       el.removeAttribute('hidden');
       const scrollH = el.scrollHeight;
       height.value = '0px';
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         height.value = `${scrollH}px`;
       });
     } else {
       height.value = `${el.scrollHeight}px`;
-      requestAnimationFrame(() => {
+      rafId = requestAnimationFrame(() => {
         height.value = '0px';
       });
     }
   },
 );
+
+onBeforeUnmount(() => {
+  if (rafId) cancelAnimationFrame(rafId);
+});
 
 function onTransitionEnd() {
   isAnimating.value = false;

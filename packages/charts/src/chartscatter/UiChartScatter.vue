@@ -1,19 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, provide, useAttrs, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
-import type {
-  ChartConfig,
-  ChartTooltipData,
-  ChartContext,
-} from '../shared/chart-types';
-import { CHART_KEY } from '../shared/chart-types';
-import {
-  niceScale,
-  formatNumber,
-  resolveColor,
-} from '../shared/chart-utils';
+import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref, useAttrs, watch } from 'vue';
+
 import UiChartContainer from '../shared/UiChartContainer.vue';
-import UiChartTooltip from '../shared/UiChartTooltip.vue';
 import UiChartLegend from '../shared/UiChartLegend.vue';
+import UiChartTooltip from '../shared/UiChartTooltip.vue';
+import type { ChartConfig, ChartContext, ChartTooltipData } from '../shared/chart-types';
+import { CHART_KEY } from '../shared/chart-types';
+import { formatNumber, niceScale, resolveColor } from '../shared/chart-utils';
 
 defineOptions({ inheritAttrs: false });
 
@@ -79,6 +72,11 @@ const attrs = useAttrs();
 /* ── Provide chart context (adapt ScatterConfig → ChartConfig for legend) ── */
 
 const rootRef = ref<HTMLDivElement>();
+
+let _scatterUid = 0;
+const chartUid = `scatter-${++_scatterUid}-${Math.random().toString(36).slice(2, 6)}`;
+const filtGlow = computed(() => `${chartUid}-glow`);
+
 const resolvedColors = ref<Record<string, string>>({});
 
 const chartConfigForLegend = computed<ChartConfig>(() => {
@@ -156,7 +154,10 @@ function getExtent(accessor: (s: ScatterSeriesConfig) => string) {
       if (v > max) max = v;
     }
   }
-  if (min === Infinity) { min = 0; max = 1; }
+  if (min === Infinity) {
+    min = 0;
+    max = 1;
+  }
   return { min, max };
 }
 
@@ -173,7 +174,10 @@ function getSizeExtent() {
       if (v > max) max = v;
     }
   }
-  if (min === Infinity) { min = 0; max = 1; }
+  if (min === Infinity) {
+    min = 0;
+    max = 1;
+  }
   return { min, max };
 }
 
@@ -369,138 +373,168 @@ function onDotLeave() {
 
 <template>
   <div ref="rootRef" v-bind="attrs" :class="['flex flex-col gap-4', props.class]">
-    <UiChartContainer
-      :config="chartConfigForLegend"
-      :min-height="minHeight"
-      class="w-full"
-    >
+    <UiChartContainer :min-height="minHeight" class="w-full">
       <template #default="{ width: w, height: h }">
-        <template v-for="c in [{ grid: computeGridAndAxes(w, h), points: computePoints(w, h) }]" :key="0">
-        <defs>
-          <!-- Glow filter -->
-          <filter id="scatter-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <!-- Dot grid -->
-        <circle
-          v-for="(dot, i) in c.grid.gridDots"
-          :key="`dot-${i}`"
-          :cx="dot.cx"
-          :cy="dot.cy"
-          r="1.5"
-          class="fill-border"
-          opacity="0.5"
-        />
-
-        <!-- Y axis labels -->
-        <text
-          v-for="(label, i) in c.grid.yLabels"
-          :key="`ylab-${i}`"
-          :x="label.x"
-          :y="label.y"
-          text-anchor="end"
-          class="fill-muted-foreground"
-          font-size="11"
-          font-weight="500"
+        <template
+          v-for="c in [{ grid: computeGridAndAxes(w, h), points: computePoints(w, h) }]"
+          :key="0"
         >
-          {{ label.text }}
-        </text>
+          <defs>
+            <!-- Glow filter -->
+            <filter :id="filtGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
 
-        <!-- X axis labels -->
-        <text
-          v-for="(label, i) in c.grid.xLabels"
-          :key="`xlab-${i}`"
-          :x="label.x"
-          :y="label.y"
-          text-anchor="middle"
-          class="fill-muted-foreground"
-          font-size="12"
-          font-weight="500"
-        >
-          {{ label.text }}
-        </text>
-
-        <!-- Zero baselines -->
-        <line
-          :x1="PADDING.left"
-          :y1="h - PADDING.bottom"
-          :x2="w - PADDING.right"
-          :y2="h - PADDING.bottom"
-          class="stroke-border"
-          stroke-width="1"
-          opacity="0.6"
-          shape-rendering="crispEdges"
-        />
-
-        <line
-          :x1="PADDING.left"
-          :y1="PADDING.top"
-          :x2="PADDING.left"
-          :y2="h - PADDING.bottom"
-          class="stroke-border"
-          stroke-width="1"
-          opacity="0.6"
-          shape-rendering="crispEdges"
-        />
-
-        <!-- Data points -->
-        <template v-for="pt in c.points"
-          :key="`pt-${pt.seriesKey}-${pt.dataIndex}`"
-        >
-          <!-- Circle shape -->
+          <!-- Dot grid -->
           <circle
-            v-if="pt.shape === 'circle'"
-            :cx="pt.x"
-            :cy="pt.y"
-            :r="hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
-              ? pt.r * 1.3
-              : pt.r"
-            :fill="pt.color"
-            :opacity="hoveredPoint !== null
-              ? (hoveredPoint.seriesKey === pt.seriesKey && hoveredPoint.dataIndex === pt.dataIndex ? 1 : 0.35)
-              : 0.75"
-            :stroke="hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
-              ? 'var(--color-background)' : 'none'"
-            :stroke-width="2"
-            :filter="hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
-              ? 'url(#scatter-glow)' : undefined"
-            :style="{
-              transition: 'r 200ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 200ms ease, cy 500ms ease',
-              cursor: 'pointer',
-            }"
-            @mousemove="onDotHover(pt, $event)"
-            @mouseleave="onDotLeave"
+            v-for="(dot, i) in c.grid.gridDots"
+            :key="`dot-${i}`"
+            :cx="dot.cx"
+            :cy="dot.cy"
+            r="1.5"
+            class="fill-border"
+            opacity="0.5"
           />
 
-          <!-- Square / Diamond shape -->
-          <path
-            v-else
-            :d="shapePath(pt.shape, pt.x, pt.y,
-              hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
-                ? pt.r * 1.3 : pt.r)"
-            :fill="pt.color"
-            :opacity="hoveredPoint !== null
-              ? (hoveredPoint.seriesKey === pt.seriesKey && hoveredPoint.dataIndex === pt.dataIndex ? 1 : 0.35)
-              : 0.75"
-            :stroke="hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
-              ? 'var(--color-background)' : 'none'"
-            :stroke-width="2"
-            :filter="hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
-              ? 'url(#scatter-glow)' : undefined"
-            :style="{
-              transition: 'opacity 200ms ease, d 200ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-              cursor: 'pointer',
-            }"
-            @mousemove="onDotHover(pt, $event)"
-            @mouseleave="onDotLeave"
+          <!-- Y axis labels -->
+          <text
+            v-for="(label, i) in c.grid.yLabels"
+            :key="`ylab-${i}`"
+            :x="label.x"
+            :y="label.y"
+            text-anchor="end"
+            class="fill-muted-foreground"
+            font-size="11"
+            font-weight="500"
+          >
+            {{ label.text }}
+          </text>
+
+          <!-- X axis labels -->
+          <text
+            v-for="(label, i) in c.grid.xLabels"
+            :key="`xlab-${i}`"
+            :x="label.x"
+            :y="label.y"
+            text-anchor="middle"
+            class="fill-muted-foreground"
+            font-size="12"
+            font-weight="500"
+          >
+            {{ label.text }}
+          </text>
+
+          <!-- Zero baselines -->
+          <line
+            :x1="PADDING.left"
+            :y1="h - PADDING.bottom"
+            :x2="w - PADDING.right"
+            :y2="h - PADDING.bottom"
+            class="stroke-border"
+            stroke-width="1"
+            opacity="0.6"
+            shape-rendering="crispEdges"
           />
-        </template>
+
+          <line
+            :x1="PADDING.left"
+            :y1="PADDING.top"
+            :x2="PADDING.left"
+            :y2="h - PADDING.bottom"
+            class="stroke-border"
+            stroke-width="1"
+            opacity="0.6"
+            shape-rendering="crispEdges"
+          />
+
+          <!-- Data points -->
+          <template v-for="pt in c.points" :key="`pt-${pt.seriesKey}-${pt.dataIndex}`">
+            <!-- Circle shape -->
+            <circle
+              v-if="pt.shape === 'circle'"
+              :cx="pt.x"
+              :cy="pt.y"
+              :r="
+                hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
+                  ? pt.r * 1.3
+                  : pt.r
+              "
+              :fill="pt.color"
+              :opacity="
+                hoveredPoint !== null
+                  ? hoveredPoint.seriesKey === pt.seriesKey &&
+                    hoveredPoint.dataIndex === pt.dataIndex
+                    ? 1
+                    : 0.35
+                  : 0.75
+              "
+              :stroke="
+                hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
+                  ? 'var(--color-background)'
+                  : 'none'
+              "
+              :stroke-width="2"
+              :filter="
+                hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
+                  ? `url(#${filtGlow})`
+                  : undefined
+              "
+              :style="{
+                transition:
+                  'r 200ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 200ms ease, cy 500ms ease',
+                cursor: 'pointer',
+              }"
+              @mousemove="onDotHover(pt, $event)"
+              @mouseleave="onDotLeave"
+            />
+
+            <!-- Square / Diamond shape -->
+            <path
+              v-else
+              :d="
+                shapePath(
+                  pt.shape,
+                  pt.x,
+                  pt.y,
+                  hoveredPoint?.seriesKey === pt.seriesKey &&
+                    hoveredPoint?.dataIndex === pt.dataIndex
+                    ? pt.r * 1.3
+                    : pt.r,
+                )
+              "
+              :fill="pt.color"
+              :opacity="
+                hoveredPoint !== null
+                  ? hoveredPoint.seriesKey === pt.seriesKey &&
+                    hoveredPoint.dataIndex === pt.dataIndex
+                    ? 1
+                    : 0.35
+                  : 0.75
+              "
+              :stroke="
+                hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
+                  ? 'var(--color-background)'
+                  : 'none'
+              "
+              :stroke-width="2"
+              :filter="
+                hoveredPoint?.seriesKey === pt.seriesKey && hoveredPoint?.dataIndex === pt.dataIndex
+                  ? `url(#${filtGlow})`
+                  : undefined
+              "
+              :style="{
+                transition: 'opacity 200ms ease, d 200ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+                cursor: 'pointer',
+              }"
+              @mousemove="onDotHover(pt, $event)"
+              @mouseleave="onDotLeave"
+            />
+          </template>
         </template>
       </template>
 

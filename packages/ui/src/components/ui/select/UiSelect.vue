@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, useAttrs, watch } from 'vue';
+import { computed, provide, ref, useAttrs, useId, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -8,6 +8,9 @@ import { cn } from '../../../lib/utils';
 import { SELECT_KEY } from './select-types';
 
 defineOptions({ name: 'UiSelect', inheritAttrs: false });
+
+const uid = useId();
+const listboxId = `select-listbox-${uid}`;
 
 interface UiSelectProps {
   modelValue?: string;
@@ -66,10 +69,17 @@ function selectItem(value: string) {
   triggerRef.value?.focus();
 }
 
+const activeDescendantId = computed(() => {
+  if (focusedIndex.value < 0) return undefined;
+  const item = items.value[focusedIndex.value];
+  return item ? `${listboxId}-option-${item.value}` : undefined;
+});
+
 provide(SELECT_KEY, {
   modelValue: computed(() => props.modelValue),
   focusedIndex,
   items,
+  listboxId,
   registerItem,
   unregisterItem,
   selectItem,
@@ -194,6 +204,8 @@ const triggerClasses = computed(() =>
       role="combobox"
       :aria-expanded="isOpen"
       aria-haspopup="listbox"
+      :aria-controls="listboxId"
+      :aria-activedescendant="activeDescendantId"
       :aria-invalid="isInvalid || undefined"
       :disabled="disabled"
       :class="triggerClasses"
@@ -212,6 +224,7 @@ const triggerClasses = computed(() =>
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
+        aria-hidden="true"
         :class="
           cn('ml-2 shrink-0 opacity-50 transition-transform duration-200', isOpen && 'rotate-180')
         "
@@ -230,6 +243,7 @@ const triggerClasses = computed(() =>
     >
       <ul
         v-if="isOpen"
+        :id="listboxId"
         role="listbox"
         :class="
           cn(

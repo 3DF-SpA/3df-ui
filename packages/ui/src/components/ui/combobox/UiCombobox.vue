@@ -75,6 +75,7 @@ function onSelect(value: string) {
           type="button"
           role="combobox"
           :aria-expanded="open"
+          aria-haspopup="listbox"
           :class="
             cn(
               'border-ui border-input bg-foreground/5 ring-offset-background flex h-10 w-full min-w-[200px] items-center justify-between rounded-md px-3 py-2 text-sm',
@@ -96,6 +97,7 @@ function onSelect(value: string) {
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            aria-hidden="true"
             class="ml-2 h-4 w-4 shrink-0 opacity-50"
           >
             <path d="m7 15 5 5 5-5" />
@@ -127,6 +129,7 @@ function onSelect(value: string) {
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
+                aria-hidden="true"
                 :class="
                   cn('mr-2 h-4 w-4', modelValue === option.value ? 'opacity-100' : 'opacity-0')
                 "

@@ -2,7 +2,7 @@
 import { computed, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
-import { addMonths, subMonths } from 'date-fns';
+import { addMonths, format as formatDate, subMonths } from 'date-fns';
 
 import { cn } from '../../../lib/utils';
 import type { CalendarMode, DateRange } from './calendar-types';
@@ -125,13 +125,14 @@ function onDayClick(date: Date) {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              aria-hidden="true"
               class="h-4 w-4"
             >
               <path d="m15 18-6-6 6-6" />
             </svg>
           </button>
 
-          <span class="text-sm font-medium capitalize">{{ m.label }}</span>
+          <span aria-live="polite" class="text-sm font-medium capitalize">{{ m.label }}</span>
 
           <button
             v-if="idx === months.length - 1"
@@ -150,6 +151,7 @@ function onDayClick(date: Date) {
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
+              aria-hidden="true"
               class="h-4 w-4"
             >
               <path d="m9 18 6-6-6-6" />
@@ -157,24 +159,28 @@ function onDayClick(date: Date) {
           </button>
         </div>
 
-        <div class="grid grid-cols-7">
+        <div class="grid grid-cols-7" role="row">
           <div
             v-for="day in weekDays"
             :key="day"
+            role="columnheader"
             class="text-muted-foreground flex h-9 w-9 items-center justify-center text-[0.8rem] font-normal"
           >
             {{ day }}
           </div>
         </div>
 
-        <div class="grid grid-cols-7">
+        <div class="grid grid-cols-7" role="grid">
           <template v-for="(d, dIdx) in m.days" :key="dIdx">
-            <div v-if="!d.isCurrentMonth && !showOutsideDays" class="h-9 w-9" />
+            <div v-if="!d.isCurrentMonth && !showOutsideDays" class="h-9 w-9" role="gridcell" />
             <button
               v-else
               type="button"
+              role="gridcell"
               :disabled="d.isDisabled"
               :aria-selected="d.isSelected || undefined"
+              :aria-current="d.isToday ? 'date' : undefined"
+              :aria-label="formatDate(d.date, 'PPPP', { locale })"
               :data-today="d.isToday || undefined"
               :data-outside="!d.isCurrentMonth || undefined"
               :class="

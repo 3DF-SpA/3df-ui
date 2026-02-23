@@ -27,7 +27,9 @@ export type ToastInput = Partial<Omit<Toast, 'id' | 'createdAt' | 'variant'>> & 
 };
 
 const toasts = ref<Toast[]>([]);
+const timers = new Map<string, ReturnType<typeof setTimeout>>();
 const defaultDuration = 4000;
+const MAX_TOASTS = 10;
 
 let counter = 0;
 function createId() {
@@ -36,25 +38,51 @@ function createId() {
 
 function addToast(input: ToastInput, variant: ToastVariant = 'default'): string {
   const id = createId();
+  const duration = input.duration ?? defaultDuration;
   const toast: Toast = {
     id,
     variant,
-    duration: input.duration ?? defaultDuration,
+    duration,
     dismissible: input.dismissible ?? true,
     createdAt: Date.now(),
     ...input,
   };
+
+  if (toasts.value.length >= MAX_TOASTS) {
+    const oldest = toasts.value[0];
+    if (oldest) dismiss(oldest.id);
+  }
+
   toasts.value.push(toast);
+
+  if (duration > 0) {
+    timers.set(
+      id,
+      setTimeout(() => dismiss(id), duration),
+    );
+  }
+
   return id;
 }
 
 function dismiss(id: string) {
-  const toast = toasts.value.find((t) => t.id === id);
-  if (toast?.onDismiss) toast.onDismiss();
-  toasts.value = toasts.value.filter((t) => t.id !== id);
+  const timer = timers.get(id);
+  if (timer) {
+    clearTimeout(timer);
+    timers.delete(id);
+  }
+
+  const idx = toasts.value.findIndex((t) => t.id === id);
+  if (idx >= 0) {
+    const toast = toasts.value[idx]!;
+    toast.onDismiss?.();
+    toasts.value.splice(idx, 1);
+  }
 }
 
 function dismissAll() {
+  for (const timer of timers.values()) clearTimeout(timer);
+  timers.clear();
   toasts.value.forEach((t) => t.onDismiss?.());
   toasts.value = [];
 }

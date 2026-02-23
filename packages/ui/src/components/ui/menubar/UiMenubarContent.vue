@@ -1,29 +1,22 @@
 <script setup lang="ts">
-import {
-  type CSSProperties,
-  computed,
-  inject,
-  nextTick,
-  onBeforeUnmount,
-  provide,
-  ref,
-  useAttrs,
-  watch,
-} from 'vue';
+import { computed, inject, provide, ref, useAttrs } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
+import { useFloatingLifecycle } from '../../../composables/use-floating-lifecycle';
+import {
+  type FloatingAlign,
+  type FloatingSide,
+  useFloatingPosition,
+} from '../../../composables/use-floating-position';
 import { cn } from '../../../lib/utils';
 import { MENUBAR_ITEM_CONTEXT_KEY, MENUBAR_MENU_KEY } from './menubar-types';
 
 defineOptions({ name: 'UiMenubarContent', inheritAttrs: false });
 
-type Align = 'start' | 'center' | 'end';
-type Side = 'top' | 'bottom';
-
 interface UiMenubarContentProps {
-  align?: Align;
-  side?: Side;
+  align?: FloatingAlign;
+  side?: FloatingSide;
   sideOffset?: number;
   viewportPadding?: number;
 }
@@ -51,105 +44,20 @@ provide(MENUBAR_ITEM_CONTEXT_KEY, {
   items: menu.items,
 });
 
-const positionStyle = ref<CSSProperties>({});
-let rafId: number | undefined;
+const contentRef = ref<HTMLElement>();
 
-function updatePosition() {
-  const trigger = menu.triggerRef.value;
-  const content = menu.contentRef.value;
-  if (!trigger || !content) return;
+const { positionStyle, updatePosition } = useFloatingPosition(menu.triggerRef, contentRef, () => ({
+  side: props.side,
+  align: props.align,
+  sideOffset: props.sideOffset,
+  viewportPadding: props.viewportPadding,
+}));
 
-  const triggerRect = trigger.getBoundingClientRect();
-  const contentRect = content.getBoundingClientRect();
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const pad = props.viewportPadding;
-  const gap = props.sideOffset;
-
-  let side = props.side;
-  if (side === 'bottom') {
-    const spaceBelow = vh - triggerRect.bottom - gap;
-    if (spaceBelow < contentRect.height && triggerRect.top - gap > spaceBelow) {
-      side = 'top';
-    }
-  } else {
-    const spaceAbove = triggerRect.top - gap;
-    if (spaceAbove < contentRect.height && vh - triggerRect.bottom - gap > spaceAbove) {
-      side = 'bottom';
-    }
-  }
-
-  let align = props.align;
-  if (align === 'start') {
-    if (triggerRect.left + contentRect.width > vw - pad) align = 'end';
-  } else if (align === 'end') {
-    if (triggerRect.right - contentRect.width < pad) align = 'start';
-  } else {
-    const cx = triggerRect.left + triggerRect.width / 2;
-    const hw = contentRect.width / 2;
-    if (cx - hw < pad) align = 'start';
-    else if (cx + hw > vw - pad) align = 'end';
-  }
-
-  let top: number;
-  if (side === 'bottom') {
-    top = triggerRect.bottom + gap;
-  } else {
-    top = triggerRect.top - contentRect.height - gap;
-  }
-
-  let left: number;
-  if (align === 'start') {
-    left = triggerRect.left;
-  } else if (align === 'end') {
-    left = triggerRect.right - contentRect.width;
-  } else {
-    left = triggerRect.left + (triggerRect.width - contentRect.width) / 2;
-  }
-
-  if (left < pad) left = pad;
-  else if (left + contentRect.width > vw - pad) left = vw - pad - contentRect.width;
-  if (top < pad) top = pad;
-  else if (top + contentRect.height > vh - pad) top = vh - pad - contentRect.height;
-
-  positionStyle.value = { position: 'fixed', top: `${top}px`, left: `${left}px` };
-}
-
-function onScroll(event: Event) {
-  const target = event.target as Node | null;
-  if (menu.contentRef.value && target && menu.contentRef.value.contains(target)) return;
-  menu.close();
-}
-
-function onResize() {
-  if (rafId) return;
-  rafId = requestAnimationFrame(() => {
-    updatePosition();
-    rafId = undefined;
-  });
-}
-
-watch(
-  () => menu.isOpen.value,
-  async (open) => {
-    if (open) {
-      await nextTick();
-      updatePosition();
-      await nextTick();
-      updatePosition();
-      window.addEventListener('scroll', onScroll, true);
-      window.addEventListener('resize', onResize);
-    } else {
-      window.removeEventListener('scroll', onScroll, true);
-      window.removeEventListener('resize', onResize);
-    }
-  },
-);
-
-onBeforeUnmount(() => {
-  window.removeEventListener('scroll', onScroll, true);
-  window.removeEventListener('resize', onResize);
-  if (rafId) cancelAnimationFrame(rafId);
+useFloatingLifecycle({
+  isOpen: menu.isOpen,
+  updatePosition,
+  contentRef,
+  closeFn: menu.close,
 });
 </script>
 
@@ -167,7 +75,9 @@ onBeforeUnmount(() => {
         v-if="menu.isOpen.value"
         :ref="
           (el: any) => {
-            menu.contentRef.value = el as HTMLElement;
+            const element = el as HTMLElement;
+            menu.contentRef.value = element;
+            contentRef = element;
           }
         "
         v-bind="restAttrs"

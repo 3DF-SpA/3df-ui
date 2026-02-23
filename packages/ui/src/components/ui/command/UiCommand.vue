@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, useAttrs } from 'vue';
+import { computed, provide, ref, useAttrs, useId } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -10,11 +10,16 @@ defineOptions({ name: 'UiCommand', inheritAttrs: false });
 
 interface UiCommandProps {
   filter?: (value: string, search: string) => boolean;
+  label?: string;
 }
 
 const props = withDefaults(defineProps<UiCommandProps>(), {
   filter: undefined,
+  label: 'Comando',
 });
+
+const uid = useId();
+const listId = `command-list-${uid}`;
 
 const emit = defineEmits<{
   select: [value: string];
@@ -35,7 +40,9 @@ const defaultFilter: CommandContext['filterFn'] = (value: string, searchTerm: st
   return value.toLowerCase().includes(searchTerm.toLowerCase());
 };
 
-const filterFn = props.filter ?? defaultFilter;
+function filterFn(value: string, searchTerm: string) {
+  return (props.filter ?? defaultFilter)(value, searchTerm);
+}
 
 function handleSelect(value: string) {
   emit('select', value);
@@ -100,10 +107,21 @@ function onKeydown(e: KeyboardEvent) {
   }
 }
 
+function itemValueToId(value: string) {
+  return `${listId}-item-${value.replace(/\s+/g, '-').toLowerCase()}`;
+}
+
+const activeDescendantId = computed(() => {
+  if (!selectedValue.value) return undefined;
+  return itemValueToId(selectedValue.value);
+});
+
 provide(COMMAND_KEY, {
   search,
   selectedValue,
   allValues,
+  listId,
+  activeDescendantId,
   filterFn,
   handleSelect,
   registerItem,
@@ -114,6 +132,8 @@ provide(COMMAND_KEY, {
 <template>
   <div
     v-bind="restAttrs"
+    role="dialog"
+    :aria-label="label"
     :class="
       cn(
         'border-ui border-border bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md',
