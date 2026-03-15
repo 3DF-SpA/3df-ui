@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -9,7 +9,7 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 import type { EmblaCarouselType } from 'embla-carousel';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
@@ -125,7 +125,7 @@ const loopCode = `<Carousel :opts="{ loop: true }">
     <DocHeader
       title="Carousel"
       description="Componente de carrusel basado en Embla Carousel para desplazar contenido horizontal o verticalmente."
-      import-code="import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df-spa/ui'"
+      import-code="import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

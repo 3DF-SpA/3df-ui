@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
@@ -91,7 +91,7 @@ const formProps: PropItem[] = [
     <DocHeader
       title="Formularios"
       description="Componentes de formulario: Input, Textarea, Select, Checkbox, Radio y Switch."
-      import-code="import { Input, Label, Select, SelectItem, Checkbox, Radio, Switch, Textarea, Button } from '@3df-spa/ui'"
+      import-code="import { Input, Label, Select, SelectItem, Checkbox, Radio, Switch, Textarea, Button } from '@3df/ui'"
     />
     <FormsDemoInputs />
     <FormsDemoTextareaSelect />

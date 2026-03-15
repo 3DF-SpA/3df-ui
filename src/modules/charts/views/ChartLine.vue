@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { type ChartConfig, type ChartDataRow, UiChartLine } from '@3df-spa/charts';
+﻿<script setup lang="ts">
+import { type ChartConfig, type ChartDataRow, UiChartLine } from '@3df/charts';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -168,7 +168,7 @@ const lineProps: PropItem[] = [
     <DocHeader
       title="Line Chart"
       description="Interpolación monotone, linear y step — relleno de área con gradiente, glow en hover, leyenda interactiva. 100% SVG, sin dependencias."
-      import-code="import { UiChartLine } from '@3df-spa/charts'"
+      import-code="import { UiChartLine } from '@3df/charts'"
     />
 
     <DocShowcase

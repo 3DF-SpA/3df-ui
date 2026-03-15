@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { type ChartConfig, type ChartDataRow, UiChartRadar } from '@3df-spa/charts';
+﻿<script setup lang="ts">
+import { type ChartConfig, type ChartDataRow, UiChartRadar } from '@3df/charts';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -165,7 +165,7 @@ const radarProps: PropItem[] = [
     <DocHeader
       title="Radar Chart"
       description="Comparación multidimensional — grillas de polígono y círculo, áreas rellenas, leyenda interactiva. 100% SVG, sin dependencias."
-      import-code="import { UiChartRadar } from '@3df-spa/charts'"
+      import-code="import { UiChartRadar } from '@3df/charts'"
     />
 
     <DocShowcase

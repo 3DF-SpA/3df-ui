@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Kbd } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Kbd } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -50,7 +50,7 @@ const inlineAndOverrideCode = `<p class="text-sm">
     <DocHeader
       title="Kbd"
       description="Componente para representar teclas del teclado. Ideal para mostrar atajos, combinaciones y teclas especiales en interfaces de usuario."
-      import-code="import { Kbd } from '@3df-spa/ui'"
+      import-code="import { Kbd } from '@3df/ui'"
     />
 
     <DocShowcase

@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Badge, Button } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Badge, Button } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -80,7 +80,7 @@ const contextCode = `<Button>
     <DocHeader
       title="Badge"
       description="Etiqueta compacta para mostrar estados, categorías o metadatos."
-      import-code="import { Badge } from '@3df-spa/ui'"
+      import-code="import { Badge } from '@3df/ui'"
     />
 
     <DocShowcase

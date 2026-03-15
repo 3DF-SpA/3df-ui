@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { uiRoutes, chartRoutes } from '@/router';
@@ -157,7 +157,7 @@ function isActive(fullPath: string) {
         <div class="flex-1" />
 
         <span class="text-xs text-muted-foreground">
-          @3df-spa/ui
+          @3df/ui
         </span>
       </header>
 

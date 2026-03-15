@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Label, Slider } from '@3df-spa/ui';
+import { Label, Slider } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -74,7 +74,7 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
     <DocHeader
       title="Slider"
       description="Control deslizante para seleccionar un valor numérico dentro de un rango."
-      import-code="import { Slider } from '@3df-spa/ui'"
+      import-code="import { Slider } from '@3df/ui'"
     />
 
     <DocShowcase title="Básico y con Label" :code="basicCode">

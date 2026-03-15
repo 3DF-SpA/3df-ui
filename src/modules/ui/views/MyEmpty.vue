@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Button, EmptyState } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Button, EmptyState } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -54,7 +54,7 @@ const heightCode = `<EmptyState
     <DocHeader
       title="EmptyState"
       description="Indicador visual para secciones sin contenido. Incluye icono, título, descripción y acciones opcionales."
-      import-code="import { EmptyState } from '@3df-spa/ui'"
+      import-code="import { EmptyState } from '@3df/ui'"
     />
 
     <DocShowcase title="Sin resultados" :code="searchCode">

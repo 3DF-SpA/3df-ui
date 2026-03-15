@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Button, Card } from '@3df-spa/ui';
+import { Button, Card } from '@3df/ui';
 
 const activeTab = ref(0);
 const tabs = [

@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@3df-spa/ui';
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -114,7 +114,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     <DocHeader
       title="Input OTP"
       description="Campo de entrada para códigos de verificación de un solo uso (OTP). Soporta agrupación, separadores y auto-submit."
-      import-code="import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df-spa/ui'"
+      import-code="import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui'"
     />
 
     <DocShowcase

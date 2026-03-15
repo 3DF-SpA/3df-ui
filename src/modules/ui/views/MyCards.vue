@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -15,7 +15,7 @@ import {
   Select,
   SelectItem,
   Switch,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -130,7 +130,7 @@ const anatomyCode = `import {
   CardDescription,
   CardContent,
   CardFooter,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -138,7 +138,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Card"
       description="Contenedor flexible para agrupar contenido relacionado con header, contenido y footer opcionales."
-      import-code="import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df-spa/ui'"
+      import-code="import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
@@ -275,7 +275,7 @@ const anatomyCode = `import {
         <Card class="cursor-pointer transition-shadow duration-200 hover:shadow-md">
           <CardHeader>
             <CardTitle>Documentación</CardTitle>
-            <CardDescription>Aprende a usar @3df-spa/ui con guías y ejemplos.</CardDescription>
+            <CardDescription>Aprende a usar @3df/ui con guías y ejemplos.</CardDescription>
           </CardHeader>
           <CardContent>
             <p class="text-muted-foreground text-sm">

@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { type HeroAction, HeroSimple } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { type HeroAction, HeroSimple } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -182,7 +182,7 @@ const heroProps: PropItem[] = [
     <DocHeader
       title="Hero Sections"
       description="Secciones hero para landing pages. 6 variantes: simple, split, imagen de fondo, gradiente, centrado con badge, y minimalista."
-      import-code="import { HeroSimple, HeroSplit, HeroImage, HeroCentered, HeroGradient, HeroMinimal } from '@3df-spa/ui'"
+      import-code="import { HeroSimple, HeroSplit, HeroImage, HeroCentered, HeroGradient, HeroMinimal } from '@3df/ui'"
     />
 
     <DocShowcase

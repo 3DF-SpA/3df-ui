@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const sizePage = ref(2);
 </script>

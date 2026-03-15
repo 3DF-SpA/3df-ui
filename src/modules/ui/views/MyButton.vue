@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Button } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Button } from '@3df/ui';
 
 import Icon from '@/components/MyIcons.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -64,7 +64,7 @@ const asLinkCode = `<Button as="a" href="https://vuejs.org" target="_blank">As a
     <DocHeader
       title="Button"
       description="Botón interactivo con múltiples variantes, tamaños y la posibilidad de renderizarse como otro elemento HTML."
-      import-code="import { Button } from '@3df-spa/ui'"
+      import-code="import { Button } from '@3df/ui'"
     />
 
     <DocShowcase

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -8,7 +8,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -90,7 +90,7 @@ const anatomyCode = `import {
   PaginationNext,
   PaginationPrevious,
   PaginationEllipsis,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -98,7 +98,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Pagination"
       description="Sistema de paginación con patrón compound component. Semántica <nav> y accesibilidad ARIA completa."
-      import-code="import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@3df-spa/ui'"
+      import-code="import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@3df/ui'"
     />
 
     <DocShowcase title="Básico" :code="basicCode">

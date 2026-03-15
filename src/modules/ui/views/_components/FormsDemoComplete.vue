@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   Button,
   Checkbox,
@@ -9,7 +9,7 @@ import {
   SelectItem,
   Switch,
   Textarea,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 </script>

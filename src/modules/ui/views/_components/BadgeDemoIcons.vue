@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Badge } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Badge } from '@3df/ui';
 </script>
 
 <template>

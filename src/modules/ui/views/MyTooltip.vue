@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -100,7 +100,7 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
     <DocHeader
       title="Tooltip"
       description="Elemento flotante que muestra información adicional al pasar el cursor o hacer focus sobre un elemento."
-      import-code="import { Tooltip, TooltipTrigger, TooltipContent } from '@3df-spa/ui'"
+      import-code="import { Tooltip, TooltipTrigger, TooltipContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

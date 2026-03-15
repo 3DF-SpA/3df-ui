@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -44,7 +44,7 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
     <DocHeader
       title="Alert"
       description="Muestra mensajes informativos, de éxito, error, advertencia o información al usuario."
-      import-code="import { Alert, AlertTitle, AlertDescription } from '@3df-spa/ui'"
+      import-code="import { Alert, AlertTitle, AlertDescription } from '@3df/ui'"
     />
 
     <AlertDemoVariants />

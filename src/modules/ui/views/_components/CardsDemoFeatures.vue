@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df/ui';
 </script>
 
 <template>

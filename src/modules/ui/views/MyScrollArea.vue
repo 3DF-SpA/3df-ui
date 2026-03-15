@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ScrollArea, Separator } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { ScrollArea, Separator } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -98,7 +98,7 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     <DocHeader
       title="ScrollArea"
       description="Área de scroll personalizada con scrollbars estilizados que reemplazan los nativos del navegador."
-      import-code="import { ScrollArea } from '@3df-spa/ui'"
+      import-code="import { ScrollArea } from '@3df/ui'"
     />
 
     <DocShowcase

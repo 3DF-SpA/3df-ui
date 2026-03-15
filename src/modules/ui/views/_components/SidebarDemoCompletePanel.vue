@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -19,7 +19,7 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
   SidebarSeparator,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import { type NavItem, icons, mainNav, secondaryNav } from './sidebar-demo-data';
 

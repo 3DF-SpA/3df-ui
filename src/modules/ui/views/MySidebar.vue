@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -150,7 +150,7 @@ const anatomyCode = `import {
   SidebarMenuSubItem,
   SidebarMenuSubButton,
   SidebarSeparator,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -158,7 +158,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Sidebar"
       description="Sistema de sidebar con múltiples variantes, colapso a iconos, posición izquierda/derecha, modo flotante e inset. Responsive con sheet en móvil."
-      import-code="import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarTrigger, SidebarRail, SidebarInset, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@3df-spa/ui'"
+      import-code="import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarTrigger, SidebarRail, SidebarInset, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@3df/ui'"
     />
 
     <SidebarDemoComplete />

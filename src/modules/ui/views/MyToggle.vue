@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Toggle } from '@3df-spa/ui';
+import { Toggle } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -67,7 +67,7 @@ const withTextCode = `<Toggle v-model:pressed="bold">
     <DocHeader
       title="Toggle"
       description="Botón de dos estados que alterna entre activado y desactivado."
-      import-code="import { Toggle } from '@3df-spa/ui'"
+      import-code="import { Toggle } from '@3df/ui'"
     />
 
     <DocShowcase

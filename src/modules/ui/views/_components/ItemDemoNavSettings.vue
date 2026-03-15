@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Badge, Item, ItemDescription, ItemLabel, Switch } from '@3df-spa/ui';
+import { Badge, Item, ItemDescription, ItemLabel, Switch } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

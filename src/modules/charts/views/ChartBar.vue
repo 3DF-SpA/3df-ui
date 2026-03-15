@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { type ChartConfig, type ChartDataRow, UiChartBar } from '@3df-spa/charts';
+﻿<script setup lang="ts">
+import { type ChartConfig, type ChartDataRow, UiChartBar } from '@3df/charts';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -151,7 +151,7 @@ const barProps: PropItem[] = [
     <DocHeader
       title="Bar Chart"
       description="Barras verticales, horizontales, agrupadas y apiladas — 100% SVG, sin dependencias. Gradiente, glow en hover, animación de entrada y leyenda interactiva."
-      import-code="import { UiChartBar } from '@3df-spa/charts'"
+      import-code="import { UiChartBar } from '@3df/charts'"
     />
 
     <DocShowcase

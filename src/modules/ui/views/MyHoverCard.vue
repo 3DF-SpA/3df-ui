@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -92,7 +92,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
     <DocHeader
       title="Hover Card"
       description="Tarjeta flotante que aparece al pasar el cursor sobre un elemento, ideal para vistas previas."
-      import-code="import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui'"
+      import-code="import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

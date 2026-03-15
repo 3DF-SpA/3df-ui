@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -12,7 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   Button,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -111,7 +111,7 @@ const anatomyCode = `<AlertDialog>
     <DocHeader
       title="Alert Dialog"
       description="Dialog modal de confirmación que requiere una respuesta del usuario antes de continuar."
-      import-code="import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@3df-spa/ui'"
+      import-code="import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

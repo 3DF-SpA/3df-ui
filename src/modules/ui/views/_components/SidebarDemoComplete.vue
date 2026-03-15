@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@3df-spa/ui';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@3df/ui';
 
 import SidebarDemoCompletePanel from './SidebarDemoCompletePanel.vue';
 

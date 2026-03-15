@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue';
 
-import { cn } from '@3df-spa/ui';
+import { cn } from '@3df/ui';
 import type { ClassValue } from 'clsx';
 
 import { useHighlighter } from '@/composables/useHighlighter';

@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { type GaugeSegment, UiChartGauge } from '@3df-spa/charts';
+﻿<script setup lang="ts">
+import { type GaugeSegment, UiChartGauge } from '@3df/charts';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -138,7 +138,7 @@ const gaugeProps: PropItem[] = [
     <DocHeader
       title="Gauge / Radial"
       description="Gauges radiales con aguja, segmentos de color y 3 formas de arco — semicírculo, arco 270° y círculo completo. 100% SVG, sin dependencias."
-      import-code="import { UiChartGauge, type GaugeSegment } from '@3df-spa/charts'"
+      import-code="import { UiChartGauge, type GaugeSegment } from '@3df/charts'"
     />
 
     <DocShowcase

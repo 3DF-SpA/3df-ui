@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import DocHeader from '@/components/docs/DocHeader.vue';
 
 import SkeletonDemoBasic from './_components/SkeletonDemoBasic.vue';
@@ -10,7 +10,7 @@ import SkeletonDemoPatterns from './_components/SkeletonDemoPatterns.vue';
     <DocHeader
       title="Skeleton"
       description="Marcador de posición animado que indica contenido en proceso de carga."
-      import-code="import { Skeleton } from '@3df-spa/ui'"
+      import-code="import { Skeleton } from '@3df/ui'"
     />
     <SkeletonDemoBasic />
     <SkeletonDemoPatterns />

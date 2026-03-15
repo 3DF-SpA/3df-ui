@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Calendar, DatePicker, type DateRange, DateRangePicker } from '@3df-spa/ui';
+import { Calendar, DatePicker, type DateRange, DateRangePicker } from '@3df/ui';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -93,7 +93,7 @@ const calendarCode = `<Calendar v-model="calendarDate" />
     <DocHeader
       title="DatePicker"
       description="Selector de fecha con calendario desplegable. Soporta fechas simples, rangos y localización."
-      import-code="import { DatePicker, DateRangePicker, Calendar, type DateRange } from '@3df-spa/ui'"
+      import-code="import { DatePicker, DateRangePicker, Calendar, type DateRange } from '@3df/ui'"
     />
 
     <DocShowcase

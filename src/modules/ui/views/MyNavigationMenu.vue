@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -44,7 +44,7 @@ const anatomyCode = `import {
   NavigationMenuContent,
   NavigationMenuLink,
   NavigationMenuViewport,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -52,7 +52,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Navigation Menu"
       description="Menú de navegación horizontal con paneles desplegables, transiciones suaves y soporte de teclado."
-      import-code="import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df-spa/ui'"
+      import-code="import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df/ui'"
     />
 
     <NavMenuDemoComplete />

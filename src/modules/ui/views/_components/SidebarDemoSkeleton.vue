@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   Sidebar,
   SidebarContent,
@@ -14,7 +14,7 @@ import {
   SidebarProvider,
   SidebarSeparator,
   SidebarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 </script>
 
 <template>

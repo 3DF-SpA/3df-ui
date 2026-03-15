@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Button, Toaster, toast } from '@3df-spa/ui';
+import { Button, Toaster, toast } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -105,7 +105,7 @@ const hoverCode = `toast.info({
     <DocHeader
       title="Sonner — Toast Notifications"
       description="Sistema de notificaciones tipo toast con variantes, acciones y posicionamiento configurable."
-      import-code="import { Toaster, toast } from '@3df-spa/ui'"
+      import-code="import { Toaster, toast } from '@3df/ui'"
     />
 
     <Toaster :position="position" />

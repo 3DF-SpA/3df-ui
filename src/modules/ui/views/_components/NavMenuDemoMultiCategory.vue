@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,7 +7,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const frameworks = [
   { title: 'Next.js', description: 'Framework React fullstack con SSR y App Router.' },

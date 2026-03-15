@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Checkbox, Label } from '@3df-spa/ui';
+import { Checkbox, Label } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

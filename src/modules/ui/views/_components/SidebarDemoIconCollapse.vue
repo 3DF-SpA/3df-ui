@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -16,7 +16,7 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const activeItem = ref('Dashboard');
 

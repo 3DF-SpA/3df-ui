@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
@@ -28,7 +28,7 @@ const progressProps: PropItem[] = [
     <DocHeader
       title="Progress"
       description="Barra de progreso que muestra el avance de una operación."
-      import-code="import { Progress } from '@3df-spa/ui'"
+      import-code="import { Progress } from '@3df/ui'"
     />
     <ProgressDemoBasic />
     <ProgressDemoAdvanced />

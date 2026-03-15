@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -116,7 +116,7 @@ const disabledCode = `<Accordion type="single" collapsible>
     <DocHeader
       title="Accordion"
       description="Paneles colapsables que permiten mostrar y ocultar secciones de contenido."
-      import-code="import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df-spa/ui'"
+      import-code="import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

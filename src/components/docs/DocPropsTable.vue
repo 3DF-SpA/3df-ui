@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, useAttrs } from 'vue';
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, cn } from '@3df-spa/ui';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, cn } from '@3df/ui';
 import type { ClassValue } from 'clsx';
 
 defineOptions({ name: 'DocPropsTable', inheritAttrs: false });

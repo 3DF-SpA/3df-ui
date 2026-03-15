@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Item, ItemDescription, ItemLabel } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Item, ItemDescription, ItemLabel } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -52,7 +52,7 @@ const anatomyCode = `import {
   Item,
   ItemLabel,
   ItemDescription,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -60,7 +60,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Item"
       description="Elemento de lista genérico para navegación, settings y menús. Soporta slots de inicio/fin, variantes, tamaños y estado disabled."
-      import-code="import { Item, ItemLabel, ItemDescription } from '@3df-spa/ui'"
+      import-code="import { Item, ItemLabel, ItemDescription } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

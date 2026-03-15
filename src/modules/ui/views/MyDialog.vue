@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
 import {
@@ -13,7 +13,7 @@ import {
   DialogTrigger,
   Input,
   Label,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -128,7 +128,7 @@ const anatomyCode = `<Dialog>
     <DocHeader
       title="Dialog"
       description="Ventana modal que interrumpe al usuario para confirmar una acción o mostrar información importante."
-      import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df-spa/ui'"
+      import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Banner, Button } from '@3df-spa/ui';
+import { Banner, Button } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -94,7 +94,7 @@ const fixedCode = `<Banner
     <DocHeader
       title="Banner"
       description="Barra informativa para anuncios, alertas y notificaciones globales. Soporta variantes, posicionamiento fijo/sticky y acciones."
-      import-code="import { Banner } from '@3df-spa/ui'"
+      import-code="import { Banner } from '@3df/ui'"
     />
 
     <DocShowcase title="Default" :code="defaultCode">

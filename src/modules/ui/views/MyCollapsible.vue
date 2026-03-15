@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df-spa/ui';
+import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -74,7 +74,7 @@ const controlledCode = `const isOpen = ref(false)
     <DocHeader
       title="Collapsible"
       description="Componente interactivo que permite expandir y contraer secciones de contenido."
-      import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui'"
+      import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

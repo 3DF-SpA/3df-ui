@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Banner } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Banner } from '@3df/ui';
 </script>
 
 <template>

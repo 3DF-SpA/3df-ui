@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { computed, ref } from 'vue';
 
 import {
@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import { formatCurrency, invoices, statusBadge } from './table-demo-data';
 

@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Button, Card, CardContent, CardFooter, CardHeader, Skeleton } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Button, Card, CardContent, CardFooter, CardHeader, Skeleton } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

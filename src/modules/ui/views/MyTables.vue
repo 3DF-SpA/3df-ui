@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   Badge,
   Table,
@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -93,7 +93,7 @@ const anatomyCode = `import {
   TableCell,
   TableCaption,
   TableEmpty,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -101,7 +101,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Table"
       description="Tabla de datos con soporte para header, body, footer, caption y estado vacío."
-      import-code="import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df-spa/ui'"
+      import-code="import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

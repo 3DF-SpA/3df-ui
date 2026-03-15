@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { type ChartConfig, type ChartDataRow, UiChartPie } from '@3df-spa/charts';
+﻿<script setup lang="ts">
+import { type ChartConfig, type ChartDataRow, UiChartPie } from '@3df/charts';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -169,7 +169,7 @@ const pieProps: PropItem[] = [
     <DocHeader
       title="Pie Chart"
       description="Pie y donut — hover para expandir slices, click en leyenda para alternar. 100% SVG, sin dependencias."
-      import-code="import { UiChartPie } from '@3df-spa/charts'"
+      import-code="import { UiChartPie } from '@3df/charts'"
     />
 
     <DocShowcase

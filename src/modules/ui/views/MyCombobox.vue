@@ -1,7 +1,7 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { ref } from 'vue';
 
-import { Combobox } from '@3df-spa/ui';
+import { Combobox } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -99,7 +99,7 @@ const multipleCode = `<div class="flex flex-wrap gap-4">
     <DocHeader
       title="Combobox"
       description="Selector con búsqueda integrada para filtrar opciones en listas largas."
-      import-code="import { Combobox } from '@3df-spa/ui'"
+      import-code="import { Combobox } from '@3df/ui'"
     />
 
     <DocShowcase title="Básico" :code="basicCode">

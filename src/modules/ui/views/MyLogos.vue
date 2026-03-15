@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { LogoCloud, type LogoItem, LogoMarquee } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { LogoCloud, type LogoItem, LogoMarquee } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -213,7 +213,7 @@ const cloudColorCode = `<LogoCloud
     <DocHeader
       title="LogoCloud & LogoMarquee"
       description="Muestra logos de marcas, sponsors y partners. Grid estático o marquee infinito con efecto hover-to-slow."
-      import-code="import { LogoCloud, LogoMarquee, type LogoItem } from '@3df-spa/ui'"
+      import-code="import { LogoCloud, LogoMarquee, type LogoItem } from '@3df/ui'"
     />
 
     <DocShowcase title="Logo Cloud — Grid con Grayscale" :code="cloudCode">

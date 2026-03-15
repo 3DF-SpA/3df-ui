@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Separator } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Separator } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -81,7 +81,7 @@ const contextCode = `<div class="border-border bg-card max-w-sm rounded-lg borde
     <DocHeader
       title="Separator"
       description="Línea divisoria visual para separar secciones de contenido horizontal o verticalmente."
-      import-code="import { Separator } from '@3df-spa/ui'"
+      import-code="import { Separator } from '@3df/ui'"
     />
 
     <DocShowcase title="Horizontal (default)" :code="horizontalCode">
