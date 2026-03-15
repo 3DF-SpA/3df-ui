@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,7 +7,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const components = [
   {
@@ -39,7 +39,7 @@ const components = [
 
 <template>
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">2. Centrado (estilo shadcn)</h2>
+    <h2 class="text-xl font-semibold">2. Centrado</h2>
     <p class="text-muted-foreground text-sm">
       Menú centrado con borde redondeado. Ideal como navegación principal de una aplicación.
     </p>
@@ -54,7 +54,7 @@ const components = [
                 <div
                   class="from-muted/50 to-muted row-span-3 flex flex-col justify-end rounded-md bg-gradient-to-b p-6"
                 >
-                  <div class="mb-2 text-lg font-medium">shadcn/ui</div>
+                  <div class="mb-2 text-lg font-medium">@3df/ui</div>
                   <p class="text-muted-foreground text-sm leading-tight">
                     Beautifully designed components built with Tailwind CSS.
                   </p>
@@ -62,7 +62,7 @@ const components = [
                 <NavigationMenuLink href="#">
                   <div class="text-sm leading-none font-medium">Introduction</div>
                   <p class="text-muted-foreground mt-1 text-sm leading-snug">
-                    Re-usable components built with Radix UI and Tailwind CSS.
+                    Re-usable components built with Vue 3 and Tailwind CSS v4.
                   </p>
                 </NavigationMenuLink>
                 <NavigationMenuLink href="#">

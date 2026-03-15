@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import {
   Badge,
   Button,
@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 interface PlanFeature {
   text: string;
@@ -79,7 +79,7 @@ const plans: Plan[] = [
       <Card
         v-for="plan in plans"
         :key="plan.name"
-        :class="plan.popular ? 'border-primary relative border-2' : ''"
+        :class="plan.popular ? 'border-primary relative border-ui' : ''"
       >
         <div v-if="plan.popular" class="absolute -top-3 left-1/2 -translate-x-1/2">
           <Badge>Más popular</Badge>

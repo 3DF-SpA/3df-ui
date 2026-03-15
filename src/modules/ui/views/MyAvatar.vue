@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui';
+﻿<script setup lang="ts">
+import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -22,12 +22,12 @@ const anatomyCode = `<Avatar>
 </Avatar>`;
 
 const profileCode = `<Avatar>
-  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="@adiaz" />
+  <AvatarFallback>AD</AvatarFallback>
 </Avatar>
 <div>
-  <p class="text-sm leading-none font-medium">shadcn</p>
-  <p class="text-muted-foreground text-sm">m@example.com</p>
+  <p class="text-sm leading-none font-medium">adiaz</p>
+  <p class="text-muted-foreground text-sm">alex@3df.dev</p>
 </div>`;
 
 const sizesCode = `<Avatar size="xs">...</Avatar>
@@ -52,7 +52,7 @@ const fallbackCode = `<!-- Imagen rota -->
 </Avatar>`;
 
 const teamCode = `<div class="flex -space-x-3">
-  <Avatar v-for="member in members" :key="member.name" class="border-background border-2">
+  <Avatar v-for="member in members" :key="member.name" class="border-background border-ui">
     <AvatarImage v-if="member.src" :src="member.src" :alt="member.name" />
     <AvatarFallback>{{ member.initials }}</AvatarFallback>
   </Avatar>
@@ -82,7 +82,7 @@ const teamMembers = [
     <DocHeader
       title="Avatar"
       description="Imagen de perfil circular con fallback de iniciales o ícono cuando la imagen no está disponible."
-      import-code="import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui'"
+      import-code="import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui'"
     />
 
     <DocPropsTable :props="avatarProps" />
@@ -99,12 +99,12 @@ const teamMembers = [
     >
       <div class="flex items-center gap-4">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="@adiaz" />
+          <AvatarFallback>AD</AvatarFallback>
         </Avatar>
         <div>
-          <p class="text-sm leading-none font-medium">shadcn</p>
-          <p class="text-muted-foreground text-sm">m@example.com</p>
+          <p class="text-sm leading-none font-medium">adiaz</p>
+          <p class="text-muted-foreground text-sm">alex@3df.dev</p>
         </div>
       </div>
     </DocShowcase>
@@ -117,36 +117,36 @@ const teamMembers = [
       <div class="flex items-end gap-4">
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xs">
-            <AvatarImage src="https://github.com/shadcn.png" alt="xs" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="xs" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xs</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="sm">
-            <AvatarImage src="https://github.com/shadcn.png" alt="sm" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="sm" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">sm</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="md">
-            <AvatarImage src="https://github.com/shadcn.png" alt="md" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="md" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">md</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="lg">
-            <AvatarImage src="https://github.com/shadcn.png" alt="lg" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="lg" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">lg</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xl">
-            <AvatarImage src="https://github.com/shadcn.png" alt="xl" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="xl" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xl</span>
         </div>
@@ -179,7 +179,7 @@ const teamMembers = [
       :code="teamCode"
     >
       <div class="flex -space-x-3">
-        <Avatar v-for="member in teamMembers" :key="member.name" class="border-background border-2">
+        <Avatar v-for="member in teamMembers" :key="member.name" class="border-background border-ui">
           <AvatarImage v-if="member.src" :src="member.src" :alt="member.name" />
           <AvatarFallback>{{ member.initials }}</AvatarFallback>
         </Avatar>
