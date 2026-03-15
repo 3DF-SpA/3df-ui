@@ -1,3 +1,6 @@
+<script lang="ts">
+let _tooltipCounter = 0;
+</script>
 <script setup lang="ts">
 import { onBeforeUnmount, provide, ref } from 'vue';
 
@@ -19,7 +22,7 @@ const props = withDefaults(
 const isOpen = ref(false);
 const triggerRef = ref<HTMLElement>();
 const contentRef = ref<HTMLElement>();
-const tooltipId = `tooltip-${Math.random().toString(36).slice(2, 9)}`;
+const tooltipId = `tooltip-${++_tooltipCounter}`;
 
 let openTimer: ReturnType<typeof setTimeout> | undefined;
 let closeTimer: ReturnType<typeof setTimeout> | undefined;

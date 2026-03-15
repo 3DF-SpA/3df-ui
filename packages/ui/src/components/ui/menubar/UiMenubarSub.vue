@@ -1,3 +1,6 @@
+<script lang="ts">
+let _menubarSubCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, inject, provide, ref } from 'vue';
 
@@ -7,7 +10,7 @@ defineOptions({ name: 'UiMenubarSub' });
 
 const menu = inject(MENUBAR_MENU_KEY)!;
 
-const subId = `menubar-sub-${Math.random().toString(36).slice(2, 9)}`;
+const subId = `menubar-sub-${++_menubarSubCounter}`;
 const triggerRef = ref<HTMLElement>();
 const contentRef = ref<HTMLElement>();
 

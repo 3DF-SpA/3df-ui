@@ -1,3 +1,6 @@
+<script lang="ts">
+let _drawerCounter = 0;
+</script>
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 
@@ -20,7 +23,7 @@ const emit = defineEmits<{
   'update:open': [value: boolean];
 }>();
 
-const uid = Math.random().toString(36).slice(2, 9);
+const uid = String(++_drawerCounter);
 const titleId = `drawer-title-${uid}`;
 const descriptionId = `drawer-desc-${uid}`;
 

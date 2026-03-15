@@ -1,3 +1,6 @@
+<script lang="ts">
+let _accordionItemCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, inject, provide, useAttrs } from 'vue';
 
@@ -24,7 +27,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const uid = Math.random().toString(36).slice(2, 9);
+const uid = String(++_accordionItemCounter);
 const triggerId = `accordion-trigger-${uid}`;
 const contentId = `accordion-content-${uid}`;
 

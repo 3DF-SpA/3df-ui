@@ -1,3 +1,6 @@
+<script lang="ts">
+let _popoverCounter = 0;
+</script>
 <script setup lang="ts">
 import { onBeforeUnmount, provide, ref, watch } from 'vue';
 
@@ -33,7 +36,7 @@ watch(isOpen, (v) => {
 });
 const triggerRef = ref<HTMLElement>();
 const contentRef = ref<HTMLElement>();
-const triggerId = `popover-trigger-${Math.random().toString(36).slice(2, 9)}`;
+const triggerId = `popover-trigger-${++_popoverCounter}`;
 
 function openPopover() {
   isOpen.value = true;

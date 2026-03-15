@@ -1,3 +1,6 @@
+<script lang="ts">
+let _contextMenuSubCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, inject, provide, ref } from 'vue';
 
@@ -7,7 +10,7 @@ defineOptions({ name: 'UiContextMenuSub' });
 
 const menu = inject(CONTEXT_MENU_KEY)!;
 
-const subId = `ctx-sub-${Math.random().toString(36).slice(2, 9)}`;
+const subId = `ctx-sub-${++_contextMenuSubCounter}`;
 const triggerRef = ref<HTMLElement>();
 const contentRef = ref<HTMLElement>();
 

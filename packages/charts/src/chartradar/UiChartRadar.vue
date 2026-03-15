@@ -1,3 +1,7 @@
+<script lang="ts">
+let _radarCounter = 0;
+</script>
+
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref, useAttrs, watch } from 'vue';
 
@@ -71,8 +75,7 @@ const attrs = useAttrs();
 
 const rootRef = ref<HTMLDivElement>();
 
-let _radarUid = 0;
-const chartUid = `radar-${++_radarUid}-${Math.random().toString(36).slice(2, 6)}`;
+const chartUid = `radar-${++_radarCounter}`;
 const filtGlow = computed(() => `${chartUid}-glow`);
 
 const resolvedColors = ref<Record<string, string>>({});

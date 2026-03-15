@@ -1,3 +1,7 @@
+<script lang="ts">
+let _gaugeCounter = 0;
+</script>
+
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, useAttrs } from 'vue';
 
@@ -58,8 +62,7 @@ const attrs = useAttrs();
 
 /* ── Unique IDs for SVG filters (multiple gauges on one page) */
 
-let _uidCounter = 0;
-const uid = `gauge-${++_uidCounter}-${Math.random().toString(36).slice(2, 6)}`;
+const uid = `gauge-${++_gaugeCounter}`;
 const filtShadow = computed(() => `${uid}-shadow`);
 const filtGlow = computed(() => `${uid}-glow`);
 

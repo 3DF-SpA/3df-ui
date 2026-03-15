@@ -1,3 +1,6 @@
+<script lang="ts">
+let _dropdownItemCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, inject, onBeforeUnmount, onMounted, useAttrs } from 'vue';
 
@@ -32,7 +35,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const itemId = `dropdown-item-${Math.random().toString(36).slice(2, 9)}`;
+const itemId = `dropdown-item-${++_dropdownItemCounter}`;
 
 const itemIndex = computed(() => menu.items.value.findIndex((i) => i.id === itemId));
 const isFocused = computed(() => menu.focusedIndex.value === itemIndex.value);

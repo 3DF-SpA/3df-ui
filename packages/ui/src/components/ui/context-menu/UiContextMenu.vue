@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, provide, ref, watch } from 'vue';
 
 import {
   CONTEXT_MENU_ITEM_KEY,
@@ -203,8 +203,6 @@ watch(isOpen, (open) => {
     document.removeEventListener('keydown', onKeydown, true);
   }
 });
-
-onMounted(() => {});
 
 onBeforeUnmount(() => {
   document.removeEventListener('pointerdown', onPointerDown, true);
