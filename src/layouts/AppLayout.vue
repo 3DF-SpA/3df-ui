@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { uiRoutes, chartRoutes } from '@/router';
+import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
 
 const route = useRoute();
 const sidebarOpen = ref(true);
@@ -155,6 +156,8 @@ function isActive(fullPath: string) {
         </span>
 
         <div class="flex-1" />
+
+        <ThemeSwitcher />
 
         <span class="text-xs text-muted-foreground">
           @3df/ui
