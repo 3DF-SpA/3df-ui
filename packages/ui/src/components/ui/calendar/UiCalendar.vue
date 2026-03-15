@@ -188,7 +188,7 @@ function onDayClick(date: Date) {
                   'inline-flex h-9 w-9 items-center justify-center rounded-md p-0 text-sm font-normal',
                   'transition-colors duration-100',
                   'hover:bg-accent hover:text-accent-foreground',
-                  'focus-visible:ring-ring focus-visible:ring-1 focus-visible:outline-none',
+                  'focus-visible:outline-2 focus-visible:outline-ring',
                   d.isToday && !d.isSelected && 'bg-accent text-accent-foreground font-medium',
                   d.isSelected &&
                     !d.isInRange &&

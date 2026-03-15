@@ -1,4 +1,4 @@
-<script setup lang="ts">
+﻿<script setup lang="ts">
 import { type Component, computed, useAttrs } from 'vue';
 import type { ClassValue } from 'clsx';
 import { cn } from '../../../lib/utils';
@@ -36,7 +36,7 @@ const classes = computed(() =>
     'flex w-full min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 outline-none ring-sidebar-ring transition-colors',
     'text-sidebar-foreground/70',
     'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-    'focus-visible:ring-2',
+    'focus-visible:outline-2 focus-visible:outline-ring',
     'disabled:pointer-events-none disabled:opacity-50',
     '[&>svg]:size-3.5 [&>svg]:shrink-0',
     '[&>span]:truncate',

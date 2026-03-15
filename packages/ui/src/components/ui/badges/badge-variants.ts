@@ -6,7 +6,7 @@ export const badgeVariants = cva(
     'rounded-md text-xs font-semibold',
     'transition-colors duration-200',
     'select-none',
-    'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
+    'focus-visible:outline-2 focus-visible:outline-ring',
     '[&>svg]:size-3 [&>svg]:pointer-events-none',
   ].join(' '),
   {
