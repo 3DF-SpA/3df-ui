@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useTheme, THEMES } from '@/composables/useTheme';
+import { useTheme, THEMES, type ThemeDefinition } from '@/composables/useTheme';
 
 const { currentTheme, setTheme } = useTheme();
 const isOpen = ref(false);
 
-const activeTheme = computed(() => THEMES.find((t) => t.id === currentTheme.value) ?? THEMES[0]);
+const activeTheme = computed<ThemeDefinition>(() => THEMES.find((t) => t.id === currentTheme.value) ?? THEMES[0]!);
 
 const families = computed(() => {
   const map = new Map<string, typeof THEMES>();
