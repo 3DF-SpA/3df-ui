@@ -23,6 +23,7 @@ const uiRoutes = [
   { path: 'item', name: 'Item', component: () => import('@/modules/ui/views/MyItem.vue'), meta: { group: 'Layout' } },
   { path: 'empty', name: 'Empty', component: () => import('@/modules/ui/views/MyEmpty.vue'), meta: { group: 'Layout' } },
   { path: 'banner', name: 'Banner', component: () => import('@/modules/ui/views/MyBanners.vue'), meta: { group: 'Layout' } },
+  { path: 'tabs', name: 'Tabs', component: () => import('@/modules/ui/views/MyTabs.vue'), meta: { group: 'Layout' } },
 
   { path: 'input', name: 'Input / Textarea', component: () => import('@/modules/ui/views/MyForms.vue'), meta: { group: 'Formularios' } },
   { path: 'combobox', name: 'Combobox', component: () => import('@/modules/ui/views/MyCombobox.vue'), meta: { group: 'Formularios' } },

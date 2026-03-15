@@ -1,4 +1,4 @@
-lockfileVersion: '9.0'
+﻿lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
@@ -8,10 +8,10 @@ importers:
 
   .:
     dependencies:
-      '@3df-spa/charts':
+      '@3df/charts':
         specifier: workspace:*
         version: link:packages/charts
-      '@3df-spa/ui':
+      '@3df/ui':
         specifier: workspace:*
         version: link:packages/ui
       vue:

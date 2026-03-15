@@ -1,5 +1,5 @@
 {
-  "name": "@3df-spa/charts",
+  "name": "@3df/charts",
   "version": "0.1.7",
   "type": "module",
   "sideEffects": false,
@@ -8,9 +8,13 @@
     "url": "https://github.com/3df-space/3df-ui.git",
     "directory": "packages/charts"
   },
+  "description": "Pure SVG chart components for Vue 3 — zero dependencies, TypeScript, responsive",
+  "keywords": ["vue", "vue3", "charts", "svg", "visualization", "typescript"],
+  "homepage": "https://github.com/3df-space/3df-ui#readme",
+  "bugs": { "url": "https://github.com/3df-space/3df-ui/issues" },
   "publishConfig": {
-    "access": "restricted",
-    "registry": "https://npm.pkg.github.com"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   },
   "exports": {
     ".": {
@@ -23,7 +27,9 @@
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "vite build",
@@ -38,5 +44,5 @@
     "vite-plugin-dts": "^4.5.4",
     "vue": "^3.5.27"
   },
-  "license": "ISC"
+  "license": "MIT"
 }

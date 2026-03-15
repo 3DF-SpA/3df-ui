@@ -1,4 +1,4 @@
-# @3df-spa/ui
+﻿# @3df/ui
 
 ## 1.5.2
 
@@ -90,7 +90,7 @@
 
 ### Minor Changes
 
-- feat: generar styles.css pre-compilado con todas las utilidades Tailwind — consumidores solo necesitan `@import '@3df-spa/ui/styles.css'`
+- feat: generar styles.css pre-compilado con todas las utilidades Tailwind — consumidores solo necesitan `@import '@3df/ui/styles.css'`
 
 ## 0.1.2
 

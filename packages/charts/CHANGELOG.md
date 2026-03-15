@@ -1,4 +1,4 @@
-# @3df-spa/charts
+﻿# @3df/charts
 
 ## 0.1.7
 
