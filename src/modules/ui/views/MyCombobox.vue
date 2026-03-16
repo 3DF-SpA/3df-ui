@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 import { Combobox } from '@3df/ui';
 
@@ -7,6 +7,9 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc } = useDocPage('combobox');
 
 const selectedFramework = ref('');
 const selectedLanguage = ref('ts');
@@ -30,37 +33,37 @@ const languages = [
   { value: 'java', label: 'Java', disabled: true },
 ];
 
-const comboboxProps: PropItem[] = [
+const comboboxProps = computed<PropItem[]>(() => [
   {
     name: 'modelValue',
     type: 'string',
     default: "''",
-    description: 'Valor seleccionado (v-model)',
+    description: propDesc('modelValue'),
   },
   {
     name: 'options',
     type: 'ComboboxOption[]',
-    description: 'Array de opciones { value, label, disabled? }',
+    description: propDesc('options'),
   },
   {
     name: 'placeholder',
     type: 'string',
     default: "'Select option...'",
-    description: 'Texto del botón cuando no hay selección',
+    description: propDesc('placeholder'),
   },
   {
     name: 'searchPlaceholder',
     type: 'string',
     default: "'Search...'",
-    description: 'Placeholder del campo de búsqueda',
+    description: propDesc('searchPlaceholder'),
   },
   {
     name: 'emptyMessage',
     type: 'string',
     default: "'No results found.'",
-    description: 'Mensaje cuando no hay resultados',
+    description: propDesc('emptyMessage'),
   },
-];
+]);
 
 const basicCode = `<Combobox
   v-model="selectedFramework"
@@ -98,7 +101,7 @@ const multipleCode = `<div class="flex flex-wrap gap-4">
   <div class="flex flex-col gap-12">
     <DocHeader
       title="Combobox"
-      description="Selector con búsqueda integrada para filtrar opciones en listas largas."
+      :description="description"
       import-code="import { Combobox } from '@3df/ui'"
     />
 

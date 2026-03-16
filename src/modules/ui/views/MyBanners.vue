@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 import { Banner, Button } from '@3df/ui';
 
@@ -7,9 +7,12 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import BannersDemoFeatureCards from './_components/BannersDemoFeatureCards.vue';
 import BannersDemoVariants from './_components/BannersDemoVariants.vue';
+
+const { description, propDesc, showcaseTitle } = useDocPage('banners');
 
 const showDismissible = ref(true);
 const showFixed = ref(false);
@@ -18,32 +21,32 @@ function resetDismissible() {
   showDismissible.value = true;
 }
 
-const bannerProps: PropItem[] = [
+const bannerProps = computed<PropItem[]>(() => [
   {
     name: 'variant',
     type: "'default' | 'info' | 'success' | 'warning' | 'destructive' | 'muted'",
     default: "'default'",
-    description: 'Estilo visual del banner.',
+    description: propDesc('variant'),
   },
   {
     name: 'position',
     type: "'static' | 'sticky' | 'fixed'",
     default: "'static'",
-    description: 'Posicionamiento CSS del banner.',
+    description: propDesc('position'),
   },
   {
     name: 'align',
     type: "'start' | 'center' | 'between'",
     default: "'center'",
-    description: 'Alineación horizontal del contenido.',
+    description: propDesc('align'),
   },
   {
     name: 'dismissible',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra un botón de cierre que emite el evento dismiss.',
+    description: propDesc('dismissible'),
   },
-];
+]);
 
 const defaultCode = `<Banner>
   Nueva versión disponible — Actualiza ahora.
@@ -93,11 +96,11 @@ const fixedCode = `<Banner
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Banner"
-      description="Barra informativa para anuncios, alertas y notificaciones globales. Soporta variantes, posicionamiento fijo/sticky y acciones."
+      :description="description"
       import-code="import { Banner } from '@3df/ui'"
     />
 
-    <DocShowcase title="Default" :code="defaultCode">
+    <DocShowcase :title="showcaseTitle('default')" :code="defaultCode">
       <Banner>
         Nueva versión disponible — Actualiza ahora para acceder a las últimas funcionalidades.
       </Banner>
@@ -105,7 +108,7 @@ const fixedCode = `<Banner
 
     <BannersDemoVariants />
 
-    <DocShowcase title="Con acción" :code="actionCode">
+    <DocShowcase :title="showcaseTitle('withAction')" :code="actionCode">
       <Banner variant="info" align="between">
         <template #icon>
           <svg
@@ -133,7 +136,7 @@ const fixedCode = `<Banner
       </Banner>
     </DocShowcase>
 
-    <DocShowcase title="Dismissible" :code="dismissibleCode">
+    <DocShowcase :title="showcaseTitle('dismissible')" :code="dismissibleCode">
       <Banner
         v-if="showDismissible"
         variant="success"

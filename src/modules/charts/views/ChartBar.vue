@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { type ChartConfig, type ChartDataRow, UiChartBar } from '@3df/charts';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('chartBar');
 
 const monthlyData: ChartDataRow[] = [
   { month: 'Jan', revenue: 4200, expenses: 2800 },
@@ -82,81 +88,81 @@ const formatterCode = `<UiChartBar
   :radius="10"
 />`;
 
-const barProps: PropItem[] = [
+const barProps = computed<PropItem[]>(() => [
   {
     name: 'data',
     type: 'ChartDataRow[]',
     default: '-',
-    description: 'Array de objetos con los datos del gráfico.',
+    description: propDesc('data'),
   },
   {
     name: 'config',
     type: 'ChartConfig',
     default: '-',
-    description: 'Configuración de series: label y color por cada key.',
+    description: propDesc('config'),
   },
   {
     name: 'index',
     type: 'string',
     default: '-',
-    description: 'Key del eje de categorías (ej. "month").',
+    description: propDesc('index'),
   },
   {
     name: 'orientation',
     type: "'vertical' | 'horizontal'",
     default: "'vertical'",
-    description: 'Orientación de las barras.',
+    description: propDesc('orientation'),
   },
   {
     name: 'mode',
     type: "'grouped' | 'stacked'",
     default: "'grouped'",
-    description: 'Modo de agrupación de barras.',
+    description: propDesc('mode'),
   },
   {
     name: 'showLegend',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra la leyenda interactiva.',
+    description: propDesc('showLegend'),
   },
   {
     name: 'showGrid',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra la grilla de puntos de fondo.',
+    description: propDesc('showGrid'),
   },
   {
     name: 'animate',
     type: 'boolean',
     default: 'true',
-    description: 'Habilita la animación de entrada.',
+    description: propDesc('animate'),
   },
   {
     name: 'valueFormatter',
     type: '(v: number) => string',
     default: '-',
-    description: 'Formateador personalizado para valores en el tooltip.',
+    description: propDesc('valueFormatter'),
   },
   {
     name: 'radius',
     type: 'number',
     default: '4',
-    description: 'Radio de las esquinas redondeadas de las barras.',
+    description: propDesc('radius'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Bar Chart"
-      description="Barras verticales, horizontales, agrupadas y apiladas — 100% SVG, sin dependencias. Gradiente, glow en hover, animación de entrada y leyenda interactiva."
+      :description="description"
       import-code="import { UiChartBar } from '@3df/charts'"
     />
 
     <DocShowcase
-      title="Vertical agrupado"
-      description="Hover para efecto glow y crosshair. Click en la leyenda para ocultar/mostrar series."
+      :title="showcaseTitle('vertical')"
+      :description="showcaseDesc('vertical')"
       :code="verticalCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -165,8 +171,8 @@ const barProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Horizontal"
-      description="Layout horizontal con leyenda oculta."
+      :title="showcaseTitle('horizontal')"
+      :description="showcaseDesc('horizontal')"
       :code="horizontalCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -181,8 +187,8 @@ const barProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Apilado (stacked)"
-      description="Las barras se apilan y recalculan al ocultar series en la leyenda."
+      :title="showcaseTitle('stacked')"
+      :description="showcaseDesc('stacked')"
       :code="stackedCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -191,8 +197,8 @@ const barProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Leyenda interactiva"
-      description="Tres series con pills de leyenda. Click para alternar visibilidad."
+      :title="showcaseTitle('interactive')"
+      :description="showcaseDesc('interactive')"
       :code="legendCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -201,8 +207,8 @@ const barProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Formatter personalizado — Sin animación"
-      description="Sin animación de entrada, sin grilla de puntos, con formato de dólar."
+      :title="showcaseTitle('customFormatter')"
+      :description="showcaseDesc('customFormatter')"
       :code="formatterCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">

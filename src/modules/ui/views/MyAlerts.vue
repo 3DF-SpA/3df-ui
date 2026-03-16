@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -9,14 +11,18 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import AlertDemoRichContent from './_components/AlertDemoRichContent.vue';
 import AlertDemoVariants from './_components/AlertDemoVariants.vue';
 
-const alertProps: PropItem[] = [
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('alerts');
+
+const alertProps = computed<PropItem[]>(() => [
   {
     name: 'variant',
     type: "'default' | 'destructive' | 'success' | 'warning' | 'info'",
     default: "'default'",
-    description: 'Estilo visual del alert.',
+    description: propDesc('variant'),
   },
-];
+]);
 
 const _variantCode = `<Alert variant="success">
   <svg class="size-4">...</svg>
@@ -43,13 +49,13 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Alert"
-      description="Muestra mensajes informativos, de éxito, error, advertencia o información al usuario."
+      :description="description"
       import-code="import { Alert, AlertTitle, AlertDescription } from '@3df/ui'"
     />
 
     <AlertDemoVariants />
 
-    <DocShowcase title="Sin icono" :code="noIconCode">
+    <DocShowcase :title="showcaseTitle('noIcon')" :code="noIconCode">
       <div class="flex flex-col gap-3">
         <Alert>
           <AlertTitle>Nota simple</AlertTitle>
@@ -62,7 +68,7 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Solo descripción" :code="descOnlyCode">
+    <DocShowcase :title="showcaseTitle('descOnly')" :code="descOnlyCode">
       <div class="flex flex-col gap-3">
         <Alert variant="info">
           <AlertDescription>
@@ -79,7 +85,7 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
 
     <AlertDemoRichContent />
 
-    <DocShowcase title="Con clases personalizadas" :code="customClassCode">
+    <DocShowcase :title="showcaseTitle('customClasses')" :code="customClassCode">
       <Alert class="max-w-md border-dashed">
         <AlertTitle>Ancho limitado</AlertTitle>
         <AlertDescription>

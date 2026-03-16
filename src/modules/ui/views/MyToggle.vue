@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 import { Toggle } from '@3df/ui';
 
@@ -7,40 +7,43 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import ToggleDemoGroupScoped from './_components/ToggleDemoGroupScoped.vue';
 import ToggleDemoOutlineSizesDisabled from './_components/ToggleDemoOutlineSizesDisabled.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('toggle');
 
 const bold = ref(false);
 const italic = ref(false);
 const underline = ref(false);
 
-const toggleProps: PropItem[] = [
+const toggleProps = computed<PropItem[]>(() => [
   {
     name: 'variant',
     type: "'default' | 'outline'",
     default: "'default'",
-    description: 'Estilo visual del toggle',
+    description: propDesc('variant'),
   },
   {
     name: 'size',
     type: "'default' | 'sm' | 'lg'",
     default: "'default'",
-    description: 'Tamaño del toggle',
+    description: propDesc('size'),
   },
   {
     name: 'pressed',
     type: 'boolean',
     default: 'false',
-    description: 'Estado presionado (v-model:pressed)',
+    description: propDesc('pressed'),
   },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita la interacción',
+    description: propDesc('disabled'),
   },
-];
+]);
 
 const basicCode = `<Toggle v-model:pressed="bold">
   <BoldIcon class="size-4" />
@@ -66,13 +69,13 @@ const withTextCode = `<Toggle v-model:pressed="bold">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Toggle"
-      description="Botón de dos estados que alterna entre activado y desactivado."
+      :description="description"
       import-code="import { Toggle } from '@3df/ui'"
     />
 
     <DocShowcase
-      title="Básico"
-      description="Toggles con íconos y estado reactivo."
+      :title="showcaseTitle('basic')"
+      :description="showcaseDesc('basic')"
       :code="basicCode"
     >
       <div class="flex flex-col gap-4">
@@ -133,8 +136,8 @@ const withTextCode = `<Toggle v-model:pressed="bold">
     </DocShowcase>
 
     <DocShowcase
-      title="Con texto"
-      description="Toggles que combinan ícono y etiqueta de texto."
+      :title="showcaseTitle('withText')"
+      :description="showcaseDesc('withText')"
       :code="withTextCode"
     >
       <div class="flex gap-3">

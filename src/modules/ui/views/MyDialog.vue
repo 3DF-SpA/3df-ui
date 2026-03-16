@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import {
   Button,
@@ -20,41 +20,44 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const controlledOpen = ref(false);
 
-const dialogProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('dialog');
+
+const dialogProps = computed<PropItem[]>(() => [
   {
     name: 'Dialog: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Dialog: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del dialog.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'DialogContent: showClose',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra el botón de cierre (×).',
+    description: propDesc('showClose'),
   },
   {
     name: 'DialogContent: closeOnOverlay',
     type: 'boolean',
     default: 'true',
-    description: 'Permite cerrar haciendo clic en el overlay.',
+    description: propDesc('closeOnOverlay'),
   },
   {
     name: 'DialogContent: closeLabel',
     type: 'string',
     default: "'Cerrar'",
-    description: 'Etiqueta accesible del botón de cierre.',
+    description: propDesc('closeLabel'),
   },
-];
+]);
 
 const basicCode = `<Dialog>
   <DialogTrigger>
@@ -127,7 +130,7 @@ const anatomyCode = `<Dialog>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Dialog"
-      description="Ventana modal que interrumpe al usuario para confirmar una acción o mostrar información importante."
+      :description="description"
       import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df/ui'"
     />
 
@@ -136,7 +139,7 @@ const anatomyCode = `<Dialog>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="outline">Editar perfil</Button>
@@ -168,7 +171,7 @@ const anatomyCode = `<Dialog>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Confirmación destructiva" :code="confirmCode">
+    <DocShowcase :title="showcaseTitle('destructiveConfirm')" :code="confirmCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="destructive">Eliminar cuenta</Button>
@@ -191,7 +194,7 @@ const anatomyCode = `<Dialog>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Controlado (v-model)" :code="controlledCode">
+    <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <p class="text-muted-foreground text-xs">
         Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
       </p>
@@ -218,7 +221,7 @@ const anatomyCode = `<Dialog>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Sin cierre por overlay" :code="noOverlayCode">
+    <DocShowcase :title="showcaseTitle('noOverlay')" :code="noOverlayCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="outline">Abrir (sin cierre overlay)</Button>
@@ -239,7 +242,7 @@ const anatomyCode = `<Dialog>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Sin botón de cierre" :code="noCloseCode">
+    <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Dialog>
         <DialogTrigger>
           <Button variant="outline">Términos y condiciones</Button>

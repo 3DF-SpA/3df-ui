@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { type GaugeSegment, UiChartGauge } from '@3df/charts';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('gaugeRadial');
 
 const speedSegments: GaugeSegment[] = [
   { max: 60, color: 'var(--color-chart-3)', label: 'Safe' },
@@ -55,95 +61,95 @@ const healthCode = `<UiChartGauge
   :value-formatter="(v) => \`\${v}/100\`"
 />`;
 
-const gaugeProps: PropItem[] = [
+const gaugeProps = computed<PropItem[]>(() => [
   {
     name: 'value',
     type: 'number',
     default: '-',
-    description: 'Valor actual del gauge (requerido).',
+    description: propDesc('value'),
   },
-  { name: 'min', type: 'number', default: '0', description: 'Valor mínimo de la escala.' },
-  { name: 'max', type: 'number', default: '100', description: 'Valor máximo de la escala.' },
+  { name: 'min', type: 'number', default: '0', description: propDesc('min') },
+  { name: 'max', type: 'number', default: '100', description: propDesc('max') },
   {
     name: 'variant',
     type: "'semicircle' | 'arc' | 'full'",
     default: "'semicircle'",
-    description: 'Forma del arco: 180°, 270° o 360°.',
+    description: propDesc('variant'),
   },
   {
     name: 'segments',
     type: 'GaugeSegment[]',
     default: '-',
-    description: 'Segmentos de color con max, color y label.',
+    description: propDesc('segments'),
   },
   {
     name: 'showSegmentLabels',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra las etiquetas de cada segmento.',
+    description: propDesc('showSegmentLabels'),
   },
   {
     name: 'showNeedle',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra la aguja indicadora.',
+    description: propDesc('showNeedle'),
   },
   {
     name: 'color',
     type: 'string',
     default: '-',
-    description: 'Color del arco de valor (sin segmentos).',
+    description: propDesc('color'),
   },
   {
     name: 'label',
     type: 'string',
     default: '-',
-    description: 'Etiqueta descriptiva debajo del valor.',
+    description: propDesc('label'),
   },
   {
     name: 'valueFormatter',
     type: '(v: number) => string',
     default: '-',
-    description: 'Formateador personalizado para el valor mostrado.',
+    description: propDesc('valueFormatter'),
   },
   {
     name: 'animate',
     type: 'boolean',
     default: 'true',
-    description: 'Habilita la animación de entrada.',
+    description: propDesc('animate'),
   },
   {
     name: 'GaugeSegment: max',
     type: 'number',
     default: '-',
-    description: 'Valor máximo del segmento.',
+    description: propDesc('segmentMax'),
   },
   {
     name: 'GaugeSegment: color',
     type: 'string',
     default: '-',
-    description: 'Color del segmento.',
+    description: propDesc('segmentColor'),
   },
   {
     name: 'GaugeSegment: label',
     type: 'string',
     default: '-',
-    description: 'Etiqueta del segmento (visible con showSegmentLabels).',
+    description: propDesc('segmentLabel'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Gauge / Radial"
-      description="Gauges radiales con aguja, segmentos de color y 3 formas de arco — semicírculo, arco 270° y círculo completo. 100% SVG, sin dependencias."
+      :description="description"
       import-code="import { UiChartGauge, type GaugeSegment } from '@3df/charts'"
     />
 
     <DocShowcase
-      title="Semicírculo — Default"
-      description="Gauge clásico de medio círculo con aguja. Arco de un solo color."
+      :title="showcaseTitle('semicircle')"
+      :description="showcaseDesc('semicircle')"
       :code="semicircleCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -152,8 +158,8 @@ const gaugeProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Arco 270° — Zonas de velocidad"
-      description="Cuatro segmentos de color con etiquetas. La aguja apunta a la velocidad actual."
+      :title="showcaseTitle('arc270')"
+      :description="showcaseDesc('arc270')"
       :code="arcCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -170,8 +176,8 @@ const gaugeProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Círculo completo — Temperatura"
-      description="Gauge 360° con color personalizado. Sin aguja."
+      :title="showcaseTitle('fullCircle')"
+      :description="showcaseDesc('fullCircle')"
       :code="fullCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -189,8 +195,8 @@ const gaugeProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Health score — Sin animación"
-      description="Semicírculo con zonas de salud. Estático (sin animación de entrada)."
+      :title="showcaseTitle('healthScore')"
+      :description="showcaseDesc('healthScore')"
       :code="healthCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">

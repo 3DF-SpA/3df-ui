@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { type ChartConfig, type ChartDataRow, UiChartRadar } from '@3df/charts';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('radarChart');
 
 const skillsData: ChartDataRow[] = [
   { skill: 'Frontend', alice: 90, bob: 70 },
@@ -90,87 +96,87 @@ const multiCode = `<UiChartRadar
   :levels="4"
 />`;
 
-const radarProps: PropItem[] = [
+const radarProps = computed<PropItem[]>(() => [
   {
     name: 'data',
     type: 'ChartDataRow[]',
     default: '-',
-    description: 'Array de objetos con los datos del gráfico.',
+    description: propDesc('data'),
   },
   {
     name: 'config',
     type: 'ChartConfig',
     default: '-',
-    description: 'Configuración de series: label y color por cada key.',
+    description: propDesc('config'),
   },
   {
     name: 'index',
     type: 'string',
     default: '-',
-    description: 'Key del eje dimensional (ej. "skill").',
+    description: propDesc('index'),
   },
   {
     name: 'variant',
     type: "'polygon' | 'circle'",
     default: "'polygon'",
-    description: 'Forma de la grilla: polígono o círculos concéntricos.',
+    description: propDesc('variant'),
   },
   {
     name: 'showFill',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra el relleno del área de cada serie.',
+    description: propDesc('showFill'),
   },
   {
     name: 'fillOpacity',
     type: 'number',
     default: '0.15',
-    description: 'Opacidad del relleno (0-1).',
+    description: propDesc('fillOpacity'),
   },
   {
     name: 'strokeWidth',
     type: 'number',
     default: '2',
-    description: 'Grosor de la línea en píxeles.',
+    description: propDesc('strokeWidth'),
   },
   {
     name: 'dotRadius',
     type: 'number',
     default: '3',
-    description: 'Radio de los puntos en cada vértice.',
+    description: propDesc('dotRadius'),
   },
   {
     name: 'levels',
     type: 'number',
     default: '5',
-    description: 'Cantidad de niveles concéntricos en la grilla.',
+    description: propDesc('levels'),
   },
   {
     name: 'showLegend',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra la leyenda interactiva.',
+    description: propDesc('showLegend'),
   },
   {
     name: 'animate',
     type: 'boolean',
     default: 'true',
-    description: 'Habilita la animación de entrada.',
+    description: propDesc('animate'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Radar Chart"
-      description="Comparación multidimensional — grillas de polígono y círculo, áreas rellenas, leyenda interactiva. 100% SVG, sin dependencias."
+      :description="description"
       import-code="import { UiChartRadar } from '@3df/charts'"
     />
 
     <DocShowcase
-      title="Grilla de polígono"
-      description="Compara dos perfiles en múltiples dimensiones. Hover en puntos para ver valores."
+      :title="showcaseTitle('polygon')"
+      :description="showcaseDesc('polygon')"
       :code="polygonCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -179,8 +185,8 @@ const radarProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Grilla circular"
-      description="Grilla circular con 7 ejes y mayor opacidad de relleno."
+      :title="showcaseTitle('circle')"
+      :description="showcaseDesc('circle')"
       :code="circleCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -195,8 +201,8 @@ const radarProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Serie única — Sin relleno"
-      description="Solo contorno con puntos más grandes y línea más gruesa."
+      :title="showcaseTitle('noFill')"
+      :description="showcaseDesc('noFill')"
       :code="noFillCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -213,8 +219,8 @@ const radarProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Multi-serie — Tres equipos"
-      description="Variante circular con 3 series superpuestas. Sin animación."
+      :title="showcaseTitle('multiSeries')"
+      :description="showcaseDesc('multiSeries')"
       :code="multiCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">

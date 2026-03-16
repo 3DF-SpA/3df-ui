@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import {
   Card,
@@ -21,6 +23,8 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 const api = ref<EmblaCarouselType>();
 const currentSlide = ref(0);
 
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('carousel');
+
 function onSetApi(embla: EmblaCarouselType) {
   api.value = embla;
   embla.on('select', () => {
@@ -28,32 +32,32 @@ function onSetApi(embla: EmblaCarouselType) {
   });
 }
 
-const carouselProps: PropItem[] = [
+const carouselProps = computed<PropItem[]>(() => [
   {
     name: 'Carousel: orientation',
     type: "'horizontal' | 'vertical'",
     default: "'horizontal'",
-    description: 'Dirección del desplazamiento.',
+    description: propDesc('orientation'),
   },
   {
     name: 'Carousel: opts',
     type: 'Partial<EmblaOptionsType>',
     default: '-',
-    description: 'Opciones de Embla Carousel (align, loop, etc.).',
+    description: propDesc('opts'),
   },
   {
     name: 'Carousel: plugins',
     type: 'EmblaPluginType[]',
     default: '-',
-    description: 'Plugins de Embla (autoplay, etc.).',
+    description: propDesc('plugins'),
   },
   {
     name: 'Carousel: @set-api',
     type: '(api: EmblaCarouselType) => void',
     default: '-',
-    description: 'Evento emitido con la instancia de Embla para control programático.',
+    description: propDesc('setApi'),
   },
-];
+]);
 
 const anatomyCode = `<Carousel>
   <CarouselContent>
@@ -124,7 +128,7 @@ const loopCode = `<Carousel :opts="{ loop: true }">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Carousel"
-      description="Componente de carrusel basado en Embla Carousel para desplazar contenido horizontal o verticalmente."
+      :description="description"
       import-code="import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df/ui'"
     />
 
@@ -134,8 +138,8 @@ const loopCode = `<Carousel :opts="{ loop: true }">
     </section>
 
     <DocShowcase
-      title="Básico con API"
-      description="Usa @set-api para obtener la instancia de Embla y rastrear el slide actual."
+      :title="showcaseTitle('basicApi')"
+      :description="showcaseDesc('basicApi')"
       :code="basicCode"
     >
       <div class="mx-auto w-full max-w-xs">
@@ -161,8 +165,8 @@ const loopCode = `<Carousel :opts="{ loop: true }">
     </DocShowcase>
 
     <DocShowcase
-      title="Múltiples slides visibles"
-      description="Usa basis-1/3 en CarouselItem para mostrar varios slides a la vez."
+      :title="showcaseTitle('multiSlide')"
+      :description="showcaseDesc('multiSlide')"
       :code="multiSlideCode"
     >
       <div class="mx-auto w-full max-w-lg">
@@ -185,8 +189,8 @@ const loopCode = `<Carousel :opts="{ loop: true }">
     </DocShowcase>
 
     <DocShowcase
-      title="Orientación vertical"
-      description="Desplazamiento vertical con orientation='vertical'."
+      :title="showcaseTitle('vertical')"
+      :description="showcaseDesc('vertical')"
       :code="verticalCode"
     >
       <div class="mx-auto w-full max-w-xs">
@@ -209,8 +213,8 @@ const loopCode = `<Carousel :opts="{ loop: true }">
     </DocShowcase>
 
     <DocShowcase
-      title="Con loop infinito"
-      description="Habilita loop: true en opts para ciclo continuo."
+      :title="showcaseTitle('loop')"
+      :description="showcaseDesc('loop')"
       :code="loopCode"
     >
       <div class="mx-auto w-full max-w-xs">

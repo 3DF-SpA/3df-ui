@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -14,21 +16,24 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
-const breadcrumbLinkProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('breadcrumb');
+
+const breadcrumbLinkProps = computed<PropItem[]>(() => [
   {
     name: 'href',
     type: 'string',
     default: 'undefined',
-    description: 'URL del enlace. Si se proporciona y as no está definido, renderiza como <a>.',
+    description: propDesc('href'),
   },
   {
     name: 'as',
     type: 'string',
     default: 'undefined',
-    description: 'Elemento HTML o componente a renderizar. Toma precedencia sobre href.',
+    description: propDesc('as'),
   },
-];
+]);
 
 const basicCode = `<Breadcrumb>
   <BreadcrumbList>
@@ -93,11 +98,11 @@ const anatomyCode = `import {
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Breadcrumb"
-      description="Navegación jerárquica que muestra la ubicación actual del usuario dentro de la estructura del sitio."
+      :description="description"
       import-code="import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df/ui'"
     />
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -115,7 +120,7 @@ const anatomyCode = `import {
       </Breadcrumb>
     </DocShowcase>
 
-    <DocShowcase title="Con ellipsis (rutas largas)" :code="ellipsisCode">
+    <DocShowcase :title="showcaseTitle('ellipsis')" :code="ellipsisCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -137,7 +142,7 @@ const anatomyCode = `import {
       </Breadcrumb>
     </DocShowcase>
 
-    <DocShowcase title="Separador personalizado" :code="customSeparatorCode">
+    <DocShowcase :title="showcaseTitle('customSeparator')" :code="customSeparatorCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -159,7 +164,7 @@ const anatomyCode = `import {
       </Breadcrumb>
     </DocShowcase>
 
-    <DocShowcase title="Con icono" :code="iconCode">
+    <DocShowcase :title="showcaseTitle('withIcon')" :code="iconCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

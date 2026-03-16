@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 import { Label, Slider } from '@3df/ui';
 
@@ -7,6 +7,9 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('slider');
 
 const basic = ref(50);
 const volume = ref(75);
@@ -16,23 +19,23 @@ const disabled = ref(40);
 const stepped = ref(25);
 const custom = ref(60);
 
-const sliderProps: PropItem[] = [
+const sliderProps = computed<PropItem[]>(() => [
   {
     name: 'modelValue',
     type: 'number',
     default: '0',
-    description: 'Valor actual del slider (v-model)',
+    description: propDesc('modelValue'),
   },
-  { name: 'min', type: 'number', default: '0', description: 'Valor mínimo' },
-  { name: 'max', type: 'number', default: '100', description: 'Valor máximo' },
-  { name: 'step', type: 'number', default: '1', description: 'Incremento entre valores' },
+  { name: 'min', type: 'number', default: '0', description: propDesc('min') },
+  { name: 'max', type: 'number', default: '100', description: propDesc('max') },
+  { name: 'step', type: 'number', default: '1', description: propDesc('step') },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita la interacción',
+    description: propDesc('disabled'),
   },
-];
+]);
 
 const basicCode = `<Slider v-model="basic" />
 <p class="text-muted-foreground text-sm">Valor: {{ basic }}</p>
@@ -73,11 +76,11 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Slider"
-      description="Control deslizante para seleccionar un valor numérico dentro de un rango."
+      :description="description"
       import-code="import { Slider } from '@3df/ui'"
     />
 
-    <DocShowcase title="Básico y con Label" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <div class="flex max-w-sm flex-col gap-6">
         <div class="flex flex-col gap-3">
           <Slider v-model="basic" />
@@ -102,7 +105,7 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con step" description="Incremento de 25 entre valores" :code="stepCode">
+    <DocShowcase :title="showcaseTitle('withStep')" :description="showcaseDesc('withStep')" :code="stepCode">
       <div class="flex max-w-sm flex-col gap-3">
         <div class="flex items-center justify-between">
           <Label>Progreso</Label>
@@ -120,8 +123,8 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
     </DocShowcase>
 
     <DocShowcase
-      title="Rango personalizado"
-      description="min=0, max=1000, step=50"
+      :title="showcaseTitle('customRange')"
+      :description="showcaseDesc('customRange')"
       :code="rangeCode"
     >
       <div class="flex max-w-sm flex-col gap-3">
@@ -138,7 +141,7 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Deshabilitado y estilos personalizados" :code="disabledCode">
+    <DocShowcase :title="showcaseTitle('disabledCustom')" :code="disabledCode">
       <div class="flex max-w-sm flex-col gap-6">
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
@@ -158,7 +161,7 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
       </div>
     </DocShowcase>
 
-    <DocShowcase title="En contexto — Ecualizador" :code="eqCode">
+    <DocShowcase :title="showcaseTitle('eq')" :code="eqCode">
       <div
         class="bg-card border-border flex max-w-md flex-col gap-5 rounded-xl border p-6 shadow-sm"
       >

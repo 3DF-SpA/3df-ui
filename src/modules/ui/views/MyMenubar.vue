@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import {
   Menubar,
@@ -23,6 +23,7 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import MenubarDemoIde from './_components/MenubarDemoIde.vue';
 
@@ -34,68 +35,70 @@ function onAction(action: string) {
   alert(`Acción: ${action}`);
 }
 
-const menubarProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('menubar');
+
+const menubarProps = computed<PropItem[]>(() => [
   {
     name: 'MenubarMenu: value',
     type: 'string',
     default: 'auto-generado',
-    description: 'Identificador único del menú dentro del menubar.',
+    description: propDesc('menuValue'),
   },
   {
     name: 'MenubarContent: align',
     type: "'start' | 'center' | 'end'",
     default: "'start'",
-    description: 'Alineación horizontal respecto al trigger.',
+    description: propDesc('contentAlign'),
   },
   {
     name: 'MenubarContent: side',
     type: "'top' | 'bottom' | 'left' | 'right'",
     default: "'bottom'",
-    description: 'Lado en que se abre el dropdown.',
+    description: propDesc('contentSide'),
   },
   {
     name: 'MenubarContent: sideOffset',
     type: 'number',
     default: '4',
-    description: 'Distancia en px desde el trigger.',
+    description: propDesc('contentSideOffset'),
   },
   {
     name: 'MenubarItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el item (gris, no interactivo).',
+    description: propDesc('itemDisabled'),
   },
   {
     name: 'MenubarItem: inset',
     type: 'boolean',
     default: 'false',
-    description: 'Agrega padding izquierdo para alineación con checkboxes/radios.',
+    description: propDesc('itemInset'),
   },
   {
     name: 'MenubarCheckboxItem: checked',
     type: 'boolean',
     default: 'false',
-    description: 'Estado de check. Soporta v-model:checked.',
+    description: propDesc('checkboxChecked'),
   },
   {
     name: 'MenubarRadioGroup: modelValue',
     type: 'string',
     default: "''",
-    description: 'Valor seleccionado del grupo. Soporta v-model.',
+    description: propDesc('radioGroupModelValue'),
   },
   {
     name: 'MenubarRadioItem: value',
     type: 'string',
     default: '(requerido)',
-    description: 'Valor que representa este item en el grupo.',
+    description: propDesc('radioItemValue'),
   },
   {
     name: 'MenubarSubTrigger: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el sub-trigger.',
+    description: propDesc('subTriggerDisabled'),
   },
-];
+]);
 
 const completeCode = `<Menubar>
   <MenubarMenu value="file">
@@ -137,11 +140,11 @@ const anatomyCode = `import {
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Menubar"
-      description="Barra de menú con submenús anidados, checkboxes, radios y atajos de teclado. Patrón compound component con soporte completo de teclado."
+      :description="description"
       import-code="import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubTrigger, MenubarSubContent, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarLabel } from '@3df/ui'"
     />
 
-    <DocShowcase title="Completo" :code="completeCode">
+    <DocShowcase :title="showcaseTitle('complete')" :code="completeCode">
       <Menubar>
         <MenubarMenu value="file">
           <MenubarTrigger>File</MenubarTrigger>

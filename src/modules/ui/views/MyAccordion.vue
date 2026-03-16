@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
@@ -33,50 +37,52 @@ const faqItems = [
   },
 ];
 
-const accordionProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('accordion');
+
+const accordionProps = computed<PropItem[]>(() => [
   {
     name: 'Accordion: type',
     type: "'single' | 'multiple'",
     default: "'single'",
-    description: 'Modo de apertura: un solo item o varios simultáneamente.',
+    description: propDesc('type'),
   },
   {
     name: 'Accordion: modelValue',
     type: 'string | string[]',
     default: '-',
-    description: 'Valor(es) del item abierto (v-model).',
+    description: propDesc('modelValue'),
   },
   {
     name: 'Accordion: defaultValue',
     type: 'string | string[]',
     default: '-',
-    description: 'Valor(es) inicialmente abiertos (no controlado).',
+    description: propDesc('defaultValue'),
   },
   {
     name: 'Accordion: collapsible',
     type: 'boolean',
     default: 'false',
-    description: 'Permite cerrar todos los items en modo single.',
+    description: propDesc('collapsible'),
   },
   {
     name: 'Accordion: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita todo el acordeón.',
+    description: propDesc('disabled'),
   },
   {
     name: 'AccordionItem: value',
     type: 'string',
     default: '-',
-    description: 'Identificador único del item (requerido).',
+    description: propDesc('value'),
   },
   {
     name: 'AccordionItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita un item específico.',
+    description: propDesc('itemDisabled'),
   },
-];
+]);
 
 const anatomyCode = `<Accordion>
   <AccordionItem>
@@ -115,7 +121,7 @@ const disabledCode = `<Accordion type="single" collapsible>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Accordion"
-      description="Paneles colapsables que permiten mostrar y ocultar secciones de contenido."
+      :description="description"
       import-code="import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df/ui'"
     />
 
@@ -125,8 +131,8 @@ const disabledCode = `<Accordion type="single" collapsible>
     </section>
 
     <DocShowcase
-      title="Single (un item a la vez)"
-      description="Con collapsible habilitado y valor por defecto."
+      :title="showcaseTitle('single')"
+      :description="showcaseDesc('single')"
       :code="singleCode"
     >
       <div class="mx-auto w-full max-w-lg">
@@ -140,8 +146,8 @@ const disabledCode = `<Accordion type="single" collapsible>
     </DocShowcase>
 
     <DocShowcase
-      title="Multiple (varios abiertos)"
-      description="Permite abrir varios items simultáneamente."
+      :title="showcaseTitle('multiple')"
+      :description="showcaseDesc('multiple')"
       :code="multipleCode"
     >
       <div class="mx-auto w-full max-w-lg">
@@ -155,8 +161,8 @@ const disabledCode = `<Accordion type="single" collapsible>
     </DocShowcase>
 
     <DocShowcase
-      title="Con item deshabilitado"
-      description="Items individuales pueden deshabilitarse con la prop disabled."
+      :title="showcaseTitle('disabledItem')"
+      :description="showcaseDesc('disabledItem')"
       :code="disabledCode"
     >
       <div class="mx-auto w-full max-w-lg">

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
@@ -9,44 +11,48 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import HoverCardDemoRich from './_components/HoverCardDemoRich.vue';
 
-const hoverCardProps: PropItem[] = [
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('hoverCard');
+
+const hoverCardProps = computed<PropItem[]>(() => [
   {
     name: 'HoverCard: openDelay',
     type: 'number',
     default: '700',
-    description: 'Milisegundos antes de abrir al hacer hover.',
+    description: propDesc('openDelay'),
   },
   {
     name: 'HoverCard: closeDelay',
     type: 'number',
     default: '300',
-    description: 'Milisegundos antes de cerrar al quitar hover.',
+    description: propDesc('closeDelay'),
   },
   {
     name: 'HoverCardContent: align',
     type: "'start' | 'center' | 'end'",
     default: "'center'",
-    description: 'Alineación horizontal respecto al trigger.',
+    description: propDesc('align'),
   },
   {
     name: 'HoverCardContent: side',
     type: "'top' | 'bottom'",
     default: "'bottom'",
-    description: 'Lado preferido para mostrar el card.',
+    description: propDesc('side'),
   },
   {
     name: 'HoverCardContent: sideOffset',
     type: 'number',
     default: '8',
-    description: 'Distancia en px entre trigger y card.',
+    description: propDesc('sideOffset'),
   },
   {
     name: 'HoverCardContent: viewportPadding',
     type: 'number',
     default: '8',
-    description: 'Padding mínimo respecto al viewport.',
+    description: propDesc('viewportPadding'),
   },
-];
+]);
 
 const anatomyCode = `<HoverCard>
   <HoverCardTrigger />
@@ -91,7 +97,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Hover Card"
-      description="Tarjeta flotante que aparece al pasar el cursor sobre un elemento, ideal para vistas previas."
+      :description="description"
       import-code="import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui'"
     />
 
@@ -100,7 +106,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Perfil de usuario" :code="profileCode">
+    <DocShowcase :title="showcaseTitle('profile')" :code="profileCode">
       <p class="text-muted-foreground text-xs">
         Pasa el cursor sobre el enlace para ver la vista previa.
       </p>
@@ -151,7 +157,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
       </HoverCard>
     </DocShowcase>
 
-    <DocShowcase title="Alineación start" :code="alignStartCode">
+    <DocShowcase :title="showcaseTitle('alignStart')" :code="alignStartCode">
       <HoverCard>
         <HoverCardTrigger>
           <span
@@ -169,7 +175,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
       </HoverCard>
     </DocShowcase>
 
-    <DocShowcase title="Alineación end" :code="alignEndCode">
+    <DocShowcase :title="showcaseTitle('alignEnd')" :code="alignEndCode">
       <div class="flex justify-end">
         <HoverCard>
           <HoverCardTrigger>
@@ -189,7 +195,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Posición superior" :code="sideTopCode">
+    <DocShowcase :title="showcaseTitle('topPosition')" :code="sideTopCode">
       <div class="pt-40">
         <HoverCard>
           <HoverCardTrigger>
@@ -208,7 +214,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Delays personalizados" :code="delaysCode">
+    <DocShowcase :title="showcaseTitle('customDelays')" :code="delaysCode">
       <HoverCard :open-delay="200" :close-delay="100">
         <HoverCardTrigger>
           <span

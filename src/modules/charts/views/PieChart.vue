@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { type ChartConfig, type ChartDataRow, UiChartPie } from '@3df/charts';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('pieChart');
 
 const browserData: ChartDataRow[] = [
   { browser: 'Chrome', share: 63 },
@@ -100,81 +106,81 @@ const minimalCode = `<UiChartPie
   :value-formatter="(v) => \`\${v} GB\`"
 />`;
 
-const pieProps: PropItem[] = [
+const pieProps = computed<PropItem[]>(() => [
   {
     name: 'data',
     type: 'ChartDataRow[]',
     default: '-',
-    description: 'Array de objetos con los datos del gráfico.',
+    description: propDesc('data'),
   },
   {
     name: 'config',
     type: 'ChartConfig',
     default: '-',
-    description: 'Configuración de series: label y color por cada key.',
+    description: propDesc('config'),
   },
   {
     name: 'index',
     type: 'string',
     default: '-',
-    description: 'Key de categoría que identifica cada fila/segmento.',
+    description: propDesc('index'),
   },
   {
     name: 'valueKey',
     type: 'string',
     default: '-',
-    description: 'Key numérica para el valor de cada slice (modo fila por slice).',
+    description: propDesc('valueKey'),
   },
   {
     name: 'innerRadius',
     type: 'number',
     default: '0',
-    description: 'Radio interior en px. Valores > 0 crean un donut.',
+    description: propDesc('innerRadius'),
   },
   {
     name: 'showLabels',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra etiquetas en cada slice.',
+    description: propDesc('showLabels'),
   },
   {
     name: 'labelType',
     type: "'percent' | 'value' | 'name'",
     default: "'percent'",
-    description: 'Tipo de etiqueta a mostrar.',
+    description: propDesc('labelType'),
   },
   {
     name: 'padAngle',
     type: 'number',
     default: '0',
-    description: 'Ángulo de separación entre slices en grados.',
+    description: propDesc('padAngle'),
   },
   {
     name: 'animate',
     type: 'boolean',
     default: 'true',
-    description: 'Habilita la animación de entrada.',
+    description: propDesc('animate'),
   },
   {
     name: 'valueFormatter',
     type: '(v: number) => string',
     default: '-',
-    description: 'Formateador personalizado para valores.',
+    description: propDesc('valueFormatter'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Pie Chart"
-      description="Pie y donut — hover para expandir slices, click en leyenda para alternar. 100% SVG, sin dependencias."
+      :description="description"
       import-code="import { UiChartPie } from '@3df/charts'"
     />
 
     <DocShowcase
-      title="Pie completo"
-      description="Hover para expandir slices hacia afuera. Click en leyenda para ocultar/mostrar."
+      :title="showcaseTitle('fullPie')"
+      :description="showcaseDesc('fullPie')"
       :code="fullPieCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -190,8 +196,8 @@ const pieProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Donut"
-      description="Radio interior crea un donut con total centrado. Datos multi-key en una sola fila."
+      :title="showcaseTitle('donut')"
+      :description="showcaseDesc('donut')"
       :code="donutCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -208,8 +214,8 @@ const pieProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Estado de tareas"
-      description="Donut con etiquetas de nombre. Modo valueKey — cada fila es un slice."
+      :title="showcaseTitle('taskStatus')"
+      :description="showcaseDesc('taskStatus')"
       :code="taskCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -226,8 +232,8 @@ const pieProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Minimal — Sin animación"
-      description="Aspecto limpio sin etiquetas. Animación deshabilitada."
+      :title="showcaseTitle('minimal')"
+      :description="showcaseDesc('minimal')"
       :code="minimalCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">

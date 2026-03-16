@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { type ChartConfig, type ChartDataRow, UiChartLine } from '@3df/charts';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('chartLine');
 
 const salesData: ChartDataRow[] = [
   { month: 'Jan', online: 3200, store: 1800 },
@@ -98,82 +104,82 @@ const stepCode = `<UiChartLine
   :stroke-width="3"
 />`;
 
-const lineProps: PropItem[] = [
+const lineProps = computed<PropItem[]>(() => [
   {
     name: 'data',
     type: 'ChartDataRow[]',
     default: '-',
-    description: 'Array de objetos con los datos del gráfico.',
+    description: propDesc('data'),
   },
   {
     name: 'config',
     type: 'ChartConfig',
     default: '-',
-    description: 'Configuración de series: label y color por cada key.',
+    description: propDesc('config'),
   },
-  { name: 'index', type: 'string', default: '-', description: 'Key del eje de categorías.' },
+  { name: 'index', type: 'string', default: '-', description: propDesc('index') },
   {
     name: 'curveType',
     type: "'monotone' | 'linear' | 'step'",
     default: "'monotone'",
-    description: 'Tipo de interpolación de la curva.',
+    description: propDesc('curveType'),
   },
   {
     name: 'showDots',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra puntos en cada dato.',
+    description: propDesc('showDots'),
   },
   {
     name: 'showArea',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra relleno de área con gradiente.',
+    description: propDesc('showArea'),
   },
   {
     name: 'strokeWidth',
     type: 'number',
     default: '2',
-    description: 'Grosor de la línea en píxeles.',
+    description: propDesc('strokeWidth'),
   },
   {
     name: 'showLegend',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra la leyenda interactiva.',
+    description: propDesc('showLegend'),
   },
   {
     name: 'showGrid',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra la grilla de puntos de fondo.',
+    description: propDesc('showGrid'),
   },
   {
     name: 'animate',
     type: 'boolean',
     default: 'true',
-    description: 'Habilita la animación de entrada.',
+    description: propDesc('animate'),
   },
   {
     name: 'valueFormatter',
     type: '(v: number) => string',
     default: '-',
-    description: 'Formateador personalizado para valores del tooltip.',
+    description: propDesc('valueFormatter'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Line Chart"
-      description="Interpolación monotone, linear y step — relleno de área con gradiente, glow en hover, leyenda interactiva. 100% SVG, sin dependencias."
+      :description="description"
       import-code="import { UiChartLine } from '@3df/charts'"
     />
 
     <DocShowcase
-      title="Monotone (suave)"
-      description="Curva suave por defecto con relleno de área y crosshair en hover."
+      :title="showcaseTitle('monotone')"
+      :description="showcaseDesc('monotone')"
       :code="monotoneCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -182,8 +188,8 @@ const lineProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Multi-línea — Percentiles de latencia"
-      description="Tres series con puntos visibles y formatter personalizado."
+      :title="showcaseTitle('multiLine')"
+      :description="showcaseDesc('multiLine')"
       :code="multiLineCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -198,8 +204,8 @@ const lineProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Linear — Sin área"
-      description="Segmentos de línea recta sin relleno de área, con puntos visibles."
+      :title="showcaseTitle('linear')"
+      :description="showcaseDesc('linear')"
       :code="linearCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -216,8 +222,8 @@ const lineProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Step"
-      description="Interpolación step para saltos discretos. Sin animación ni grilla."
+      :title="showcaseTitle('step')"
+      :description="showcaseDesc('step')"
       :code="stepCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">

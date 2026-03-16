@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Kbd } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -6,20 +8,22 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
-const kbdProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('kbd');
+
+const kbdProps = computed<PropItem[]>(() => [
   {
     name: 'variant',
     type: `'default'`,
     default: `'default'`,
-    description: 'Estilo visual de la tecla',
+    description: propDesc('variant'),
   },
   {
     name: 'size',
     type: `'xs' | 'sm' | 'default' | 'lg'`,
     default: `'default'`,
-    description: 'Tamaño de la tecla',
+    description: propDesc('size'),
   },
-];
+]);
 
 const sizesCode = `<Kbd size="xs">⌘</Kbd>
 <Kbd size="sm">⌘</Kbd>
@@ -49,13 +53,13 @@ const inlineAndOverrideCode = `<p class="text-sm">
   <div class="flex flex-col gap-12">
     <DocHeader
       title="Kbd"
-      description="Componente para representar teclas del teclado. Ideal para mostrar atajos, combinaciones y teclas especiales en interfaces de usuario."
+      :description="description"
       import-code="import { Kbd } from '@3df/ui'"
     />
 
     <DocShowcase
-      title="Tamaños"
-      description="Cuatro tamaños disponibles para adaptarse a distintos contextos."
+      :title="showcaseTitle('sizes')"
+      :description="showcaseDesc('sizes')"
       :code="sizesCode"
     >
       <div class="flex items-center gap-4">
@@ -68,8 +72,8 @@ const inlineAndOverrideCode = `<p class="text-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="Combinaciones de teclas"
-      description="Atajos de teclado comunes compuestos por múltiples teclas."
+      :title="showcaseTitle('shortcuts')"
+      :description="showcaseDesc('shortcuts')"
       :code="shortcutsCode"
     >
       <div class="flex flex-col gap-3">
@@ -103,8 +107,8 @@ const inlineAndOverrideCode = `<p class="text-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="Teclas especiales y de función"
-      description="Modificadores, teclas de navegación y teclas de función F1–F12."
+      :title="showcaseTitle('specialKeys')"
+      :description="showcaseDesc('specialKeys')"
       :code="specialKeysCode"
     >
       <div class="flex flex-col gap-6">
@@ -130,8 +134,8 @@ const inlineAndOverrideCode = `<p class="text-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="Uso inline y override de clases"
-      description="Integración dentro de texto y personalización de estilos mediante clases."
+      :title="showcaseTitle('inlineOverride')"
+      :description="showcaseDesc('inlineOverride')"
       :code="inlineAndOverrideCode"
     >
       <div class="flex flex-col gap-6">

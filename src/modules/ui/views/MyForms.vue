@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import FormsDemoCheckbox from './_components/FormsDemoCheckbox.vue';
 import FormsDemoComplete from './_components/FormsDemoComplete.vue';
@@ -9,88 +12,90 @@ import FormsDemoInputs from './_components/FormsDemoInputs.vue';
 import FormsDemoRadioSwitch from './_components/FormsDemoRadioSwitch.vue';
 import FormsDemoTextareaSelect from './_components/FormsDemoTextareaSelect.vue';
 
-const formProps: PropItem[] = [
+const { description, propDesc } = useDocPage('forms');
+
+const formProps = computed<PropItem[]>(() => [
   {
     name: 'Input: modelValue',
     type: 'string | number',
     default: "''",
-    description: 'Valor del input (v-model)',
+    description: propDesc('inputModelValue'),
   },
   {
     name: 'Input: size',
     type: "'default' | 'sm' | 'lg'",
     default: "'default'",
-    description: 'Tamaño del input',
+    description: propDesc('inputSize'),
   },
   {
     name: 'Select: modelValue',
     type: 'string',
     default: "''",
-    description: 'Valor seleccionado (v-model)',
+    description: propDesc('selectModelValue'),
   },
   {
     name: 'Select: placeholder',
     type: 'string',
     default: "'Select an option'",
-    description: 'Texto placeholder',
+    description: propDesc('placeholder'),
   },
   {
     name: 'Select: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el select',
+    description: propDesc('selectDisabled'),
   },
-  { name: 'SelectItem: value', type: 'string', description: 'Valor de la opción' },
+  { name: 'SelectItem: value', type: 'string', description: propDesc('selectItemValue') },
   {
     name: 'SelectItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita la opción',
+    description: propDesc('selectItemDisabled'),
   },
   {
     name: 'Checkbox: modelValue',
     type: 'boolean',
     default: 'false',
-    description: 'Estado checked (v-model)',
+    description: propDesc('checkboxModelValue'),
   },
   {
     name: 'Checkbox: indeterminate',
     type: 'boolean',
     default: 'false',
-    description: 'Estado indeterminado',
+    description: propDesc('indeterminate'),
   },
   {
     name: 'Textarea: modelValue',
     type: 'string',
     default: "''",
-    description: 'Contenido del textarea (v-model)',
+    description: propDesc('Textarea: modelValue'),
   },
   {
     name: 'Radio: modelValue',
     type: 'string',
-    description: 'Valor seleccionado del grupo (v-model)',
+    description: propDesc('Radio: modelValue'),
   },
-  { name: 'Radio: value', type: 'string', description: 'Valor de esta opción' },
+  { name: 'Radio: value', type: 'string', description: propDesc('Radio: value') },
   {
     name: 'Switch: modelValue',
     type: 'boolean',
     default: 'false',
-    description: 'Estado on/off (v-model)',
+    description: propDesc('Switch: modelValue'),
   },
   {
     name: 'Label: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Aplica estilo deshabilitado',
+    description: propDesc('Label: disabled'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Formularios"
-      description="Componentes de formulario: Input, Textarea, Select, Checkbox, Radio y Switch."
+      :description="description"
       import-code="import { Input, Label, Select, SelectItem, Checkbox, Radio, Switch, Textarea, Button } from '@3df/ui'"
     />
     <FormsDemoInputs />

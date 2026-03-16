@@ -1,25 +1,30 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { Button, EmptyState } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
-const emptyProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('empty');
+
+const emptyProps = computed<PropItem[]>(() => [
   {
     name: 'title',
     type: 'string',
     default: 'undefined',
-    description: 'Título del estado vacío. También disponible como slot.',
+    description: propDesc('title'),
   },
   {
     name: 'description',
     type: 'string',
     default: 'undefined',
-    description: 'Descripción del estado vacío. También disponible como slot.',
+    description: propDesc('descriptionProp'),
   },
-];
+]);
 
 const searchCode = `<EmptyState
   title="No se encontraron resultados"
@@ -53,11 +58,11 @@ const heightCode = `<EmptyState
   <div class="flex flex-col gap-10">
     <DocHeader
       title="EmptyState"
-      description="Indicador visual para secciones sin contenido. Incluye icono, título, descripción y acciones opcionales."
+      :description="description"
       import-code="import { EmptyState } from '@3df/ui'"
     />
 
-    <DocShowcase title="Sin resultados" :code="searchCode">
+    <DocShowcase :title="showcaseTitle('noResults')" :code="searchCode">
       <div class="border-border rounded-lg border">
         <EmptyState
           title="No se encontraron resultados"
@@ -83,7 +88,7 @@ const heightCode = `<EmptyState
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Carrito vacío" code="">
+    <DocShowcase :title="showcaseTitle('emptyCart')" code="">
       <div class="border-border rounded-lg border">
         <EmptyState
           title="Tu carrito está vacío"
@@ -144,7 +149,7 @@ const heightCode = `<EmptyState
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con altura mínima" :code="heightCode">
+    <DocShowcase :title="showcaseTitle('withHeight')" :code="heightCode">
       <div class="border-border rounded-lg border">
         <EmptyState
           class="min-h-80"

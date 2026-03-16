@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import {
   Button,
@@ -23,46 +23,50 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import SheetDemoReference from './_components/SheetDemoReference.vue';
 
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('sheet');
+
 const controlledOpen = ref(false);
 
-const sheetProps: PropItem[] = [
+const sheetProps = computed<PropItem[]>(() => [
   {
     name: 'Sheet: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Sheet: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del sheet.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'SheetContent: side',
     type: "'top' | 'right' | 'bottom' | 'left'",
     default: "'right'",
-    description: 'Lado desde el que se desliza el panel.',
+    description: propDesc('side'),
   },
   {
     name: 'SheetContent: showClose',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra el botón de cierre (×).',
+    description: propDesc('showClose'),
   },
   {
     name: 'SheetContent: closeLabel',
     type: 'string',
     default: "'Cerrar'",
-    description: 'Etiqueta accesible del botón de cierre.',
+    description: propDesc('closeLabel'),
   },
   {
     name: 'SheetTitle: as',
     type: 'string',
     default: "'h2'",
-    description: 'Elemento HTML para el título.',
+    description: propDesc('titleAs'),
   },
-];
+]);
 
 const anatomyCode = `<Sheet>
   <SheetTrigger />
@@ -133,7 +137,7 @@ const noCloseCode = `<SheetContent :show-close="false">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Sheet"
-      description="Panel lateral que se desliza desde un borde de la pantalla para mostrar contenido secundario."
+      :description="description"
       import-code="import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '@3df/ui'"
     />
 
@@ -142,7 +146,7 @@ const noCloseCode = `<SheetContent :show-close="false">
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico — derecha (default)" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Sheet>
         <SheetTrigger>
           <Button variant="outline">Abrir Sheet</Button>
@@ -176,7 +180,7 @@ const noCloseCode = `<SheetContent :show-close="false">
       </Sheet>
     </DocShowcase>
 
-    <DocShowcase title="Posiciones — 4 lados" :code="sidesCode">
+    <DocShowcase :title="showcaseTitle('sides')" :code="sidesCode">
       <div class="flex flex-wrap gap-4">
         <Sheet v-for="side in ['top', 'right', 'bottom', 'left'] as const" :key="side">
           <SheetTrigger>
@@ -203,7 +207,7 @@ const noCloseCode = `<SheetContent :show-close="false">
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Controlado (v-model:open)" :code="controlledCode">
+    <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <div class="flex items-center gap-4">
         <Sheet v-model:open="controlledOpen">
           <SheetTrigger>
@@ -237,7 +241,7 @@ const noCloseCode = `<SheetContent :show-close="false">
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Sin botón (×) — showClose=false" :code="noCloseCode">
+    <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Sheet>
         <SheetTrigger>
           <Button variant="outline">Sin botón ×</Button>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df/ui';
 
@@ -13,26 +15,28 @@ import CollapsibleDemoStates from './_components/CollapsibleDemoStates.vue';
 
 const isOpen = ref(false);
 
-const collapsibleProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('collapsible');
+
+const collapsibleProps = computed<PropItem[]>(() => [
   {
     name: 'Collapsible: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Collapsible: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Abierto por defecto (no controlado).',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'Collapsible: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el collapsible completo.',
+    description: propDesc('disabled'),
   },
-];
+]);
 
 const anatomyCode = `<Collapsible>
   <CollapsibleTrigger />
@@ -73,7 +77,7 @@ const controlledCode = `const isOpen = ref(false)
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Collapsible"
-      description="Componente interactivo que permite expandir y contraer secciones de contenido."
+      :description="description"
       import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui'"
     />
 
@@ -83,8 +87,8 @@ const controlledCode = `const isOpen = ref(false)
     </section>
 
     <DocShowcase
-      title="Básico"
-      description="Usa el slot del trigger para reaccionar al estado de apertura."
+      :title="showcaseTitle('basic')"
+      :description="showcaseDesc('basic')"
       :code="basicCode"
     >
       <div class="mx-auto w-full max-w-sm">
@@ -131,8 +135,8 @@ const controlledCode = `const isOpen = ref(false)
     </DocShowcase>
 
     <DocShowcase
-      title="Controlado con v-model:open"
-      description="El estado se controla externamente y se sincroniza con el trigger interno."
+      :title="showcaseTitle('controlled')"
+      :description="showcaseDesc('controlled')"
       :code="controlledCode"
     >
       <div class="mx-auto w-full max-w-sm space-y-4">

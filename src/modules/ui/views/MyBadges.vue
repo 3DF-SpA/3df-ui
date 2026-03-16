@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Badge, Button } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -8,27 +10,29 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import BadgeDemoIcons from './_components/BadgeDemoIcons.vue';
 
-const badgeProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('badges');
+
+const badgeProps = computed<PropItem[]>(() => [
   {
     name: 'variant',
     type: "'default' | 'secondary' | 'outline' | 'destructive' | 'success' | 'warning' | 'red' | 'orange' | 'yellow' | 'green' | 'teal' | 'blue' | 'indigo' | 'purple' | 'pink' | 'gray'",
     default: "'default'",
-    description: 'Estilo visual del badge',
+    description: propDesc('variant'),
   },
   {
     name: 'size',
     type: "'sm' | 'default' | 'lg'",
     default: "'default'",
-    description: 'Tamaño del badge',
+    description: propDesc('size'),
   },
-  { name: 'as', type: 'string', default: "'span'", description: 'Elemento HTML a renderizar' },
+  { name: 'as', type: 'string', default: "'span'", description: propDesc('as') },
   {
     name: 'truncate',
     type: 'boolean',
     default: 'false',
-    description: 'Trunca el texto con elipsis si desborda',
+    description: propDesc('truncate'),
   },
-];
+]);
 
 const variantsCode = `<Badge>Default</Badge>
 <Badge variant="secondary">Secondary</Badge>
@@ -79,13 +83,13 @@ const contextCode = `<Button>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Badge"
-      description="Etiqueta compacta para mostrar estados, categorías o metadatos."
+      :description="description"
       import-code="import { Badge } from '@3df/ui'"
     />
 
     <DocShowcase
-      title="Variantes"
-      description="Estilos semánticos disponibles para el badge."
+      :title="showcaseTitle('variants')"
+      :description="showcaseDesc('variants')"
       :code="variantsCode"
     >
       <div class="flex flex-wrap items-center gap-4">
@@ -99,8 +103,8 @@ const contextCode = `<Button>
     </DocShowcase>
 
     <DocShowcase
-      title="Colores"
-      description="Variantes de color y su versión píldora con rounded-full."
+      :title="showcaseTitle('colors')"
+      :description="showcaseDesc('colors')"
       :code="colorsCode"
     >
       <div class="flex flex-col gap-4">
@@ -132,8 +136,8 @@ const contextCode = `<Button>
     </DocShowcase>
 
     <DocShowcase
-      title="Tamaños"
-      description="Tamaños predefinidos para el badge."
+      :title="showcaseTitle('sizes')"
+      :description="showcaseDesc('sizes')"
       :code="sizesCode"
     >
       <div class="flex flex-wrap items-end gap-4">
@@ -144,16 +148,16 @@ const contextCode = `<Button>
     </DocShowcase>
 
     <DocShowcase
-      title="Con íconos"
-      description="Los SVG dentro del badge se dimensionan automáticamente."
+      :title="showcaseTitle('withIcons')"
+      :description="showcaseDesc('withIcons')"
       :code="iconsCode"
     >
       <BadgeDemoIcons />
     </DocShowcase>
 
     <DocShowcase
-      title="Forma píldora"
-      description="Usa class='rounded-full' para obtener bordes completamente redondeados."
+      :title="showcaseTitle('pill')"
+      :description="showcaseDesc('pill')"
       :code="pillCode"
     >
       <div class="flex flex-wrap items-center gap-4">
@@ -165,8 +169,8 @@ const contextCode = `<Button>
     </DocShowcase>
 
     <DocShowcase
-      title="Como enlace"
-      description="Renderiza el badge como un elemento anchor usando la prop as."
+      :title="showcaseTitle('asLink')"
+      :description="showcaseDesc('asLink')"
       :code="asLinkCode"
     >
       <div class="flex flex-wrap items-center gap-4">
@@ -194,8 +198,8 @@ const contextCode = `<Button>
     </DocShowcase>
 
     <DocShowcase
-      title="En contexto"
-      description="Badges usados dentro de botones e indicadores de estado."
+      :title="showcaseTitle('context')"
+      :description="showcaseDesc('context')"
       :code="contextCode"
     >
       <div class="flex flex-col gap-4">

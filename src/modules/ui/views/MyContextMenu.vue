@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import {
   ContextMenu,
@@ -23,48 +23,52 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('contextMenu');
+
 const showBookmarks = ref(true);
 const showFullUrls = ref(false);
 const person = ref('pedro');
 
-const contextMenuProps: PropItem[] = [
+const contextMenuProps = computed<PropItem[]>(() => [
   {
     name: 'ContextMenuItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el item.',
+    description: propDesc('itemDisabled'),
   },
   {
     name: 'ContextMenuItem: destructive',
     type: 'boolean',
     default: 'false',
-    description: 'Estilo destructivo para acciones peligrosas.',
+    description: propDesc('destructive'),
   },
   {
     name: 'ContextMenuCheckboxItem: checked',
     type: 'boolean',
     default: 'false',
-    description: 'Estado del checkbox (v-model:checked).',
+    description: propDesc('checked'),
   },
   {
     name: 'ContextMenuRadioGroup: modelValue',
     type: 'string',
     default: '-',
-    description: 'Valor seleccionado del grupo (v-model).',
+    description: propDesc('modelValue'),
   },
   {
     name: 'ContextMenuRadioItem: value',
     type: 'string',
     default: '-',
-    description: 'Valor del radio item.',
+    description: propDesc('value'),
   },
   {
     name: 'ContextMenuLabel: inset',
     type: 'boolean',
     default: 'false',
-    description: 'Agrega padding izquierdo para alinear con items.',
+    description: propDesc('inset'),
   },
-];
+]);
 
 const basicCode = `<ContextMenu>
   <ContextMenuTrigger>
@@ -117,7 +121,7 @@ const anatomyCode = `<ContextMenu>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Context Menu"
-      description="Menú contextual que aparece al hacer clic derecho, con soporte para checkboxes, radios y sub-menús."
+      :description="description"
       import-code="import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df/ui'"
     />
 
@@ -126,7 +130,7 @@ const anatomyCode = `<ContextMenu>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico con checkboxes y radios" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basicCheckboxRadio')" :code="basicCode">
       <ContextMenu>
         <ContextMenuTrigger>
           <div
@@ -167,7 +171,7 @@ const anatomyCode = `<ContextMenu>
       </ContextMenu>
     </DocShowcase>
 
-    <DocShowcase title="Sub-menú" :code="subMenuCode">
+    <DocShowcase :title="showcaseTitle('subMenu')" :code="subMenuCode">
       <ContextMenu>
         <ContextMenuTrigger>
           <div

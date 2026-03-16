@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import {
   Button,
@@ -17,6 +17,7 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const controlledOpen = ref(false);
 const goal = ref(350);
@@ -25,32 +26,34 @@ function adjustGoal(delta: number) {
   goal.value = Math.max(100, Math.min(1000, goal.value + delta));
 }
 
-const drawerProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('drawer');
+
+const drawerProps = computed<PropItem[]>(() => [
   {
     name: 'Drawer: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Drawer: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del drawer.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'DrawerContent: showClose',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra el botón de cierre (×).',
+    description: propDesc('showClose'),
   },
   {
     name: 'DrawerContent: dragCloseThreshold',
     type: 'number',
     default: '0.4',
-    description: 'Umbral de arrastre para cerrar (0-1).',
+    description: propDesc('dragCloseThreshold'),
   },
-];
+]);
 
 const basicCode = `<Drawer>
   <DrawerTrigger>
@@ -113,7 +116,7 @@ const anatomyCode = `<Drawer>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Drawer"
-      description="Panel inferior deslizable, ideal para acciones rápidas en dispositivos móviles. Se cierra arrastrando hacia abajo."
+      :description="description"
       import-code="import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter } from '@3df/ui'"
     />
 
@@ -122,7 +125,7 @@ const anatomyCode = `<Drawer>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Drawer>
         <DrawerTrigger>
           <Button variant="outline">Abrir Drawer</Button>
@@ -146,7 +149,7 @@ const anatomyCode = `<Drawer>
       </Drawer>
     </DocShowcase>
 
-    <DocShowcase title="Interactivo" :code="interactiveCode">
+    <DocShowcase :title="showcaseTitle('interactive')" :code="interactiveCode">
       <Drawer>
         <DrawerTrigger>
           <Button variant="outline">Establecer objetivo</Button>
@@ -200,7 +203,7 @@ const anatomyCode = `<Drawer>
       </Drawer>
     </DocShowcase>
 
-    <DocShowcase title="Controlado (v-model)" :code="controlledCode">
+    <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <p class="text-muted-foreground text-xs">
         Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
       </p>
@@ -226,7 +229,7 @@ const anatomyCode = `<Drawer>
       </Drawer>
     </DocShowcase>
 
-    <DocShowcase title="Sin botón de cierre" :code="noCloseCode">
+    <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Drawer>
         <DrawerTrigger>
           <Button variant="outline">Abrir (sin ×)</Button>

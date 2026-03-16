@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@3df/ui';
 
@@ -8,6 +8,9 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('inputOtp');
 
 const basicValue = ref('');
 const groupedValue = ref('');
@@ -21,33 +24,33 @@ function onComplete(value: string) {
   completedMessage.value = `Código recibido: ${value}`;
 }
 
-const inputOtpProps: PropItem[] = [
+const inputOtpProps = computed<PropItem[]>(() => [
   {
     name: 'modelValue',
     type: 'string',
     default: "''",
-    description: 'Valor OTP completo (v-model)',
+    description: propDesc('modelValue'),
   },
-  { name: 'length', type: 'number', default: '6', description: 'Número total de slots' },
+  { name: 'length', type: 'number', default: '6', description: propDesc('length') },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita todos los slots',
+    description: propDesc('disabled'),
   },
   {
     name: 'pattern',
     type: "'numeric' | 'alphanumeric' | 'alpha' | RegExp",
     default: "'numeric'",
-    description: 'Patrón de validación por carácter',
+    description: propDesc('pattern'),
   },
   {
     name: 'autoSubmit',
     type: 'boolean',
     default: 'false',
-    description: 'Emite evento complete al llenar todos los slots',
+    description: propDesc('autoSubmit'),
   },
-];
+]);
 
 const basicAndSeparatorCode = `<InputOTP v-model="value" :length="6">
   <InputOTPGroup>
@@ -113,13 +116,13 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Input OTP"
-      description="Campo de entrada para códigos de verificación de un solo uso (OTP). Soporta agrupación, separadores y auto-submit."
+      :description="description"
       import-code="import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui'"
     />
 
     <DocShowcase
-      title="Básico y con separador"
-      description="Input OTP de 6 dígitos sin y con separador visual."
+      :title="showcaseTitle('basicSeparator')"
+      :description="showcaseDesc('basicSeparator')"
       :code="basicAndSeparatorCode"
     >
       <div class="flex flex-col gap-6">
@@ -153,8 +156,8 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     </DocShowcase>
 
     <DocShowcase
-      title="Separador personalizado y valor inicial"
-      description="Separadores con contenido personalizado e input con valor prellenado."
+      :title="showcaseTitle('customPrefilled')"
+      :description="showcaseDesc('customPrefilled')"
       :code="customSeparatorAndPrefilledCode"
     >
       <div class="flex flex-col gap-6">
@@ -193,8 +196,8 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     </DocShowcase>
 
     <DocShowcase
-      title="Patrón alfanumérico y deshabilitado"
-      description="Acepta letras y números, o deshabilita la interacción."
+      :title="showcaseTitle('alphanumericDisabled')"
+      :description="showcaseDesc('alphanumericDisabled')"
       :code="alphanumericAndDisabledCode"
     >
       <div class="flex flex-col gap-6">
@@ -221,8 +224,8 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     </DocShowcase>
 
     <DocShowcase
-      title="Auto-submit"
-      description="Emite el evento complete al llenar todos los campos."
+      :title="showcaseTitle('autoSubmitShowcase')"
+      :description="showcaseDesc('autoSubmitShowcase')"
       :code="autoSubmitCode"
     >
       <div class="flex flex-col gap-2">

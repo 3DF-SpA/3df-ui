@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
@@ -9,44 +11,48 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import PopoverDemoRichContent from './_components/PopoverDemoRichContent.vue';
 
-const popoverProps: PropItem[] = [
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('popover');
+
+const popoverProps = computed<PropItem[]>(() => [
   {
     name: 'Popover: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Popover: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del popover.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'PopoverContent: align',
     type: "'start' | 'center' | 'end'",
     default: "'center'",
-    description: 'Alineación respecto al trigger.',
+    description: propDesc('align'),
   },
   {
     name: 'PopoverContent: side',
     type: "'top' | 'right' | 'bottom' | 'left'",
     default: "'bottom'",
-    description: 'Lado de apertura.',
+    description: propDesc('side'),
   },
   {
     name: 'PopoverContent: sideOffset',
     type: 'number',
     default: '8',
-    description: 'Distancia del popover al trigger.',
+    description: propDesc('sideOffset'),
   },
   {
     name: 'PopoverContent: viewportPadding',
     type: 'number',
     default: '8',
-    description: 'Padding respecto al borde del viewport.',
+    description: propDesc('viewportPadding'),
   },
-];
+]);
 
 const basicCode = `<Popover>
   <PopoverTrigger>
@@ -91,7 +97,7 @@ const anatomyCode = `<Popover>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Popover"
-      description="Panel flotante para mostrar contenido contextual, formularios rápidos o acciones adicionales."
+      :description="description"
       import-code="import { Popover, PopoverTrigger, PopoverContent } from '@3df/ui'"
     />
 
@@ -100,7 +106,7 @@ const anatomyCode = `<Popover>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Popover>
         <PopoverTrigger>
           <Button variant="outline">Abrir popover</Button>
@@ -114,7 +120,7 @@ const anatomyCode = `<Popover>
       </Popover>
     </DocShowcase>
 
-    <DocShowcase title="Con formulario" :code="formCode">
+    <DocShowcase :title="showcaseTitle('withForm')" :code="formCode">
       <Popover>
         <PopoverTrigger>
           <Button variant="outline">Configuración</Button>
@@ -148,7 +154,7 @@ const anatomyCode = `<Popover>
       </Popover>
     </DocShowcase>
 
-    <DocShowcase title="Alineación" :code="alignCode">
+    <DocShowcase :title="showcaseTitle('alignment')" :code="alignCode">
       <div class="flex gap-4">
         <Popover>
           <PopoverTrigger>
@@ -177,7 +183,7 @@ const anatomyCode = `<Popover>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Abre hacia arriba" :code="sideCode">
+    <DocShowcase :title="showcaseTitle('openUp')" :code="sideCode">
       <div class="mt-24">
         <Popover>
           <PopoverTrigger>

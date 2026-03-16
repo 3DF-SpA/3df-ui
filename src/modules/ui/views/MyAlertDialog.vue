@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import {
   AlertDialog,
@@ -20,6 +20,10 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('alertDialog');
+
 const deleteResult = ref('');
 const programmaticOpen = ref(false);
 
@@ -30,26 +34,26 @@ function handleDelete() {
   }, 3000);
 }
 
-const alertDialogProps: PropItem[] = [
+const alertDialogProps = computed<PropItem[]>(() => [
   {
     name: 'AlertDialog: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'AlertDialog: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del alert dialog.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'AlertDialogAction: variant',
     type: "'default' | 'destructive'",
     default: "'default'",
-    description: 'Variante visual del botón de acción.',
+    description: propDesc('variant'),
   },
-];
+]);
 
 const deleteCode = `<AlertDialog>
   <AlertDialogTrigger>
@@ -110,7 +114,7 @@ const anatomyCode = `<AlertDialog>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Alert Dialog"
-      description="Dialog modal de confirmación que requiere una respuesta del usuario antes de continuar."
+      :description="description"
       import-code="import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@3df/ui'"
     />
 
@@ -119,7 +123,7 @@ const anatomyCode = `<AlertDialog>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Eliminación destructiva" :code="deleteCode">
+    <DocShowcase :title="showcaseTitle('destructive')" :code="deleteCode">
       <AlertDialog>
         <AlertDialogTrigger>
           <Button variant="destructive">Eliminar cuenta</Button>
@@ -143,7 +147,7 @@ const anatomyCode = `<AlertDialog>
       <p v-if="deleteResult" class="text-destructive text-sm">{{ deleteResult }}</p>
     </DocShowcase>
 
-    <DocShowcase title="Confirmación genérica" :code="genericCode">
+    <DocShowcase :title="showcaseTitle('generic')" :code="genericCode">
       <AlertDialog>
         <AlertDialogTrigger>
           <Button variant="outline">Enviar formulario</Button>
@@ -164,7 +168,7 @@ const anatomyCode = `<AlertDialog>
       </AlertDialog>
     </DocShowcase>
 
-    <DocShowcase title="Controlado (v-model)" :code="controlledCode">
+    <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <Button @click="programmaticOpen = true">Abrir programáticamente</Button>
       <AlertDialog v-model:open="programmaticOpen">
         <AlertDialogContent>

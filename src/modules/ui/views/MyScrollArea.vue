@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
 import { ScrollArea, Separator } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -23,20 +27,22 @@ const artworks = [
   { title: 'Broadway Boogie Woogie', artist: 'Piet Mondrian', year: '1943' },
 ];
 
-const scrollAreaProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('scrollArea');
+
+const scrollAreaProps = computed<PropItem[]>(() => [
   {
     name: 'type',
     type: "'auto' | 'always' | 'scroll' | 'hover'",
     default: "'hover'",
-    description: 'Cuándo mostrar la scrollbar.',
+    description: propDesc('type'),
   },
   {
     name: 'orientation',
     type: "'vertical' | 'horizontal' | 'both'",
     default: "'vertical'",
-    description: 'Ejes de scroll habilitados.',
+    description: propDesc('orientation'),
   },
-];
+]);
 
 const verticalCode = `<ScrollArea class="h-72 w-48 rounded-md border">
   <div class="p-4">
@@ -97,13 +103,13 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="ScrollArea"
-      description="Área de scroll personalizada con scrollbars estilizados que reemplazan los nativos del navegador."
+      :description="description"
       import-code="import { ScrollArea } from '@3df/ui'"
     />
 
     <DocShowcase
-      title="Vertical — lista de tags"
-      description="Scroll vertical estándar para listas largas."
+      :title="showcaseTitle('verticalList')"
+      :description="showcaseDesc('verticalList')"
       :code="verticalCode"
     >
       <ScrollArea class="border-border h-72 w-48 rounded-md border">
@@ -118,8 +124,8 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="Horizontal — galería de arte"
-      description="Scroll horizontal para contenido que desborda el ancho."
+      :title="showcaseTitle('horizontalGallery')"
+      :description="showcaseDesc('horizontalGallery')"
       :code="horizontalCode"
     >
       <ScrollArea orientation="horizontal" class="border-border w-full max-w-xl rounded-md border">
@@ -139,8 +145,8 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="Ambas direcciones"
-      description="Scroll en ambos ejes con orientation='both'."
+      :title="showcaseTitle('bothDirections')"
+      :description="showcaseDesc('bothDirections')"
       :code="bothCode"
     >
       <ScrollArea orientation="both" class="border-border h-64 w-80 rounded-md border">
@@ -170,8 +176,8 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="type='always'"
-      description="La scrollbar permanece siempre visible."
+      :title="showcaseTitle('alwaysVisible')"
+      :description="showcaseDesc('alwaysVisible')"
       :code="alwaysCode"
     >
       <ScrollArea type="always" class="border-border h-48 w-64 rounded-md border">
@@ -184,8 +190,8 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="type='scroll'"
-      description="La scrollbar aparece solo mientras se hace scroll."
+      :title="showcaseTitle('scrollType')"
+      :description="showcaseDesc('scrollType')"
       :code="scrollTypeCode"
     >
       <ScrollArea type="scroll" class="border-border h-48 w-64 rounded-md border">
@@ -198,8 +204,8 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     </DocShowcase>
 
     <DocShowcase
-      title="En contexto — Chat"
-      description="ScrollArea integrado en un panel de mensajes tipo chat."
+      :title="showcaseTitle('chatContext')"
+      :description="showcaseDesc('chatContext')"
       :code="chatCode"
     >
       <div class="border-border bg-card flex w-80 flex-col rounded-lg border shadow-sm">

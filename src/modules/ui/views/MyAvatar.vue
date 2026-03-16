@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
@@ -7,14 +9,16 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
-const avatarProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('avatar');
+
+const avatarProps = computed<PropItem[]>(() => [
   {
     name: 'size',
     type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
     default: "'md'",
-    description: 'Tamaño del avatar',
+    description: propDesc('size'),
   },
-];
+]);
 
 const anatomyCode = `<Avatar>
   <AvatarImage src="..." alt="..." />
@@ -81,7 +85,7 @@ const teamMembers = [
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Avatar"
-      description="Imagen de perfil circular con fallback de iniciales o ícono cuando la imagen no está disponible."
+      :description="description"
       import-code="import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui'"
     />
 
@@ -93,8 +97,8 @@ const teamMembers = [
     </div>
 
     <DocShowcase
-      title="Perfil de usuario"
-      description="Avatar con imagen y datos del usuario."
+      :title="showcaseTitle('profile')"
+      :description="showcaseDesc('profile')"
       :code="profileCode"
     >
       <div class="flex items-center gap-4">
@@ -110,8 +114,8 @@ const teamMembers = [
     </DocShowcase>
 
     <DocShowcase
-      title="Tamaños"
-      description="Cinco tamaños disponibles desde xs hasta xl."
+      :title="showcaseTitle('sizes')"
+      :description="showcaseDesc('sizes')"
       :code="sizesCode"
     >
       <div class="flex items-end gap-4">
@@ -154,8 +158,8 @@ const teamMembers = [
     </DocShowcase>
 
     <DocShowcase
-      title="Fallback"
-      description="Iniciales mostradas cuando la imagen falla, está vacía o no se proporciona."
+      :title="showcaseTitle('fallback')"
+      :description="showcaseDesc('fallback')"
       :code="fallbackCode"
     >
       <div class="flex items-center gap-4">
@@ -174,8 +178,8 @@ const teamMembers = [
     </DocShowcase>
 
     <DocShowcase
-      title="Equipo"
-      description="Avatares apilados con superposición negativa para mostrar miembros de un equipo."
+      :title="showcaseTitle('team')"
+      :description="showcaseDesc('team')"
       :code="teamCode"
     >
       <div class="flex -space-x-3">
@@ -187,8 +191,8 @@ const teamMembers = [
     </DocShowcase>
 
     <DocShowcase
-      title="Fallback con ícono"
-      description="Usa un SVG como contenido del fallback en lugar de iniciales."
+      :title="showcaseTitle('iconFallback')"
+      :description="showcaseDesc('iconFallback')"
       :code="iconFallbackCode"
     >
       <div class="flex items-center gap-4">

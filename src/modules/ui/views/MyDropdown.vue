@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import {
   Button,
   DropdownMenu,
@@ -21,50 +23,54 @@ import DropdownDemoSections from './_components/DropdownDemoSections.vue';
 import DropdownDemoTableActions from './_components/DropdownDemoTableActions.vue';
 import DropdownDemoTriggers from './_components/DropdownDemoTriggers.vue';
 
-const dropdownProps: PropItem[] = [
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('dropdown');
+
+const dropdownProps = computed<PropItem[]>(() => [
   {
     name: 'DropdownMenuContent: align',
     type: "'start' | 'center' | 'end'",
     default: "'start'",
-    description: 'Alineación horizontal respecto al trigger.',
+    description: propDesc('align'),
   },
   {
     name: 'DropdownMenuContent: side',
     type: "'top' | 'bottom'",
     default: "'bottom'",
-    description: 'Lado preferido para abrir el menú.',
+    description: propDesc('side'),
   },
   {
     name: 'DropdownMenuContent: sideOffset',
     type: 'number',
     default: '4',
-    description: 'Distancia en px entre el trigger y el menú.',
+    description: propDesc('sideOffset'),
   },
   {
     name: 'DropdownMenuContent: viewportPadding',
     type: 'number',
     default: '8',
-    description: 'Padding mínimo respecto al borde del viewport.',
+    description: propDesc('viewportPadding'),
   },
   {
     name: 'DropdownMenuItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Desactiva el ítem (no seleccionable).',
+    description: propDesc('itemDisabled'),
   },
   {
     name: 'DropdownMenuItem: destructive',
     type: 'boolean',
     default: 'false',
-    description: 'Aplica estilo destructivo (rojo).',
+    description: propDesc('destructive'),
   },
   {
     name: 'DropdownMenuLabel: inset',
     type: 'boolean',
     default: 'false',
-    description: 'Añade padding izquierdo para alinear con ítems con icono.',
+    description: propDesc('inset'),
   },
-];
+]);
 
 const anatomyCode = `<DropdownMenu>
   <DropdownMenuTrigger />
@@ -90,7 +96,7 @@ const sideTopCode = `<DropdownMenuContent side="top">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Dropdown Menu"
-      description="Menú desplegable que muestra una lista de acciones u opciones al hacer clic en un trigger."
+      :description="description"
       import-code="import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut } from '@3df/ui'"
     />
 
@@ -102,7 +108,7 @@ const sideTopCode = `<DropdownMenuContent side="top">
     <DropdownDemoBasic />
     <DropdownDemoSections />
 
-    <DocShowcase title="Alineación del dropdown" :code="alignCode">
+    <DocShowcase :title="showcaseTitle('alignment')" :code="alignCode">
       <div class="flex gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -139,7 +145,7 @@ const sideTopCode = `<DropdownMenuContent side="top">
       </div>
     </DocShowcase>
 
-    <DocShowcase title='Abre hacia arriba (side="top")' :code="sideTopCode">
+    <DocShowcase :title="showcaseTitle('openUp')" :code="sideTopCode">
       <div class="mt-32 flex gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger>

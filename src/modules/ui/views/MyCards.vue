@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import {
   Badge,
@@ -30,30 +32,31 @@ import CardsDemoProducts from './_components/CardsDemoProducts.vue';
 const notifications = ref(true);
 const framework = ref('vue');
 
-const cardProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('cards');
+
+const cardProps = computed<PropItem[]>(() => [
   {
     name: 'as',
     type: "'string' | Component",
     default: "'div'",
-    description:
-      'Elemento HTML o componente Vue a renderizar. Al usar "a" o "button", la card se vuelve interactiva.',
+    description: propDesc('as'),
   },
   {
     name: 'variant',
     type: "'default'",
     default: "'default'",
-    description: 'Variante visual de la card.',
+    description: propDesc('variant'),
   },
-];
+]);
 
-const subComponentProps: PropItem[] = [
+const subComponentProps = computed<PropItem[]>(() => [
   {
     name: 'CardTitle: as',
     type: "'string' | Component",
     default: "'h3'",
-    description: 'Elemento HTML del título (permite cambiar nivel de heading).',
+    description: propDesc('cardTitleAs'),
   },
-];
+]);
 
 const basicCode = `<Card>
   <CardHeader>
@@ -137,7 +140,7 @@ const anatomyCode = `import {
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Card"
-      description="Contenedor flexible para agrupar contenido relacionado con header, contenido y footer opcionales."
+      :description="description"
       import-code="import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df/ui'"
     />
 
@@ -146,7 +149,7 @@ const anatomyCode = `import {
       <DocCodeBlock :code="anatomyCode" lang="typescript" />
     </section>
 
-    <DocShowcase title="Card básica" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -165,7 +168,7 @@ const anatomyCode = `import {
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con formulario" :code="formCode">
+    <DocShowcase :title="showcaseTitle('withForm')" :code="formCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -201,7 +204,7 @@ const anatomyCode = `import {
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con notificaciones" :code="notifCode">
+    <DocShowcase :title="showcaseTitle('withNotifications')" :code="notifCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -237,7 +240,7 @@ const anatomyCode = `import {
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con badges" :code="badgeCode">
+    <DocShowcase :title="showcaseTitle('withBadges')" :code="badgeCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
@@ -270,7 +273,7 @@ const anatomyCode = `import {
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Interactiva (hover)" :code="hoverCode">
+    <DocShowcase :title="showcaseTitle('interactive')" :code="hoverCode">
       <div class="grid max-w-md gap-4">
         <Card class="cursor-pointer transition-shadow duration-200 hover:shadow-md">
           <CardHeader>
@@ -286,7 +289,7 @@ const anatomyCode = `import {
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Solo contenido" :code="contentOnlyCode">
+    <DocShowcase :title="showcaseTitle('contentOnly')" :code="contentOnlyCode">
       <div class="grid max-w-md gap-4">
         <Card>
           <CardContent class="pt-6">

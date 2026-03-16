@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
@@ -9,44 +11,48 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import TooltipDemoIcons from './_components/TooltipDemoIcons.vue';
 
-const tooltipProps: PropItem[] = [
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('tooltip');
+
+const tooltipProps = computed<PropItem[]>(() => [
   {
     name: 'Tooltip: delay',
     type: 'number',
     default: '300',
-    description: 'Milisegundos antes de mostrar el tooltip.',
+    description: propDesc('delay'),
   },
   {
     name: 'Tooltip: closeDelay',
     type: 'number',
     default: '150',
-    description: 'Milisegundos antes de ocultar el tooltip.',
+    description: propDesc('closeDelay'),
   },
   {
     name: 'TooltipContent: side',
     type: "'top' | 'bottom' | 'left' | 'right'",
     default: "'top'",
-    description: 'Lado preferido para mostrar el tooltip.',
+    description: propDesc('side'),
   },
   {
     name: 'TooltipContent: align',
     type: "'start' | 'center' | 'end'",
     default: "'center'",
-    description: 'Alineación respecto al trigger.',
+    description: propDesc('align'),
   },
   {
     name: 'TooltipContent: sideOffset',
     type: 'number',
     default: '6',
-    description: 'Distancia en px entre trigger y tooltip.',
+    description: propDesc('sideOffset'),
   },
   {
     name: 'TooltipContent: viewportPadding',
     type: 'number',
     default: '8',
-    description: 'Padding mínimo respecto al viewport.',
+    description: propDesc('viewportPadding'),
   },
-];
+]);
 
 const anatomyCode = `<Tooltip>
   <TooltipTrigger />
@@ -99,7 +105,7 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Tooltip"
-      description="Elemento flotante que muestra información adicional al pasar el cursor o hacer focus sobre un elemento."
+      :description="description"
       import-code="import { Tooltip, TooltipTrigger, TooltipContent } from '@3df/ui'"
     />
 
@@ -108,7 +114,7 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Tooltip>
         <TooltipTrigger>
           <Button variant="outline">Hover sobre mí</Button>
@@ -119,7 +125,7 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
       </Tooltip>
     </DocShowcase>
 
-    <DocShowcase title="Posiciones" :code="sidesCode">
+    <DocShowcase :title="showcaseTitle('positions')" :code="sidesCode">
       <div class="flex flex-wrap gap-4">
         <Tooltip>
           <TooltipTrigger>
@@ -151,7 +157,7 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Alineación" :code="alignCode">
+    <DocShowcase :title="showcaseTitle('alignment')" :code="alignCode">
       <div class="flex flex-wrap gap-4">
         <Tooltip>
           <TooltipTrigger>
@@ -178,7 +184,7 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
 
     <TooltipDemoIcons />
 
-    <DocShowcase title="Delay personalizado" :code="delayCode">
+    <DocShowcase :title="showcaseTitle('customDelay')" :code="delayCode">
       <div class="flex flex-wrap gap-4">
         <Tooltip :delay="0">
           <TooltipTrigger>
@@ -203,7 +209,7 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Contenido rico" :code="richCode">
+    <DocShowcase :title="showcaseTitle('richContent')" :code="richCode">
       <Tooltip>
         <TooltipTrigger>
           <Button variant="outline">Con contenido rico</Button>
@@ -224,8 +230,8 @@ const focusCode = `<!-- Los tooltips también aparecen al hacer focus con Tab --
     </DocShowcase>
 
     <DocShowcase
-      title="Se activa con focus (Tab)"
-      description="Usa Tab para navegar a los botones y ver los tooltips sin mouse."
+      :title="showcaseTitle('focusActivation')"
+      :description="showcaseDesc('focusActivation')"
       :code="focusCode"
     >
       <div class="flex gap-4">

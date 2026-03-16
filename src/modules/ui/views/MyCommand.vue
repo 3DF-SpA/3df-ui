@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import {
   CommandDialog,
@@ -17,73 +17,76 @@ import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import CommandDemoInline from './_components/CommandDemoInline.vue';
 
 const dialogOpen = ref(false);
 
-const commandProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('command');
+
+const commandProps = computed<PropItem[]>(() => [
   {
     name: 'Command: filter',
     type: '(value: string, search: string) => boolean',
     default: '-',
-    description: 'Función de filtro personalizada para los ítems.',
+    description: propDesc('filter'),
   },
   {
     name: 'Command: label',
     type: 'string',
     default: '-',
-    description: 'Etiqueta accesible del command.',
+    description: propDesc('label'),
   },
   {
     name: 'CommandInput: placeholder',
     type: 'string',
     default: '-',
-    description: 'Texto placeholder del input de búsqueda.',
+    description: propDesc('inputPlaceholder'),
   },
   {
     name: 'CommandInput: modelValue',
     type: 'string',
     default: '-',
-    description: 'Valor del input (v-model).',
+    description: propDesc('inputModelValue'),
   },
   {
     name: 'CommandGroup: heading',
     type: 'string',
     default: '-',
-    description: 'Título del grupo de ítems.',
+    description: propDesc('heading'),
   },
   {
     name: 'CommandItem: value',
     type: 'string',
     default: '-',
-    description: 'Valor usado para filtrar el ítem.',
+    description: propDesc('value'),
   },
   {
     name: 'CommandItem: keywords',
     type: 'string[]',
     default: '[]',
-    description: 'Palabras clave adicionales para el filtro.',
+    description: propDesc('keywords'),
   },
   {
     name: 'CommandItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Desactiva el ítem.',
+    description: propDesc('cmdItemDisabled'),
   },
   {
     name: 'CommandDialog: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado del dialog (v-model:open).',
+    description: propDesc('dialogOpen'),
   },
   {
     name: 'CommandDialog: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del dialog.',
+    description: propDesc('dialogDefaultOpen'),
   },
-];
+]);
 
 const anatomyCode = `<Command>
   <CommandInput />
@@ -124,7 +127,7 @@ const dialogCode = `const open = ref(false)
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Command"
-      description="Paleta de comandos con búsqueda y filtrado para acceso rápido a acciones y navegación."
+      :description="description"
       import-code="import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut } from '@3df/ui'"
     />
 
@@ -135,7 +138,7 @@ const dialogCode = `const open = ref(false)
 
     <CommandDemoInline />
 
-    <DocShowcase title="Command Dialog (⌘K / Ctrl+K)" :code="dialogCode">
+    <DocShowcase :title="showcaseTitle('commandDialog')" :code="dialogCode">
       <p class="text-muted-foreground text-sm">
         Presiona <kbd class="bg-muted rounded px-1.5 py-0.5 font-mono text-xs">⌘K</kbd> o haz clic
         en el botón para abrir el Command Dialog.

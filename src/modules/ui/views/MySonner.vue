@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 import { Button, Toaster, toast } from '@3df/ui';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -9,6 +11,8 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import SonnerDemoRich from './_components/SonnerDemoRich.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('sonner');
 
 const position = ref<
   'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
@@ -23,50 +27,50 @@ const positions = [
   'bottom-right',
 ] as const;
 
-const sonnerProps: PropItem[] = [
+const sonnerProps = computed<PropItem[]>(() => [
   {
     name: 'Toaster: position',
     type: "'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
     default: "'bottom-right'",
-    description: 'Posición de las notificaciones en la pantalla.',
+    description: propDesc('position'),
   },
   {
     name: 'Toaster: maxVisible',
     type: 'number',
     default: '3',
-    description: 'Máximo de notificaciones visibles simultáneamente.',
+    description: propDesc('maxVisible'),
   },
   {
     name: 'toast(): title',
     type: 'string',
     default: '-',
-    description: 'Título principal de la notificación.',
+    description: propDesc('title'),
   },
   {
     name: 'toast(): description',
     type: 'string',
     default: '-',
-    description: 'Texto descriptivo de la notificación.',
+    description: propDesc('descriptionProp'),
   },
   {
     name: 'toast(): duration',
     type: 'number',
     default: '5000',
-    description: 'Duración en ms (0 = persistente).',
+    description: propDesc('duration'),
   },
   {
     name: 'toast(): dismissible',
     type: 'boolean',
     default: 'true',
-    description: 'Permite cerrar manualmente la notificación.',
+    description: propDesc('dismissible'),
   },
   {
     name: 'toast(): action',
     type: '{ label: string, onClick: () => void }',
     default: '-',
-    description: 'Botón de acción dentro de la notificación.',
+    description: propDesc('action'),
   },
-];
+]);
 
 const variantsCode = `toast('Toast por defecto')
 toast.success('Operación completada')
@@ -104,13 +108,13 @@ const hoverCode = `toast.info({
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Sonner — Toast Notifications"
-      description="Sistema de notificaciones tipo toast con variantes, acciones y posicionamiento configurable."
+      :description="description"
       import-code="import { Toaster, toast } from '@3df/ui'"
     />
 
     <Toaster :position="position" />
 
-    <DocShowcase title="Variantes" :code="variantsCode">
+    <DocShowcase :title="showcaseTitle('variants')" :code="variantsCode">
       <div class="flex flex-wrap gap-3">
         <Button variant="outline" @click="toast('Este es un toast por defecto')"> Default </Button>
         <Button variant="outline" @click="toast.success('Operación completada exitosamente')">
@@ -130,7 +134,7 @@ const hoverCode = `toast.info({
 
     <SonnerDemoRich />
 
-    <DocShowcase title="Duración personalizada" :code="durationCode">
+    <DocShowcase :title="showcaseTitle('customDuration')" :code="durationCode">
       <div class="flex flex-wrap gap-3">
         <Button
           variant="outline"
@@ -159,7 +163,7 @@ const hoverCode = `toast.info({
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Posición" :code="positionCode">
+    <DocShowcase :title="showcaseTitle('position')" :code="positionCode">
       <p class="text-muted-foreground text-sm">
         Actual: <code class="text-foreground font-mono">{{ position }}</code>
       </p>
@@ -179,7 +183,7 @@ const hoverCode = `toast.info({
       </Button>
     </DocShowcase>
 
-    <DocShowcase title="No dismissible" :code="noDismissCode">
+    <DocShowcase :title="showcaseTitle('noDismissible')" :code="noDismissCode">
       <Button
         variant="outline"
         @click="
@@ -195,7 +199,7 @@ const hoverCode = `toast.info({
       </Button>
     </DocShowcase>
 
-    <DocShowcase title="Control programático" :code="programmaticCode">
+    <DocShowcase :title="showcaseTitle('programmatic')" :code="programmaticCode">
       <div class="flex flex-wrap gap-3">
         <Button
           variant="outline"
@@ -214,8 +218,8 @@ const hoverCode = `toast.info({
     </DocShowcase>
 
     <DocShowcase
-      title="Hover pausa el timer"
-      description="Al pasar el mouse sobre un toast, el temporizador de auto-cierre se pausa. Al quitar el mouse, se reanuda."
+      :title="showcaseTitle('hoverPause')"
+      :description="showcaseDesc('hoverPause')"
       :code="hoverCode"
     >
       <Button

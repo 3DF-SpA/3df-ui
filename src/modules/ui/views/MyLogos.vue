@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 import { LogoCloud, type LogoItem } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -7,6 +9,8 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import LogosDemoMarquee from './_components/LogosDemoMarquee.vue';
+
+const { description, propDesc, showcaseTitle } = useDocPage('logos');
 
 const techLogos: LogoItem[] = [
   {
@@ -88,109 +92,109 @@ const brandLogos: LogoItem[] = [
   },
 ];
 
-const cloudProps: PropItem[] = [
+const cloudProps = computed<PropItem[]>(() => [
   {
     name: 'logos',
     type: 'LogoItem[]',
     default: '—',
-    description: 'Array de logos a mostrar en el grid.',
+    description: propDesc('logos'),
   },
   {
     name: 'columns',
     type: '3 | 4 | 5 | 6',
     default: '4',
-    description: 'Número de columnas del grid (responsive).',
+    description: propDesc('columns'),
   },
   {
     name: 'showNames',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra el nombre del logo debajo de la imagen.',
+    description: propDesc('showNames'),
   },
   {
     name: 'logoHeight',
     type: 'number',
     default: '40',
-    description: 'Altura máxima en px de cada logo.',
+    description: propDesc('logoHeight'),
   },
   {
     name: 'grayscale',
     type: 'boolean',
     default: 'true',
-    description: 'Logos en escala de grises con color al hover.',
+    description: propDesc('grayscale'),
   },
   {
     name: 'heading',
     type: 'string',
     default: 'undefined',
-    description: 'Título opcional sobre el grid.',
+    description: propDesc('heading'),
   },
-];
+]);
 
-const marqueeProps: PropItem[] = [
+const marqueeProps = computed<PropItem[]>(() => [
   {
     name: 'logos',
     type: 'LogoItem[]',
     default: '—',
-    description: 'Array de logos para el scroll infinito.',
+    description: propDesc('logos'),
   },
   {
     name: 'direction',
     type: "'left' | 'right'",
     default: "'left'",
-    description: 'Dirección del scroll.',
+    description: propDesc('direction'),
   },
   {
     name: 'duration',
     type: 'number',
     default: '30',
-    description: 'Duración de un ciclo completo en segundos.',
+    description: propDesc('duration'),
   },
   {
     name: 'hoverDuration',
     type: 'number',
     default: '80',
-    description: 'Duración al hacer hover (más lento).',
+    description: propDesc('hoverDuration'),
   },
-  { name: 'logoHeight', type: 'number', default: '40', description: 'Altura de cada logo en px.' },
-  { name: 'gap', type: 'number', default: '48', description: 'Espacio entre logos en px.' },
+  { name: 'logoHeight', type: 'number', default: '40', description: propDesc('logoHeight') },
+  { name: 'gap', type: 'number', default: '48', description: propDesc('gap') },
   {
     name: 'grayscale',
     type: 'boolean',
     default: 'true',
-    description: 'Logos en escala de grises.',
+    description: propDesc('grayscale'),
   },
   {
     name: 'fadeMask',
     type: 'boolean',
     default: 'true',
-    description: 'Desvanecimiento en los bordes laterales.',
+    description: propDesc('fadeMask'),
   },
   {
     name: 'pauseOnHover',
     type: 'boolean',
     default: 'false',
-    description: 'Pausa la animación al hover (en vez de frenar).',
+    description: propDesc('pauseOnHover'),
   },
   {
     name: 'showNames',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra nombres debajo de cada logo.',
+    description: propDesc('showNames'),
   },
   {
     name: 'heading',
     type: 'string',
     default: 'undefined',
-    description: 'Título opcional sobre el marquee.',
+    description: propDesc('heading'),
   },
   {
     name: 'reverse',
     type: 'boolean',
     default: 'false',
-    description: 'Agrega segunda fila con dirección opuesta.',
+    description: propDesc('reverse'),
   },
-];
+]);
 
 const cloudCode = `<LogoCloud
   :logos="logos"
@@ -212,11 +216,11 @@ const cloudColorCode = `<LogoCloud
   <div class="flex flex-col gap-10">
     <DocHeader
       title="LogoCloud & LogoMarquee"
-      description="Muestra logos de marcas, sponsors y partners. Grid estático o marquee infinito con efecto hover-to-slow."
+      :description="description"
       import-code="import { LogoCloud, LogoMarquee, type LogoItem } from '@3df/ui'"
     />
 
-    <DocShowcase title="Logo Cloud — Grid con Grayscale" :code="cloudCode">
+    <DocShowcase :title="showcaseTitle('cloudGrayscale')" :code="cloudCode">
       <div class="border-border bg-card rounded-xl border p-8">
         <LogoCloud
           :logos="techLogos"
@@ -228,7 +232,7 @@ const cloudColorCode = `<LogoCloud
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Logo Cloud — Full Color" :code="cloudColorCode">
+    <DocShowcase :title="showcaseTitle('cloudColor')" :code="cloudColorCode">
       <div class="border-border bg-card rounded-xl border p-8">
         <LogoCloud :logos="brandLogos" :columns="5" :grayscale="false" :logo-height="36" />
       </div>

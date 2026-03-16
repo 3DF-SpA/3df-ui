@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Button } from '@3df/ui';
 
 import Icon from '@/components/MyIcons.vue';
@@ -7,32 +9,34 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
-const buttonProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('button');
+
+const buttonProps = computed<PropItem[]>(() => [
   {
     name: 'variant',
     type: `'default' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'link'`,
     default: `'default'`,
-    description: 'Estilo visual del botón',
+    description: propDesc('variant'),
   },
   {
     name: 'size',
     type: `'default' | 'xs' | 'sm' | 'lg' | 'icon'`,
     default: `'default'`,
-    description: 'Tamaño del botón',
+    description: propDesc('size'),
   },
   {
     name: 'as',
     type: 'string',
     default: `'button'`,
-    description: 'Elemento HTML a renderizar',
+    description: propDesc('as'),
   },
   {
     name: 'truncate',
     type: 'boolean',
     default: 'false',
-    description: 'Trunca el texto con elipsis si desborda',
+    description: propDesc('truncate'),
   },
-];
+]);
 
 const variantsCode = `<Button>Default</Button>
 <Button variant="secondary">Secondary</Button>
@@ -63,13 +67,13 @@ const asLinkCode = `<Button as="a" href="https://vuejs.org" target="_blank">As a
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Button"
-      description="Botón interactivo con múltiples variantes, tamaños y la posibilidad de renderizarse como otro elemento HTML."
+      :description="description"
       import-code="import { Button } from '@3df/ui'"
     />
 
     <DocShowcase
-      title="Variantes"
-      description="Estilos visuales disponibles para el botón."
+      :title="showcaseTitle('variants')"
+      :description="showcaseDesc('variants')"
       :code="variantsCode"
     >
       <div class="flex flex-wrap items-center gap-4">
@@ -83,8 +87,8 @@ const asLinkCode = `<Button as="a" href="https://vuejs.org" target="_blank">As a
     </DocShowcase>
 
     <DocShowcase
-      title="Tamaños"
-      description="Tamaños predefinidos incluyendo el modo ícono."
+      :title="showcaseTitle('sizes')"
+      :description="showcaseDesc('sizes')"
       :code="sizesCode"
     >
       <div class="flex flex-wrap items-end gap-4">
@@ -99,8 +103,8 @@ const asLinkCode = `<Button as="a" href="https://vuejs.org" target="_blank">As a
     </DocShowcase>
 
     <DocShowcase
-      title="Estados"
-      description="Botones en estado deshabilitado para cada variante."
+      :title="showcaseTitle('states')"
+      :description="showcaseDesc('states')"
       :code="statesCode"
     >
       <div class="flex flex-wrap items-center gap-4">
@@ -112,8 +116,8 @@ const asLinkCode = `<Button as="a" href="https://vuejs.org" target="_blank">As a
     </DocShowcase>
 
     <DocShowcase
-      title="Como enlace"
-      description="Renderiza el botón como un elemento anchor usando la prop as."
+      :title="showcaseTitle('asLink')"
+      :description="showcaseDesc('asLink')"
       :code="asLinkCode"
     >
       <div class="flex flex-wrap items-center gap-4">

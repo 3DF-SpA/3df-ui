@@ -1,55 +1,58 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
-const tabsProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('tabs');
+
+const tabsProps = computed<PropItem[]>(() => [
   {
     name: 'modelValue',
     type: 'string',
     default: 'undefined',
-    description: 'Pestaña activa (modo controlado)',
+    description: propDesc('modelValue'),
   },
   {
     name: 'defaultValue',
     type: 'string',
     default: 'undefined',
-    description: 'Pestaña activa inicial (modo no controlado)',
+    description: propDesc('defaultValue'),
   },
   {
     name: 'orientation',
     type: "'horizontal' | 'vertical'",
     default: "'horizontal'",
-    description: 'Orientación del conjunto de pestañas',
+    description: propDesc('orientation'),
   },
-];
+]);
 
-const triggerProps: PropItem[] = [
+const triggerProps= computed<PropItem[]>(() => [
   {
     name: 'value',
     type: 'string',
     default: '—',
-    description: 'Valor único que identifica esta pestaña (requerido)',
+    description: propDesc('value'),
   },
   {
     name: 'variant',
     type: "'underline' | 'pill' | 'card'",
     default: "'underline'",
-    description: 'Estilo visual del trigger',
+    description: propDesc('variant'),
   },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita la pestaña',
+    description: propDesc('disabled'),
   },
-];
+]);
 
-const basicCode = `<Tabs default-value="cuenta">
+const basicCode= `<Tabs default-value="cuenta">
   <TabsList>
     <TabsTrigger value="cuenta">Cuenta</TabsTrigger>
     <TabsTrigger value="seguridad">Seguridad</TabsTrigger>
@@ -122,7 +125,7 @@ const activeTab = ref('a');
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Tabs"
-      description="Pestañas de navegación que organizan el contenido en secciones intercambiables."
+      :description="description"
       import-code="import { Tabs, TabsList, TabsTrigger, TabsContent } from '@3df/ui'"
     />
 
@@ -130,8 +133,8 @@ const activeTab = ref('a');
     <DocPropsTable title="TabsTrigger props" :props="triggerProps" />
 
     <DocShowcase
-      title="Underline (default)"
-      description="Estilo con línea inferior, ideal para navegación de contenido."
+      :title="showcaseTitle('underline')"
+      :description="showcaseDesc('underline')"
       :code="basicCode"
     >
       <Tabs default-value="cuenta">
@@ -153,8 +156,8 @@ const activeTab = ref('a');
     </DocShowcase>
 
     <DocShowcase
-      title="Pill"
-      description="Estilo de píldora con fondo activo, ideal para filtros o selectores compactos."
+      :title="showcaseTitle('pill')"
+      :description="showcaseDesc('pill')"
       :code="pillCode"
     >
       <Tabs default-value="dia">
@@ -172,8 +175,8 @@ const activeTab = ref('a');
     </DocShowcase>
 
     <DocShowcase
-      title="Card"
-      description="Estilo de tarjeta elevada, ideal para contenedores tipo preview/code."
+      :title="showcaseTitle('card')"
+      :description="showcaseDesc('card')"
       :code="cardCode"
     >
       <Tabs default-value="codigo">
@@ -195,8 +198,8 @@ const activeTab = ref('a');
     </DocShowcase>
 
     <DocShowcase
-      title="Vertical"
-      description="Orientación vertical, ideal para paneles de configuración."
+      :title="showcaseTitle('vertical')"
+      :description="showcaseDesc('vertical')"
       :code="verticalCode"
     >
       <Tabs default-value="perfil" orientation="vertical">
@@ -214,8 +217,8 @@ const activeTab = ref('a');
     </DocShowcase>
 
     <DocShowcase
-      title="Controlado (v-model)"
-      description="Modo controlado con v-model para sincronizar el estado externamente."
+      :title="showcaseTitle('controlled')"
+      :description="showcaseDesc('controlled')"
       :code="controlledCode"
     >
       <div class="flex flex-col gap-3">

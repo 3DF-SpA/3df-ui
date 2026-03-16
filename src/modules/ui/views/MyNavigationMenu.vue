@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import NavMenuDemoCentered from './_components/NavMenuDemoCentered.vue';
 import NavMenuDemoComplete from './_components/NavMenuDemoComplete.vue';
@@ -12,29 +15,31 @@ import NavMenuDemoMultiCategory from './_components/NavMenuDemoMultiCategory.vue
 import NavMenuDemoNavbar from './_components/NavMenuDemoNavbar.vue';
 import NavMenuDemoSimple from './_components/NavMenuDemoSimple.vue';
 
-const menuItemProps: PropItem[] = [
+const { description, propDesc } = useDocPage('navigationMenu');
+
+const menuItemProps = computed<PropItem[]>(() => [
   {
     name: 'value',
     type: 'string',
     default: 'auto-generado',
-    description: 'Identificador único del item. Determina qué panel está abierto.',
+    description: propDesc('value'),
   },
-];
+]);
 
-const menuLinkProps: PropItem[] = [
+const menuLinkProps = computed<PropItem[]>(() => [
   {
     name: 'as',
     type: 'string | Component',
     default: "'a'",
-    description: 'Elemento HTML o componente a renderizar (ej. RouterLink).',
+    description: propDesc('as'),
   },
   {
     name: 'active',
     type: 'boolean',
     default: 'false',
-    description: 'Indica la página activa. Aplica estilos de acento y data-active.',
+    description: propDesc('active'),
   },
-];
+]);
 
 const anatomyCode = `import {
   NavigationMenu,
@@ -51,7 +56,7 @@ const anatomyCode = `import {
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Navigation Menu"
-      description="Menú de navegación horizontal con paneles desplegables, transiciones suaves y soporte de teclado."
+      :description="description"
       import-code="import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df/ui'"
     />
 
