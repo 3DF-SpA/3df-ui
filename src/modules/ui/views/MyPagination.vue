@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Pagination,
@@ -23,6 +24,7 @@ import PaginationDemoDynamic from './_components/PaginationDemoDynamic.vue';
 const basicPage = ref(1);
 const borderedPage = ref(3);
 
+const { t } = useI18n();
 const { description, propDesc, showcaseTitle } = useDocPage('pagination');
 
 const paginationLinkProps = computed<PropItem[]>(() => [
@@ -106,7 +108,7 @@ const anatomyCode = `import {
 
     <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <p class="text-muted-foreground mb-3 text-sm">
-        Página actual: <span class="font-mono font-medium">{{ basicPage }}</span>
+        {{ t('views.pagination.currentPage') }} <span class="font-mono font-medium">{{ basicPage }}</span>
       </p>
       <Pagination>
         <PaginationContent>
@@ -166,13 +168,13 @@ const anatomyCode = `import {
     <PaginationDemoCompactDisabled />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <h2 class="text-sm font-semibold">{{ t('views.pagination.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" language="typescript" />
     </section>
 
-    <DocPropsTable title="Props de PaginationLink" :props="paginationLinkProps" />
+    <DocPropsTable :title="t('views.pagination.propsLinkTitle')" :props="paginationLinkProps" />
     <DocPropsTable
-      title="Props de PaginationPrevious / PaginationNext"
+      :title="t('views.pagination.propsNavTitle')"
       :props="paginationNavProps"
     />
   </div>

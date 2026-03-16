@@ -26,7 +26,7 @@ const selectedProfile = ref('name');
 const { t } = useI18n();
 
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.actionAlert', { action }));
 }
 </script>
 
@@ -124,15 +124,13 @@ function onAction(action: string) {
     </Menubar>
 
     <p class="text-muted-foreground mt-2 text-xs">
-      Estado: StatusBar={{ showStatusBar }}, ActivityBar={{ showActivityBar }}, Panel={{
-        showPanel
-      }}
+      {{ t('demo.menubarIdeStatus', { statusBar: showStatusBar, activityBar: showActivityBar, panel: showPanel }) }}
     </p>
   </section>
 
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      Menubar compacto — mínimo sin submenús
+      {{ t('demo.compactMenubar') }}
     </h2>
 
     <Menubar class="w-fit">

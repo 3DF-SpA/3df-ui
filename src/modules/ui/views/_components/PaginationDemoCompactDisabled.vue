@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Pagination,
@@ -13,6 +14,8 @@ import {
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const sizePage = ref(2);
+
+const { t } = useI18n();
 
 const compactCode = `<PaginationPrevious :disabled="page <= 1" @click="prev">
   <template #default><span /></template>
@@ -30,7 +33,7 @@ const disabledCode = `<PaginationPrevious disabled />
 </script>
 
 <template>
-  <DocShowcase title="Solo flechas (compacto)" :code="compactCode">
+  <DocShowcase :title="t('views.pagination.showcases.compact.title')" :code="compactCode">
     <Pagination>
       <PaginationContent>
         <PaginationItem>
@@ -43,7 +46,7 @@ const disabledCode = `<PaginationPrevious disabled />
         </PaginationItem>
         <PaginationItem>
           <span class="text-muted-foreground inline-flex h-10 items-center px-3 text-sm">
-            Página {{ sizePage }} de 10
+            {{ t('views.pagination.pageOf', { page: sizePage, total: 10 }) }}
           </span>
         </PaginationItem>
         <PaginationItem>
@@ -55,7 +58,7 @@ const disabledCode = `<PaginationPrevious disabled />
     </Pagination>
   </DocShowcase>
 
-  <DocShowcase title="Estado disabled" :code="disabledCode">
+  <DocShowcase :title="t('views.pagination.showcases.disabled.title')" :code="disabledCode">
     <Pagination>
       <PaginationContent>
         <PaginationItem>
