@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Calendar, DatePicker, type DateRange, DateRangePicker } from '@3df/ui';
 import { format } from 'date-fns';
@@ -11,7 +12,8 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
-const { description, propDesc } = useDocPage('datePicker');
+const { t } = useI18n();
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('datePicker');
 
 const singleDate = ref<Date>();
 const rangeDate = ref<DateRange>();
@@ -100,75 +102,75 @@ const calendarCode = `<Calendar v-model="calendarDate" />
     />
 
     <DocShowcase
-      title="Fecha simple"
-      description="Selector de fecha individual con formato automático."
+      :title="showcaseTitle('simple')"
+      :description="showcaseDesc('simple')"
       :code="simpleCode"
     >
       <div class="flex max-w-sm flex-col gap-4">
         <DatePicker v-model="singleDate" class="max-w-sm" />
         <p class="text-sm">
-          <strong>Valor:</strong>
-          {{ singleDate ? format(singleDate, 'PPP') : 'Sin seleccionar' }}
+          <strong>{{ t('demo.datePicker.value') }}</strong>
+          {{ singleDate ? format(singleDate, 'PPP') : t('demo.datePicker.notSelected') }}
         </p>
       </div>
     </DocShowcase>
 
     <DocShowcase
-      title="Locale español"
-      description="Usando date-fns/locale/es para nombres en español."
+      :title="showcaseTitle('locale')"
+      :description="showcaseDesc('locale')"
       :code="localeCode"
     >
       <div class="flex max-w-sm flex-col gap-4">
         <DatePicker
           v-model="spanishDate"
           :locale="es"
-          placeholder="Selecciona una fecha"
+          :placeholder="t('demo.datePicker.placeholderLocale')"
           class="max-w-sm"
         />
         <p class="text-sm">
-          <strong>Valor:</strong>
-          {{ spanishDate ? format(spanishDate, 'PPP', { locale: es }) : 'Sin seleccionar' }}
+          <strong>{{ t('demo.datePicker.value') }}</strong>
+          {{ spanishDate ? format(spanishDate, 'PPP', { locale: es }) : t('demo.datePicker.notSelected') }}
         </p>
       </div>
     </DocShowcase>
 
     <DocShowcase
-      title="Fechas deshabilitadas"
-      description="No permite seleccionar fechas anteriores a hoy."
+      :title="showcaseTitle('disabled')"
+      :description="showcaseDesc('disabled')"
       :code="disabledCode"
     >
       <div class="max-w-sm">
         <DatePicker
           v-model="disabledDate"
           :disabled="isPastDate"
-          placeholder="Solo fechas futuras"
+          :placeholder="t('demo.datePicker.placeholderFuture')"
           class="max-w-sm"
         />
       </div>
     </DocShowcase>
 
     <DocShowcase
-      title="Rango de fechas"
-      description="Selector de rango con dos meses visibles. Click en la fecha inicio, luego en la fecha fin."
+      :title="showcaseTitle('range')"
+      :description="showcaseDesc('range')"
       :code="rangeCode"
     >
       <div class="flex max-w-md flex-col gap-4">
         <DateRangePicker v-model="rangeDate" class="max-w-md" />
         <p class="text-sm">
-          <strong>Rango:</strong>
+          <strong>{{ t('demo.datePicker.range') }}</strong>
           <template v-if="rangeDate">
             {{ format(rangeDate.from, 'PP') }}
             <template v-if="rangeDate.to"> – {{ format(rangeDate.to, 'PP') }}</template>
-            <template v-else> (selecciona fecha fin)</template>
+            <template v-else> {{ t('demo.datePicker.selectEndDate') }}</template>
           </template>
-          <template v-else>Sin seleccionar</template>
+          <template v-else>{{ t('demo.datePicker.notSelected') }}</template>
         </p>
       </div>
     </DocShowcase>
 
     <DocShowcase
-      title="Calendario independiente"
-      description="El calendario se puede usar directamente sin el wrapper de DatePicker."
+      :title="showcaseTitle('calendar')"
+      :description="showcaseDesc('calendar')"
       :code="calendarCode"
     >
       <div class="flex flex-col gap-4">
@@ -176,8 +178,8 @@ const calendarCode = `<Calendar v-model="calendarDate" />
           <Calendar v-model="calendarDate" />
         </div>
         <p class="text-sm">
-          <strong>Seleccionado:</strong>
-          {{ calendarDate ? format(calendarDate, 'PPP') : 'Ninguno' }}
+          <strong>{{ t('demo.datePicker.selected') }}</strong>
+          {{ calendarDate ? format(calendarDate, 'PPP') : t('demo.datePicker.none') }}
         </p>
       </div>
     </DocShowcase>
@@ -185,3 +187,4 @@ const calendarCode = `<Calendar v-model="calendarDate" />
     <DocPropsTable :props="datePickerProps" />
   </div>
 </template>
+
