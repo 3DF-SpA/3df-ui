@@ -18,7 +18,7 @@ const alertProps: PropItem[] = [
   },
 ];
 
-const variantCode = `<Alert variant="success">
+const _variantCode = `<Alert variant="success">
   <svg class="size-4">...</svg>
   <AlertTitle>¡Éxito!</AlertTitle>
   <AlertDescription>Operación completada.</AlertDescription>

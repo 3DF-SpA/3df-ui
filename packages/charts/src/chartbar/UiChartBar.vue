@@ -156,7 +156,7 @@ function onCategoryLeave() {
     <UiChartContainer :min-height="minHeight" class="w-full">
       <template #default="{ width: w, height: h }">
         <template
-          v-for="c in [
+          v-for="(c, i) in [
             {
               grid: computeBarGrid(w, h, barParams),
               hover: computeBarHoverRegions(w, h, barParams),
@@ -166,7 +166,7 @@ function onCategoryLeave() {
                   : computeHorizontalBars(w, h, barParams),
             },
           ]"
-          :key="0"
+          :key="i"
         >
           <defs>
             <linearGradient

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { LogoCloud, type LogoItem, LogoMarquee } from '@3df/ui';
+import { LogoCloud, type LogoItem } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';

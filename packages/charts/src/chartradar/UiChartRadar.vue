@@ -310,7 +310,7 @@ function onDotLeave() {
         <!-- eslint-disable-next-line vue/no-unused-vars -->
         <g v-if="categories.length >= 3" :transform="`translate(0,0)`">
           <template
-            v-for="c in [
+            v-for="(c, i) in [
               {
                 grid: computeGrid(w / 2, h / 2, Math.min(w, h) / 2 - 50),
                 series: computeSeries(w / 2, h / 2, Math.min(w, h) / 2 - 50),
@@ -320,7 +320,7 @@ function onDotLeave() {
                 r: Math.min(w, h) / 2 - 50,
               },
             ]"
-            :key="0"
+            :key="i"
           >
             <defs>
               <!-- Gradient fill per series -->

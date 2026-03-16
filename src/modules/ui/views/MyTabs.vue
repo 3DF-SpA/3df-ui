@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@3df/ui';
 
-import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';

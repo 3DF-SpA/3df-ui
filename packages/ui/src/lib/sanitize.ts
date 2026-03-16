@@ -7,7 +7,7 @@
  */
 export function sanitizeHref(url: string | undefined | null): string {
   if (!url) return '#';
-  // eslint-disable-next-line no-control-regex
+  // oxlint-disable-next-line no-control-regex
   const normalized = url.trim().toLowerCase().replace(/[\u0000-\u001f\u007f\u00ad\ufeff]/g, '');
   if (
     normalized.startsWith('javascript:') ||

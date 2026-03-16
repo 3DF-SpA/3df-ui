@@ -360,8 +360,8 @@ function onDotLeave() {
     <UiChartContainer :min-height="minHeight" class="w-full">
       <template #default="{ width: w, height: h }">
         <template
-          v-for="c in [{ grid: computeGridAndAxes(w, h), points: computePoints(w, h) }]"
-          :key="0"
+          v-for="(c, i) in [{ grid: computeGridAndAxes(w, h), points: computePoints(w, h) }]"
+          :key="i"
         >
           <defs>
             <!-- Glow filter -->
