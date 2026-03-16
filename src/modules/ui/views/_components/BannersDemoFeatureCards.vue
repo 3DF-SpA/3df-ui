@@ -1,33 +1,32 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { Button, Card } from '@3df/ui';
 
 const activeTab = ref(0);
 const { t } = useI18n();
-const tabs = [
+const tabs = computed(() => [
   {
-    title: '¿Qué es plasma?',
-    text: 'El plasma es la parte líquida de tu sangre que los científicos convierten en medicamentos que salvan vidas. Tu cuerpo lo repone rápido, así que puedes donar dos veces por semana.',
+    title: t('demo.banners.plasma.tab0Title'),
+    text: t('demo.banners.plasma.tab0Text'),
   },
   {
-    title: '¿Qué pasa después?',
-    text: 'Una vez donado, el plasma se envía a laboratorios especializados donde se fraccionan las proteínas para crear terapias para enfermedades raras y condiciones crónicas.',
+    title: t('demo.banners.plasma.tab1Title'),
+    text: t('demo.banners.plasma.tab1Text'),
   },
   {
-    title: '¿Cómo ayuda?',
-    text: 'Cada donación puede ayudar a tratar hasta 18 pacientes diferentes. Los derivados del plasma son esenciales para personas con deficiencias inmunológicas y trastornos de coagulación.',
+    title: t('demo.banners.plasma.tab2Title'),
+    text: t('demo.banners.plasma.tab2Text'),
   },
-];
+]);
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Feature Card (composición con Card)</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.banners.featureCard.sectionTitle') }}</h2>
     <p class="text-muted-foreground text-xs">
-      Ejemplo usando <code class="bg-muted rounded px-1 py-0.5 text-xs">Card</code> + layout grid
-      para lograr el patrón split texto/imagen.
+      {{ t('demo.banners.featureCard.sectionDesc') }}
     </p>
 
     <Card
@@ -38,7 +37,7 @@ const tabs = [
           <span
             class="text-xs font-bold tracking-widest text-blue-600 uppercase dark:text-blue-400"
           >
-            Aprende más
+            {{ t('demo.banners.plasma.learnMore') }}
           </span>
           <div class="flex flex-col gap-1">
             <button
@@ -63,7 +62,7 @@ const tabs = [
               variant="outline"
               class="dark:bg-background rounded-full bg-white px-6 shadow-sm"
             >
-              Únete a la lista
+              {{ t('demo.banners.plasma.joinList') }}
             </Button>
           </div>
         </div>
@@ -83,7 +82,7 @@ const tabs = [
   </section>
 
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Feature Card — variante oscura</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.banners.featureCard.darkTitle') }}</h2>
 
     <Card
       class="overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white"
@@ -103,15 +102,14 @@ const tabs = [
             Analytics
           </span>
           <h3 class="text-3xl leading-tight font-bold lg:text-4xl">
-            Toma decisiones basadas en datos
+            {{ t('demo.banners.featureCard.heading') }}
           </h3>
           <p class="max-w-md text-sm leading-relaxed text-slate-300">
-            Nuestro dashboard te da visibilidad completa sobre métricas clave, tendencias y
-            patrones. Conecta todas tus fuentes de datos en un solo lugar.
+            {{ t('demo.banners.featureCard.text') }}
           </p>
           <div class="flex gap-3">
             <Button class="rounded-full bg-white px-6 text-slate-900 hover:bg-white/90">
-              Comenzar gratis
+              {{ t('demo.banners.featureCard.startFree') }}
             </Button>
             <Button variant="ghost" class="rounded-full text-white hover:bg-white/10">
               {{ t('demo.viewDemo') }}

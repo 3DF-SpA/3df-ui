@@ -52,17 +52,17 @@ const bannerProps = computed<PropItem[]>(() => [
 ]);
 
 const defaultCode = `<Banner>
-  Nueva versión disponible — Actualiza ahora.
+  New version available — Update now.
 </Banner>`;
 
 const actionCode = `<Banner variant="info" align="between">
   <template #icon>
     <svg class="size-4">...</svg>
   </template>
-  Hay 5 notificaciones sin leer.
+  You have 5 unread notifications.
   <template #action>
     <button class="rounded-md bg-white/20 px-3 py-1 text-xs">
-      Ver todas
+      View all
     </button>
   </template>
 </Banner>`;
@@ -73,15 +73,15 @@ const dismissibleCode = `<Banner
   dismissible
   @dismiss="showDismissible = false"
 >
-  Este banner se puede cerrar.
+  This banner can be closed.
 </Banner>`;
 
-const alignCode = `<Banner variant="muted" align="start">Inicio</Banner>
-<Banner variant="muted" align="center">Centro</Banner>
+const alignCode = `<Banner variant="muted" align="start">Start</Banner>
+<Banner variant="muted" align="center">Center</Banner>
 <Banner variant="muted" align="between">
-  Distribuido
+  Distributed
   <template #action>
-    <button>Acción</button>
+    <button>Action</button>
   </template>
 </Banner>`;
 
@@ -91,7 +91,7 @@ const fixedCode = `<Banner
   dismissible
   @dismiss="showFixed = false"
 >
-  Banner fijo en la parte superior.
+  Fixed banner at the top.
 </Banner>`;
 </script>
 
@@ -105,7 +105,7 @@ const fixedCode = `<Banner
 
     <DocShowcase :title="showcaseTitle('default')" :code="defaultCode">
       <Banner>
-        Nueva versión disponible — Actualiza ahora para acceder a las últimas funcionalidades.
+        {{ t('demo.banners.newVersion') }}
       </Banner>
     </DocShowcase>
 
@@ -128,12 +128,12 @@ const fixedCode = `<Banner
             <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
           </svg>
         </template>
-        Hay 5 notificaciones sin leer en tu bandeja.
+        {{ t('demo.banners.unreadNotifications') }}
         <template #action>
           <button
             class="rounded-md bg-white/20 px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors hover:bg-white/30"
           >
-            Ver todas
+            {{ t('demo.banners.viewAll') }}
           </button>
         </template>
       </Banner>
@@ -161,33 +161,33 @@ const fixedCode = `<Banner
             <path d="m9 11 3 3L22 4" />
           </svg>
         </template>
-        Este banner se puede cerrar haciendo clic en la X.
+        {{ t('demo.banners.dismissibleText') }}
       </Banner>
       <Button v-if="!showDismissible" variant="outline" size="sm" @click="resetDismissible">
-        Mostrar de nuevo
+        {{ t('demo.banners.showAgain') }}
       </Button>
     </DocShowcase>
 
-    <DocShowcase title="Alineación" :code="alignCode">
+    <DocShowcase :title="showcaseTitle('align')" :code="alignCode">
       <div class="flex flex-col gap-3">
-        <Banner variant="muted" align="start">Alineado al inicio (start)</Banner>
-        <Banner variant="muted" align="center">Alineado al centro (center)</Banner>
+        <Banner variant="muted" align="start">{{ t('demo.banners.alignStart') }}</Banner>
+        <Banner variant="muted" align="center">{{ t('demo.banners.alignCenter') }}</Banner>
         <Banner variant="muted" align="between">
-          Distribuido (between)
+          {{ t('demo.banners.alignBetween') }}
           <template #action>
             <button
               class="bg-foreground/10 hover:bg-foreground/20 rounded-md px-3 py-1 text-xs font-medium transition-colors"
             >
-              Acción
+              {{ t('demo.banners.action') }}
             </button>
           </template>
         </Banner>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Posición fija (demo)" :code="fixedCode">
+    <DocShowcase :title="showcaseTitle('fixedPosition')" :code="fixedCode">
       <Button variant="outline" size="sm" @click="showFixed = !showFixed">
-        {{ showFixed ? t('common.hide') : t('common.show') }} banner fijo
+        {{ showFixed ? t('demo.banners.hideFixedBanner') : t('demo.banners.showFixedBanner') }}
       </Button>
       <Teleport to="body">
         <Banner
@@ -214,13 +214,13 @@ const fixedCode = `<Banner
               <path d="M12 17h.01" />
             </svg>
           </template>
-          Este banner está fijo en la parte superior de la ventana.
+          {{ t('demo.banners.fixedText') }}
           <template #action>
             <button
               class="rounded-md bg-white/20 px-3 py-1 text-xs font-medium whitespace-nowrap transition-colors hover:bg-white/30"
               @click="showFixed = false"
             >
-              Entendido
+              {{ t('demo.banners.understood') }}
             </button>
           </template>
         </Banner>

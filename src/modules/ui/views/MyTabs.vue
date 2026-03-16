@@ -53,52 +53,52 @@ const triggerProps= computed<PropItem[]>(() => [
   },
 ]);
 
-const basicCode= `<Tabs default-value="cuenta">
+const basicCode= `<Tabs default-value="account">
   <TabsList>
-    <TabsTrigger value="cuenta">Cuenta</TabsTrigger>
-    <TabsTrigger value="seguridad">Seguridad</TabsTrigger>
-    <TabsTrigger value="notificaciones">Notificaciones</TabsTrigger>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="security">Security</TabsTrigger>
+    <TabsTrigger value="notifications">Notifications</TabsTrigger>
   </TabsList>
-  <TabsContent value="cuenta">
-    <p class="text-muted-foreground text-sm">Gestiona la configuración de tu cuenta.</p>
+  <TabsContent value="account">
+    <p class="text-muted-foreground text-sm">Manage your account settings.</p>
   </TabsContent>
-  <TabsContent value="seguridad">
-    <p class="text-muted-foreground text-sm">Cambia tu contraseña y configura 2FA.</p>
+  <TabsContent value="security">
+    <p class="text-muted-foreground text-sm">Change your password and set up 2FA.</p>
   </TabsContent>
-  <TabsContent value="notificaciones">
-    <p class="text-muted-foreground text-sm">Elige qué notificaciones quieres recibir.</p>
+  <TabsContent value="notifications">
+    <p class="text-muted-foreground text-sm">Choose what notifications you want to receive.</p>
   </TabsContent>
 </Tabs>`;
 
-const pillCode = `<Tabs default-value="dia">
+const pillCode = `<Tabs default-value="day">
   <TabsList>
-    <TabsTrigger value="dia" variant="pill">Día</TabsTrigger>
-    <TabsTrigger value="semana" variant="pill">Semana</TabsTrigger>
-    <TabsTrigger value="mes" variant="pill">Mes</TabsTrigger>
+    <TabsTrigger value="day" variant="pill">Day</TabsTrigger>
+    <TabsTrigger value="week" variant="pill">Week</TabsTrigger>
+    <TabsTrigger value="month" variant="pill">Month</TabsTrigger>
   </TabsList>
-  <TabsContent value="dia">Vista del día</TabsContent>
-  <TabsContent value="semana">Vista de la semana</TabsContent>
-  <TabsContent value="mes">Vista del mes</TabsContent>
+  <TabsContent value="day">Day view</TabsContent>
+  <TabsContent value="week">Week view</TabsContent>
+  <TabsContent value="month">Month view</TabsContent>
 </Tabs>`;
 
-const cardCode = `<Tabs default-value="codigo">
+const cardCode = `<Tabs default-value="code">
   <TabsList class="bg-muted rounded-lg p-1">
     <TabsTrigger value="preview" variant="card">Preview</TabsTrigger>
-    <TabsTrigger value="codigo" variant="card">Código</TabsTrigger>
+    <TabsTrigger value="code" variant="card">Code</TabsTrigger>
   </TabsList>
-  <TabsContent value="preview">Vista previa del componente</TabsContent>
-  <TabsContent value="codigo">Código fuente aquí</TabsContent>
+  <TabsContent value="preview">Component preview</TabsContent>
+  <TabsContent value="code">Source code here</TabsContent>
 </Tabs>`;
 
-const verticalCode = `<Tabs default-value="perfil" orientation="vertical" class="gap-6">
+const verticalCode = `<Tabs default-value="profile" orientation="vertical" class="gap-6">
   <TabsList class="flex-col h-auto w-40 border-r-ui border-border">
-    <TabsTrigger value="perfil">Perfil</TabsTrigger>
-    <TabsTrigger value="privacidad">Privacidad</TabsTrigger>
-    <TabsTrigger value="apariencia">Apariencia</TabsTrigger>
+    <TabsTrigger value="profile">Profile</TabsTrigger>
+    <TabsTrigger value="privacy">Privacy</TabsTrigger>
+    <TabsTrigger value="appearance">Appearance</TabsTrigger>
   </TabsList>
-  <TabsContent value="perfil">Configuración de perfil</TabsContent>
-  <TabsContent value="privacidad">Opciones de privacidad</TabsContent>
-  <TabsContent value="apariencia">Temas y colores</TabsContent>
+  <TabsContent value="profile">Profile settings</TabsContent>
+  <TabsContent value="privacy">Privacy options</TabsContent>
+  <TabsContent value="appearance">Themes and colors</TabsContent>
 </Tabs>`;
 
 const controlledCode = `<script setup lang="ts">
@@ -110,13 +110,13 @@ const activeTab = ref('a');
 <template>
   <Tabs v-model="activeTab">
     <TabsList>
-      <TabsTrigger value="a">Pestaña A</TabsTrigger>
-      <TabsTrigger value="b">Pestaña B</TabsTrigger>
+      <TabsTrigger value="a">Tab A</TabsTrigger>
+      <TabsTrigger value="b">Tab B</TabsTrigger>
     </TabsList>
-    <TabsContent value="a">Contenido A</TabsContent>
-    <TabsContent value="b">Contenido B</TabsContent>
+    <TabsContent value="a">Content A</TabsContent>
+    <TabsContent value="b">Content B</TabsContent>
   </Tabs>
-  <p>Activa: {{ activeTab }}</p>
+  <p>Active: {{ activeTab }}</p>
 <` + `/template>`;
 
 const activeTab = ref('a');
@@ -141,18 +141,18 @@ const { t } = useI18n();
     >
       <Tabs default-value="cuenta">
         <TabsList>
-          <TabsTrigger value="cuenta">Cuenta</TabsTrigger>
-          <TabsTrigger value="seguridad">Seguridad</TabsTrigger>
-          <TabsTrigger value="notificaciones" disabled>Notificaciones</TabsTrigger>
+          <TabsTrigger value="cuenta">{{ t('demo.tabs.account') }}</TabsTrigger>
+          <TabsTrigger value="seguridad">{{ t('demo.tabs.security') }}</TabsTrigger>
+          <TabsTrigger value="notificaciones" disabled>{{ t('demo.tabs.notifications') }}</TabsTrigger>
         </TabsList>
         <TabsContent value="cuenta">
           <p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.accountSettings') }}</p>
         </TabsContent>
         <TabsContent value="seguridad">
-          <p class="text-muted-foreground pt-2 text-sm">Cambia tu contraseña y activa la autenticación de dos factores.</p>
+          <p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.securityDesc') }}</p>
         </TabsContent>
         <TabsContent value="notificaciones">
-          <p class="text-muted-foreground pt-2 text-sm">Elige qué notificaciones quieres recibir por email y push.</p>
+          <p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.notificationsTabDesc') }}</p>
         </TabsContent>
       </Tabs>
     </DocShowcase>
@@ -164,15 +164,15 @@ const { t } = useI18n();
     >
       <Tabs default-value="dia">
         <TabsList class="gap-1 border-none">
-          <TabsTrigger value="dia" variant="pill">Día</TabsTrigger>
-          <TabsTrigger value="semana" variant="pill">Semana</TabsTrigger>
-          <TabsTrigger value="mes" variant="pill">Mes</TabsTrigger>
-          <TabsTrigger value="año" variant="pill">Año</TabsTrigger>
+          <TabsTrigger value="dia" variant="pill">{{ t('demo.tabs.day') }}</TabsTrigger>
+          <TabsTrigger value="semana" variant="pill">{{ t('demo.tabs.week') }}</TabsTrigger>
+          <TabsTrigger value="mes" variant="pill">{{ t('demo.tabs.month') }}</TabsTrigger>
+          <TabsTrigger value="year" variant="pill">{{ t('demo.tabs.year') }}</TabsTrigger>
         </TabsList>
-        <TabsContent value="dia"><p class="text-muted-foreground pt-2 text-sm">Datos del día de hoy.</p></TabsContent>
-        <TabsContent value="semana"><p class="text-muted-foreground pt-2 text-sm">Datos de la semana actual.</p></TabsContent>
-        <TabsContent value="mes"><p class="text-muted-foreground pt-2 text-sm">Datos del mes en curso.</p></TabsContent>
-        <TabsContent value="año"><p class="text-muted-foreground pt-2 text-sm">Datos del año completo.</p></TabsContent>
+        <TabsContent value="dia"><p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.dayData') }}</p></TabsContent>
+        <TabsContent value="semana"><p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.weekData') }}</p></TabsContent>
+        <TabsContent value="mes"><p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.monthData') }}</p></TabsContent>
+        <TabsContent value="year"><p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.yearData') }}</p></TabsContent>
       </Tabs>
     </DocShowcase>
 
@@ -184,11 +184,11 @@ const { t } = useI18n();
       <Tabs default-value="codigo">
         <TabsList class="bg-muted rounded-lg p-1 border-none gap-1">
           <TabsTrigger value="preview" variant="card">Preview</TabsTrigger>
-          <TabsTrigger value="codigo" variant="card">Código</TabsTrigger>
+          <TabsTrigger value="codigo" variant="card">{{ t('demo.tabs.codeTab') }}</TabsTrigger>
         </TabsList>
         <TabsContent value="preview">
           <div class="bg-card border-ui border-border mt-2 rounded-lg p-6">
-            <p class="text-muted-foreground text-sm">Vista previa del componente aquí.</p>
+            <p class="text-muted-foreground text-sm">{{ t('demo.tabs.previewContent') }}</p>
           </div>
         </TabsContent>
         <TabsContent value="codigo">
@@ -212,8 +212,8 @@ const { t } = useI18n();
         </TabsList>
         <div class="flex-1 pt-0">
           <TabsContent value="profile"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.profileDesc') }}</p></TabsContent>
-          <TabsContent value="privacy"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.privacy') }}</p></TabsContent>
-          <TabsContent value="appearance"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.appearance') }}</p></TabsContent>
+          <TabsContent value="privacy"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.privacyDesc') }}</p></TabsContent>
+          <TabsContent value="appearance"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.appearanceDesc') }}</p></TabsContent>
         </div>
       </Tabs>
     </DocShowcase>
@@ -226,13 +226,13 @@ const { t } = useI18n();
       <div class="flex flex-col gap-3">
         <Tabs v-model="activeTab">
           <TabsList>
-            <TabsTrigger value="a">Pestaña A</TabsTrigger>
-            <TabsTrigger value="b">Pestaña B</TabsTrigger>
+            <TabsTrigger value="a">{{ t('demo.tabs.tabA') }}</TabsTrigger>
+            <TabsTrigger value="b">{{ t('demo.tabs.tabB') }}</TabsTrigger>
           </TabsList>
-          <TabsContent value="a"><p class="text-muted-foreground pt-2 text-sm">Contenido de la pestaña A.</p></TabsContent>
-          <TabsContent value="b"><p class="text-muted-foreground pt-2 text-sm">Contenido de la pestaña B.</p></TabsContent>
+          <TabsContent value="a"><p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.tabAContent') }}</p></TabsContent>
+          <TabsContent value="b"><p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.tabBContent') }}</p></TabsContent>
         </Tabs>
-        <p class="text-muted-foreground text-xs">Pestaña activa: <code class="text-foreground">{{ activeTab }}</code></p>
+        <p class="text-muted-foreground text-xs">{{ t('demo.tabs.activeTab') }} <code class="text-foreground">{{ activeTab }}</code></p>
       </div>
     </DocShowcase>
   </div>

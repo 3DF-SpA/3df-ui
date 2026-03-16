@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Banner } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Variantes</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.banners.variantsTitle') }}</h2>
     <div class="flex flex-col gap-3">
       <Banner variant="default">
         <template #icon>
@@ -23,7 +26,7 @@ import { Banner } from '@3df/ui';
             />
           </svg>
         </template>
-        Default — Anuncio general del sistema.
+        {{ t('demo.banners.variantDefault') }}
       </Banner>
       <Banner variant="info">
         <template #icon>
@@ -42,7 +45,7 @@ import { Banner } from '@3df/ui';
             <path d="M12 8h.01" />
           </svg>
         </template>
-        Info — Mantenimiento programado para el sábado 22 de febrero.
+        {{ t('demo.banners.variantInfo') }}
       </Banner>
       <Banner variant="success">
         <template #icon>
@@ -60,7 +63,7 @@ import { Banner } from '@3df/ui';
             <path d="m9 11 3 3L22 4" />
           </svg>
         </template>
-        Success — Tu cuenta ha sido verificada exitosamente.
+        {{ t('demo.banners.variantSuccess') }}
       </Banner>
       <Banner variant="warning">
         <template #icon>
@@ -79,7 +82,7 @@ import { Banner } from '@3df/ui';
             <path d="M12 17h.01" />
           </svg>
         </template>
-        Warning — Tu suscripción expira en 3 días.
+        {{ t('demo.banners.variantWarning') }}
       </Banner>
       <Banner variant="destructive">
         <template #icon>
@@ -98,7 +101,7 @@ import { Banner } from '@3df/ui';
             <line x1="12" x2="12.01" y1="16" y2="16" />
           </svg>
         </template>
-        Destructive — Error crítico en el servicio. Contacta soporte.
+        {{ t('demo.banners.variantDestructive') }}
       </Banner>
       <Banner variant="muted">
         <template #icon>
@@ -117,7 +120,7 @@ import { Banner } from '@3df/ui';
             <path d="M12 8h.01" />
           </svg>
         </template>
-        Muted — Este es un banner sutil para información secundaria.
+        {{ t('demo.banners.variantMuted') }}
       </Banner>
     </div>
   </section>
