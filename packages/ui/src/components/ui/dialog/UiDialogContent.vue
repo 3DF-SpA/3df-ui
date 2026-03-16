@@ -141,7 +141,7 @@ function onOverlayClick() {
           :aria-describedby="dialog.descriptionId"
           :class="
             cn(
-              'border-ui border-border relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-lg',
+              'border-ui border-border relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-xl',
               'transition-all duration-200',
               'bg-popover',
               isAnimating ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
@@ -156,7 +156,7 @@ function onOverlayClick() {
           <button
             v-if="showClose"
             type="button"
-            class="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none"
+            class="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-ring disabled:pointer-events-none"
             :aria-label="props.closeLabel"
             @click="dialog.close()"
           >

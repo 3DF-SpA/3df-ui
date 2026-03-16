@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, useAttrs } from 'vue';
+import { computed, inject, nextTick, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -37,6 +37,32 @@ const restAttrs = computed(() => {
   return rest;
 });
 
+const isVisible = ref(false);
+const isEntering = ref(false);
+let animTimeout: ReturnType<typeof setTimeout> | undefined;
+
+watch(
+  () => popover.isOpen.value,
+  async (open) => {
+    clearTimeout(animTimeout);
+    if (open) {
+      isVisible.value = true;
+      await nextTick();
+      isEntering.value = true;
+    } else {
+      isEntering.value = false;
+      animTimeout = setTimeout(() => {
+        isVisible.value = false;
+      }, 150);
+    }
+  },
+  { immediate: true },
+);
+
+onBeforeUnmount(() => {
+  clearTimeout(animTimeout);
+});
+
 const contentRef = ref<HTMLElement>();
 
 const { positionStyle, updatePosition } = useFloatingPosition(
@@ -51,7 +77,7 @@ const { positionStyle, updatePosition } = useFloatingPosition(
 );
 
 useFloatingLifecycle({
-  isOpen: popover.isOpen,
+  isOpen: isVisible,
   updatePosition,
   contentRef,
   closeFn: popover.close,
@@ -60,39 +86,32 @@ useFloatingLifecycle({
 
 <template>
   <Teleport to="body">
-    <Transition
-      enter-active-class="transition duration-150 ease-out"
-      enter-from-class="opacity-0 scale-[0.97]"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition duration-100 ease-in"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-[0.97]"
+    <div
+      v-if="isVisible"
+      :ref="
+        (el) => {
+          const element = el as HTMLElement;
+          popover.contentRef.value = element;
+          contentRef = element;
+        }
+      "
+      v-bind="restAttrs"
+      role="dialog"
+      :aria-labelledby="popover.triggerId"
+      tabindex="-1"
+      :style="positionStyle"
+      :class="
+        cn(
+          'z-50 w-72 max-w-[calc(100vw-1rem)]',
+          'bg-popover text-popover-foreground',
+          'border-ui border-border rounded-md p-4 shadow-lg',
+          'transition-all duration-150',
+          isEntering ? 'opacity-100 scale-100 ease-out' : 'opacity-0 scale-[0.97] ease-in',
+          attrs.class,
+        )
+      "
     >
-      <div
-        v-if="popover.isOpen.value"
-        :ref="
-          (el) => {
-            const element = el as HTMLElement;
-            popover.contentRef.value = element;
-            contentRef = element;
-          }
-        "
-        v-bind="restAttrs"
-        role="dialog"
-        :aria-labelledby="popover.triggerId"
-        tabindex="-1"
-        :style="positionStyle"
-        :class="
-          cn(
-            'z-50 w-72 max-w-[calc(100vw-1rem)]',
-            'bg-popover text-popover-foreground',
-            'border-ui border-border rounded-md p-4 shadow-md',
-            attrs.class,
-          )
-        "
-      >
-        <slot />
-      </div>
-    </Transition>
+      <slot />
+    </div>
   </Teleport>
 </template>
