@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Separator } from '@3df/ui';
 
@@ -9,6 +10,7 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('separator');
+const { t } = useI18n();
 
 const separatorProps = computed<PropItem[]>(() => [
   {
@@ -93,7 +95,7 @@ const contextCode = `<div class="border-border bg-card max-w-sm rounded-lg borde
         <div class="space-y-1">
           <h3 class="text-sm leading-none font-medium">Radix Primitives</h3>
           <p class="text-muted-foreground text-sm">
-            Un conjunto de componentes UI accesibles y sin estilos.
+            {{ t('demo.uiComponents') }}
           </p>
         </div>
         <Separator class="my-4" />
@@ -111,11 +113,11 @@ const contextCode = `<div class="border-border bg-card max-w-sm rounded-lg borde
       <div class="flex h-5 items-center gap-4 text-sm">
         <span>Home</span>
         <Separator orientation="vertical" />
-        <span>Configuración</span>
+        <span>{{ t('demo.configuration') }}</span>
         <Separator orientation="vertical" />
-        <span>Perfil</span>
+        <span>{{ t('demo.profile') }}</span>
         <Separator orientation="vertical" />
-        <span>Ayuda</span>
+        <span>{{ t('demo.help') }}</span>
       </div>
     </DocShowcase>
 
@@ -125,24 +127,24 @@ const contextCode = `<div class="border-border bg-card max-w-sm rounded-lg borde
       :code="decorativeCode"
     >
       <div class="max-w-md space-y-3">
-        <p class="text-sm">Primer bloque de contenido.</p>
+        <p class="text-sm">{{ t('demo.firstContentBlock') }}</p>
         <Separator decorative />
-        <p class="text-sm">Segundo bloque de contenido.</p>
+        <p class="text-sm">{{ t('demo.secondContentBlock') }}</p>
       </div>
     </DocShowcase>
 
     <DocShowcase :title="showcaseTitle('custom')" :code="customCode">
       <div class="flex max-w-md flex-col gap-6">
         <div>
-          <p class="text-muted-foreground mb-2 text-sm">Más grueso (h-0.5):</p>
+          <p class="text-muted-foreground mb-2 text-sm">{{ t('demo.thicker') }}</p>
           <Separator class="h-0.5" />
         </div>
         <div>
-          <p class="text-muted-foreground mb-2 text-sm">Color personalizado:</p>
+          <p class="text-muted-foreground mb-2 text-sm">{{ t('demo.customColor') }}</p>
           <Separator class="bg-primary" />
         </div>
         <div>
-          <p class="text-muted-foreground mb-2 text-sm">Con margen automático:</p>
+          <p class="text-muted-foreground mb-2 text-sm">{{ t('demo.withAutoMargin') }}</p>
           <Separator class="my-6" />
         </div>
         <div>
@@ -154,12 +156,12 @@ const contextCode = `<div class="border-border bg-card max-w-sm rounded-lg borde
 
     <DocShowcase :title="showcaseTitle('context')" :code="contextCode">
       <div class="border-border bg-card max-w-sm rounded-lg border p-6 shadow-sm">
-        <h3 class="text-base font-semibold">Cuenta</h3>
-        <p class="text-muted-foreground mt-1 text-sm">Gestiona tu información personal.</p>
+        <h3 class="text-base font-semibold">{{ t('demo.account') }}</h3>
+        <p class="text-muted-foreground mt-1 text-sm">{{ t('demo.managePersonalInfo') }}</p>
         <Separator class="my-4" />
         <div class="space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-sm">Nombre</span>
+            <span class="text-sm">{{ t('demo.name') }}</span>
             <span class="text-muted-foreground text-sm">Pedro Duarte</span>
           </div>
           <Separator decorative />
@@ -169,7 +171,7 @@ const contextCode = `<div class="border-border bg-card max-w-sm rounded-lg borde
           </div>
           <Separator decorative />
           <div class="flex items-center justify-between">
-            <span class="text-sm">Plan</span>
+            <span class="text-sm">{{ t('demo.plan') }}</span>
             <span class="text-muted-foreground text-sm">Pro</span>
           </div>
         </div>
