@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, cn } from '@3df/ui';
 import type { ClassValue } from 'clsx';
+
+const { t } = useI18n();
 
 defineOptions({ name: 'DocPropsTable', inheritAttrs: false });
 
@@ -29,14 +32,14 @@ const restAttrs = computed(() => {
 
 <template>
   <div v-bind="restAttrs" :class="cn('flex flex-col gap-3', attrs.class)">
-    <h2 class="text-sm font-semibold">Props</h2>
+    <h2 class="text-sm font-semibold">{{ t('table.title') }}</h2>
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Prop</TableHead>
-          <TableHead>Tipo</TableHead>
-          <TableHead>Default</TableHead>
-          <TableHead>Descripción</TableHead>
+          <TableHead>{{ t('table.prop') }}</TableHead>
+          <TableHead>{{ t('table.type') }}</TableHead>
+          <TableHead>{{ t('table.default') }}</TableHead>
+          <TableHead>{{ t('table.description') }}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

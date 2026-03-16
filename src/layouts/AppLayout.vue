@@ -1,8 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { uiRoutes, chartRoutes } from '@/router';
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
+import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
+
+const { t } = useI18n();
 
 const route = useRoute();
 const sidebarOpen = ref(true);
@@ -78,7 +82,7 @@ function isActive(fullPath: string) {
       <div class="flex h-14 items-center gap-2 border-b border-border px-4">
         <span class="text-sm font-bold tracking-tight">3DF UI</span>
         <span class="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-          Playground
+          {{ t('layout.playground') }}
         </span>
       </div>
 
@@ -93,7 +97,7 @@ function isActive(fullPath: string) {
           ]"
           @click="activeSection = 'ui'"
         >
-          Componentes
+          {{ t('layout.components') }}
         </button>
         <button
           :class="[
@@ -104,7 +108,7 @@ function isActive(fullPath: string) {
           ]"
           @click="activeSection = 'charts'"
         >
-          Charts
+          {{ t('layout.charts') }}
         </button>
       </div>
 
@@ -123,7 +127,7 @@ function isActive(fullPath: string) {
           <input
             v-model="searchQuery"
             type="search"
-            placeholder="Buscar..."
+            :placeholder="t('layout.search')"
             class="h-8 w-full rounded-md border border-border bg-background pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring"
           />
         </div>
@@ -134,7 +138,7 @@ function isActive(fullPath: string) {
         <template v-if="activeSection === 'ui'">
           <div v-for="group in filteredUiGroups" :key="group.label" class="mb-4">
             <h3 class="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {{ group.label }}
+              {{ t('groups.' + group.label, group.label) }}
             </h3>
             <ul class="space-y-0.5">
               <li v-for="item in group.items" :key="item.path">
@@ -153,14 +157,14 @@ function isActive(fullPath: string) {
             </ul>
           </div>
           <p v-if="filteredUiGroups.length === 0 && activeSection === 'ui'" class="px-3 py-4 text-xs text-muted-foreground text-center">
-            Sin resultados
+            {{ t('layout.noResults') }}
           </p>
         </template>
 
         <template v-else>
           <div v-for="group in filteredChartGroups" :key="group.label" class="mb-4">
             <h3 class="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {{ group.label }}
+              {{ t('groups.' + group.label, group.label) }}
             </h3>
             <ul class="space-y-0.5">
               <li v-for="item in group.items" :key="item.path">
@@ -179,7 +183,7 @@ function isActive(fullPath: string) {
             </ul>
           </div>
           <p v-if="filteredChartGroups.length === 0 && activeSection === 'charts'" class="px-3 py-4 text-xs text-muted-foreground text-center">
-            Sin resultados
+            {{ t('layout.noResults') }}
           </p>
         </template>
       </nav>
@@ -206,6 +210,7 @@ function isActive(fullPath: string) {
 
         <div class="flex-1" />
 
+        <LocaleSwitcher />
         <ThemeSwitcher />
 
         <span class="text-xs text-muted-foreground">
