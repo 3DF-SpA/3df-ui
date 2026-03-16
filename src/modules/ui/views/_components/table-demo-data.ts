@@ -10,7 +10,7 @@ export const invoices: Invoice[] = [
   {
     id: 'INV-001',
     status: 'paid',
-    method: 'Tarjeta de crédito',
+    method: 'creditCard',
     amount: 250.0,
     email: 'ana@example.com',
   },
@@ -24,14 +24,14 @@ export const invoices: Invoice[] = [
   {
     id: 'INV-003',
     status: 'unpaid',
-    method: 'Transferencia',
+    method: 'transfer',
     amount: 350.0,
     email: 'lucia@example.com',
   },
   {
     id: 'INV-004',
     status: 'paid',
-    method: 'Tarjeta de crédito',
+    method: 'creditCard',
     amount: 450.0,
     email: 'pedro@example.com',
   },
@@ -39,14 +39,14 @@ export const invoices: Invoice[] = [
   {
     id: 'INV-006',
     status: 'overdue',
-    method: 'Transferencia',
+    method: 'transfer',
     amount: 200.0,
     email: 'jorge@example.com',
   },
   {
     id: 'INV-007',
     status: 'paid',
-    method: 'Tarjeta de crédito',
+    method: 'creditCard',
     amount: 300.0,
     email: 'sofia@example.com',
   },
@@ -54,14 +54,14 @@ export const invoices: Invoice[] = [
   {
     id: 'INV-009',
     status: 'paid',
-    method: 'Transferencia',
+    method: 'transfer',
     amount: 750.0,
     email: 'valentina@example.com',
   },
   {
     id: 'INV-010',
     status: 'unpaid',
-    method: 'Tarjeta de crédito',
+    method: 'creditCard',
     amount: 180.0,
     email: 'andres@example.com',
   },
@@ -69,17 +69,17 @@ export const invoices: Invoice[] = [
   {
     id: 'INV-012',
     status: 'pending',
-    method: 'Transferencia',
+    method: 'transfer',
     amount: 90.0,
     email: 'mateo@example.com',
   },
 ];
 
 export const statusBadge: Record<Invoice['status'], { variant: string; label: string }> = {
-  paid: { variant: 'success', label: 'Pagado' },
-  pending: { variant: 'warning', label: 'Pendiente' },
-  unpaid: { variant: 'destructive', label: 'No pagado' },
-  overdue: { variant: 'red', label: 'Vencido' },
+  paid: { variant: 'success', label: 'paid' },
+  pending: { variant: 'warning', label: 'pending' },
+  unpaid: { variant: 'destructive', label: 'unpaid' },
+  overdue: { variant: 'red', label: 'overdue' },
 };
 
 export function formatCurrency(value: number) {

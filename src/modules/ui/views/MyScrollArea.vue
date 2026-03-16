@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -10,22 +11,13 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t, tm } = useI18n();
+
 const tags = Array.from({ length: 50 }, (_, i) => `v1.${i}.0-beta`);
 
-const artworks = [
-  { title: 'Noche estrellada', artist: 'Vincent van Gogh', year: '1889' },
-  { title: 'La persistencia de la memoria', artist: 'Salvador Dalí', year: '1931' },
-  { title: 'El grito', artist: 'Edvard Munch', year: '1893' },
-  { title: 'Guernica', artist: 'Pablo Picasso', year: '1937' },
-  { title: 'La joven de la perla', artist: 'Johannes Vermeer', year: '1665' },
-  { title: 'El beso', artist: 'Gustav Klimt', year: '1908' },
-  { title: 'Las meninas', artist: 'Diego Velázquez', year: '1656' },
-  { title: 'La creación de Adán', artist: 'Miguel Ángel', year: '1512' },
-  { title: 'La ronda de noche', artist: 'Rembrandt', year: '1642' },
-  { title: 'Impresión, sol naciente', artist: 'Claude Monet', year: '1872' },
-  { title: 'Composición VIII', artist: 'Wassily Kandinsky', year: '1923' },
-  { title: 'Broadway Boogie Woogie', artist: 'Piet Mondrian', year: '1943' },
-];
+const artworks = computed(
+  () => tm('demo.scrollArea.artworks') as Array<{ title: string; artist: string; year: string }>,
+);
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('scrollArea');
 
@@ -159,14 +151,14 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
                   :key="col"
                   class="px-4 py-2 text-left font-medium whitespace-nowrap"
                 >
-                  Columna {{ col }}
+                  {{ t('demo.scrollArea.column') }} {{ col }}
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="row in 20" :key="row" class="border-border border-t">
                 <td v-for="col in 8" :key="col" class="px-4 py-2 whitespace-nowrap">
-                  Celda {{ row }}-{{ col }}
+                  {{ t('demo.scrollArea.cell') }} {{ row }}-{{ col }}
                 </td>
               </tr>
             </tbody>
@@ -183,7 +175,7 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
       <ScrollArea type="always" class="border-border h-48 w-64 rounded-md border">
         <div class="p-4">
           <p v-for="i in 15" :key="i" class="text-muted-foreground mb-3 text-sm">
-            Párrafo {{ i }} — Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            {{ `${t('demo.scrollArea.paragraph')} ${i} — Lorem ipsum dolor sit amet, consectetur adipiscing elit.` }}
           </p>
         </div>
       </ScrollArea>
@@ -197,7 +189,7 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
       <ScrollArea type="scroll" class="border-border h-48 w-64 rounded-md border">
         <div class="p-4">
           <p v-for="i in 15" :key="i" class="text-muted-foreground mb-3 text-sm">
-            Párrafo {{ i }} — Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            {{ `${t('demo.scrollArea.paragraph')} ${i} — Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.` }}
           </p>
         </div>
       </ScrollArea>
@@ -210,7 +202,7 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     >
       <div class="border-border bg-card flex w-80 flex-col rounded-lg border shadow-sm">
         <div class="border-border border-b px-4 py-3">
-          <h3 class="text-sm font-semibold">Mensajes</h3>
+          <h3 class="text-sm font-semibold">{{ t('demo.scrollArea.messages') }}</h3>
         </div>
         <ScrollArea class="h-64">
           <div class="flex flex-col gap-3 p-4">
@@ -220,7 +212,7 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
               class="rounded-lg px-3 py-2 text-sm"
               :class="i % 3 === 0 ? 'bg-primary text-primary-foreground self-end' : 'bg-muted'"
             >
-              {{ i % 3 === 0 ? 'Mensaje enviado #' + i : 'Mensaje recibido #' + i }}
+              {{ i % 3 === 0 ? t('demo.scrollArea.sentMessage') + i : t('demo.scrollArea.receivedMessage') + i }}
             </div>
           </div>
         </ScrollArea>
