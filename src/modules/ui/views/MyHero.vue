@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { type HeroAction, HeroSimple } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';

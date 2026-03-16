@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { type Component, computed, useAttrs } from 'vue';
 import type { ClassValue } from 'clsx';
 import { cn } from '../../../lib/utils';

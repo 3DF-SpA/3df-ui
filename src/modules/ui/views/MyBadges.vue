@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Badge, Button } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';

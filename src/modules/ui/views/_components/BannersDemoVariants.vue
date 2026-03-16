@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Banner } from '@3df/ui';
 </script>
 

@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue';
 
 import { cn } from '@3df/ui';

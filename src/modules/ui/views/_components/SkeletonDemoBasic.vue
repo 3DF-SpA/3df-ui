@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Card, CardContent, CardFooter, CardHeader, Skeleton } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';

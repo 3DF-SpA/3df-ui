@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Button } from '@3df/ui';
 
 import Icon from '@/components/MyIcons.vue';

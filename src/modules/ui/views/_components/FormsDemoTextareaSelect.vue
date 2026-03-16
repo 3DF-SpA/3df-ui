@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
 
 import { Label, Select, SelectItem, Textarea } from '@3df/ui';

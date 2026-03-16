@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
 
 import { Calendar, DatePicker, type DateRange, DateRangePicker } from '@3df/ui';

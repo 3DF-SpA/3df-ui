@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';

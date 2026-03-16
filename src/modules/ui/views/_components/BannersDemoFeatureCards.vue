@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
 
 import { Button, Card } from '@3df/ui';

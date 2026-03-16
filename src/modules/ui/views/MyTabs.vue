@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { ref } from 'vue';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@3df/ui';
 

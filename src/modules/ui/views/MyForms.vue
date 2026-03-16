@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';

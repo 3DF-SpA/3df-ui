@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';

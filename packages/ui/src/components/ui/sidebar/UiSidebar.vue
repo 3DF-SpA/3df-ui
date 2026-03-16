@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { computed, useAttrs, watchEffect } from 'vue';
 
 import type { ClassValue } from 'clsx';

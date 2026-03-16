@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';

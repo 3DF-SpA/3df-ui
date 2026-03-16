@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df/ui';
 </script>
 

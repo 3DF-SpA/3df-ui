@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { type LogoItem, LogoMarquee } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';

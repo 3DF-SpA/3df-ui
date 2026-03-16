@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { type HeroAction, HeroCentered, HeroGradient, HeroMinimal } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';

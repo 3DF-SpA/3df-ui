@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import DocHeader from '@/components/docs/DocHeader.vue';
 
 import SkeletonDemoBasic from './_components/SkeletonDemoBasic.vue';

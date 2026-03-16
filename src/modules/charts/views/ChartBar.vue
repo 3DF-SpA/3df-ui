@@ -1,4 +1,4 @@
-﻿<script setup lang="ts">
+<script setup lang="ts">
 import { type ChartConfig, type ChartDataRow, UiChartBar } from '@3df/charts';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
