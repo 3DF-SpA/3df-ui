@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
 
@@ -14,6 +15,8 @@ import PopoverDemoRichContent from './_components/PopoverDemoRichContent.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle } = useDocPage('popover');
+
+const { t } = useI18n();
 
 const popoverProps = computed<PropItem[]>(() => [
   {
@@ -109,7 +112,7 @@ const anatomyCode = `<Popover>
     <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Popover>
         <PopoverTrigger>
-          <Button variant="outline">Abrir popover</Button>
+          <Button variant="outline">{{ t('demo.openPopover') }}</Button>
         </PopoverTrigger>
         <PopoverContent>
           <div class="flex flex-col gap-2">

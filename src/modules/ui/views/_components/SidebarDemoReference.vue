@@ -1,6 +1,12 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+</script>
+
 <template>
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">7 · Referencia rápida</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.quickReference') }}</h2>
     <div class="overflow-x-auto">
       <table class="w-full max-w-2xl text-sm">
         <thead>

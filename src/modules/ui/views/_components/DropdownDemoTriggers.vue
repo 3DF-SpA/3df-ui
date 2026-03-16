@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   Button,
   DropdownMenu,
@@ -8,6 +10,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeTriggers = `<DropdownMenu>
   <DropdownMenuTrigger>
@@ -62,7 +66,7 @@ const codeTriggers = `<DropdownMenu>
       <DropdownMenu>
         <DropdownMenuTrigger v-slot="{ open }">
           <Button variant="ghost" size="sm">
-            {{ open ? 'Cerrar' : 'Ghost trigger' }}
+            {{ open ? t('common.close') : t('demo.ghostTrigger') }}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>

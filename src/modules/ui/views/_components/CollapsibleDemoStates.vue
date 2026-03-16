@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const disabledCode = `<Collapsible disabled>
   <CollapsibleTrigger>
@@ -74,7 +77,7 @@ const defaultOpenCode = `<Collapsible default-open>
           <CollapsibleTrigger>
             <template #default="{ open }">
               <Button variant="ghost" size="sm">
-                {{ open ? 'Ocultar' : 'Mostrar' }}
+                {{ open ? t('common.hide') : t('common.show') }}
               </Button>
             </template>
           </CollapsibleTrigger>

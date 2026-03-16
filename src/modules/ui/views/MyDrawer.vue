@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Button,
@@ -27,6 +28,8 @@ function adjustGoal(delta: number) {
 }
 
 const { description, propDesc, showcaseTitle } = useDocPage('drawer');
+
+const { t } = useI18n();
 
 const drawerProps = computed<PropItem[]>(() => [
   {
@@ -128,7 +131,7 @@ const anatomyCode = `<Drawer>
     <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Drawer>
         <DrawerTrigger>
-          <Button variant="outline">Abrir Drawer</Button>
+          <Button variant="outline">{{ t('demo.openDrawer') }}</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
@@ -208,7 +211,7 @@ const anatomyCode = `<Drawer>
         Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
       </p>
       <div class="flex gap-2">
-        <Button variant="outline" @click="controlledOpen = true">Abrir programáticamente</Button>
+        <Button variant="outline" @click="controlledOpen = true">{{ t('demo.openProgrammatically') }}</Button>
       </div>
       <Drawer v-model:open="controlledOpen">
         <DrawerContent>
@@ -222,7 +225,7 @@ const anatomyCode = `<Drawer>
             </p>
           </div>
           <DrawerFooter>
-            <Button @click="controlledOpen = false">Cerrar</Button>
+            <Button @click="controlledOpen = false">{{ t('common.close') }}</Button>
             <Button variant="outline" @click="controlledOpen = false">Cancelar</Button>
           </DrawerFooter>
         </DrawerContent>

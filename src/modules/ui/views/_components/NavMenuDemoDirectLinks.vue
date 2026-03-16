@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
 } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -21,15 +25,7 @@ import {
             href="#"
             class="bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
           >
-            Inicio
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink
-            href="#"
-            class="bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
-          >
-            Productos
+            {{ t('common.home') }}
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>

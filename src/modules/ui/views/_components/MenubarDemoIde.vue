@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Menubar,
@@ -22,6 +23,8 @@ const showActivityBar = ref(true);
 const showPanel = ref(false);
 const selectedProfile = ref('name');
 
+const { t } = useI18n();
+
 function onAction(action: string) {
   alert(`Acción: ${action}`);
 }
@@ -30,7 +33,7 @@ function onAction(action: string) {
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      Menubar estilo IDE — configuración de paneles
+      {{ t('demo.ideMenubar') }}
     </h2>
 
     <Menubar class="w-fit">

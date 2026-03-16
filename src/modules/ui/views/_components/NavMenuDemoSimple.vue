@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,6 +10,8 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -55,7 +59,7 @@ import {
           <NavigationMenuTrigger>Páginas</NavigationMenuTrigger>
           <NavigationMenuContent class="w-[280px]">
             <NavigationMenuLink href="#" :active="true">
-              <div class="text-sm leading-none font-medium">Inicio</div>
+              <div class="text-sm leading-none font-medium">{{ t('common.home') }}</div>
               <p class="text-muted-foreground mt-1 text-sm">Página principal.</p>
             </NavigationMenuLink>
             <NavigationMenuLink href="#">

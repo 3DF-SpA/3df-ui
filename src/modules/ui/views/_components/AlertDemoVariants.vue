@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -88,7 +91,7 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
         </svg>
         <AlertTitle>Advertencia</AlertTitle>
         <AlertDescription>
-          Tu sesión expirará en 5 minutos. Guarda tus cambios antes de que se cierre.
+          {{ t('demo.sessionExpiring') }}
         </AlertDescription>
       </Alert>
 

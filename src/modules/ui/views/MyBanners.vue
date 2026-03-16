@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Banner, Button } from '@3df/ui';
 
@@ -13,6 +14,8 @@ import BannersDemoFeatureCards from './_components/BannersDemoFeatureCards.vue';
 import BannersDemoVariants from './_components/BannersDemoVariants.vue';
 
 const { description, propDesc, showcaseTitle } = useDocPage('banners');
+
+const { t } = useI18n();
 
 const showDismissible = ref(true);
 const showFixed = ref(false);
@@ -184,7 +187,7 @@ const fixedCode = `<Banner
 
     <DocShowcase title="Posición fija (demo)" :code="fixedCode">
       <Button variant="outline" size="sm" @click="showFixed = !showFixed">
-        {{ showFixed ? 'Ocultar' : 'Mostrar' }} banner fijo
+        {{ showFixed ? t('common.hide') : t('common.show') }} banner fijo
       </Button>
       <Teleport to="body">
         <Banner

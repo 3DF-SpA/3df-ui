@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   AlertDialog,
@@ -23,6 +24,8 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle } = useDocPage('alertDialog');
+
+const { t } = useI18n();
 
 const deleteResult = ref('');
 const programmaticOpen = ref(false);
@@ -169,7 +172,7 @@ const anatomyCode = `<AlertDialog>
     </DocShowcase>
 
     <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
-      <Button @click="programmaticOpen = true">Abrir programáticamente</Button>
+      <Button @click="programmaticOpen = true">{{ t('demo.openProgrammatically') }}</Button>
       <AlertDialog v-model:open="programmaticOpen">
         <AlertDialogContent>
           <AlertDialogHeader>

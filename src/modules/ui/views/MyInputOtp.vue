@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@3df/ui';
 
@@ -12,6 +13,8 @@ import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('inputOtp');
 
+const { t } = useI18n();
+
 const basicValue = ref('');
 const groupedValue = ref('');
 const prefilledValue = ref('123456');
@@ -21,7 +24,7 @@ const completedValue = ref('');
 const completedMessage = ref('');
 
 function onComplete(value: string) {
-  completedMessage.value = `Código recibido: ${value}`;
+  completedMessage.value = t('demo.otpReceived', { value });
 }
 
 const inputOtpProps = computed<PropItem[]>(() => [

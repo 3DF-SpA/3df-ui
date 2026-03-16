@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Kbd } from '@3df/ui';
 
@@ -9,6 +10,8 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('kbd');
+
+const { t } = useI18n();
 
 const kbdProps = computed<PropItem[]>(() => [
   {
@@ -81,7 +84,7 @@ const inlineAndOverrideCode = `<p class="text-sm">
           <Kbd>⌘</Kbd>
           <span class="text-muted-foreground text-sm">+</span>
           <Kbd>K</Kbd>
-          <span class="text-muted-foreground ml-3 text-sm">Abrir buscador</span>
+          <span class="text-muted-foreground ml-3 text-sm">{{ t('demo.openSearch') }}</span>
         </div>
         <div class="flex items-center gap-1.5">
           <Kbd>⌘</Kbd>
@@ -95,7 +98,7 @@ const inlineAndOverrideCode = `<p class="text-sm">
           <Kbd>Ctrl</Kbd>
           <span class="text-muted-foreground text-sm">+</span>
           <Kbd>C</Kbd>
-          <span class="text-muted-foreground ml-3 text-sm">Copiar</span>
+          <span class="text-muted-foreground ml-3 text-sm">{{ t('common.copy') }}</span>
         </div>
         <div class="flex items-center gap-1.5">
           <Kbd>Ctrl</Kbd>

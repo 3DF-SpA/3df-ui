@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeIcons = `<Tooltip>
   <TooltipTrigger>
@@ -56,7 +59,7 @@ const codeIcons = `<Tooltip>
             </svg>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Copiar al portapapeles</TooltipContent>
+        <TooltipContent>{{ t('demo.copyToClipboard') }}</TooltipContent>
       </Tooltip>
 
       <Tooltip>

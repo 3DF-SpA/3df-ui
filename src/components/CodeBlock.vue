@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface Props {
   code: string;
@@ -44,7 +47,7 @@ async function copy() {
       <span class="text-xs font-medium text-muted-foreground">{{ label }}</span>
       <button
         class="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
-        :aria-label="copied ? 'Copiado' : 'Copiar código'"
+        :aria-label="copied ? t('common.copied') : t('common.copy')"
         @click="copy"
       >
         <svg v-if="!copied" xmlns="http://www.w3.org/2000/svg" class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -54,13 +57,13 @@ async function copy() {
         <svg v-else xmlns="http://www.w3.org/2000/svg" class="size-3.5 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M20 6 9 17l-5-5"/>
         </svg>
-        {{ copied ? 'Copiado' : 'Copiar' }}
+        {{ copied ? t('common.copied') : t('common.copy') }}
       </button>
     </div>
     <div v-else class="absolute top-2.5 right-2.5 opacity-0 transition-opacity group-hover:opacity-100">
       <button
         class="inline-flex items-center gap-1 rounded-md border-ui border-border bg-background/90 px-2 py-1 text-xs text-muted-foreground backdrop-blur-sm transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
-        :aria-label="copied ? 'Copiado' : 'Copiar código'"
+        :aria-label="copied ? t('common.copied') : t('common.copy')"
         @click="copy"
       >
         <svg v-if="!copied" xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -70,7 +73,7 @@ async function copy() {
         <svg v-else xmlns="http://www.w3.org/2000/svg" class="size-3 text-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M20 6 9 17l-5-5"/>
         </svg>
-        {{ copied ? 'Copiado!' : 'Copiar' }}
+        {{ copied ? t('common.copied') : t('common.copy') }}
       </button>
     </div>
     <pre class="overflow-x-auto p-4 text-xs leading-relaxed text-foreground/90"><code>{{ code }}</code></pre>

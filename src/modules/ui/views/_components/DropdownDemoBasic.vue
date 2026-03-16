@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   Button,
   DropdownMenu,
@@ -10,6 +12,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 function onAction(action: string) {
   alert(`Acción: ${action}`);
@@ -91,7 +95,7 @@ const codeBasic = `<DropdownMenu>
             />
             <circle cx="12" cy="12" r="3" />
           </svg>
-          Configuración
+          {{ t('common.settings') }}
           <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -130,7 +134,7 @@ const codeBasic = `<DropdownMenu>
             <polyline points="16 17 21 12 16 7" />
             <line x1="21" x2="9" y1="12" y2="12" />
           </svg>
-          Cerrar sesión
+          {{ t('common.logout') }}
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

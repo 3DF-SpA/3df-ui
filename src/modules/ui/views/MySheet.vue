@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Button,
@@ -26,6 +27,8 @@ import SheetDemoReference from './_components/SheetDemoReference.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle } = useDocPage('sheet');
+
+const { t } = useI18n();
 
 const controlledOpen = ref(false);
 
@@ -199,7 +202,7 @@ const noCloseCode = `<SheetContent :show-close="false">
             </div>
             <SheetFooter>
               <SheetClose>
-                <Button variant="outline">Cerrar</Button>
+                <Button variant="outline">{{ t('common.close') }}</Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>
@@ -227,7 +230,7 @@ const noCloseCode = `<SheetContent :show-close="false">
             </div>
             <SheetFooter>
               <SheetClose>
-                <Button variant="outline">Cerrar</Button>
+                <Button variant="outline">{{ t('common.close') }}</Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>
@@ -258,7 +261,7 @@ const noCloseCode = `<SheetContent :show-close="false">
           <div class="flex-1" />
           <SheetFooter>
             <SheetClose>
-              <Button class="w-full">Cerrar sheet</Button>
+              <Button class="w-full">{{ t('demo.closeSheet') }}</Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>

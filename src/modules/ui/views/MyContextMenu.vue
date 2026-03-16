@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   ContextMenu,
@@ -26,6 +27,8 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle } = useDocPage('contextMenu');
+
+const { t } = useI18n();
 
 const showBookmarks = ref(true);
 const showFullUrls = ref(false);
@@ -158,7 +161,7 @@ const anatomyCode = `<ContextMenu>
             <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem v-model:checked="showFullUrls">
-            Mostrar URLs completas
+            {{ t('demo.showFullUrls') }}
           </ContextMenuCheckboxItem>
           <ContextMenuSeparator />
           <ContextMenuLabel inset>Personas</ContextMenuLabel>
@@ -193,7 +196,7 @@ const anatomyCode = `<ContextMenu>
               <ContextMenuItem>Email</ContextMenuItem>
               <ContextMenuItem>Mensaje</ContextMenuItem>
               <ContextMenuSeparator />
-              <ContextMenuItem>Copiar enlace</ContextMenuItem>
+              <ContextMenuItem>{{ t('demo.copyLink') }}</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />

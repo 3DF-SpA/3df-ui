@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Button, Toaster, toast } from '@3df/ui';
 
@@ -13,6 +14,8 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import SonnerDemoRich from './_components/SonnerDemoRich.vue';
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('sonner');
+
+const { t } = useI18n();
 
 const position = ref<
   'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
@@ -213,7 +216,7 @@ const hoverCode = `toast.info({
         >
           Crear 3 toasts
         </Button>
-        <Button variant="destructive" @click="toast.dismissAll()"> Cerrar todos </Button>
+        <Button variant="destructive" @click="toast.dismissAll()"> {{ t('common.closeAll') }} </Button>
       </div>
     </DocShowcase>
 

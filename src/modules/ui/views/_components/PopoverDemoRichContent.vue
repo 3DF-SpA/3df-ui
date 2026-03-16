@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -84,7 +87,7 @@ import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@
       <Popover>
         <PopoverTrigger v-slot="{ open }">
           <Button :variant="open ? 'secondary' : 'outline'">
-            {{ open ? '✕ Cerrar' : '⚙ Abrir configuración' }}
+            {{ open ? `✕ ${t('common.close')}` : t('demo.openSettings') }}
           </Button>
         </PopoverTrigger>
         <PopoverContent>

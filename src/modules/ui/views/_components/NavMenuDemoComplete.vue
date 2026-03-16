@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   NavigationMenu,
@@ -39,6 +40,8 @@ const components = [
 ];
 
 const currentLink = ref('');
+
+const { t } = useI18n();
 
 function handleLinkClick(name: string) {
   currentLink.value = name;
@@ -80,7 +83,7 @@ function handleLinkClick(name: string) {
                 </p>
               </NavigationMenuLink>
               <NavigationMenuLink href="#" @click.prevent="handleLinkClick('Tipografía')">
-                <div class="text-sm leading-none font-medium">Tipografía</div>
+                <div class="text-sm leading-none font-medium">{{ t('demo.typography') }}</div>
                 <p class="text-muted-foreground mt-1 text-sm leading-snug">
                   Estilos tipográficos y jerarquía visual.
                 </p>

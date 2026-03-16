@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Button,
@@ -25,6 +26,8 @@ import { useDocPage } from '@/i18n/composables/useDocPage';
 const controlledOpen = ref(false);
 
 const { description, propDesc, showcaseTitle } = useDocPage('dialog');
+
+const { t } = useI18n();
 
 const dialogProps = computed<PropItem[]>(() => [
   {
@@ -199,7 +202,7 @@ const anatomyCode = `<Dialog>
         Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
       </p>
       <div class="flex gap-2">
-        <Button variant="outline" @click="controlledOpen = true">Abrir programáticamente</Button>
+        <Button variant="outline" @click="controlledOpen = true">{{ t('demo.openProgrammatically') }}</Button>
       </div>
       <Dialog v-model:open="controlledOpen">
         <DialogContent>

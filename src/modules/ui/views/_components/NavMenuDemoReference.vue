@@ -1,15 +1,21 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+</script>
+
 <template>
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">9. Referencia de componentes</h2>
+    <h2 class="text-xl font-semibold">9. {{ t('demo.componentReference') }}</h2>
 
     <div class="overflow-x-auto">
       <table class="w-full text-left text-sm">
         <thead>
           <tr class="border-border border-b">
-            <th class="pr-4 pb-2 font-medium">Componente</th>
+            <th class="pr-4 pb-2 font-medium">{{ t('demo.component') }}</th>
             <th class="pr-4 pb-2 font-medium">Elemento</th>
             <th class="pr-4 pb-2 font-medium">Props</th>
-            <th class="pb-2 font-medium">Descripción</th>
+            <th class="pb-2 font-medium">{{ t('demo.description') }}</th>
           </tr>
         </thead>
         <tbody class="text-muted-foreground">

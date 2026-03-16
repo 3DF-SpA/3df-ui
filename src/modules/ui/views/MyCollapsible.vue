@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -14,6 +15,8 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import CollapsibleDemoStates from './_components/CollapsibleDemoStates.vue';
 
 const isOpen = ref(false);
+
+const { t } = useI18n();
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('collapsible');
 
@@ -142,7 +145,7 @@ const controlledCode = `const isOpen = ref(false)
       <div class="mx-auto w-full max-w-sm space-y-4">
         <div class="flex items-center gap-2">
           <Button variant="outline" size="sm" @click="isOpen = !isOpen">
-            {{ isOpen ? 'Cerrar' : 'Abrir' }}
+            {{ isOpen ? t('common.close') : t('common.open') }}
           </Button>
           <span class="text-muted-foreground text-sm">
             Estado: <strong>{{ isOpen ? 'abierto' : 'cerrado' }}</strong>

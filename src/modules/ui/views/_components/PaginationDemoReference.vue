@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Pagination,
@@ -11,6 +12,8 @@ import {
 } from '@3df/ui';
 
 const sizePage = ref(2);
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -64,14 +67,14 @@ const sizePage = ref(2);
   </section>
 
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">6. Referencia de Componentes</h2>
+    <h2 class="text-xl font-semibold">6. {{ t('demo.componentReference') }}</h2>
     <div class="overflow-x-auto">
       <table class="w-full min-w-[600px] rounded-md border text-sm">
         <thead>
           <tr class="bg-muted/50 border-b">
-            <th class="px-4 py-2 text-left font-medium">Componente</th>
+            <th class="px-4 py-2 text-left font-medium">{{ t('demo.component') }}</th>
             <th class="px-4 py-2 text-left font-medium">Props</th>
-            <th class="px-4 py-2 text-left font-medium">Descripción</th>
+            <th class="px-4 py-2 text-left font-medium">{{ t('demo.description') }}</th>
           </tr>
         </thead>
         <tbody>

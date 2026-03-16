@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df/ui';
 
@@ -14,6 +15,8 @@ import HoverCardDemoRich from './_components/HoverCardDemoRich.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle } = useDocPage('hoverCard');
+
+const { t } = useI18n();
 
 const hoverCardProps = computed<PropItem[]>(() => [
   {
@@ -108,7 +111,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
 
     <DocShowcase :title="showcaseTitle('profile')" :code="profileCode">
       <p class="text-muted-foreground text-xs">
-        Pasa el cursor sobre el enlace para ver la vista previa.
+        {{ t('demo.hoverCardHint') }}
       </p>
       <HoverCard>
         <HoverCardTrigger>
