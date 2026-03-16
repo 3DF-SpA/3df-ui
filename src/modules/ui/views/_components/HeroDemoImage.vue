@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { type HeroAction, HeroImage } from '@3df/ui';
+import { useI18n } from 'vue-i18n';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const actions: HeroAction[] = [
   { label: 'Start Free Trial', variant: 'primary', href: '#' },
@@ -31,8 +34,8 @@ const gradientCode = `<HeroImage
 
 <template>
   <DocShowcase
-    title="Hero Image — Overlay Oscuro"
-    description="Imagen de fondo a pantalla completa con overlay oscuro semi-transparente."
+    :title="t('views.hero.showcases.imageOverlayDark.title')"
+    :description="t('views.hero.showcases.imageOverlayDark.description')"
     :code="darkCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -49,8 +52,8 @@ const gradientCode = `<HeroImage
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Image — Overlay Gradiente"
-    description="Overlay gradiente de abajo hacia arriba con texto alineado a la izquierda."
+    :title="t('views.hero.showcases.imageOverlayGradient.title')"
+    :description="t('views.hero.showcases.imageOverlayGradient.description')"
     :code="gradientCode"
   >
     <div class="overflow-hidden rounded-xl">

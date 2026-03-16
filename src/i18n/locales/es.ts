@@ -292,6 +292,17 @@ export default {
       showcases: {
         centered: { title: 'Hero Simple — Centrado', description: 'Hero centrado estándar con headline, descripción y botones CTA.' },
         left: { title: 'Hero Simple — Alineado a la izquierda', description: 'Misma estructura con texto alineado a la izquierda y modo compacto.' },
+        splitTextImage: { title: 'Hero Split — Texto + Imagen', description: 'Layout dividido: contenido de texto a la izquierda, imagen a la derecha.' },
+        splitReversed: { title: 'Hero Split — Invertido', description: 'La imagen a la izquierda y texto a la derecha con reverse.' },
+        imageOverlayDark: { title: 'Hero Image — Overlay Oscuro', description: 'Imagen de fondo a pantalla completa con overlay oscuro semi-transparente.' },
+        imageOverlayGradient: { title: 'Hero Image — Overlay Gradiente', description: 'Overlay gradiente de abajo hacia arriba con texto alineado a la izquierda.' },
+        gradientPurple: { title: 'Hero Gradient — Purple', description: 'Fondo gradiente moderno con blobs decorativos.' },
+        gradientBlue: { title: 'Hero Gradient — Blue (sin blobs)', description: 'Preset blue sin blobs decorativos. Look más limpio.' },
+        gradientRose: { title: 'Hero Gradient — Rose, alineado a la izquierda', description: 'Preset rose con alineación a la izquierda.' },
+        centeredBadge: { title: 'Hero Centered — Badge + Highlight', description: 'Badge de anuncio, headline con texto resaltado en gradiente y patrón de grid.' },
+        centeredClean: { title: 'Hero Centered — Limpio, sin grid', description: 'Sin patrón de grid ni badge. Look más limpio y elegante.' },
+        minimalLeft: { title: 'Hero Minimal — Izquierda con separador', description: 'Hero minimalista alineado a la izquierda con separador inferior.' },
+        minimalCentered: { title: 'Hero Minimal — Centrado', description: 'Versión centrada del hero minimalista para páginas internas.' },
       },
     },
     cards: {

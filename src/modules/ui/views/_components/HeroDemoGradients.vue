@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { type HeroAction, HeroCentered, HeroGradient, HeroMinimal } from '@3df/ui';
+import { useI18n } from 'vue-i18n';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const gradientActions: HeroAction[] = [
   { label: 'Get Started Free', variant: 'primary', href: '#' },
@@ -78,8 +81,8 @@ const minimalCenterCode = `<HeroMinimal
 
 <template>
   <DocShowcase
-    title="Hero Gradient — Purple"
-    description="Fondo gradiente moderno con blobs decorativos."
+    :title="t('views.hero.showcases.gradientPurple.title')"
+    :description="t('views.hero.showcases.gradientPurple.description')"
     :code="purpleCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -93,8 +96,8 @@ const minimalCenterCode = `<HeroMinimal
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Gradient — Blue (sin blobs)"
-    description="Preset blue sin blobs decorativos. Look más limpio."
+    :title="t('views.hero.showcases.gradientBlue.title')"
+    :description="t('views.hero.showcases.gradientBlue.description')"
     :code="blueCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -110,8 +113,8 @@ const minimalCenterCode = `<HeroMinimal
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Gradient — Rose, alineado a la izquierda"
-    description="Preset rose con alineación a la izquierda."
+    :title="t('views.hero.showcases.gradientRose.title')"
+    :description="t('views.hero.showcases.gradientRose.description')"
     :code="roseCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -126,8 +129,8 @@ const minimalCenterCode = `<HeroMinimal
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Centered — Badge + Highlight"
-    description="Badge de anuncio, headline con texto resaltado en gradiente y patrón de grid."
+    :title="t('views.hero.showcases.centeredBadge.title')"
+    :description="t('views.hero.showcases.centeredBadge.description')"
     :code="centeredBadgeCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -144,8 +147,8 @@ const minimalCenterCode = `<HeroMinimal
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Centered — Limpio, sin grid"
-    description="Sin patrón de grid ni badge. Look más limpio y elegante."
+    :title="t('views.hero.showcases.centeredClean.title')"
+    :description="t('views.hero.showcases.centeredClean.description')"
     :code="centeredCleanCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -161,8 +164,8 @@ const minimalCenterCode = `<HeroMinimal
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Minimal — Izquierda con separador"
-    description="Hero minimalista alineado a la izquierda con separador inferior."
+    :title="t('views.hero.showcases.minimalLeft.title')"
+    :description="t('views.hero.showcases.minimalLeft.description')"
     :code="minimalLeftCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -176,8 +179,8 @@ const minimalCenterCode = `<HeroMinimal
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Minimal — Centrado"
-    description="Versión centrada del hero minimalista para páginas internas."
+    :title="t('views.hero.showcases.minimalCentered.title')"
+    :description="t('views.hero.showcases.minimalCentered.description')"
     :code="minimalCenterCode"
   >
     <div class="overflow-hidden rounded-xl">

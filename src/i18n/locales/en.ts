@@ -292,6 +292,17 @@ export default {
       showcases: {
         centered: { title: 'Simple Hero — Centered', description: 'Standard centered hero with headline, description, and CTA buttons.' },
         left: { title: 'Simple Hero — Left Aligned', description: 'Same structure with left-aligned text and compact mode.' },
+        splitTextImage: { title: 'Hero Split — Text + Image', description: 'Split layout: text content on the left, image on the right.' },
+        splitReversed: { title: 'Hero Split — Reversed', description: 'Image on the left and text on the right with reverse.' },
+        imageOverlayDark: { title: 'Hero Image — Dark Overlay', description: 'Full-screen background image with semi-transparent dark overlay.' },
+        imageOverlayGradient: { title: 'Hero Image — Gradient Overlay', description: 'Bottom-to-top gradient overlay with left-aligned text.' },
+        gradientPurple: { title: 'Hero Gradient — Purple', description: 'Modern gradient background with decorative blobs.' },
+        gradientBlue: { title: 'Hero Gradient — Blue (no blobs)', description: 'Blue preset without decorative blobs. Cleaner look.' },
+        gradientRose: { title: 'Hero Gradient — Rose, left-aligned', description: 'Rose preset with left alignment.' },
+        centeredBadge: { title: 'Hero Centered — Badge + Highlight', description: 'Announcement badge, headline with gradient highlighted text and grid pattern.' },
+        centeredClean: { title: 'Hero Centered — Clean, no grid', description: 'No grid pattern or badge. Cleaner and more elegant look.' },
+        minimalLeft: { title: 'Hero Minimal — Left with separator', description: 'Minimalist hero left-aligned with bottom separator.' },
+        minimalCentered: { title: 'Hero Minimal — Centered', description: 'Centered version of the minimalist hero for inner pages.' },
       },
     },
     cards: {
