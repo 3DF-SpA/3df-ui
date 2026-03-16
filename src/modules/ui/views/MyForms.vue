@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -13,6 +14,7 @@ import FormsDemoRadioSwitch from './_components/FormsDemoRadioSwitch.vue';
 import FormsDemoTextareaSelect from './_components/FormsDemoTextareaSelect.vue';
 
 const { description, propDesc } = useDocPage('forms');
+const { t } = useI18n();
 
 const formProps = computed<PropItem[]>(() => [
   {
@@ -68,25 +70,25 @@ const formProps = computed<PropItem[]>(() => [
     name: 'Textarea: modelValue',
     type: 'string',
     default: "''",
-    description: propDesc('Textarea: modelValue'),
+    description: propDesc('textareaModelValue'),
   },
   {
     name: 'Radio: modelValue',
     type: 'string',
-    description: propDesc('Radio: modelValue'),
+    description: propDesc('radioModelValue'),
   },
-  { name: 'Radio: value', type: 'string', description: propDesc('Radio: value') },
+  { name: 'Radio: value', type: 'string', description: propDesc('radioValue') },
   {
     name: 'Switch: modelValue',
     type: 'boolean',
     default: 'false',
-    description: propDesc('Switch: modelValue'),
+    description: propDesc('switchModelValue'),
   },
   {
     name: 'Label: disabled',
     type: 'boolean',
     default: 'false',
-    description: propDesc('Label: disabled'),
+    description: propDesc('labelDisabled'),
   },
 ]);
 </script>
@@ -94,7 +96,7 @@ const formProps = computed<PropItem[]>(() => [
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
-      title="Formularios"
+      :title="t('views.forms.title')"
       :description="description"
       import-code="import { Input, Label, Select, SelectItem, Checkbox, Radio, Switch, Textarea, Button } from '@3df/ui'"
     />
@@ -106,3 +108,4 @@ const formProps = computed<PropItem[]>(() => [
     <DocPropsTable :props="formProps" />
   </div>
 </template>
+

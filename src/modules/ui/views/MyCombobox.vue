@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Combobox } from '@3df/ui';
 
@@ -9,7 +10,8 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
-const { description, propDesc } = useDocPage('combobox');
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('combobox');
+const { t } = useI18n();
 
 const selectedFramework = ref('');
 const selectedLanguage = ref('ts');
@@ -65,88 +67,100 @@ const comboboxProps = computed<PropItem[]>(() => [
   },
 ]);
 
-const basicCode = `<Combobox
+const basicCode = computed(() => `<Combobox
   v-model="selectedFramework"
   :options="frameworks"
-  placeholder="Selecciona un framework..."
-  search-placeholder="Buscar framework..."
-  empty-message="No se encontró ningún framework."
-/>`;
+  placeholder="${t('demo.combobox.frameworkPlaceholder')}"
+  search-placeholder="${t('demo.combobox.searchFrameworkPlaceholder')}"
+  empty-message="${t('demo.combobox.emptyFrameworkMessage')}"
+/>`);
 
-const defaultValueCode = `<Combobox
+const defaultValueCode = computed(() => `<Combobox
   v-model="selectedLanguage"
   :options="languages"
-  placeholder="Selecciona un lenguaje..."
-  search-placeholder="Buscar lenguaje..."
-  empty-message="No se encontró ningún lenguaje."
-/>`;
+  placeholder="${t('demo.combobox.languagePlaceholder')}"
+  search-placeholder="${t('demo.combobox.searchLanguagePlaceholder')}"
+  empty-message="${t('demo.combobox.emptyLanguageMessage')}"
+/>`);
 
-const multipleCode = `<div class="flex flex-wrap gap-4">
+const multipleCode = computed(() => `<div class="flex flex-wrap gap-4">
   <Combobox
     v-model="selectedFramework"
     :options="frameworks"
-    placeholder="Framework..."
+    placeholder="${t('demo.combobox.frameworkShortPlaceholder')}"
     class="w-[200px]"
   />
   <Combobox
     v-model="selectedLanguage"
     :options="languages"
-    placeholder="Lenguaje..."
+    placeholder="${t('demo.combobox.languageShortPlaceholder')}"
     class="w-[200px]"
   />
-</div>`;
+</div>`);
 </script>
 
 <template>
   <div class="flex flex-col gap-12">
     <DocHeader
-      title="Combobox"
+      :title="t('views.combobox.title')"
       :description="description"
       import-code="import { Combobox } from '@3df/ui'"
     />
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase
+      :title="showcaseTitle('basic')"
+      :description="showcaseDesc('basic')"
+      :code="basicCode"
+    >
       <div class="flex max-w-sm flex-col gap-2">
         <Combobox
           v-model="selectedFramework"
           :options="frameworks"
-          placeholder="Selecciona un framework..."
-          search-placeholder="Buscar framework..."
-          empty-message="No se encontró ningún framework."
+          :placeholder="t('demo.combobox.frameworkPlaceholder')"
+          :search-placeholder="t('demo.combobox.searchFrameworkPlaceholder')"
+          :empty-message="t('demo.combobox.emptyFrameworkMessage')"
         />
         <p class="text-muted-foreground text-sm">
-          Selección: <strong>{{ selectedFramework || 'ninguna' }}</strong>
+          {{ t('demo.combobox.selection') }} <strong>{{ selectedFramework || t('demo.combobox.noSelection') }}</strong>
         </p>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con valor por defecto y opción deshabilitada" :code="defaultValueCode">
+    <DocShowcase
+      :title="showcaseTitle('defaultValue')"
+      :description="showcaseDesc('defaultValue')"
+      :code="defaultValueCode"
+    >
       <div class="flex max-w-sm flex-col gap-2">
         <Combobox
           v-model="selectedLanguage"
           :options="languages"
-          placeholder="Selecciona un lenguaje..."
-          search-placeholder="Buscar lenguaje..."
-          empty-message="No se encontró ningún lenguaje."
+          :placeholder="t('demo.combobox.languagePlaceholder')"
+          :search-placeholder="t('demo.combobox.searchLanguagePlaceholder')"
+          :empty-message="t('demo.combobox.emptyLanguageMessage')"
         />
         <p class="text-muted-foreground text-sm">
-          Selección: <strong>{{ selectedLanguage || 'ninguna' }}</strong>
+          {{ t('demo.combobox.selection') }} <strong>{{ selectedLanguage || t('demo.combobox.noSelection') }}</strong>
         </p>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Múltiples comboboxes" :code="multipleCode">
+    <DocShowcase
+      :title="showcaseTitle('multiple')"
+      :description="showcaseDesc('multiple')"
+      :code="multipleCode"
+    >
       <div class="flex flex-wrap gap-4">
         <Combobox
           v-model="selectedFramework"
           :options="frameworks"
-          placeholder="Framework..."
+          :placeholder="t('demo.combobox.frameworkShortPlaceholder')"
           class="w-[200px]"
         />
         <Combobox
           v-model="selectedLanguage"
           :options="languages"
-          placeholder="Lenguaje..."
+          :placeholder="t('demo.combobox.languageShortPlaceholder')"
           class="w-[200px]"
         />
       </div>
@@ -155,3 +169,4 @@ const multipleCode = `<div class="flex flex-wrap gap-4">
     <DocPropsTable :props="comboboxProps" />
   </div>
 </template>
+
