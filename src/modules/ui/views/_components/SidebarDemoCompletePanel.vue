@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Sidebar,
@@ -22,6 +23,8 @@ import {
 } from '@3df/ui';
 
 import { type NavItem, icons, mainNav, secondaryNav } from './sidebar-demo-data';
+
+const { t } = useI18n();
 
 const activeItem = defineModel<string>('activeItem', { required: true });
 const activeSubItem = defineModel<string>('activeSubItem', { required: true });
@@ -82,7 +85,7 @@ function isSubOpen(item: NavItem): boolean {
                     :d="i === 0 ? d : 'M' + d"
                   />
                 </svg>
-                <span>Buscar…</span>
+                <span>{{ t('demo.searchDots') }}</span>
                 <kbd
                   class="border-sidebar-border/60 bg-sidebar-accent/50 text-sidebar-foreground/40 ml-auto rounded border px-1.5 py-0.5 font-mono text-[10px]"
                   >⌘K</kbd

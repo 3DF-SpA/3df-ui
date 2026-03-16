@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Label, Select, SelectItem, Textarea } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
 const bio = ref('');
 const country = ref('');
 const role = ref('');
@@ -44,7 +46,7 @@ const role = ref('');
   >
     <div class="grid max-w-md gap-4">
       <div class="flex flex-col gap-2">
-        <Label for="country">País</Label>
+        <Label for="country">{{ t('demo.country') }}</Label>
         <Select id="country" v-model="country" placeholder="Selecciona un país">
           <SelectItem value="mx">México</SelectItem>
           <SelectItem value="ar">Argentina</SelectItem>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,6 +9,8 @@ import {
   NavigationMenuTrigger,
   NavigationMenuViewport,
 } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -45,7 +48,7 @@ import {
                 </p>
               </NavigationMenuLink>
               <NavigationMenuLink href="#">
-                <div class="text-sm leading-none font-medium">Precios</div>
+                <div class="text-sm leading-none font-medium">{{ t('demo.prices') }}</div>
                 <p class="text-muted-foreground mt-1 text-sm">
                   Planes para equipos de todos los tamaños.
                 </p>

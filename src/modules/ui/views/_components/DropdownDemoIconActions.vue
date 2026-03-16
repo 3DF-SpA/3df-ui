@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Button,
   DropdownMenu,
@@ -10,6 +11,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 function onAction(action: string) {
   alert(`Acción: ${action}`);
@@ -74,7 +77,7 @@ const codeIconActions = `<DropdownMenu>
           >
             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
           </svg>
-          Editar
+          {{ t('demo.edit') }}
         </DropdownMenuItem>
         <DropdownMenuItem @select="onAction('duplicar')">
           <svg
@@ -149,7 +152,7 @@ const codeIconActions = `<DropdownMenu>
             <line x1="10" x2="10" y1="11" y2="17" />
             <line x1="14" x2="14" y1="11" y2="17" />
           </svg>
-          Eliminar
+          {{ t('demo.delete') }}
           <DropdownMenuShortcut>⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Button, toast } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeTitleDesc = `toast.success({
   title: 'Guardado',
@@ -35,7 +38,7 @@ const codeAction = `toast.error({
           })
         "
       >
-        Éxito con título
+        {{ t('demo.successWithTitle') }}
       </Button>
       <Button
         variant="outline"
@@ -94,10 +97,10 @@ const codeAction = `toast.error({
         variant="outline"
         @click="
           toast.info({
-            title: 'Nuevos cambios',
+            title: t('demo.newChanges'),
             description: 'Se detectaron cambios en el repositorio.',
             action: {
-              label: 'Ver cambios',
+              label: t('demo.viewChanges'),
               onClick: () => toast('Abriendo diff...'),
             },
           })

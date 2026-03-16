@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Command,
   CommandEmpty,
@@ -11,6 +12,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeInline = `<Command class="rounded-lg border shadow-md">
   <CommandInput placeholder="Escribe un comando o busca..." />
@@ -77,7 +80,7 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <line x1="9" x2="9.01" y1="9" y2="9" />
                 <line x1="15" x2="15.01" y1="9" y2="9" />
               </svg>
-              Buscar emoji
+              {{ t('demo.searchEmoji') }}
             </CommandItem>
             <CommandItem value="Calculadora">
               <svg
@@ -124,7 +127,7 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
-              Perfil
+              {{ t('demo.profile') }}
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
             <CommandItem value="Facturación" :keywords="['billing', 'pago']">

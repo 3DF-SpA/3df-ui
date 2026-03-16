@@ -47,7 +47,7 @@ const { t } = useI18n();
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
           <path d="m9 11 3 3L22 4" />
         </svg>
-        <AlertTitle>¡Éxito!</AlertTitle>
+        <AlertTitle>{{ t('demo.success') }}</AlertTitle>
         <AlertDescription>
           La operación se completó correctamente. Todos los cambios han sido guardados.
         </AlertDescription>
@@ -70,7 +70,7 @@ const { t } = useI18n();
         </svg>
         <AlertTitle>Error</AlertTitle>
         <AlertDescription>
-          No se pudo conectar al servidor. Verifica tu conexión a internet e intenta de nuevo.
+          {{ t('demo.serverError') }}
         </AlertDescription>
       </Alert>
 
@@ -89,7 +89,7 @@ const { t } = useI18n();
           <path d="M12 9v4" />
           <path d="M12 17h.01" />
         </svg>
-        <AlertTitle>Advertencia</AlertTitle>
+        <AlertTitle>{{ t('demo.warning') }}</AlertTitle>
         <AlertDescription>
           {{ t('demo.sessionExpiring') }}
         </AlertDescription>
@@ -110,7 +110,7 @@ const { t } = useI18n();
           <path d="M12 16v-4" />
           <path d="M12 8h.01" />
         </svg>
-        <AlertTitle>Información</AlertTitle>
+        <AlertTitle>{{ t('demo.information') }}</AlertTitle>
         <AlertDescription>
           Hay una nueva versión disponible. Puedes actualizar desde la configuración.
         </AlertDescription>

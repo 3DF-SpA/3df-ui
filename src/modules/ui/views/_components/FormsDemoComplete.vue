@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Button,
   Checkbox,
@@ -12,6 +13,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -32,7 +35,7 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
   >
     <form class="border-border grid max-w-md gap-5 rounded-lg border p-6" @submit.prevent>
       <div class="flex flex-col gap-2">
-        <Label for="form-name">Nombre completo</Label>
+        <Label for="form-name">{{ t('demo.fullName') }}</Label>
         <Input id="form-name" placeholder="Juan Pérez" />
       </div>
       <div class="flex flex-col gap-2">
@@ -40,7 +43,7 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
         <Input id="form-email" type="email" placeholder="juan@ejemplo.com" />
       </div>
       <div class="flex flex-col gap-2">
-        <Label for="form-country">País</Label>
+        <Label for="form-country">{{ t('demo.country') }}</Label>
         <Select id="form-country" placeholder="Selecciona un país">
           <SelectItem value="mx">México</SelectItem>
           <SelectItem value="ar">Argentina</SelectItem>
@@ -63,7 +66,7 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
         </div>
       </div>
       <div class="flex items-center justify-between">
-        <Label for="form-newsletter">Recibir novedades</Label>
+        <Label for="form-newsletter">{{ t('demo.receiveNews') }}</Label>
         <Switch id="form-newsletter" />
       </div>
       <div class="flex items-center gap-2">

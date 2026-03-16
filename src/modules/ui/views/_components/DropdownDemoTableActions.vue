@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Badge,
   Button,
@@ -11,6 +12,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeTable = `<table class="w-full text-sm">
   <thead>
@@ -52,8 +55,8 @@ const codeTable = `<table class="w-full text-sm">
       <table class="w-full text-sm">
         <thead>
           <tr class="border-border bg-muted/50 border-b">
-            <th class="px-4 py-3 text-left font-medium">Nombre</th>
-            <th class="px-4 py-3 text-left font-medium">Estado</th>
+            <th class="px-4 py-3 text-left font-medium">{{ t('demo.name') }}</th>
+            <th class="px-4 py-3 text-left font-medium">{{ t('demo.status') }}</th>
             <th class="px-4 py-3 text-left font-medium">Rol</th>
             <th class="px-4 py-3 text-right font-medium">Acciones</th>
           </tr>
@@ -61,7 +64,7 @@ const codeTable = `<table class="w-full text-sm">
         <tbody>
           <tr class="border-border border-b">
             <td class="px-4 py-3">María García</td>
-            <td class="px-4 py-3"><Badge variant="success" size="sm">Activo</Badge></td>
+            <td class="px-4 py-3"><Badge variant="success" size="sm">{{ t('demo.active') }}</Badge></td>
             <td class="text-muted-foreground px-4 py-3">Admin</td>
             <td class="px-4 py-3 text-right">
               <DropdownMenu>
@@ -87,8 +90,8 @@ const codeTable = `<table class="w-full text-sm">
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Ver perfil</DropdownMenuItem>
-                  <DropdownMenuItem>Editar usuario</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.viewProfile') }}</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.editUser') }}</DropdownMenuItem>
                   <DropdownMenuItem>Cambiar rol</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem :destructive="true">Suspender</DropdownMenuItem>
@@ -98,7 +101,7 @@ const codeTable = `<table class="w-full text-sm">
           </tr>
           <tr class="border-border border-b">
             <td class="px-4 py-3">Carlos López</td>
-            <td class="px-4 py-3"><Badge variant="warning" size="sm">Pendiente</Badge></td>
+            <td class="px-4 py-3"><Badge variant="warning" size="sm">{{ t('demo.pending') }}</Badge></td>
             <td class="text-muted-foreground px-4 py-3">Editor</td>
             <td class="px-4 py-3 text-right">
               <DropdownMenu>
@@ -124,18 +127,18 @@ const codeTable = `<table class="w-full text-sm">
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Ver perfil</DropdownMenuItem>
-                  <DropdownMenuItem>Editar usuario</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.viewProfile') }}</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.editUser') }}</DropdownMenuItem>
                   <DropdownMenuItem>Reenviar invitación</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem :destructive="true">Eliminar</DropdownMenuItem>
+                  <DropdownMenuItem :destructive="true">{{ t('demo.delete') }}</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </td>
           </tr>
           <tr>
             <td class="px-4 py-3">Ana Martínez</td>
-            <td class="px-4 py-3"><Badge variant="destructive" size="sm">Inactivo</Badge></td>
+            <td class="px-4 py-3"><Badge variant="destructive" size="sm">{{ t('demo.inactive') }}</Badge></td>
             <td class="text-muted-foreground px-4 py-3">Visor</td>
             <td class="px-4 py-3 text-right">
               <DropdownMenu>
@@ -161,7 +164,7 @@ const codeTable = `<table class="w-full text-sm">
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Ver perfil</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.viewProfile') }}</DropdownMenuItem>
                   <DropdownMenuItem>Reactivar</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem :destructive="true">Eliminar permanente</DropdownMenuItem>

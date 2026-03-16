@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +15,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -47,14 +50,19 @@ import {
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem
-                    v-for="item in ['Información', 'Historial', 'Adjuntos', 'Comentarios']"
-                    :key="item"
+                    v-for="item in [
+                      { key: 'information2', label: t('demo.information2') },
+                      { key: 'history', label: t('demo.history') },
+                      { key: 'attachments', label: t('demo.attachments') },
+                      { key: 'comments', label: t('demo.comments') },
+                    ]"
+                    :key="item.key"
                   >
                     <SidebarMenuButton>
-                      <span>{{ item }}</span>
+                      <span>{{ item.label }}</span>
                     </SidebarMenuButton>
-                    <SidebarMenuBadge v-if="item === 'Comentarios'">5</SidebarMenuBadge>
-                    <SidebarMenuBadge v-if="item === 'Adjuntos'">2</SidebarMenuBadge>
+                    <SidebarMenuBadge v-if="item.key === 'comments'">5</SidebarMenuBadge>
+                    <SidebarMenuBadge v-if="item.key === 'attachments'">2</SidebarMenuBadge>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>

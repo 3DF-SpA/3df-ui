@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Checkbox, Label } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
 const terms = ref(false);
 const newsletter = ref(true);
 </script>
@@ -23,7 +25,7 @@ const newsletter = ref(true);
       </div>
       <div class="flex items-center gap-2">
         <Checkbox id="newsletter" v-model="newsletter" />
-        <Label for="newsletter">Recibir newsletter semanal</Label>
+        <Label for="newsletter">{{ t('demo.weeklyNewsletter') }}</Label>
       </div>
       <div class="flex items-center gap-2">
         <Checkbox id="cb-disabled" disabled :model-value="true" />

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Toggle } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
 const bold = ref(false);
 const italic = ref(false);
 const underline = ref(false);
@@ -88,7 +90,7 @@ const disabledCode = `<Toggle disabled>
     </div>
   </DocShowcase>
 
-  <DocShowcase title="Tamaños" description="Tamaños sm, default y lg." :code="sizesCode">
+  <DocShowcase :title="t('demo.sizes')" description="Tamaños sm, default y lg." :code="sizesCode">
     <div class="flex items-center gap-3">
       <Toggle v-model:pressed="bold" size="sm">
         <svg

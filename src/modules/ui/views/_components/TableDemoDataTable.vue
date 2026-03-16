@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Badge,
@@ -19,6 +20,8 @@ import {
 } from '@3df/ui';
 
 import { formatCurrency, invoices, statusBadge } from './table-demo-data';
+
+const { t } = useI18n();
 
 type SortKey = 'id' | 'status' | 'method' | 'email' | 'amount';
 type SortDir = 'asc' | 'desc';
@@ -124,7 +127,7 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
     <div class="flex flex-wrap items-center gap-3">
       <Input
         v-model="filterText"
-        placeholder="Buscar por ID, email o método..."
+        :placeholder="t('common.search')"
         class="max-w-xs"
         @input="onFilterChange"
       />
@@ -136,7 +139,7 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
       >
         <SelectItem value="">Todos</SelectItem>
         <SelectItem value="paid">Pagado</SelectItem>
-        <SelectItem value="pending">Pendiente</SelectItem>
+        <SelectItem value="pending">{{ t('demo.pending') }}</SelectItem>
         <SelectItem value="unpaid">No pagado</SelectItem>
         <SelectItem value="overdue">Vencido</SelectItem>
       </Select>
@@ -196,7 +199,7 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell :colspan="5">Total (filtrado)</TableCell>
+          <TableCell :colspan="5">{{ t('demo.totalFiltered') }}</TableCell>
           <TableCell class="text-right font-bold">{{ formatCurrency(total) }}</TableCell>
         </TableRow>
       </TableFooter>

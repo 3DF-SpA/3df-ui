@@ -38,7 +38,7 @@ const codeIcons = `<Tooltip>
             </svg>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Descargar archivo</TooltipContent>
+        <TooltipContent>{{ t('demo.downloadFile') }}</TooltipContent>
       </Tooltip>
 
       <Tooltip>
@@ -83,7 +83,7 @@ const codeIcons = `<Tooltip>
             </svg>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Eliminar elemento</TooltipContent>
+        <TooltipContent>{{ t('demo.deleteElement') }}</TooltipContent>
       </Tooltip>
     </div>
   </DocShowcase>

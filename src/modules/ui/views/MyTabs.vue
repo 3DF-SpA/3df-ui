@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -119,6 +120,7 @@ const activeTab = ref('a');
 <` + `/template>`;
 
 const activeTab = ref('a');
+const { t } = useI18n();
 </script>
 
 <template>
@@ -144,7 +146,7 @@ const activeTab = ref('a');
           <TabsTrigger value="notificaciones" disabled>Notificaciones</TabsTrigger>
         </TabsList>
         <TabsContent value="cuenta">
-          <p class="text-muted-foreground pt-2 text-sm">Gestiona la configuración de tu cuenta y preferencias de usuario.</p>
+          <p class="text-muted-foreground pt-2 text-sm">{{ t('demo.tabs.accountSettings') }}</p>
         </TabsContent>
         <TabsContent value="seguridad">
           <p class="text-muted-foreground pt-2 text-sm">Cambia tu contraseña y activa la autenticación de dos factores.</p>
@@ -202,16 +204,16 @@ const activeTab = ref('a');
       :description="showcaseDesc('vertical')"
       :code="verticalCode"
     >
-      <Tabs default-value="perfil" orientation="vertical">
+      <Tabs default-value="profile" orientation="vertical">
         <TabsList class="h-auto w-36 flex-col items-start gap-0.5 border-b-0 pb-0">
-          <TabsTrigger value="perfil" class="w-full justify-start">Perfil</TabsTrigger>
-          <TabsTrigger value="privacidad" class="w-full justify-start">Privacidad</TabsTrigger>
-          <TabsTrigger value="apariencia" class="w-full justify-start">Apariencia</TabsTrigger>
+          <TabsTrigger value="profile" class="w-full justify-start">{{ t('demo.tabs.profile') }}</TabsTrigger>
+          <TabsTrigger value="privacy" class="w-full justify-start">{{ t('demo.tabs.privacy') }}</TabsTrigger>
+          <TabsTrigger value="appearance" class="w-full justify-start">{{ t('demo.tabs.appearance') }}</TabsTrigger>
         </TabsList>
         <div class="flex-1 pt-0">
-          <TabsContent value="perfil"><p class="text-muted-foreground text-sm">Configuración de perfil público y avatar.</p></TabsContent>
-          <TabsContent value="privacidad"><p class="text-muted-foreground text-sm">Control de visibilidad y datos compartidos.</p></TabsContent>
-          <TabsContent value="apariencia"><p class="text-muted-foreground text-sm">Selecciona tema claro, oscuro o personalizado.</p></TabsContent>
+          <TabsContent value="profile"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.profileDesc') }}</p></TabsContent>
+          <TabsContent value="privacy"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.privacy') }}</p></TabsContent>
+          <TabsContent value="appearance"><p class="text-muted-foreground text-sm">{{ t('demo.tabs.appearance') }}</p></TabsContent>
         </div>
       </Tabs>
     </DocShowcase>

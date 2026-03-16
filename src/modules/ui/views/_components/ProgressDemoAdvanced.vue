@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Progress } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
 const sizesValue = ref(55);
 const colorValue = ref(72);
 
@@ -45,7 +47,7 @@ const maxCode = `<Progress :model-value="150" :max="200" class="w-full max-w-md"
 
 <template>
   <DocShowcase
-    title="Tamaños personalizados"
+    :title="t('demo.customSizes')"
     description="Ajusta la altura con clases de Tailwind."
     :code="sizesCode"
   >
@@ -70,7 +72,7 @@ const maxCode = `<Progress :model-value="150" :max="200" class="w-full max-w-md"
   </DocShowcase>
 
   <DocShowcase
-    title="Colores personalizados"
+    :title="t('demo.customColors')"
     description="Usa indicatorClass para sobrescribir el color del indicador."
     :code="colorsCode"
   >

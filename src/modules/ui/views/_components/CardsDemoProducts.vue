@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Badge,
   Button,
@@ -9,6 +10,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -44,7 +47,7 @@ import {
       <Card>
         <CardHeader>
           <div class="flex items-center justify-between">
-            <CardTitle as="h4" class="text-base">Usuarios</CardTitle>
+            <CardTitle as="h4" class="text-base">{{ t('demo.users') }}</CardTitle>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -110,7 +113,7 @@ import {
         <CardHeader>
           <div class="flex items-center justify-between">
             <CardTitle class="text-base">Reloj Classic</CardTitle>
-            <Badge variant="secondary" size="sm">Nuevo</Badge>
+            <Badge variant="secondary" size="sm">{{ t('demo.newLabel') }}</Badge>
           </div>
           <CardDescription>Reloj minimalista con correa de cuero genuino.</CardDescription>
         </CardHeader>
@@ -202,7 +205,7 @@ import {
           </CardContent>
           <CardFooter class="mt-auto gap-2">
             <Button size="sm">Comprar ahora</Button>
-            <Button variant="outline" size="sm">Ver detalles</Button>
+            <Button variant="outline" size="sm">{{ t('demo.viewDetails') }}</Button>
           </CardFooter>
         </div>
       </Card>

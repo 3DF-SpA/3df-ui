@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Label, Radio, Switch } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
 const plan = ref('pro');
 const contact = ref('email');
 const notifications = ref(true);
@@ -47,7 +49,7 @@ const marketing = ref(true);
         </div>
         <div class="flex items-center gap-2">
           <Radio id="contact-phone" v-model="contact" value="phone" name="contact" />
-          <Label for="contact-phone">Teléfono</Label>
+          <Label for="contact-phone">{{ t('demo.phone') }}</Label>
         </div>
         <div class="flex items-center gap-2">
           <Radio id="contact-sms" v-model="contact" value="sms" name="contact" />
@@ -65,7 +67,7 @@ const marketing = ref(true);
   >
     <div class="grid max-w-md gap-4">
       <div class="flex items-center justify-between">
-        <Label for="notifications">Notificaciones</Label>
+        <Label for="notifications">{{ t('demo.notifications') }}</Label>
         <Switch id="notifications" v-model="notifications" />
       </div>
       <div class="flex items-center justify-between">

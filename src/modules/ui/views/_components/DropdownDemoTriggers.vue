@@ -59,7 +59,7 @@ const codeTriggers = `<DropdownMenu>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem :destructive="true">Confirmar eliminación</DropdownMenuItem>
-          <DropdownMenuItem>Cancelar</DropdownMenuItem>
+          <DropdownMenuItem>{{ t('common.cancel') }}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 

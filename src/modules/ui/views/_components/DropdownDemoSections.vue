@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Button,
   DropdownMenu,
@@ -10,6 +11,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 function onAction(action: string) {
   alert(`Acción: ${action}`);
@@ -59,7 +62,7 @@ const codeSections = `<DropdownMenu>
       <DropdownMenuContent class="w-56">
         <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem @select="onAction('perfil')">Perfil</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('perfil')">{{ t('demo.profile') }}</DropdownMenuItem>
         <DropdownMenuItem @select="onAction('facturación')">Facturación</DropdownMenuItem>
         <DropdownMenuItem @select="onAction('equipo')">Equipo</DropdownMenuItem>
         <DropdownMenuItem @select="onAction('suscripción')">Suscripción</DropdownMenuItem>
@@ -71,7 +74,7 @@ const codeSections = `<DropdownMenu>
         <DropdownMenuItem :disabled="true">Chat en vivo</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem :destructive="true" @select="onAction('eliminar cuenta')">
-          Eliminar cuenta
+          {{ t('demo.deleteAccount') }}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

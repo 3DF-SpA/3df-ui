@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Button, Input, Label } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
 const name = ref('');
 const email = ref('');
 const password = ref('');
@@ -22,7 +24,7 @@ const disabledInput = ref('No puedes editar esto');
   >
     <div class="grid max-w-md gap-4">
       <div class="flex flex-col gap-2">
-        <Label for="name">Nombre</Label>
+        <Label for="name">{{ t('demo.name') }}</Label>
         <Input id="name" v-model="name" placeholder="Tu nombre completo" />
       </div>
       <div class="flex flex-col gap-2">
@@ -30,7 +32,7 @@ const disabledInput = ref('No puedes editar esto');
         <Input id="email" v-model="email" type="email" placeholder="correo@ejemplo.com" />
       </div>
       <div class="flex flex-col gap-2">
-        <Label for="password">Contraseña</Label>
+        <Label for="password">{{ t('demo.password') }}</Label>
         <Input id="password" v-model="password" type="password" placeholder="••••••••" />
       </div>
     </div>

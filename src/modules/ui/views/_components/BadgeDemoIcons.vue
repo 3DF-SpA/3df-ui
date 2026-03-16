@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Badge } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -30,7 +33,7 @@ import { Badge } from '@3df/ui';
           clip-rule="evenodd"
         />
       </svg>
-      Pendiente
+      {{ t('demo.pending') }}
     </Badge>
   </div>
 </template>

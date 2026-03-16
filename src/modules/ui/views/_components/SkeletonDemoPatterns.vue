@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Button, Card, CardContent, CardFooter, CardHeader, Skeleton } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const perfilCode = `<Skeleton class="size-16 shrink-0 rounded-full" />
 <div class="flex flex-1 flex-col gap-3">
@@ -183,7 +186,7 @@ const comparativaCode = `<!-- Loading -->
           </p>
         </CardContent>
         <CardFooter>
-          <Button variant="outline" size="sm">Ver perfil</Button>
+          <Button variant="outline" size="sm">{{ t('demo.viewProfile') }}</Button>
         </CardFooter>
       </Card>
     </div>
