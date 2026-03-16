@@ -101,7 +101,8 @@ const verticalCode = `<Tabs default-value="perfil" orientation="vertical" class=
 const controlledCode = `<script setup lang="ts">
 import { ref } from 'vue';
 const activeTab = ref('a');
-<\/script>
+<` + `/script>
+
 
 <template>
   <Tabs v-model="activeTab">
@@ -113,7 +114,7 @@ const activeTab = ref('a');
     <TabsContent value="b">Contenido B</TabsContent>
   </Tabs>
   <p>Activa: {{ activeTab }}</p>
-</template>`;
+<` + `/template>`;
 
 const activeTab = ref('a');
 </script>

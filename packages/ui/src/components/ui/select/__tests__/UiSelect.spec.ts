@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 import UiSelect from '../UiSelect.vue';
-import UiSelectItem from '../UiSelectItem.vue';
 
 describe('UiSelect', () => {
   // ── Renderizado base ──

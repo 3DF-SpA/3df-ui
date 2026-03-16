@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 
 import UiToast from '../UiToast.vue';
 import UiToaster from '../UiToaster.vue';
-import { toast, toasts } from '../toast-state';
+import { toast } from '../toast-state';
 import type { Toast } from '../toast-state';
 
 // -------------------------------------------------------------------
