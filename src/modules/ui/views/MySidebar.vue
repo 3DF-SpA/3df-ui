@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -16,6 +17,7 @@ import SidebarDemoRight from './_components/SidebarDemoRight.vue';
 import SidebarDemoSkeleton from './_components/SidebarDemoSkeleton.vue';
 
 const { description, propDesc } = useDocPage('sidebar');
+const { t } = useI18n();
 
 const providerProps = computed<PropItem[]>(() => [
   {
@@ -175,7 +177,7 @@ const anatomyCode = `import {
     <SidebarDemoSkeleton />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <h2 class="text-sm font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" language="typescript" />
     </section>
 

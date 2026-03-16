@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Sidebar,
@@ -18,6 +19,7 @@ import {
   SidebarTrigger,
 } from '@3df/ui';
 
+const { t } = useI18n();
 const activeItem = ref('Dashboard');
 
 const icons = {
@@ -38,22 +40,22 @@ interface NavItem {
   badge?: number;
 }
 
-const navItems: NavItem[] = [
-  { label: 'Dashboard', icon: 'home' },
-  { label: 'Equipo', icon: 'users', badge: 3 },
-  { label: 'Bandeja', icon: 'inbox', badge: 28 },
-  { label: 'Calendario', icon: 'calendar' },
-];
+const navItems = computed<NavItem[]>(() => [
+  { label: t('demo.nav.dashboard'), icon: 'home' },
+  { label: t('demo.nav.team'), icon: 'users', badge: 3 },
+  { label: t('demo.nav.inbox'), icon: 'inbox', badge: 28 },
+  { label: t('demo.nav.calendar'), icon: 'calendar' },
+]);
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      3 · Icon collapse — solo íconos al colapsar
+      {{ t('demo.sidebar.iconCollapseTitle') }}
     </h2>
     <p class="text-muted-foreground max-w-prose text-sm">
-      Al colapsar se reduce a 3rem mostrando solo los íconos. Header, footer y grupos ajustan su
-      padding con transición suave.
+      {{ t('demo.sidebar.iconCollapseDesc') }}
+      {{ t('demo.sidebar.iconCollapseDesc2') }}
     </p>
 
     <div class="border-border h-[520px] overflow-hidden rounded-lg border [contain:paint]">
@@ -75,7 +77,7 @@ const navItems: NavItem[] = [
 
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Navegación</SidebarGroupLabel>
+              <SidebarGroupLabel>{{ t('demo.sidebar.iconCollapseNavLabel') }}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem v-for="item in navItems" :key="item.label">
@@ -128,12 +130,11 @@ const navItems: NavItem[] = [
         <SidebarInset>
           <header class="border-border flex h-12 items-center gap-2 border-b px-4">
             <SidebarTrigger />
-            <span class="text-sm font-medium">Con icon collapse</span>
+            <span class="text-sm font-medium">{{ t('demo.sidebar.iconCollapseContent') }}</span>
           </header>
           <div class="flex-1 p-6">
             <p class="text-muted-foreground text-sm">
-              El padding de header, footer y grupos se reduce suavemente. Los badges y sub-menús se
-              ocultan automáticamente en modo icon.
+              {{ t('demo.sidebar.iconCollapseContentDesc') }}
             </p>
           </div>
         </SidebarInset>

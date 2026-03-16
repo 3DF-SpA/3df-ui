@@ -22,31 +22,30 @@ const { t } = useI18n();
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      2 · Sidebar derecho — panel de propiedades
+      {{ t('demo.sidebar.rightTitle') }}
     </h2>
 
     <div class="border-border h-[420px] overflow-hidden rounded-lg border [contain:paint]">
       <SidebarProvider :default-open="true" side="right" collapsible="offcanvas">
         <SidebarInset>
           <header class="border-border flex h-12 items-center justify-between border-b px-4">
-            <span class="text-sm font-medium">Panel principal</span>
+            <span class="text-sm font-medium">{{ t('demo.sidebar.rightMainPanel') }}</span>
             <SidebarTrigger />
           </header>
           <div class="flex-1 p-6">
             <p class="text-muted-foreground text-sm">
-              Sidebar posicionado a la derecha. Útil para paneles de propiedades, detalle o
-              inspectores.
+              {{ t('demo.sidebar.rightDesc') }}
             </p>
           </div>
         </SidebarInset>
 
         <Sidebar side="right">
           <SidebarHeader>
-            <span class="text-sm font-semibold">Inspector</span>
+            <span class="text-sm font-semibold">{{ t('demo.sidebar.rightInspector') }}</span>
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Detalles</SidebarGroupLabel>
+              <SidebarGroupLabel>{{ t('demo.sidebar.rightDetails') }}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem

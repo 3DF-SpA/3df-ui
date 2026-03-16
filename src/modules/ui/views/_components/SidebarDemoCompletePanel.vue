@@ -36,13 +36,13 @@ function handleSubClick(parentLabel: string, childLabel: string) {
   activeSubItem.value = childLabel;
 }
 function toggleSubMenu(item: NavItem) {
-  if (item.label === 'Proyectos') projectsOpen.value = !projectsOpen.value;
-  if (item.label === 'Configuración') settingsOpen.value = !settingsOpen.value;
+  if (item.key === 'projects') projectsOpen.value = !projectsOpen.value;
+  if (item.key === 'settings') settingsOpen.value = !settingsOpen.value;
   activeItem.value = item.label;
 }
 function isSubOpen(item: NavItem): boolean {
-  if (item.label === 'Proyectos') return projectsOpen.value;
-  if (item.label === 'Configuración') return settingsOpen.value;
+  if (item.key === 'projects') return projectsOpen.value;
+  if (item.key === 'settings') return settingsOpen.value;
   return false;
 }
 </script>
@@ -97,13 +97,13 @@ function isSubOpen(item: NavItem): boolean {
       </SidebarGroup>
 
       <SidebarGroup>
-        <SidebarGroupLabel>Plataforma</SidebarGroupLabel>
+        <SidebarGroupLabel>{{ t('demo.sidebar.platform') }}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="item in mainNav" :key="item.label">
+            <SidebarMenuItem v-for="item in mainNav" :key="item.key">
               <SidebarMenuButton
                 :is-active="activeItem === item.label"
-                :tooltip="item.label"
+                :tooltip="t('demo.nav.' + item.key)"
                 @click="item.children ? toggleSubMenu(item) : (activeItem = item.label)"
               >
                 <svg
@@ -122,7 +122,7 @@ function isSubOpen(item: NavItem): boolean {
                     :d="i === 0 ? d : 'M' + d"
                   />
                 </svg>
-                <span>{{ item.label }}</span>
+                <span>{{ t('demo.nav.' + item.key) }}</span>
 
                 <svg
                   v-if="item.children"
@@ -145,9 +145,9 @@ function isSubOpen(item: NavItem): boolean {
               </SidebarMenuBadge>
 
               <SidebarMenuAction
-                v-if="item.label === 'Proyectos'"
+                v-if="item.key === 'projects'"
                 show-on-hover
-                title="Crear proyecto"
+                :title="t('demo.sidebar.createProject')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -168,12 +168,12 @@ function isSubOpen(item: NavItem): boolean {
               </SidebarMenuAction>
 
               <SidebarMenuSub v-if="item.children" :open="isSubOpen(item)">
-                <SidebarMenuSubItem v-for="child in item.children" :key="child.label">
+                <SidebarMenuSubItem v-for="child in item.children" :key="child.key">
                   <SidebarMenuSubButton
                     :is-active="activeSubItem === child.label"
                     @click="handleSubClick(item.label, child.label)"
                   >
-                    <span>{{ child.label }}</span>
+                    <span>{{ t('demo.nav.' + child.key) }}</span>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
               </SidebarMenuSub>
@@ -185,11 +185,11 @@ function isSubOpen(item: NavItem): boolean {
       <SidebarSeparator />
 
       <SidebarGroup>
-        <SidebarGroupLabel>Recursos</SidebarGroupLabel>
+        <SidebarGroupLabel>{{ t('demo.sidebar.resources') }}</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            <SidebarMenuItem v-for="item in secondaryNav" :key="item.label">
-              <SidebarMenuButton :tooltip="item.label">
+            <SidebarMenuItem v-for="item in secondaryNav" :key="item.key">
+              <SidebarMenuButton :tooltip="t('demo.nav.' + item.key)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="size-4"
@@ -206,7 +206,7 @@ function isSubOpen(item: NavItem): boolean {
                     :d="i === 0 ? d : 'M' + d"
                   />
                 </svg>
-                <span>{{ item.label }}</span>
+                <span>{{ t('demo.nav.' + item.key) }}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

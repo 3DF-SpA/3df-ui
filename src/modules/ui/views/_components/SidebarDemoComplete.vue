@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@3df/ui';
 
 import SidebarDemoCompletePanel from './SidebarDemoCompletePanel.vue';
 
+const { t } = useI18n();
 const activeItem = ref('Dashboard');
 const activeSubItem = ref('');
 </script>
@@ -12,10 +14,10 @@ const activeSubItem = ref('');
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      1 · Sidebar completo — sub-menús, badges, actions
+      {{ t('demo.sidebar.completeTitle') }}
     </h2>
     <p class="text-muted-foreground max-w-prose text-sm">
-      Demuestra sub-menús colapsables, badges de conteo, action buttons y skeleton de carga. Atajo:
+      {{ t('demo.sidebar.completeDesc') }}
       <kbd class="border-border bg-muted rounded border px-1.5 py-0.5 font-mono text-xs"
         >Ctrl+B</kbd
       >
@@ -38,8 +40,7 @@ const activeSubItem = ref('');
           </header>
           <div class="flex-1 p-6">
             <p class="text-muted-foreground text-sm">
-              Sub-menús colapsables con animación, badges de conteo, y action buttons que aparecen
-              al hover.
+              {{ t('demo.sidebar.completeContent') }}
             </p>
           </div>
         </SidebarInset>

@@ -11,9 +11,9 @@ const { t } = useI18n();
       <table class="w-full max-w-2xl text-sm">
         <thead>
           <tr class="border-border border-b text-left">
-            <th class="pr-4 pb-2 font-medium">Componente / Prop</th>
-            <th class="pr-4 pb-2 font-medium">Valores</th>
-            <th class="pb-2 font-medium">Default</th>
+            <th class="pr-4 pb-2 font-medium">{{ t('demo.sidebar.componentProp') }}</th>
+            <th class="pr-4 pb-2 font-medium">{{ t('demo.sidebar.values') }}</th>
+            <th class="pb-2 font-medium">{{ t('table.default') }}</th>
           </tr>
         </thead>
         <tbody class="divide-border divide-y">
