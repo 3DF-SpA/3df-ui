@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Cards tipo feature (landing page)</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.cards.featureCards') }}</h2>
     <div class="grid max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <Card class="border-0 bg-amber-50 shadow-none dark:bg-amber-950/30">
         <CardContent class="pt-6">
@@ -38,10 +41,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df/
           </div>
         </CardContent>
         <CardHeader class="pt-0">
-          <CardTitle class="text-xl font-bold">Analiza interacciones en segundos.</CardTitle>
+          <CardTitle class="text-xl font-bold">{{ t('demo.cards.analyzeTitle') }}</CardTitle>
           <CardDescription class="text-sm">
-            Visualiza el panorama completo de cada interacción: chat, email, teléfono y video, de un
-            vistazo.
+            {{ t('demo.cards.analyzeDesc') }}
           </CardDescription>
         </CardHeader>
       </Card>
@@ -84,10 +86,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df/
           </div>
         </CardContent>
         <CardHeader class="pt-0">
-          <CardTitle class="text-xl font-bold">Genera entrenamientos personalizados.</CardTitle>
+          <CardTitle class="text-xl font-bold">{{ t('demo.cards.trainTitle') }}</CardTitle>
           <CardDescription class="text-sm">
-            Entrena agentes con simulaciones IA que replican escenarios reales y mejoran sus
-            habilidades.
+            {{ t('demo.cards.trainDesc') }}
           </CardDescription>
         </CardHeader>
       </Card>
@@ -133,9 +134,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df/
           </div>
         </CardContent>
         <CardHeader class="pt-0">
-          <CardTitle class="text-xl font-bold">Observa la satisfacción crecer.</CardTitle>
+          <CardTitle class="text-xl font-bold">{{ t('demo.cards.satisfactionTitle') }}</CardTitle>
           <CardDescription class="text-sm">
-            QA y entrenamiento trabajan juntos para mejorar cada conversación, ya sea humana o IA.
+            {{ t('demo.cards.satisfactionDesc') }}
           </CardDescription>
         </CardHeader>
       </Card>

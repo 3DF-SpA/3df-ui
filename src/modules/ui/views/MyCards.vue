@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -32,6 +33,7 @@ import CardsDemoProducts from './_components/CardsDemoProducts.vue';
 const notifications = ref(true);
 const framework = ref('vue');
 
+const { t } = useI18n();
 const { description, propDesc, showcaseTitle } = useDocPage('cards');
 
 const cardProps = computed<PropItem[]>(() => [
@@ -145,7 +147,7 @@ const anatomyCode = `import {
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <h2 class="text-sm font-semibold">{{ t('demo.cards.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="typescript" />
     </section>
 
@@ -153,16 +155,16 @@ const anatomyCode = `import {
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
-            <CardTitle>Título de la card</CardTitle>
-            <CardDescription>Una descripción breve del contenido de la card.</CardDescription>
+            <CardTitle>{{ t('demo.cards.cardTitle') }}</CardTitle>
+            <CardDescription>{{ t('demo.cards.cardBriefDescription') }}</CardDescription>
           </CardHeader>
           <CardContent>
             <p class="text-sm">
-              Este es el contenido principal de la card. Puedes poner cualquier cosa aquí.
+              {{ t('demo.cards.cardMainContent') }}
             </p>
           </CardContent>
           <CardFooter>
-            <Button size="sm">Acción</Button>
+            <Button size="sm">{{ t('demo.cards.action') }}</Button>
           </CardFooter>
         </Card>
       </div>
@@ -172,21 +174,21 @@ const anatomyCode = `import {
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
-            <CardTitle>Crear proyecto</CardTitle>
-            <CardDescription>Configura tu nuevo proyecto en un click.</CardDescription>
+            <CardTitle>{{ t('demo.cards.createProject') }}</CardTitle>
+            <CardDescription>{{ t('demo.cards.configureProjectFull') }}</CardDescription>
           </CardHeader>
           <CardContent>
             <form class="flex flex-col gap-4">
               <div class="flex flex-col gap-2">
-                <Label for="project-name">Nombre</Label>
-                <Input id="project-name" placeholder="Mi proyecto" />
+                <Label for="project-name">{{ t('demo.cards.nameLabelCard') }}</Label>
+                <Input id="project-name" :placeholder="t('demo.cards.projectNamePlaceholder')" />
               </div>
               <div class="flex flex-col gap-2">
-                <Label for="project-framework">Framework</Label>
+                <Label for="project-framework">{{ t('demo.cards.frameworkLabel') }}</Label>
                 <Select
                   id="project-framework"
                   v-model="framework"
-                  placeholder="Selecciona un framework"
+                  :placeholder="t('demo.cards.selectFramework')"
                 >
                   <SelectItem value="vue">Vue</SelectItem>
                   <SelectItem value="react">React</SelectItem>
@@ -197,8 +199,8 @@ const anatomyCode = `import {
             </form>
           </CardContent>
           <CardFooter class="justify-between">
-            <Button variant="ghost">Cancelar</Button>
-            <Button>Crear</Button>
+            <Button variant="ghost">{{ t('demo.cards.cancel') }}</Button>
+            <Button>{{ t('demo.cards.create') }}</Button>
           </CardFooter>
         </Card>
       </div>
@@ -208,29 +210,29 @@ const anatomyCode = `import {
       <div class="grid max-w-md gap-4">
         <Card>
           <CardHeader>
-            <CardTitle>Notificaciones</CardTitle>
-            <CardDescription>Configura cómo quieres recibir notificaciones.</CardDescription>
+            <CardTitle>{{ t('demo.notifications') }}</CardTitle>
+            <CardDescription>{{ t('demo.cards.configureNotifications') }}</CardDescription>
           </CardHeader>
           <CardContent>
             <div class="flex flex-col gap-4">
               <div class="flex items-center justify-between">
                 <div class="flex flex-col gap-1">
-                  <span class="text-sm font-medium">Push</span>
-                  <span class="text-muted-foreground text-xs">Recibir notificaciones push.</span>
+                  <span class="text-sm font-medium">{{ t('demo.tabs.push') }}</span>
+                  <span class="text-muted-foreground text-xs">{{ t('demo.tabs.pushDesc') }}</span>
                 </div>
                 <Switch v-model="notifications" />
               </div>
               <div class="flex items-center justify-between">
                 <div class="flex flex-col gap-1">
-                  <span class="text-sm font-medium">Email</span>
-                  <span class="text-muted-foreground text-xs">Resumen diario por correo.</span>
+                  <span class="text-sm font-medium">{{ t('demo.tabs.email') }}</span>
+                  <span class="text-muted-foreground text-xs">{{ t('demo.tabs.emailDesc') }}</span>
                 </div>
                 <Switch :model-value="false" />
               </div>
               <div class="flex items-center justify-between">
                 <div class="flex flex-col gap-1">
-                  <span class="text-sm font-medium">SMS</span>
-                  <span class="text-muted-foreground text-xs">Alertas críticas por SMS.</span>
+                  <span class="text-sm font-medium">{{ t('demo.tabs.sms') }}</span>
+                  <span class="text-muted-foreground text-xs">{{ t('demo.tabs.smsDesc') }}</span>
                 </div>
                 <Switch :model-value="false" />
               </div>
@@ -245,29 +247,29 @@ const anatomyCode = `import {
         <Card>
           <CardHeader>
             <div class="flex items-center justify-between">
-              <CardTitle>Deploy #1234</CardTitle>
-              <Badge variant="success" size="sm">Exitoso</Badge>
+              <CardTitle>{{ t('demo.cards.deployTitle') }}</CardTitle>
+              <Badge variant="success" size="sm">{{ t('demo.cards.successful') }}</Badge>
             </div>
-            <CardDescription>Desplegado hace 3 minutos en producción.</CardDescription>
+            <CardDescription>{{ t('demo.cards.deployedMinutesAgoFull') }}</CardDescription>
           </CardHeader>
           <CardContent>
             <div class="flex flex-col gap-2 text-sm">
               <div class="flex justify-between">
-                <span class="text-muted-foreground">Rama</span>
+                <span class="text-muted-foreground">{{ t('demo.cards.branch') }}</span>
                 <span class="font-mono text-xs">main</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-muted-foreground">Commit</span>
+                <span class="text-muted-foreground">{{ t('demo.cards.commit') }}</span>
                 <span class="font-mono text-xs">a3f8c2d</span>
               </div>
               <div class="flex justify-between">
-                <span class="text-muted-foreground">Duración</span>
+                <span class="text-muted-foreground">{{ t('demo.cards.duration') }}</span>
                 <span>42s</span>
               </div>
             </div>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" size="sm" class="w-full">Ver logs</Button>
+            <Button variant="outline" size="sm" class="w-full">{{ t('demo.cards.viewLogs') }}</Button>
           </CardFooter>
         </Card>
       </div>
@@ -277,12 +279,12 @@ const anatomyCode = `import {
       <div class="grid max-w-md gap-4">
         <Card class="cursor-pointer transition-shadow duration-200 hover:shadow-md">
           <CardHeader>
-            <CardTitle>Documentación</CardTitle>
-            <CardDescription>Aprende a usar @3df/ui con guías y ejemplos.</CardDescription>
+            <CardTitle>{{ t('demo.cards.documentation') }}</CardTitle>
+            <CardDescription>{{ t('demo.cards.docDescription') }}</CardDescription>
           </CardHeader>
           <CardContent>
             <p class="text-muted-foreground text-sm">
-              Guías completas, API reference y ejemplos interactivos para cada componente.
+              {{ t('demo.cards.docDescriptionFull') }}
             </p>
           </CardContent>
         </Card>
@@ -294,9 +296,9 @@ const anatomyCode = `import {
         <Card>
           <CardContent class="pt-6">
             <p class="text-sm">
-              Una card puede tener solo contenido, sin header ni footer. Usa
-              <code class="bg-muted rounded px-1 py-0.5 text-xs">class="pt-6"</code> en CardContent
-              para compensar el padding superior.
+              {{ t('demo.cards.cardWithContentOnly') }}
+              <code class="bg-muted rounded px-1 py-0.5 text-xs">class="pt-6"</code>
+              {{ t('demo.cards.paddingNote') }}
             </p>
           </CardContent>
         </Card>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   Badge,
   Button,
@@ -25,56 +27,58 @@ interface Plan {
   popular?: boolean;
 }
 
-const plans: Plan[] = [
+const { t } = useI18n();
+
+const plans = computed<Plan[]>(() => [
   {
     name: 'Free',
-    description: 'Para proyectos personales y experimentación.',
+    description: t('demo.cards.freeDesc'),
     price: '$0',
     features: [
-      { text: '1 proyecto', included: true },
-      { text: '100 MB almacenamiento', included: true },
-      { text: 'Soporte por comunidad', included: true },
-      { text: 'Dominio personalizado', included: false },
-      { text: 'Analytics avanzados', included: false },
+      { text: t('demo.cards.feature1Project'), included: true },
+      { text: t('demo.cards.feature100MB'), included: true },
+      { text: t('demo.cards.featureCommunitySupport'), included: true },
+      { text: t('demo.cards.featureCustomDomain'), included: false },
+      { text: t('demo.cards.featureAdvancedAnalytics'), included: false },
     ],
-    buttonText: 'Empezar gratis',
+    buttonText: t('demo.cards.startFree'),
     buttonVariant: 'outline',
   },
   {
     name: 'Pro',
-    description: 'Para equipos pequeños y freelancers.',
+    description: t('demo.cards.proDesc'),
     price: '$19',
     features: [
-      { text: '10 proyectos', included: true },
-      { text: '10 GB almacenamiento', included: true },
-      { text: 'Soporte prioritario', included: true },
-      { text: 'Dominio personalizado', included: true },
-      { text: 'Analytics avanzados', included: false },
+      { text: t('demo.cards.feature10Projects'), included: true },
+      { text: t('demo.cards.feature10GB'), included: true },
+      { text: t('demo.cards.featurePrioritySupport'), included: true },
+      { text: t('demo.cards.featureCustomDomain'), included: true },
+      { text: t('demo.cards.featureAdvancedAnalytics'), included: false },
     ],
-    buttonText: 'Suscribirse',
+    buttonText: t('demo.cards.subscribe'),
     buttonVariant: 'default',
     popular: true,
   },
   {
     name: 'Enterprise',
-    description: 'Para organizaciones con necesidades avanzadas.',
-    price: '$49',
+    description: t('demo.cards.enterpriseDesc'),
+    price: '$79',
     features: [
-      { text: 'Proyectos ilimitados', included: true },
-      { text: '100 GB almacenamiento', included: true },
-      { text: 'Soporte 24/7 dedicado', included: true },
-      { text: 'Dominio personalizado', included: true },
-      { text: 'Analytics avanzados', included: true },
+      { text: t('demo.cards.featureUnlimitedProjects'), included: true },
+      { text: t('demo.cards.feature100GB'), included: true },
+      { text: t('demo.cards.featureDedicatedSupport'), included: true },
+      { text: t('demo.cards.featureCustomDomain'), included: true },
+      { text: t('demo.cards.featureAdvancedAnalytics'), included: true },
     ],
-    buttonText: 'Contactar ventas',
+    buttonText: t('demo.cards.contactSales'),
     buttonVariant: 'outline',
   },
-];
+]);
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Cards de planes (pricing)</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.cards.pricingCards') }}</h2>
     <div class="grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <Card
         v-for="plan in plans"
@@ -82,14 +86,14 @@ const plans: Plan[] = [
         :class="plan.popular ? 'border-primary relative border-ui' : ''"
       >
         <div v-if="plan.popular" class="absolute -top-3 left-1/2 -translate-x-1/2">
-          <Badge>Más popular</Badge>
+          <Badge>{{ t('demo.cards.mostPopular') }}</Badge>
         </div>
         <CardHeader>
           <CardTitle>{{ plan.name }}</CardTitle>
           <CardDescription>{{ plan.description }}</CardDescription>
           <div class="mt-2">
             <span class="text-3xl font-bold">{{ plan.price }}</span>
-            <span class="text-muted-foreground text-sm">/mes</span>
+            <span class="text-muted-foreground text-sm">{{ t('demo.cards.perMonth') }}</span>
           </div>
         </CardHeader>
         <CardContent>
