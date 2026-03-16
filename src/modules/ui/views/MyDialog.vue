@@ -138,37 +138,37 @@ const anatomyCode = `<Dialog>
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
     <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="outline">Editar perfil</Button>
+          <Button variant="outline">{{ t('demo.dialog.editProfile') }}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Editar perfil</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.editProfile') }}</DialogTitle>
             <DialogDescription>
-              Realiza cambios en tu perfil aquí. Haz clic en guardar cuando hayas terminado.
+              {{ t('demo.dialog.editProfileDescFull') }}
             </DialogDescription>
           </DialogHeader>
           <div class="grid gap-4 py-4">
             <div class="grid grid-cols-4 items-center gap-4">
-              <Label class="text-right">Nombre</Label>
-              <Input class="col-span-3" placeholder="Tu nombre" />
+              <Label class="text-right">{{ t('demo.name') }}</Label>
+              <Input class="col-span-3" :placeholder="t('demo.dialog.namePlaceholder')" />
             </div>
             <div class="grid grid-cols-4 items-center gap-4">
-              <Label class="text-right">Usuario</Label>
-              <Input class="col-span-3" placeholder="@usuario" />
+              <Label class="text-right">{{ t('demo.dialog.usernameLabel') }}</Label>
+              <Input class="col-span-3" :placeholder="t('demo.dialog.usernamePlaceholder')" />
             </div>
           </div>
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{{ t('common.cancel') }}</Button>
             </DialogClose>
-            <Button>Guardar cambios</Button>
+            <Button>{{ t('demo.dialog.saveChanges') }}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -177,21 +177,20 @@ const anatomyCode = `<Dialog>
     <DocShowcase :title="showcaseTitle('destructiveConfirm')" :code="confirmCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="destructive">Eliminar cuenta</Button>
+          <Button variant="destructive">{{ t('demo.deleteAccount') }}</Button>
         </DialogTrigger>
         <DialogContent class="max-w-md">
           <DialogHeader>
-            <DialogTitle>¿Estás seguro?</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.areYouSure') }}</DialogTitle>
             <DialogDescription>
-              Esta acción no se puede deshacer. Se eliminará permanentemente tu cuenta y todos tus
-              datos de nuestros servidores.
+              {{ t('demo.dialog.deleteDesc') }}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{{ t('common.cancel') }}</Button>
             </DialogClose>
-            <Button variant="destructive">Sí, eliminar cuenta</Button>
+            <Button variant="destructive">{{ t('demo.dialog.yesDelete') }}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -199,7 +198,7 @@ const anatomyCode = `<Dialog>
 
     <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <p class="text-muted-foreground text-xs">
-        Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
+        Estado: <code class="text-foreground">{{ controlledOpen ? t('demo.dialog.statusOpen') : t('demo.dialog.statusClosed') }}</code>
       </p>
       <div class="flex gap-2">
         <Button variant="outline" @click="controlledOpen = true">{{ t('demo.openProgrammatically') }}</Button>
@@ -207,18 +206,18 @@ const anatomyCode = `<Dialog>
       <Dialog v-model:open="controlledOpen">
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Dialog controlado</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.controlledTitle') }}</DialogTitle>
             <DialogDescription>
-              Este dialog se controla externamente con v-model:open.
+              {{ t('demo.dialog.controlledDesc') }}
             </DialogDescription>
           </DialogHeader>
           <div class="py-4">
             <p class="text-muted-foreground text-sm">
-              Puedes abrirlo y cerrarlo programáticamente desde fuera del componente.
+              {{ t('demo.dialog.controlledContent') }}
             </p>
           </div>
           <DialogFooter>
-            <Button @click="controlledOpen = false">Entendido</Button>
+            <Button @click="controlledOpen = false">{{ t('demo.dialog.understood') }}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -227,18 +226,18 @@ const anatomyCode = `<Dialog>
     <DocShowcase :title="showcaseTitle('noOverlay')" :code="noOverlayCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="outline">Abrir (sin cierre overlay)</Button>
+          <Button variant="outline">{{ t('demo.dialog.openNoOverlay') }}</Button>
         </DialogTrigger>
         <DialogContent :close-on-overlay="false">
           <DialogHeader>
-            <DialogTitle>Acción requerida</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.requiredActionTitle') }}</DialogTitle>
             <DialogDescription>
-              Debes completar esta acción. No puedes cerrar haciendo clic fuera.
+              {{ t('demo.dialog.requiredActionDesc') }}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose>
-              <Button>Aceptar</Button>
+              <Button>{{ t('demo.dialog.accept') }}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
@@ -248,13 +247,13 @@ const anatomyCode = `<Dialog>
     <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="outline">Términos y condiciones</Button>
+          <Button variant="outline">{{ t('demo.dialog.termsAndConditions') }}</Button>
         </DialogTrigger>
         <DialogContent :show-close="false" :close-on-overlay="false">
           <DialogHeader>
-            <DialogTitle>Términos de servicio</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.termsOfService') }}</DialogTitle>
             <DialogDescription>
-              Por favor lee y acepta los términos de servicio para continuar.
+              {{ t('demo.dialog.termsOfServiceDesc') }}
             </DialogDescription>
           </DialogHeader>
           <div class="border-border max-h-60 overflow-y-auto rounded-md border p-4">
@@ -265,10 +264,10 @@ const anatomyCode = `<Dialog>
           </div>
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">Rechazar</Button>
+              <Button variant="outline">{{ t('demo.dialog.reject') }}</Button>
             </DialogClose>
             <DialogClose>
-              <Button>Aceptar</Button>
+              <Button>{{ t('demo.dialog.accept') }}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

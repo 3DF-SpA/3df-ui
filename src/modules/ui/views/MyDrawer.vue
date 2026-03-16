@@ -124,7 +124,7 @@ const anatomyCode = `<Drawer>
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
@@ -135,18 +135,18 @@ const anatomyCode = `<Drawer>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Editar perfil</DrawerTitle>
+            <DrawerTitle>{{ t('demo.drawer.editProfile') }}</DrawerTitle>
             <DrawerDescription>
-              Realiza cambios en tu perfil aquí. Haz clic en guardar cuando hayas terminado.
+              {{ t('demo.drawer.editProfileDesc') }}
             </DrawerDescription>
           </DrawerHeader>
           <div class="p-4">
             <p class="text-muted-foreground text-sm">
-              Contenido del drawer. Puedes arrastrarlo hacia abajo para cerrarlo.
+              {{ t('demo.drawer.drawerContent') }}
             </p>
           </div>
           <DrawerFooter>
-            <Button>Guardar cambios</Button>
+            <Button>{{ t('demo.drawer.saveChanges') }}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -155,12 +155,12 @@ const anatomyCode = `<Drawer>
     <DocShowcase :title="showcaseTitle('interactive')" :code="interactiveCode">
       <Drawer>
         <DrawerTrigger>
-          <Button variant="outline">Establecer objetivo</Button>
+          <Button variant="outline">{{ t('demo.drawer.setGoal') }}</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Objetivo de movimiento</DrawerTitle>
-            <DrawerDescription>Establece tu objetivo de calorías diarias.</DrawerDescription>
+            <DrawerTitle>{{ t('demo.drawer.movementGoal') }}</DrawerTitle>
+            <DrawerDescription>{{ t('demo.drawer.caloriesGoalDesc') }}</DrawerDescription>
           </DrawerHeader>
           <div class="flex flex-col items-center gap-4 p-4">
             <div class="flex items-center gap-4">
@@ -180,7 +180,7 @@ const anatomyCode = `<Drawer>
               </Button>
               <div class="text-center">
                 <div class="text-5xl font-bold tracking-tighter">{{ goal }}</div>
-                <div class="text-muted-foreground text-sm">calorías/día</div>
+                <div class="text-muted-foreground text-sm">{{ t('demo.drawer.caloriesUnit') }}</div>
               </div>
               <Button variant="outline" size="icon" @click="adjustGoal(10)">
                 <svg
@@ -200,7 +200,7 @@ const anatomyCode = `<Drawer>
             </div>
           </div>
           <DrawerFooter>
-            <Button>Confirmar objetivo</Button>
+            <Button>{{ t('demo.drawer.confirmGoal') }}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -208,7 +208,7 @@ const anatomyCode = `<Drawer>
 
     <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <p class="text-muted-foreground text-xs">
-        Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
+        Estado: <code class="text-foreground">{{ controlledOpen ? t('demo.drawer.statusOpen') : t('demo.drawer.statusClosed') }}</code>
       </p>
       <div class="flex gap-2">
         <Button variant="outline" @click="controlledOpen = true">{{ t('demo.openProgrammatically') }}</Button>
@@ -216,17 +216,17 @@ const anatomyCode = `<Drawer>
       <Drawer v-model:open="controlledOpen">
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Drawer controlado</DrawerTitle>
-            <DrawerDescription>Este drawer se controla con v-model:open.</DrawerDescription>
+            <DrawerTitle>{{ t('demo.drawer.controlledTitle') }}</DrawerTitle>
+            <DrawerDescription>{{ t('demo.drawer.controlledDesc') }}</DrawerDescription>
           </DrawerHeader>
           <div class="p-4">
             <p class="text-muted-foreground text-sm">
-              Puedes abrirlo y cerrarlo programáticamente.
+              {{ t('demo.drawer.controlledContent') }}
             </p>
           </div>
           <DrawerFooter>
             <Button @click="controlledOpen = false">{{ t('common.close') }}</Button>
-            <Button variant="outline" @click="controlledOpen = false">Cancelar</Button>
+            <Button variant="outline" @click="controlledOpen = false">{{ t('common.cancel') }}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -235,17 +235,17 @@ const anatomyCode = `<Drawer>
     <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Drawer>
         <DrawerTrigger>
-          <Button variant="outline">Abrir (sin ×)</Button>
+          <Button variant="outline">{{ t('demo.drawer.openNoClose') }}</Button>
         </DrawerTrigger>
         <DrawerContent :show-close="false">
           <DrawerHeader>
-            <DrawerTitle>Solo drag o Escape</DrawerTitle>
+            <DrawerTitle>{{ t('demo.drawer.dragOrEscapeTitle') }}</DrawerTitle>
             <DrawerDescription>
-              Arrastra el handle hacia abajo o presiona Escape para cerrar.
+              {{ t('demo.drawer.dragOrEscapeDesc') }}
             </DrawerDescription>
           </DrawerHeader>
           <div class="p-4 pb-8">
-            <p class="text-muted-foreground text-sm">No hay botón de cierre visible.</p>
+            <p class="text-muted-foreground text-sm">{{ t('demo.drawer.noCloseVisible') }}</p>
           </div>
         </DrawerContent>
       </Drawer>

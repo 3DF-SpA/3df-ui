@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   CommandDialog,
@@ -23,6 +24,7 @@ import CommandDemoInline from './_components/CommandDemoInline.vue';
 
 const dialogOpen = ref(false);
 
+const { t } = useI18n();
 const { description, propDesc, showcaseTitle } = useDocPage('command');
 
 const commandProps = computed<PropItem[]>(() => [
@@ -132,7 +134,7 @@ const dialogCode = `const open = ref(false)
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
@@ -140,8 +142,9 @@ const dialogCode = `const open = ref(false)
 
     <DocShowcase :title="showcaseTitle('commandDialog')" :code="dialogCode">
       <p class="text-muted-foreground text-sm">
-        Presiona <kbd class="bg-muted rounded px-1.5 py-0.5 font-mono text-xs">⌘K</kbd> o haz clic
-        en el botón para abrir el Command Dialog.
+        {{ t('demo.command.openHintBefore') }}
+        <kbd class="bg-muted rounded px-1.5 py-0.5 font-mono text-xs">⌘K</kbd>
+        {{ t('demo.command.openHintAfter') }}
       </p>
       <button
         class="bg-muted text-muted-foreground inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm"
@@ -162,31 +165,31 @@ const dialogCode = `const open = ref(false)
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.3-4.3" />
         </svg>
-        Buscar comando...
+        {{ t('demo.command.searchButton') }}
         <kbd class="bg-background rounded border px-1.5 py-0.5 font-mono text-xs">⌘K</kbd>
       </button>
 
       <CommandDialog v-model:open="dialogOpen">
-        <CommandInput placeholder="Escribe un comando o busca..." />
+        <CommandInput :placeholder="t('demo.command.searchPlaceholder')" />
         <CommandList>
-          <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-          <CommandGroup heading="Sugerencias">
-            <CommandItem value="Calendario">Calendario</CommandItem>
-            <CommandItem value="Buscar emoji">Buscar emoji</CommandItem>
-            <CommandItem value="Calculadora">Calculadora</CommandItem>
+          <CommandEmpty>{{ t('demo.command.noResults') }}</CommandEmpty>
+          <CommandGroup :heading="t('demo.command.suggestions')">
+            <CommandItem :value="t('demo.command.calendar')">{{ t('demo.command.calendar') }}</CommandItem>
+            <CommandItem :value="t('demo.searchEmoji')">{{ t('demo.searchEmoji') }}</CommandItem>
+            <CommandItem :value="t('demo.command.calculator')">{{ t('demo.command.calculator') }}</CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Configuración">
-            <CommandItem value="Perfil">
-              Perfil
+          <CommandGroup :heading="t('demo.command.configGroup')">
+            <CommandItem :value="t('demo.profile')">
+              {{ t('demo.profile') }}
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Facturación">
-              Facturación
+            <CommandItem :value="t('demo.command.billing')">
+              {{ t('demo.command.billing') }}
               <CommandShortcut>⌘B</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Ajustes">
-              Ajustes
+            <CommandItem :value="t('demo.command.ajustes')">
+              {{ t('demo.command.ajustes') }}
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
           </CommandGroup>
@@ -197,3 +200,4 @@ const dialogCode = `const open = ref(false)
     <DocPropsTable :props="commandProps" />
   </div>
 </template>
+

@@ -35,14 +35,14 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
 </script>
 
 <template>
-  <DocShowcase title="Command básico" :code="codeInline">
+  <DocShowcase :title="t('demo.command.inlineTitle')" :code="codeInline">
     <div class="mx-auto w-full max-w-md">
       <Command class="rounded-lg border shadow-md">
-        <CommandInput placeholder="Escribe un comando o busca..." />
+        <CommandInput :placeholder="t('demo.command.searchPlaceholder')" />
         <CommandList>
-          <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-          <CommandGroup heading="Sugerencias">
-            <CommandItem value="Calendario">
+          <CommandEmpty>{{ t('demo.command.noResults') }}</CommandEmpty>
+          <CommandGroup :heading="t('demo.command.suggestions')">
+            <CommandItem :value="t('demo.command.calendar')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -60,9 +60,9 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <rect width="18" height="18" x="3" y="4" rx="2" />
                 <path d="M3 10h18" />
               </svg>
-              Calendario
+              {{ t('demo.command.calendar') }}
             </CommandItem>
-            <CommandItem value="Buscar emoji" :keywords="['emoticon', 'smiley']">
+            <CommandItem :value="t('demo.searchEmoji')" :keywords="['emoticon', 'smiley']">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -82,7 +82,7 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
               </svg>
               {{ t('demo.searchEmoji') }}
             </CommandItem>
-            <CommandItem value="Calculadora">
+            <CommandItem :value="t('demo.command.calculator')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -106,12 +106,12 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <path d="M12 18h.01" />
                 <path d="M8 18h.01" />
               </svg>
-              Calculadora
+              {{ t('demo.command.calculator') }}
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Configuración">
-            <CommandItem value="Perfil">
+          <CommandGroup :heading="t('demo.command.configGroup')">
+            <CommandItem :value="t('demo.profile')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -130,7 +130,7 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
               {{ t('demo.profile') }}
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Facturación" :keywords="['billing', 'pago']">
+            <CommandItem :value="t('demo.command.billing')" :keywords="['billing', 'pago']">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -146,10 +146,10 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <rect width="20" height="14" x="2" y="5" rx="2" />
                 <line x1="2" x2="22" y1="10" y2="10" />
               </svg>
-              Facturación
+              {{ t('demo.command.billing') }}
               <CommandShortcut>⌘B</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Ajustes">
+            <CommandItem :value="t('demo.command.ajustes')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -167,7 +167,7 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 />
                 <circle cx="12" cy="12" r="3" />
               </svg>
-              Ajustes
+              {{ t('demo.command.ajustes') }}
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
           </CommandGroup>
@@ -176,3 +176,4 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
     </div>
   </DocShowcase>
 </template>
+
