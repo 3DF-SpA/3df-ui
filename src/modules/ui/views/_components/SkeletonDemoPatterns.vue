@@ -70,8 +70,8 @@ const comparativaCode = `<!-- Loading -->
 
 <template>
   <DocShowcase
-    title="Perfil skeleton"
-    description="Esqueleto de perfil de usuario con avatar, información y acciones."
+    :title="t('views.skeleton.showcases.profile.title')"
+    :description="t('views.skeleton.showcases.profile.description')"
     :code="perfilCode"
   >
     <div class="flex items-start gap-6">
@@ -89,8 +89,8 @@ const comparativaCode = `<!-- Loading -->
   </DocShowcase>
 
   <DocShowcase
-    title="Grid de productos skeleton"
-    description="Cuadrícula de tarjetas de producto con imagen, título y precio en carga."
+    :title="t('views.skeleton.showcases.grid.title')"
+    :description="t('views.skeleton.showcases.grid.description')"
     :code="gridCode"
   >
     <div class="grid max-w-3xl gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -114,8 +114,8 @@ const comparativaCode = `<!-- Loading -->
   </DocShowcase>
 
   <DocShowcase
-    title="Formulario skeleton"
-    description="Campos de formulario con etiquetas, inputs y checkbox en estado de carga."
+    :title="t('views.skeleton.showcases.form.title')"
+    :description="t('views.skeleton.showcases.form.description')"
     :code="formularioCode"
   >
     <div class="flex max-w-md flex-col gap-5">
@@ -140,8 +140,8 @@ const comparativaCode = `<!-- Loading -->
   </DocShowcase>
 
   <DocShowcase
-    title="Comparativa: Loading vs Cargado"
-    description="Contraste lado a lado entre el estado de carga y el contenido final."
+    :title="t('views.skeleton.showcases.comparison.title')"
+    :description="t('views.skeleton.showcases.comparison.description')"
     :code="comparativaCode"
   >
     <div class="grid max-w-2xl gap-8 sm:grid-cols-2">
@@ -175,14 +175,13 @@ const comparativaCode = `<!-- Loading -->
             </div>
             <div>
               <p class="text-sm font-semibold">Ana García</p>
-              <p class="text-muted-foreground text-xs">Ingeniería</p>
+              <p class="text-muted-foreground text-xs">{{ t('views.skeleton.demo.engineering') }}</p>
             </div>
           </div>
         </CardHeader>
         <CardContent>
           <p class="text-sm">
-            Desarrolladora senior con 5 años de experiencia en Vue.js y TypeScript. Líder técnica
-            del equipo de frontend.
+            {{ t('views.skeleton.demo.seniorDevBio') }}
           </p>
         </CardContent>
         <CardFooter>

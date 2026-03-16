@@ -225,6 +225,19 @@ export default {
     },
     skeleton: {
       description: 'Marcador de posición animado que indica contenido en proceso de carga.',
+      showcases: {
+        basicShapes: { title: 'Formas básicas', description: 'Líneas de texto, bloques y círculos para representar diferentes tipos de contenido.' },
+        card: { title: 'Card skeleton', description: 'Esqueleto de tarjeta con avatar, líneas de texto y botones de acción.' },
+        table: { title: 'Tabla skeleton', description: 'Filas de tabla con celdas skeleton para representar datos tabulares en carga.' },
+        profile: { title: 'Perfil skeleton', description: 'Esqueleto de perfil de usuario con avatar, información y acciones.' },
+        grid: { title: 'Grid de productos skeleton', description: 'Cuadrícula de tarjetas de producto con imagen, título y precio en carga.' },
+        form: { title: 'Formulario skeleton', description: 'Campos de formulario con etiquetas, inputs y checkbox en estado de carga.' },
+        comparison: { title: 'Comparativa: Loading vs Cargado', description: 'Contraste lado a lado entre el estado de carga y el contenido final.' },
+      },
+      demo: {
+        engineering: 'Ingeniería',
+        seniorDevBio: 'Desarrolladora senior con 5 años de experiencia en Vue.js y TypeScript. Líder técnica del equipo de frontend.',
+      },
     },
     logos: {
       description: 'Muestra logos de marcas, sponsors y partners. Grid estático o marquee infinito con efecto hover-to-slow.',

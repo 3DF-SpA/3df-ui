@@ -225,6 +225,19 @@ export default {
     },
     skeleton: {
       description: 'Animated placeholder indicating content is loading.',
+      showcases: {
+        basicShapes: { title: 'Basic shapes', description: 'Text lines, blocks and circles to represent different types of content.' },
+        card: { title: 'Card skeleton', description: 'Card skeleton with avatar, text lines and action buttons.' },
+        table: { title: 'Table skeleton', description: 'Table rows with skeleton cells to represent tabular data loading.' },
+        profile: { title: 'Profile skeleton', description: 'User profile skeleton with avatar, info and actions.' },
+        grid: { title: 'Product grid skeleton', description: 'Product card grid with image, title and price in loading state.' },
+        form: { title: 'Form skeleton', description: 'Form fields with labels, inputs and checkbox in loading state.' },
+        comparison: { title: 'Comparison: Loading vs Loaded', description: 'Side by side contrast between loading state and final content.' },
+      },
+      demo: {
+        engineering: 'Engineering',
+        seniorDevBio: 'Senior developer with 5 years of experience in Vue.js and TypeScript. Technical lead of the frontend team.',
+      },
     },
     logos: {
       description: 'Display brand, sponsor, and partner logos. Static grid or infinite marquee with hover-to-slow effect.',
