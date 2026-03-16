@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Badge, Button } from '@3df/ui';
 
@@ -11,6 +12,7 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import BadgeDemoIcons from './_components/BadgeDemoIcons.vue';
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('badges');
+const { t } = useI18n();
 
 const badgeProps = computed<PropItem[]>(() => [
   {
@@ -52,12 +54,12 @@ const sizesCode = `<Badge size="sm">Small</Badge>
 <Badge size="lg">Large</Badge>`;
 
 const iconsCode = `<Badge variant="success">
-  <svg><!-- ícono check --></svg>
-  Aprobado
+  <svg><!-- check icon --></svg>
+  Approved
 </Badge>
 <Badge variant="destructive">
-  <svg><!-- ícono X --></svg>
-  Rechazado
+  <svg><!-- X icon --></svg>
+  Rejected
 </Badge>`;
 
 const pillCode = `<Badge class="rounded-full">Default pill</Badge>
@@ -75,7 +77,7 @@ const contextCode = `<Button>
   Inbox
   <Badge variant="secondary" size="sm" class="rounded-full">24</Badge>
 </Button>
-<span class="text-sm font-medium">Estado del servidor</span>
+<span class="text-sm font-medium">Server status</span>
 <Badge variant="success" size="sm">Online</Badge>`;
 </script>
 
@@ -205,29 +207,29 @@ const contextCode = `<Button>
       <div class="flex flex-col gap-4">
         <div class="flex flex-wrap items-center gap-4">
           <Button>
-            Inbox
+            {{ t('demo.inbox') }}
             <Badge variant="secondary" size="sm" class="rounded-full">24</Badge>
           </Button>
           <Button variant="outline">
-            Notificaciones
+            {{ t('demo.notifications') }}
             <Badge variant="destructive" size="sm" class="rounded-full">3</Badge>
           </Button>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-sm font-medium">Estado del servidor</span>
+          <span class="text-sm font-medium">{{ t('demo.serverStatus') }}</span>
           <Badge variant="success" size="sm">Online</Badge>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-sm font-medium">Mantenimiento</span>
-          <Badge variant="warning" size="sm">Programado</Badge>
+          <span class="text-sm font-medium">{{ t('demo.maintenance') }}</span>
+          <Badge variant="warning" size="sm">{{ t('demo.scheduled') }}</Badge>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-sm font-medium">Versión</span>
+          <span class="text-sm font-medium">{{ t('demo.version') }}</span>
           <Badge variant="blue" size="sm">v2.1.0</Badge>
         </div>
         <div class="flex items-center gap-2">
-          <span class="text-sm font-medium">Prioridad</span>
-          <Badge variant="purple" size="sm">Alta</Badge>
+          <span class="text-sm font-medium">{{ t('demo.priority') }}</span>
+          <Badge variant="purple" size="sm">{{ t('demo.high') }}</Badge>
         </div>
       </div>
     </DocShowcase>
