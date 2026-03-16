@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Toggle } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const leftAlign = ref(true);
 const centerAlign = ref(false);
@@ -49,8 +52,8 @@ const scopedCode = `<Toggle v-model:pressed="muted">
 
 <template>
   <DocShowcase
-    title="Grupo exclusivo (alineación)"
-    description="Toggles agrupados visualmente donde solo uno puede estar activo."
+    :title="t('views.toggle.showcases.groupExclusive.title')"
+    :description="t('views.toggle.showcases.groupExclusive.description')"
     :code="groupCode"
   >
     <div class="flex flex-col gap-4">
@@ -122,14 +125,14 @@ const scopedCode = `<Toggle v-model:pressed="muted">
         </Toggle>
       </div>
       <p class="text-muted-foreground text-sm">
-        Alineación: {{ leftAlign ? 'Izquierda' : centerAlign ? 'Centro' : 'Derecha' }}
+        {{ t('demo.toggle.alignmentLabel') }} {{ leftAlign ? t('demo.toggle.left') : centerAlign ? t('demo.toggle.center') : t('demo.toggle.right') }}
       </p>
     </div>
   </DocShowcase>
 
   <DocShowcase
-    title="Scoped slot (estado dinámico)"
-    description="Uso del scoped slot para cambiar contenido según el estado."
+    :title="t('views.toggle.showcases.scopedSlot.title')"
+    :description="t('views.toggle.showcases.scopedSlot.description')"
     :code="scopedCode"
   >
     <div class="flex gap-3">
@@ -165,7 +168,7 @@ const scopedCode = `<Toggle v-model:pressed="muted">
             <line x1="22" x2="16" y1="9" y2="15" />
             <line x1="16" x2="22" y1="9" y2="15" />
           </svg>
-          {{ pressed ? 'Muted' : 'Sound' }}
+          {{ pressed ? t('demo.toggle.muted') : t('demo.toggle.sound') }}
         </template>
       </Toggle>
 
@@ -185,7 +188,7 @@ const scopedCode = `<Toggle v-model:pressed="muted">
               d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
             />
           </svg>
-          {{ pressed ? 'Favorito' : 'Agregar' }}
+          {{ pressed ? t('demo.toggle.favorite') : t('demo.toggle.add') }}
         </template>
       </Toggle>
 
@@ -206,7 +209,7 @@ const scopedCode = `<Toggle v-model:pressed="muted">
               d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"
             />
           </svg>
-          {{ pressed ? 'Pinned' : 'Pin' }}
+          {{ pressed ? t('demo.toggle.pinned') : t('demo.toggle.pin') }}
         </template>
       </Toggle>
     </div>

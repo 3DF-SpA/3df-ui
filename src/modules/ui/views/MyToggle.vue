@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Toggle } from '@3df/ui';
 
@@ -13,6 +14,7 @@ import ToggleDemoGroupScoped from './_components/ToggleDemoGroupScoped.vue';
 import ToggleDemoOutlineSizesDisabled from './_components/ToggleDemoOutlineSizesDisabled.vue';
 
 const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('toggle');
+const { t } = useI18n();
 
 const bold = ref(false);
 const italic = ref(false);
@@ -130,7 +132,7 @@ const withTextCode = `<Toggle v-model:pressed="bold">
           </Toggle>
         </div>
         <p class="text-muted-foreground text-sm">
-          Bold: {{ bold }}, Italic: {{ italic }}, Underline: {{ underline }}
+          {{ t('demo.toggle.bold') }}: {{ bold }}, {{ t('demo.toggle.italic') }}: {{ italic }}, {{ t('demo.toggle.underline') }}: {{ underline }}
         </p>
       </div>
     </DocShowcase>
@@ -155,7 +157,7 @@ const withTextCode = `<Toggle v-model:pressed="bold">
             <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" />
             <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" />
           </svg>
-          Bold
+          {{ t('demo.toggle.bold') }}
         </Toggle>
 
         <Toggle v-model:pressed="italic">
@@ -173,7 +175,7 @@ const withTextCode = `<Toggle v-model:pressed="bold">
             <line x1="14" x2="5" y1="20" y2="20" />
             <line x1="15" x2="9" y1="4" y2="20" />
           </svg>
-          Italic
+          {{ t('demo.toggle.italic') }}
         </Toggle>
       </div>
     </DocShowcase>

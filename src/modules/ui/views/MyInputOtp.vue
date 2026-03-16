@@ -130,18 +130,18 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     >
       <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-2">
-          <p class="text-muted-foreground text-xs">Sin separador</p>
+          <p class="text-muted-foreground text-xs">{{ t('demo.inputOtp.withoutSeparator') }}</p>
           <InputOTP v-model="basicValue" :length="6">
             <InputOTPGroup>
               <InputOTPSlot v-for="i in 6" :key="i" :index="i - 1" />
             </InputOTPGroup>
           </InputOTP>
           <p class="text-muted-foreground text-xs">
-            Valor: <code class="text-foreground">{{ basicValue || '(vacío)' }}</code>
+            {{ t('demo.inputOtp.value') }} <code class="text-foreground">{{ basicValue || t('demo.inputOtp.empty') }}</code>
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-muted-foreground text-xs">Con separador</p>
+          <p class="text-muted-foreground text-xs">{{ t('demo.inputOtp.withSeparator') }}</p>
           <InputOTP v-model="groupedValue" :length="6">
             <InputOTPGroup>
               <InputOTPSlot v-for="i in 3" :key="i" :index="i - 1" />
@@ -152,7 +152,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
             </InputOTPGroup>
           </InputOTP>
           <p class="text-muted-foreground text-xs">
-            Valor: <code class="text-foreground">{{ groupedValue || '(vacío)' }}</code>
+            {{ t('demo.inputOtp.value') }} <code class="text-foreground">{{ groupedValue || t('demo.inputOtp.empty') }}</code>
           </p>
         </div>
       </div>
@@ -165,7 +165,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     >
       <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-2">
-          <p class="text-muted-foreground text-xs">Separador personalizado</p>
+          <p class="text-muted-foreground text-xs">{{ t('demo.inputOtp.customSeparator') }}</p>
           <InputOTP v-model="groupedValue" :length="6">
             <InputOTPGroup>
               <InputOTPSlot v-for="i in 2" :key="i" :index="i - 1" />
@@ -181,7 +181,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
           </InputOTP>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-muted-foreground text-xs">Valor inicial</p>
+          <p class="text-muted-foreground text-xs">{{ t('demo.inputOtp.initialValue') }}</p>
           <InputOTP v-model="prefilledValue" :length="6">
             <InputOTPGroup>
               <InputOTPSlot v-for="i in 3" :key="i" :index="i - 1" />
@@ -192,7 +192,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
             </InputOTPGroup>
           </InputOTP>
           <p class="text-muted-foreground text-xs">
-            Valor: <code class="text-foreground">{{ prefilledValue }}</code>
+            {{ t('demo.inputOtp.value') }} <code class="text-foreground">{{ prefilledValue }}</code>
           </p>
         </div>
       </div>
@@ -205,18 +205,18 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     >
       <div class="flex flex-col gap-6">
         <div class="flex flex-col gap-2">
-          <p class="text-muted-foreground text-xs">Alfanumérico</p>
+          <p class="text-muted-foreground text-xs">{{ t('demo.inputOtp.alphanumeric') }}</p>
           <InputOTP v-model="alphanumericValue" :length="4" pattern="alphanumeric">
             <InputOTPGroup>
               <InputOTPSlot v-for="i in 4" :key="i" :index="i - 1" />
             </InputOTPGroup>
           </InputOTP>
           <p class="text-muted-foreground text-xs">
-            Valor: <code class="text-foreground">{{ alphanumericValue || '(vacío)' }}</code>
+            {{ t('demo.inputOtp.value') }} <code class="text-foreground">{{ alphanumericValue || t('demo.inputOtp.empty') }}</code>
           </p>
         </div>
         <div class="flex flex-col gap-2">
-          <p class="text-muted-foreground text-xs">Deshabilitado (valor parcial)</p>
+          <p class="text-muted-foreground text-xs">{{ t('demo.inputOtp.disabledPartial') }}</p>
           <InputOTP v-model="disabledValue" :length="4" disabled>
             <InputOTPGroup>
               <InputOTPSlot v-for="i in 4" :key="i" :index="i - 1" />
@@ -241,7 +241,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
           {{ completedMessage }}
         </p>
         <p class="text-muted-foreground text-xs">
-          Valor: <code class="text-foreground">{{ completedValue || '(vacío)' }}</code>
+          {{ t('demo.inputOtp.value') }} <code class="text-foreground">{{ completedValue || t('demo.inputOtp.empty') }}</code>
         </p>
       </div>
     </DocShowcase>
@@ -249,7 +249,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     <DocPropsTable :props="inputOtpProps" />
 
     <div class="flex flex-col gap-3">
-      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <h2 class="text-sm font-semibold">{{ t('demo.inputOtp.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" language="vue" />
     </div>
   </div>

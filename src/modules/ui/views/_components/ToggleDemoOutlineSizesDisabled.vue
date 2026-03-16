@@ -37,7 +37,7 @@ const disabledCode = `<Toggle disabled>
 </script>
 
 <template>
-  <DocShowcase title="Variante outline" description="Toggle con borde visible." :code="outlineCode">
+  <DocShowcase :title="t('views.toggle.showcases.outline.title')" :description="t('views.toggle.showcases.outline.description')" :code="outlineCode">
     <div class="flex gap-3">
       <Toggle v-model:pressed="bold" variant="outline">
         <svg
@@ -90,7 +90,7 @@ const disabledCode = `<Toggle disabled>
     </div>
   </DocShowcase>
 
-  <DocShowcase :title="t('demo.sizes')" description="Tamaños sm, default y lg." :code="sizesCode">
+  <DocShowcase :title="t('demo.sizes')" :description="t('views.toggle.showcases.sizes.description')" :code="sizesCode">
     <div class="flex items-center gap-3">
       <Toggle v-model:pressed="bold" size="sm">
         <svg
@@ -147,8 +147,8 @@ const disabledCode = `<Toggle disabled>
   </DocShowcase>
 
   <DocShowcase
-    title="Disabled"
-    description="Toggles deshabilitados en ambas variantes."
+    :title="t('views.toggle.showcases.disabled.title')"
+    :description="t('views.toggle.showcases.disabled.description')"
     :code="disabledCode"
   >
     <div class="flex gap-3">
