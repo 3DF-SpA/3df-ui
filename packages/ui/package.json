@@ -3,13 +3,13 @@
   "version": "1.5.2",
   "description": "Vue 3 component library — TypeScript strict, Tailwind CSS v4, accessible, zero-runtime",
   "keywords": ["vue", "vue3", "components", "ui", "design-system", "tailwind", "typescript", "accessible"],
-  "homepage": "https://github.com/3df-space/3df-ui#readme",
+  "homepage": "https://github.com/3DF-SpA/3df-ui#readme",
   "bugs": {
-    "url": "https://github.com/3df-space/3df-ui/issues"
+    "url": "https://github.com/3DF-SpA/3df-ui/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/3df-space/3df-ui.git",
+    "url": "https://github.com/3DF-SpA/3df-ui.git",
     "directory": "packages/ui"
   },
   "license": "MIT",
@@ -30,8 +30,7 @@
     },
     "./theme.css": "./src/styles/theme.css",
     "./styles.css": "./dist/styles.css",
-    "./safelist": "./dist/safelist.html",
-    "./dist/*": "./dist/*"
+    "./safelist": "./dist/safelist.html"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
