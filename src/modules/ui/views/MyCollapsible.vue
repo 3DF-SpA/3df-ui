@@ -85,7 +85,7 @@ const controlledCode = `const isOpen = ref(false)
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" />
     </section>
 
@@ -148,12 +148,12 @@ const controlledCode = `const isOpen = ref(false)
             {{ isOpen ? t('common.close') : t('common.open') }}
           </Button>
           <span class="text-muted-foreground text-sm">
-            Estado: <strong>{{ isOpen ? 'abierto' : 'cerrado' }}</strong>
+            Estado: <strong>{{ isOpen ? t('demo.collapsible.stateOpen') : t('demo.collapsible.stateClosed') }}</strong>
           </span>
         </div>
         <Collapsible v-model:open="isOpen" class="space-y-2">
           <div class="flex items-center justify-between space-x-4">
-            <h4 class="text-sm font-semibold">Sección controlada</h4>
+            <h4 class="text-sm font-semibold">{{ t('demo.collapsible.controlledSection') }}</h4>
             <CollapsibleTrigger>
               <Button variant="ghost" size="sm" class="w-9 p-0">
                 <svg
@@ -176,10 +176,7 @@ const controlledCode = `const isOpen = ref(false)
           </div>
           <CollapsibleContent>
             <div class="border-border/60 rounded-md border p-4">
-              <p class="text-sm">
-                Este contenido se puede controlar tanto con el trigger interno como con el botón
-                externo, gracias al binding bidireccional de v-model.
-              </p>
+              <p class="text-sm">{{ t('demo.collapsible.controlledDesc') }}</p>
             </div>
           </CollapsibleContent>
         </Collapsible>
