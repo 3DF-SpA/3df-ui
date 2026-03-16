@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import {
@@ -12,36 +12,36 @@ import {
   NavigationMenuViewport,
 } from '@3df/ui';
 
-const components = [
+const { t } = useI18n();
+
+const components = computed(() => [
   {
     title: 'Alert Dialog',
-    description: 'Diálogo modal que interrumpe al usuario con contenido importante.',
+    description: t('demo.navigationMenu.components.alertDialog'),
   },
   {
     title: 'Hover Card',
-    description: 'Vista previa del contenido al pasar el cursor sobre un enlace.',
+    description: t('demo.navigationMenu.components.hoverCard'),
   },
   {
     title: 'Progress',
-    description: 'Barra de progreso para operaciones de larga duración.',
+    description: t('demo.navigationMenu.components.progress'),
   },
   {
     title: 'Scroll Area',
-    description: 'Área de desplazamiento con barras personalizadas.',
+    description: t('demo.navigationMenu.components.scrollArea'),
   },
   {
     title: 'Tabs',
-    description: 'Conjunto de paneles de contenido organizados en pestañas.',
+    description: t('demo.navigationMenu.components.tabs'),
   },
   {
     title: 'Tooltip',
-    description: 'Información contextual al pasar el cursor sobre un elemento.',
+    description: t('demo.navigationMenu.components.tooltip'),
   },
-];
+]);
 
 const currentLink = ref('');
-
-const { t } = useI18n();
 
 function handleLinkClick(name: string) {
   currentLink.value = name;
@@ -50,10 +50,9 @@ function handleLinkClick(name: string) {
 
 <template>
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">1. Menú completo</h2>
+    <h2 class="text-xl font-semibold">{{ t('demo.navigationMenu.complete.title') }}</h2>
     <p class="text-muted-foreground text-sm">
-      Hover sobre los triggers para desplegar los paneles. Incluye item destacado, grid de
-      componentes y link directo.
+      {{ t('demo.navigationMenu.complete.description') }}
     </p>
 
     <NavigationMenu>
@@ -67,25 +66,38 @@ function handleLinkClick(name: string) {
               >
                 <div class="mb-2 text-lg font-medium">3df UI</div>
                 <p class="text-muted-foreground text-sm leading-tight">
-                  Componentes Vue 3 con Tailwind CSS. Accesibles y personalizables.
+                  {{ t('demo.navigationMenu.complete.tagline') }}
                 </p>
               </div>
-              <NavigationMenuLink href="#" @click.prevent="handleLinkClick('Introducción')">
-                <div class="text-sm leading-none font-medium">Introducción</div>
+              <NavigationMenuLink
+                href="#"
+                @click.prevent="handleLinkClick(t('demo.navigationMenu.complete.intro'))"
+              >
+                <div class="text-sm leading-none font-medium">
+                  {{ t('demo.navigationMenu.complete.intro') }}
+                </div>
                 <p class="text-muted-foreground mt-1 text-sm leading-snug">
-                  Componentes reutilizables con Vue y Tailwind CSS.
+                  {{ t('demo.navigationMenu.complete.introDesc') }}
                 </p>
               </NavigationMenuLink>
-              <NavigationMenuLink href="#" @click.prevent="handleLinkClick('Instalación')">
-                <div class="text-sm leading-none font-medium">Instalación</div>
+              <NavigationMenuLink
+                href="#"
+                @click.prevent="handleLinkClick(t('demo.navigationMenu.complete.install'))"
+              >
+                <div class="text-sm leading-none font-medium">
+                  {{ t('demo.navigationMenu.complete.install') }}
+                </div>
                 <p class="text-muted-foreground mt-1 text-sm leading-snug">
-                  Cómo instalar dependencias y configurar tu proyecto.
+                  {{ t('demo.navigationMenu.complete.installDesc') }}
                 </p>
               </NavigationMenuLink>
-              <NavigationMenuLink href="#" @click.prevent="handleLinkClick('Tipografía')">
+              <NavigationMenuLink
+                href="#"
+                @click.prevent="handleLinkClick(t('demo.typography'))"
+              >
                 <div class="text-sm leading-none font-medium">{{ t('demo.typography') }}</div>
                 <p class="text-muted-foreground mt-1 text-sm leading-snug">
-                  Estilos tipográficos y jerarquía visual.
+                  {{ t('demo.navigationMenu.complete.typographyDesc') }}
                 </p>
               </NavigationMenuLink>
             </div>
@@ -112,7 +124,7 @@ function handleLinkClick(name: string) {
           <NavigationMenuLink
             href="#"
             class="bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
-            @click.prevent="handleLinkClick('Documentación')"
+            @click.prevent="handleLinkClick(t('demo.navigationMenu.multiCategory.docsTrigger'))"
           >
             Docs
           </NavigationMenuLink>
@@ -123,7 +135,8 @@ function handleLinkClick(name: string) {
     </NavigationMenu>
 
     <p v-if="currentLink" class="text-muted-foreground text-sm">
-      Último enlace: <span class="text-foreground font-medium">{{ currentLink }}</span>
+      {{ t('demo.navigationMenu.complete.lastLink') }}
+      <span class="text-foreground font-medium">{{ currentLink }}</span>
     </p>
   </section>
 </template>

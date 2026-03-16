@@ -13,9 +13,9 @@ const { t } = useI18n();
 
 <template>
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">7. Solo links directos</h2>
+    <h2 class="text-xl font-semibold">{{ t('demo.navigationMenu.directLinks.title') }}</h2>
     <p class="text-muted-foreground text-sm">
-      Sin paneles desplegables — cada ítem es un link directo.
+      {{ t('demo.navigationMenu.directLinks.description') }}
     </p>
 
     <NavigationMenu>
@@ -41,7 +41,7 @@ const { t } = useI18n();
             href="#"
             class="bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
           >
-            Contacto
+            {{ t('demo.navigationMenu.directLinks.contact') }}
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>

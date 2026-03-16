@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Breadcrumb,
@@ -18,6 +19,7 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
+const { t } = useI18n();
 const { description, propDesc, showcaseTitle } = useDocPage('breadcrumb');
 
 const breadcrumbLinkProps = computed<PropItem[]>(() => [
@@ -106,11 +108,11 @@ const anatomyCode = `import {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.home') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Componentes</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.components') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -124,7 +126,7 @@ const anatomyCode = `import {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.home') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -132,11 +134,11 @@ const anatomyCode = `import {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Configuración</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.settings') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Perfil</BreadcrumbPage>
+            <BreadcrumbPage>{{ t('demo.profile') }}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -146,11 +148,11 @@ const anatomyCode = `import {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.home') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Proyectos</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.breadcrumb.projects') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>
@@ -188,25 +190,25 @@ const anatomyCode = `import {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Productos</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.breadcrumb.products') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Categoría</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.breadcrumb.category') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Detalle del producto</BreadcrumbPage>
+            <BreadcrumbPage>{{ t('demo.breadcrumb.productDetail') }}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
     </DocShowcase>
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <h2 class="text-sm font-semibold">{{ t('views.breadcrumb.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" language="typescript" />
     </section>
 
-    <DocPropsTable title="Props de BreadcrumbLink" :props="breadcrumbLinkProps" />
+    <DocPropsTable :title="t('views.breadcrumb.propsLinkTitle')" :props="breadcrumbLinkProps" />
   </div>
 </template>
