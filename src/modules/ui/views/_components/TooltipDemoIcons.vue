@@ -17,7 +17,7 @@ const codeIcons = `<Tooltip>
 </script>
 
 <template>
-  <DocShowcase title="Con botones de icono" :code="codeIcons">
+  <DocShowcase :title="t('demo.tooltip.iconButtons')" :code="codeIcons">
     <div class="flex gap-3">
       <Tooltip>
         <TooltipTrigger>

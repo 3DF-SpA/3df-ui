@@ -27,14 +27,14 @@ const codeAction = `toast.error({
 </script>
 
 <template>
-  <DocShowcase title="Con título y descripción" :code="codeTitleDesc">
+  <DocShowcase :title="t('demo.sonner.withTitleTitle')" :code="codeTitleDesc">
     <div class="flex flex-wrap gap-3">
       <Button
         variant="outline"
         @click="
           toast.success({
-            title: 'Guardado',
-            description: 'Tus cambios han sido guardados correctamente.',
+            title: t('demo.sonner.savedTitle'),
+            description: t('demo.sonner.savedDesc'),
           })
         "
       >
@@ -44,69 +44,69 @@ const codeAction = `toast.error({
         variant="outline"
         @click="
           toast.error({
-            title: 'Error de red',
-            description: 'No se pudo conectar al servidor. Verifica tu conexión.',
+            title: t('demo.sonner.errorNetTitle'),
+            description: t('demo.sonner.errorNetDesc'),
           })
         "
       >
-        Error con título
+        {{ t('demo.sonner.errorWithTitle') }}
       </Button>
       <Button
         variant="outline"
         @click="
           toast.warning({
-            title: 'Sesión por expirar',
-            description: 'Tu sesión expirará en 5 minutos.',
+            title: t('demo.sonner.warningExpireTitle'),
+            description: t('demo.sonner.warningExpireDesc'),
           })
         "
       >
-        Warning con título
+        {{ t('demo.sonner.warningWithTitle') }}
       </Button>
       <Button
         variant="outline"
         @click="
           toast.info({
-            title: 'Actualización disponible',
-            description: 'Hay una nueva versión disponible. Actualiza cuando puedas.',
+            title: t('demo.sonner.infoUpdateTitle'),
+            description: t('demo.sonner.infoUpdateDesc'),
           })
         "
       >
-        Info con título
+        {{ t('demo.sonner.infoWithTitle') }}
       </Button>
     </div>
   </DocShowcase>
 
-  <DocShowcase title="Con acción" :code="codeAction">
+  <DocShowcase :title="t('demo.sonner.withActionTitle')" :code="codeAction">
     <div class="flex flex-wrap gap-3">
       <Button
         variant="outline"
         @click="
           toast.error({
-            title: 'Archivo eliminado',
-            description: 'El archivo ha sido eliminado permanentemente.',
+            title: t('demo.sonner.fileDeletedTitle'),
+            description: t('demo.sonner.fileDeletedDesc'),
             action: {
-              label: 'Deshacer',
-              onClick: () => toast.success('Archivo restaurado'),
+              label: t('demo.sonner.undoAction'),
+              onClick: () => toast.success(t('demo.sonner.fileRestored')),
             },
           })
         "
       >
-        Con botón de acción
+        {{ t('demo.sonner.actionBtn') }}
       </Button>
       <Button
         variant="outline"
         @click="
           toast.info({
             title: t('demo.newChanges'),
-            description: 'Se detectaron cambios en el repositorio.',
+            description: t('demo.sonner.changesDetected'),
             action: {
               label: t('demo.viewChanges'),
-              onClick: () => toast('Abriendo diff...'),
+              onClick: () => toast(t('demo.sonner.openingDiff')),
             },
           })
         "
       >
-        Acción informativa
+        {{ t('demo.sonner.infoAction') }}
       </Button>
     </div>
   </DocShowcase>

@@ -8,7 +8,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <DocShowcase title="Variantes con icono" code="">
+  <DocShowcase :title="t('demo.alert.variantsTitle')" code="">
     <div class="flex flex-col gap-4">
       <Alert>
         <svg
@@ -27,9 +27,9 @@ const { t } = useI18n();
           <path d="M9 18h6" />
           <path d="M10 22h4" />
         </svg>
-        <AlertTitle>Nota</AlertTitle>
+        <AlertTitle>{{ t('demo.alert.defaultNoteTitle') }}</AlertTitle>
         <AlertDescription>
-          Este es un alert por defecto para mostrar información general al usuario.
+          {{ t('demo.alert.defaultNoteDesc') }}
         </AlertDescription>
       </Alert>
 
@@ -112,7 +112,7 @@ const { t } = useI18n();
         </svg>
         <AlertTitle>{{ t('demo.information') }}</AlertTitle>
         <AlertDescription>
-          Hay una nueva versión disponible. Puedes actualizar desde la configuración.
+          {{ t('demo.alert.newVersionDesc') }}
         </AlertDescription>
       </Alert>
     </div>

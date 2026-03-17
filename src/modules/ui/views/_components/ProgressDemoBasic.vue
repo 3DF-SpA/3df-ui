@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Progress } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const basicValue = ref(33);
 
@@ -56,24 +59,24 @@ const indeterminateCode = `<Progress class="w-full max-w-md" />`;
 
 <template>
   <DocShowcase
-    title="Básico"
-    :description="`Progreso estático al ${basicValue}%.`"
+    :title="t('demo.progress.basicTitle')"
+    :description="t('demo.progress.basicDesc', { value: basicValue })"
     :code="basicCode"
   >
     <Progress :model-value="basicValue" class="w-full max-w-md" />
   </DocShowcase>
 
   <DocShowcase
-    title="Animado"
-    :description="`Transición suave con duration-400. Valor actual: ${animatedValue}%`"
+    :title="t('demo.progress.animatedTitle')"
+    :description="t('demo.progress.animatedDesc', { value: animatedValue })"
     :code="animatedCode"
   >
     <Progress :model-value="animatedValue" class="w-full max-w-md" />
   </DocShowcase>
 
   <DocShowcase
-    title="Controlado"
-    :description="`Controla el valor con botones. Actual: ${controlledValue}%`"
+    :title="t('demo.progress.controlledTitle')"
+    :description="t('demo.progress.controlledDesc', { value: controlledValue })"
     :code="controlledCode"
   >
     <div class="flex flex-col gap-3">
@@ -97,8 +100,8 @@ const indeterminateCode = `<Progress class="w-full max-w-md" />`;
   </DocShowcase>
 
   <DocShowcase
-    title="Indeterminado"
-    description="Sin valor definido — animación continua para estados de carga."
+    :title="t('demo.progress.indeterminateTitle')"
+    :description="t('demo.progress.indeterminateDesc')"
     :code="indeterminateCode"
   >
     <Progress class="w-full max-w-md" />

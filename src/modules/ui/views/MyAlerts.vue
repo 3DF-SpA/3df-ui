@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
 
@@ -14,6 +15,7 @@ import AlertDemoVariants from './_components/AlertDemoVariants.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle } = useDocPage('alerts');
+const { t } = useI18n();
 
 const alertProps = computed<PropItem[]>(() => [
   {
@@ -58,12 +60,12 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
     <DocShowcase :title="showcaseTitle('noIcon')" :code="noIconCode">
       <div class="flex flex-col gap-3">
         <Alert>
-          <AlertTitle>Nota simple</AlertTitle>
-          <AlertDescription> Un alert sin icono, solo con título y descripción. </AlertDescription>
+          <AlertTitle>{{ t('demo.alert.simpleNote') }}</AlertTitle>
+          <AlertDescription>{{ t('demo.alert.simpleNoteDesc') }}</AlertDescription>
         </Alert>
         <Alert variant="success">
-          <AlertTitle>Cambios guardados</AlertTitle>
-          <AlertDescription> Todos los cambios se aplicaron correctamente. </AlertDescription>
+          <AlertTitle>{{ t('demo.alert.changesSaved') }}</AlertTitle>
+          <AlertDescription>{{ t('demo.alert.changesSavedDesc') }}</AlertDescription>
         </Alert>
       </div>
     </DocShowcase>
@@ -71,14 +73,10 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
     <DocShowcase :title="showcaseTitle('descOnly')" :code="descOnlyCode">
       <div class="flex flex-col gap-3">
         <Alert variant="info">
-          <AlertDescription>
-            Este alert solo tiene descripción, sin título ni icono.
-          </AlertDescription>
+          <AlertDescription>{{ t('demo.alert.descOnlyInfo') }}</AlertDescription>
         </Alert>
         <Alert variant="warning">
-          <AlertDescription>
-            Recuerda guardar tus cambios antes de salir de la página.
-          </AlertDescription>
+          <AlertDescription>{{ t('demo.alert.rememberSave') }}</AlertDescription>
         </Alert>
       </div>
     </DocShowcase>
@@ -87,10 +85,11 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
 
     <DocShowcase :title="showcaseTitle('customClasses')" :code="customClassCode">
       <Alert class="max-w-md border-dashed">
-        <AlertTitle>Ancho limitado</AlertTitle>
+        <AlertTitle>{{ t('demo.alert.limitedWidth') }}</AlertTitle>
         <AlertDescription>
-          Este alert tiene <code class="bg-muted rounded px-1 py-0.5 text-xs">max-w-md</code>
-          y borde discontinuo.
+          {{ t('demo.alert.limitedWidthPre') }}
+          <code class="bg-muted rounded px-1 py-0.5 text-xs">max-w-md</code>
+          {{ t('demo.alert.limitedWidthPost') }}
         </AlertDescription>
       </Alert>
     </DocShowcase>
