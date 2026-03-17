@@ -129,7 +129,7 @@ const anatomyCode = `<ContextMenu>
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
@@ -139,32 +139,32 @@ const anatomyCode = `<ContextMenu>
           <div
             class="text-muted-foreground flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm"
           >
-            Clic derecho aquí
+            {{ t('demo.contextMenu.rightClickHere') }}
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent class="w-64">
           <ContextMenuItem @select="() => {}">
-            Atrás
+            {{ t('demo.contextMenu.back') }}
             <ContextMenuShortcut>⌘[</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuItem disabled>
-            Adelante
+            {{ t('demo.contextMenu.forward') }}
             <ContextMenuShortcut>⌘]</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuItem>
-            Recargar
+            {{ t('demo.contextMenu.reload') }}
             <ContextMenuShortcut>⌘R</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuCheckboxItem v-model:checked="showBookmarks">
-            Mostrar marcadores
+            {{ t('demo.contextMenu.showBookmarks') }}
             <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem v-model:checked="showFullUrls">
             {{ t('demo.showFullUrls') }}
           </ContextMenuCheckboxItem>
           <ContextMenuSeparator />
-          <ContextMenuLabel inset>Personas</ContextMenuLabel>
+          <ContextMenuLabel inset>{{ t('demo.contextMenu.people') }}</ContextMenuLabel>
           <ContextMenuRadioGroup v-model="person">
             <ContextMenuRadioItem value="pedro">Pedro García</ContextMenuRadioItem>
             <ContextMenuRadioItem value="maria">María López</ContextMenuRadioItem>
@@ -180,28 +180,28 @@ const anatomyCode = `<ContextMenu>
           <div
             class="text-muted-foreground flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm"
           >
-            Clic derecho para acciones de archivo
+            {{ t('demo.contextMenu.rightClickFileActions') }}
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent class="w-56">
           <ContextMenuItem>
-            Editar
+            {{ t('demo.contextMenu.edit') }}
             <ContextMenuShortcut>⌘E</ContextMenuShortcut>
           </ContextMenuItem>
-          <ContextMenuItem>Duplicar</ContextMenuItem>
+          <ContextMenuItem>{{ t('demo.contextMenu.duplicate') }}</ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuSub>
-            <ContextMenuSubTrigger>Compartir</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>{{ t('demo.contextMenu.share') }}</ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem>Email</ContextMenuItem>
-              <ContextMenuItem>Mensaje</ContextMenuItem>
+              <ContextMenuItem>{{ t('demo.contextMenu.message') }}</ContextMenuItem>
               <ContextMenuSeparator />
               <ContextMenuItem>{{ t('demo.copyLink') }}</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />
           <ContextMenuItem destructive>
-            Eliminar
+            {{ t('demo.contextMenu.delete') }}
             <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
           </ContextMenuItem>
         </ContextMenuContent>
@@ -209,11 +209,11 @@ const anatomyCode = `<ContextMenu>
     </DocShowcase>
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Estado reactivo</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.contextMenu.reactiveState') }}</h2>
       <div class="space-y-1 rounded-md border p-4 text-sm">
-        <p><strong>Marcadores:</strong> {{ showBookmarks ? 'Visible' : 'Oculto' }}</p>
-        <p><strong>URLs completas:</strong> {{ showFullUrls ? 'Sí' : 'No' }}</p>
-        <p><strong>Persona:</strong> {{ person }}</p>
+        <p><strong>{{ t('demo.contextMenu.bookmarksLabel') }}</strong> {{ showBookmarks ? t('demo.contextMenu.visible') : t('demo.contextMenu.hidden') }}</p>
+        <p><strong>{{ t('demo.contextMenu.fullUrlsLabel') }}</strong> {{ showFullUrls ? t('demo.contextMenu.yes') : t('demo.contextMenu.no') }}</p>
+        <p><strong>{{ t('demo.contextMenu.personLabel') }}</strong> {{ person }}</p>
       </div>
     </section>
 

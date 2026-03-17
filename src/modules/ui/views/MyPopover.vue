@@ -105,7 +105,7 @@ const anatomyCode = `<Popover>
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
@@ -116,8 +116,8 @@ const anatomyCode = `<Popover>
         </PopoverTrigger>
         <PopoverContent>
           <div class="flex flex-col gap-2">
-            <h3 class="text-sm font-medium">Dimensiones</h3>
-            <p class="text-muted-foreground text-sm">Configura las dimensiones del componente.</p>
+            <h3 class="text-sm font-medium">{{ t('demo.popover.dimensions') }}</h3>
+            <p class="text-muted-foreground text-sm">{{ t('demo.popover.dimensionsDesc') }}</p>
           </div>
         </PopoverContent>
       </Popover>
@@ -126,29 +126,29 @@ const anatomyCode = `<Popover>
     <DocShowcase :title="showcaseTitle('withForm')" :code="formCode">
       <Popover>
         <PopoverTrigger>
-          <Button variant="outline">Configuración</Button>
+          <Button variant="outline">{{ t('demo.popover.settings') }}</Button>
         </PopoverTrigger>
         <PopoverContent class="w-80">
           <div class="flex flex-col gap-4">
             <div>
-              <h3 class="text-sm font-medium">Dimensiones</h3>
-              <p class="text-muted-foreground text-sm">Configura las dimensiones del componente.</p>
+              <h3 class="text-sm font-medium">{{ t('demo.popover.dimensions') }}</h3>
+              <p class="text-muted-foreground text-sm">{{ t('demo.popover.dimensionsDesc') }}</p>
             </div>
             <div class="grid gap-3">
               <div class="grid grid-cols-3 items-center gap-4">
-                <Label class="text-right">Ancho</Label>
+                <Label class="text-right">{{ t('demo.popover.width') }}</Label>
                 <Input class="col-span-2 h-8" value="100%" />
               </div>
               <div class="grid grid-cols-3 items-center gap-4">
-                <Label class="text-right">Max ancho</Label>
+                <Label class="text-right">{{ t('demo.popover.maxWidth') }}</Label>
                 <Input class="col-span-2 h-8" value="300px" />
               </div>
               <div class="grid grid-cols-3 items-center gap-4">
-                <Label class="text-right">Alto</Label>
+                <Label class="text-right">{{ t('demo.popover.height') }}</Label>
                 <Input class="col-span-2 h-8" value="25px" />
               </div>
               <div class="grid grid-cols-3 items-center gap-4">
-                <Label class="text-right">Max alto</Label>
+                <Label class="text-right">{{ t('demo.popover.maxHeight') }}</Label>
                 <Input class="col-span-2 h-8" value="none" />
               </div>
             </div>
@@ -164,7 +164,7 @@ const anatomyCode = `<Popover>
             <Button variant="outline" size="sm">Align start</Button>
           </PopoverTrigger>
           <PopoverContent align="start">
-            <p class="text-sm">Alineado al inicio del trigger.</p>
+            <p class="text-sm">{{ t('demo.popover.alignedStart') }}</p>
           </PopoverContent>
         </Popover>
         <Popover>
@@ -172,7 +172,7 @@ const anatomyCode = `<Popover>
             <Button variant="outline" size="sm">Align center</Button>
           </PopoverTrigger>
           <PopoverContent align="center">
-            <p class="text-sm">Centrado respecto al trigger (default).</p>
+            <p class="text-sm">{{ t('demo.popover.alignedCenter') }}</p>
           </PopoverContent>
         </Popover>
         <Popover>
@@ -180,7 +180,7 @@ const anatomyCode = `<Popover>
             <Button variant="outline" size="sm">Align end</Button>
           </PopoverTrigger>
           <PopoverContent align="end">
-            <p class="text-sm">Alineado al final del trigger.</p>
+            <p class="text-sm">{{ t('demo.popover.alignedEnd') }}</p>
           </PopoverContent>
         </Popover>
       </div>
@@ -190,13 +190,13 @@ const anatomyCode = `<Popover>
       <div class="mt-24">
         <Popover>
           <PopoverTrigger>
-            <Button variant="outline">Popover arriba</Button>
+            <Button variant="outline">{{ t('demo.popover.openAbove') }}</Button>
           </PopoverTrigger>
           <PopoverContent side="top">
             <div class="flex flex-col gap-2">
               <h3 class="text-sm font-medium">Side="top"</h3>
               <p class="text-muted-foreground text-sm">
-                Se abre hacia arriba. Si no cabe, auto-flip a abajo.
+                {{ t('demo.popover.opensUpDesc') }}
               </p>
             </div>
           </PopoverContent>

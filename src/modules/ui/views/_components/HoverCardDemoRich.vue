@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeRich = `<HoverCard>
   <HoverCardTrigger>
@@ -18,8 +21,8 @@ const codeRich = `<HoverCard>
 
 <template>
   <DocShowcase
-    title="Contenido rico"
-    description="Hover card con contenido enriquecido (avatar, stats, bio)."
+    :title="t('demo.hoverCard.richContent')"
+    :description="t('demo.hoverCard.richContentDesc')"
     :code="codeRich"
   >
     <HoverCard>
