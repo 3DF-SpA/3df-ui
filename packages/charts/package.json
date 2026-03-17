@@ -1,5 +1,5 @@
 {
-  "name": "@3df-spa/charts",
+  "name": "@3df/charts",
   "version": "1.0.0",
   "type": "module",
   "sideEffects": false,

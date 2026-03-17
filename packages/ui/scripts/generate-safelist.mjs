@@ -7,7 +7,7 @@
  * file depth or Tailwind scanner quirks with node_modules.
  *
  * Usage in consumer CSS:
- *   @source "@3df-spa/ui/safelist";
+ *   @source "@3df/ui/safelist";
  */
 
 import { readdir, readFile, writeFile } from 'node:fs/promises';
@@ -50,7 +50,7 @@ for await (const file of walkJs(distDir)) {
 }
 
 const html = [
-  '<!-- @3df-spa/ui — Tailwind CSS safelist (auto-generated, do not edit) -->',
+  '<!-- @3df/ui — Tailwind CSS safelist (auto-generated, do not edit) -->',
   `<div class="${[...tokens].join(' ')}"></div>`,
   '',
 ].join('\n');
