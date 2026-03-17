@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { Badge, Button } from '@3df-spa/ui';
+import { Badge, Button } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -86,7 +86,7 @@ const contextCode = `<Button>
     <DocHeader
       title="Badge"
       :description="description"
-      import-code="import { Badge } from '@3df-spa/ui'"
+      import-code="import { Badge } from '@3df/ui'"
     />
 
     <DocShowcase

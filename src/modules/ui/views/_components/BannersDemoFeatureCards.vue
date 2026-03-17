@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Button, Card } from '@3df-spa/ui';
+import { Button, Card } from '@3df/ui';
 
 const activeTab = ref(0);
 const { t } = useI18n();

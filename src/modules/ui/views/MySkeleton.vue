@@ -13,7 +13,7 @@ const { description } = useDocPage('skeleton');
     <DocHeader
       title="Skeleton"
       :description="description"
-      import-code="import { Skeleton } from '@3df-spa/ui'"
+      import-code="import { Skeleton } from '@3df/ui'"
     />
     <SkeletonDemoBasic />
     <SkeletonDemoPatterns />

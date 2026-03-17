@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Banner, Button } from '@3df-spa/ui';
+import { Banner, Button } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -100,7 +100,7 @@ const fixedCode = `<Banner
     <DocHeader
       title="Banner"
       :description="description"
-      import-code="import { Banner } from '@3df-spa/ui'"
+      import-code="import { Banner } from '@3df/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('default')" :code="defaultCode">

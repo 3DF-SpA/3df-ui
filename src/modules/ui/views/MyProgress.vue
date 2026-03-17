@@ -34,7 +34,7 @@ const progressProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Progress"
       :description="description"
-      import-code="import { Progress } from '@3df-spa/ui'"
+      import-code="import { Progress } from '@3df/ui'"
     />
     <ProgressDemoBasic />
     <ProgressDemoAdvanced />

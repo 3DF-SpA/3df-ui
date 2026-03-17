@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const { t } = useI18n();
 </script>

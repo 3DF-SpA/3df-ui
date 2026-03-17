@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Button, Input, Label } from '@3df-spa/ui';
+import { Button, Input, Label } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

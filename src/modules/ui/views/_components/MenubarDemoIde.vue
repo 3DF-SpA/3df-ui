@@ -16,7 +16,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const showStatusBar = ref(true);
 const showActivityBar = ref(true);

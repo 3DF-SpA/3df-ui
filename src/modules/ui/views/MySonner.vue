@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Button, Toaster, toast } from '@3df-spa/ui';
+import { Button, Toaster, toast } from '@3df/ui';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -112,7 +112,7 @@ const hoverCode = `toast.info({
     <DocHeader
       title="Sonner — Toast Notifications"
       :description="description"
-      import-code="import { Toaster, toast } from '@3df-spa/ui'"
+      import-code="import { Toaster, toast } from '@3df/ui'"
     />
 
     <Toaster :position="position" />

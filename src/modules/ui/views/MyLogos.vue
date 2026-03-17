@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { LogoCloud, type LogoItem } from '@3df-spa/ui';
+import { LogoCloud, type LogoItem } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -217,7 +217,7 @@ const cloudColorCode = `<LogoCloud
     <DocHeader
       title="LogoCloud & LogoMarquee"
       :description="description"
-      import-code="import { LogoCloud, LogoMarquee, type LogoItem } from '@3df-spa/ui'"
+      import-code="import { LogoCloud, LogoMarquee, type LogoItem } from '@3df/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('cloudGrayscale')" :code="cloudCode">

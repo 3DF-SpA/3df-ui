@@ -9,7 +9,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -95,7 +95,7 @@ const anatomyCode = `import {
   PaginationNext,
   PaginationPrevious,
   PaginationEllipsis,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -103,7 +103,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Pagination"
       :description="description"
-      import-code="import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@3df-spa/ui'"
+      import-code="import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis } from '@3df/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">

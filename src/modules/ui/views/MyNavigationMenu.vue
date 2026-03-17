@@ -51,7 +51,7 @@ const anatomyCode = `import {
   NavigationMenuContent,
   NavigationMenuLink,
   NavigationMenuViewport,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -59,7 +59,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Navigation Menu"
       :description="description"
-      import-code="import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df-spa/ui'"
+      import-code="import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df/ui'"
     />
 
     <NavMenuDemoComplete />

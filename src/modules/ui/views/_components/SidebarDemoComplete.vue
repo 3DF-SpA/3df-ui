@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { SidebarInset, SidebarProvider, SidebarTrigger } from '@3df-spa/ui';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@3df/ui';
 
 import SidebarDemoCompletePanel from './SidebarDemoCompletePanel.vue';
 

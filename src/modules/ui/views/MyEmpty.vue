@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Button, EmptyState } from '@3df-spa/ui';
+import { Button, EmptyState } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -61,7 +61,7 @@ const heightCode = `<EmptyState
     <DocHeader
       title="EmptyState"
       :description="description"
-      import-code="import { EmptyState } from '@3df-spa/ui'"
+      import-code="import { EmptyState } from '@3df/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('noResults')" :code="searchCode">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { type HeroAction, HeroSimple } from '@3df-spa/ui';
+import { type HeroAction, HeroSimple } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -186,7 +186,7 @@ const heroProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Hero Sections"
       :description="description"
-      import-code="import { HeroSimple, HeroSplit, HeroImage, HeroCentered, HeroGradient, HeroMinimal } from '@3df-spa/ui'"
+      import-code="import { HeroSimple, HeroSplit, HeroImage, HeroCentered, HeroGradient, HeroMinimal } from '@3df/ui'"
     />
 
     <DocShowcase

@@ -17,7 +17,7 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const { t } = useI18n();
 const activeItem = ref('Dashboard');

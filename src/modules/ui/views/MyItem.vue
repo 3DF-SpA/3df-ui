@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
-import { Item, ItemDescription, ItemLabel } from '@3df-spa/ui';
+import { Item, ItemDescription, ItemLabel } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -58,7 +58,7 @@ const anatomyCode = `import {
   Item,
   ItemLabel,
   ItemDescription,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -66,7 +66,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Item"
       :description="description"
-      import-code="import { Item, ItemLabel, ItemDescription } from '@3df-spa/ui'"
+      import-code="import { Item, ItemLabel, ItemDescription } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df-spa/ui';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -101,7 +101,7 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
     <DocHeader
       title="Hover Card"
       :description="description"
-      import-code="import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui'"
+      import-code="import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">

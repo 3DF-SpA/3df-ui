@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Badge } from '@3df-spa/ui';
+import { Badge } from '@3df/ui';
 
 const { t } = useI18n();
 </script>

@@ -17,7 +17,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -135,7 +135,7 @@ const anatomyCode = `import {
   MenubarSub,
   MenubarSubTrigger,
   MenubarSubContent,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
@@ -143,7 +143,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Menubar"
       :description="description"
-      import-code="import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubTrigger, MenubarSubContent, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarLabel } from '@3df-spa/ui'"
+      import-code="import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarShortcut, MenubarSub, MenubarSubTrigger, MenubarSubContent, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarLabel } from '@3df/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('complete')" :code="completeCode">

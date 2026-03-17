@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import { formatCurrency, invoices, statusBadge } from './table-demo-data';
 

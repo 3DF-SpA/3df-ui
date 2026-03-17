@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { Separator } from '@3df-spa/ui';
+import { Separator } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -87,7 +87,7 @@ const contextCode = `<div class="border-border bg-card max-w-sm rounded-lg borde
     <DocHeader
       title="Separator"
       :description="description"
-      import-code="import { Separator } from '@3df-spa/ui'"
+      import-code="import { Separator } from '@3df/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('horizontal')" :code="horizontalCode">

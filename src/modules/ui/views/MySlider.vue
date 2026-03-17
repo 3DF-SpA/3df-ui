@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Label, Slider } from '@3df-spa/ui';
+import { Label, Slider } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -79,7 +79,7 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
     <DocHeader
       title="Slider"
       :description="description"
-      import-code="import { Slider } from '@3df-spa/ui'"
+      import-code="import { Slider } from '@3df/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">

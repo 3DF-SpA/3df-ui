@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Button, toast } from '@3df-spa/ui';
+import { Button, toast } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
