@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type HeroAction, HeroImage } from '@3df/ui';
+import { type HeroAction, HeroImage } from '@3df-spa/ui';
 import { useI18n } from 'vue-i18n';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';

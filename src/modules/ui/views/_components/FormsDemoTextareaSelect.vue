@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Label, Select, SelectItem, Textarea } from '@3df/ui';
+import { Label, Select, SelectItem, Textarea } from '@3df-spa/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

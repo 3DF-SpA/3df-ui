@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
+import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -52,7 +52,7 @@ const customClassCode = `<Alert class="max-w-md border-dashed">
     <DocHeader
       title="Alert"
       :description="description"
-      import-code="import { Alert, AlertTitle, AlertDescription } from '@3df/ui'"
+      import-code="import { Alert, AlertTitle, AlertDescription } from '@3df-spa/ui'"
     />
 
     <AlertDemoVariants />

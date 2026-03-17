@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df/ui';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df-spa/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

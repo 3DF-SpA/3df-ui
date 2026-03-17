@@ -1,4 +1,4 @@
-﻿# @3df/ui
+﻿# @3df-spa/ui
 
 > Librería de componentes Vue 3 · TypeScript strict · Tailwind CSS v4
 
@@ -7,7 +7,7 @@
 ## Instalación
 
 ```bash
-pnpm add @3df/ui
+pnpm add @3df-spa/ui
 ```
 
 **Peer dependencies:**
@@ -25,14 +25,14 @@ En tu CSS principal:
 
 ```css
 @import "tailwindcss";
-@import "@3df/ui/theme.css";
+@import "@3df-spa/ui/theme.css";
 ```
 
 ## Uso básico
 
 ```vue
 <script setup lang="ts">
-import { Button, Card, CardContent } from '@3df/ui';
+import { Button, Card, CardContent } from '@3df-spa/ui';
 </script>
 
 <template>

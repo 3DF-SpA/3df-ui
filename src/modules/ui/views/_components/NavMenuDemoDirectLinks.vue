@@ -6,7 +6,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const { t } = useI18n();
 </script>

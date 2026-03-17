@@ -9,7 +9,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const sizePage = ref(2);
 

@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
-import { ScrollArea, Separator } from '@3df/ui';
+import { ScrollArea, Separator } from '@3df-spa/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -96,7 +96,7 @@ const chatCode = `<div class="flex w-80 flex-col rounded-lg border shadow-sm">
     <DocHeader
       title="ScrollArea"
       :description="description"
-      import-code="import { ScrollArea } from '@3df/ui'"
+      import-code="import { ScrollArea } from '@3df-spa/ui'"
     />
 
     <DocShowcase

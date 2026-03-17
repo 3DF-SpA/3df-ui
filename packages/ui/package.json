@@ -1,5 +1,5 @@
 {
-  "name": "@3df/ui",
+  "name": "@3df-spa/ui",
   "version": "1.0.0",
   "description": "Vue 3 component library — TypeScript strict, Tailwind CSS v4, accessible, zero-runtime",
   "keywords": ["vue", "vue3", "components", "ui", "design-system", "tailwind", "typescript", "accessible"],

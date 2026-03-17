@@ -11,7 +11,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -130,7 +130,7 @@ const dialogCode = `const open = ref(false)
     <DocHeader
       title="Command"
       :description="description"
-      import-code="import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut } from '@3df/ui'"
+      import-code="import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

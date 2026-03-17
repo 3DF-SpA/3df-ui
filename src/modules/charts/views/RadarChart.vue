@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { type ChartConfig, type ChartDataRow, UiChartRadar } from '@3df/charts';
+import { type ChartConfig, type ChartDataRow, UiChartRadar } from '@3df-spa/charts';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -171,7 +171,7 @@ const radarProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Radar Chart"
       :description="description"
-      import-code="import { UiChartRadar } from '@3df/charts'"
+      import-code="import { UiChartRadar } from '@3df-spa/charts'"
     />
 
     <DocShowcase

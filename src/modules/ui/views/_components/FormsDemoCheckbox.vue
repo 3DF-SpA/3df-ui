@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Checkbox, Label } from '@3df/ui';
+import { Checkbox, Label } from '@3df-spa/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

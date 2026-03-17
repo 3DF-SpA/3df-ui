@@ -1,4 +1,4 @@
-﻿# @3df/charts
+﻿# @3df-spa/charts
 
 > Charts SVG para Vue 3 · Zero dependencias · TypeScript
 
@@ -8,7 +8,7 @@
 ## Instalación
 
 ```bash
-pnpm add @3df/charts
+pnpm add @3df-spa/charts
 # Solo peer: vue ^3.0.0
 ```
 
@@ -16,7 +16,7 @@ pnpm add @3df/charts
 
 ```vue
 <script setup lang="ts">
-import { UiChartBar } from '@3df/charts';
+import { UiChartBar } from '@3df-spa/charts';
 
 const data = [
   { mes: 'Ene', ventas: 186, gastos: 80 },

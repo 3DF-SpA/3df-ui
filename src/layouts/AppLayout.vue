@@ -214,7 +214,7 @@ function isActive(fullPath: string) {
         <ThemeSwitcher />
 
         <span class="text-xs text-muted-foreground">
-          @3df/ui
+          @3df-spa/ui
         </span>
       </header>
 

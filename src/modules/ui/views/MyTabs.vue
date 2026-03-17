@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@3df/ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@3df-spa/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -128,7 +128,7 @@ const { t } = useI18n();
     <DocHeader
       title="Tabs"
       :description="description"
-      import-code="import { Tabs, TabsList, TabsTrigger, TabsContent } from '@3df/ui'"
+      import-code="import { Tabs, TabsList, TabsTrigger, TabsContent } from '@3df-spa/ui'"
     />
 
     <DocPropsTable title="Tabs props" :props="tabsProps" />

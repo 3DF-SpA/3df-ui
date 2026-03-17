@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { type GaugeSegment, UiChartGauge } from '@3df/charts';
+import { type GaugeSegment, UiChartGauge } from '@3df-spa/charts';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -144,7 +144,7 @@ const gaugeProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Gauge / Radial"
       :description="description"
-      import-code="import { UiChartGauge, type GaugeSegment } from '@3df/charts'"
+      import-code="import { UiChartGauge, type GaugeSegment } from '@3df-spa/charts'"
     />
 
     <DocShowcase

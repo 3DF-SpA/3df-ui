@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { type ChartConfig, type ChartDataRow, UiChartLine } from '@3df/charts';
+import { type ChartConfig, type ChartDataRow, UiChartLine } from '@3df-spa/charts';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -174,7 +174,7 @@ const lineProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Line Chart"
       :description="description"
-      import-code="import { UiChartLine } from '@3df/charts'"
+      import-code="import { UiChartLine } from '@3df-spa/charts'"
     />
 
     <DocShowcase

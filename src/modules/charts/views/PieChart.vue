@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { type ChartConfig, type ChartDataRow, UiChartPie } from '@3df/charts';
+import { type ChartConfig, type ChartDataRow, UiChartPie } from '@3df-spa/charts';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -175,7 +175,7 @@ const pieProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Pie Chart"
       :description="description"
-      import-code="import { UiChartPie } from '@3df/charts'"
+      import-code="import { UiChartPie } from '@3df-spa/charts'"
     />
 
     <DocShowcase

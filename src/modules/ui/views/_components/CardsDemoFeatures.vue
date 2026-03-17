@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df/ui';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@3df-spa/ui';
 
 const { t } = useI18n();
 </script>

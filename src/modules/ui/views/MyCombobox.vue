@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Combobox } from '@3df/ui';
+import { Combobox } from '@3df-spa/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -104,7 +104,7 @@ const multipleCode = computed(() => `<div class="flex flex-wrap gap-4">
     <DocHeader
       :title="t('views.combobox.title')"
       :description="description"
-      import-code="import { Combobox } from '@3df/ui'"
+      import-code="import { Combobox } from '@3df-spa/ui'"
     />
 
     <DocShowcase

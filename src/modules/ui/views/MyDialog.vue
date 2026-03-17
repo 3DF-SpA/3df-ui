@@ -14,7 +14,7 @@ import {
   DialogTrigger,
   Input,
   Label,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -134,7 +134,7 @@ const anatomyCode = `<Dialog>
     <DocHeader
       title="Dialog"
       :description="description"
-      import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df/ui'"
+      import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

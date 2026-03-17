@@ -10,7 +10,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -93,7 +93,7 @@ const anatomyCode = `import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
-} from '@3df/ui'`;
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
@@ -101,7 +101,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Breadcrumb"
       :description="description"
-      import-code="import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df/ui'"
+      import-code="import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df-spa/ui'"
     />
 
     <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">

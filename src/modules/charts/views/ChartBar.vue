@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { type ChartConfig, type ChartDataRow, UiChartBar } from '@3df/charts';
+import { type ChartConfig, type ChartDataRow, UiChartBar } from '@3df-spa/charts';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -157,7 +157,7 @@ const barProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Bar Chart"
       :description="description"
-      import-code="import { UiChartBar } from '@3df/charts'"
+      import-code="import { UiChartBar } from '@3df-spa/charts'"
     />
 
     <DocShowcase

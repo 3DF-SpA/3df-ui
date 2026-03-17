@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

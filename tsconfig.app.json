@@ -6,8 +6,8 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "paths": {
       "@/*": ["./src/*"],
-      "@3df/ui": ["./packages/ui/src/index.ts"],
-      "@3df/charts": ["./packages/charts/src/index.ts"]
+      "@3df-spa/ui": ["./packages/ui/src/index.ts"],
+      "@3df-spa/charts": ["./packages/charts/src/index.ts"]
     }
   }
 }
