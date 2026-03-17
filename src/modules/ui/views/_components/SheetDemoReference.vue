@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   Button,
   Sheet,
@@ -12,6 +14,8 @@ import {
 } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeScrollable = `<Sheet>
   <SheetTrigger>
@@ -42,15 +46,15 @@ const codeCustomWidth = `<SheetContent class="sm:max-w-lg">
 </script>
 
 <template>
-  <DocShowcase title="Contenido scrollable" :code="codeScrollable">
+  <DocShowcase :title="t('demo.sheet.scrollableTitle')" :code="codeScrollable">
     <Sheet>
       <SheetTrigger>
-        <Button variant="outline">Contenido largo</Button>
+        <Button variant="outline">{{ t('demo.sheet.longContent') }}</Button>
       </SheetTrigger>
       <SheetContent class="overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>Términos y condiciones</SheetTitle>
-          <SheetDescription> Lee los términos antes de continuar. </SheetDescription>
+          <SheetTitle>{{ t('demo.sheet.termsTitle') }}</SheetTitle>
+          <SheetDescription> {{ t('demo.sheet.termsDesc') }} </SheetDescription>
         </SheetHeader>
         <div class="flex flex-col gap-4 py-4">
           <p v-for="i in 20" :key="i" class="text-muted-foreground text-sm">
@@ -61,49 +65,49 @@ const codeCustomWidth = `<SheetContent class="sm:max-w-lg">
         </div>
         <SheetFooter>
           <SheetClose>
-            <Button variant="outline">Rechazar</Button>
+            <Button variant="outline">{{ t('demo.sheet.reject') }}</Button>
           </SheetClose>
           <SheetClose>
-            <Button>Aceptar</Button>
+            <Button>{{ t('demo.sheet.accept') }}</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>
     </Sheet>
   </DocShowcase>
 
-  <DocShowcase title="Ancho personalizado" :code="codeCustomWidth">
+  <DocShowcase :title="t('demo.sheet.customWidthTitle')" :code="codeCustomWidth">
     <div class="flex gap-4">
       <Sheet>
         <SheetTrigger>
-          <Button variant="outline">Sheet ancho (lg)</Button>
+          <Button variant="outline">{{ t('demo.sheet.wideLg') }}</Button>
         </SheetTrigger>
         <SheetContent class="sm:max-w-lg">
           <SheetHeader>
-            <SheetTitle>Panel amplio</SheetTitle>
+            <SheetTitle>{{ t('demo.sheet.widePanelTitle') }}</SheetTitle>
             <SheetDescription>
-              Este sheet tiene un ancho de
+              {{ t('demo.sheet.widePanelDesc') }}
               <code class="text-foreground font-mono text-xs">sm:max-w-lg</code>.
             </SheetDescription>
           </SheetHeader>
           <div class="py-4">
-            <p class="text-muted-foreground text-sm">Más espacio para formularios complejos.</p>
+            <p class="text-muted-foreground text-sm">{{ t('demo.sheet.widePanelContent') }}</p>
           </div>
         </SheetContent>
       </Sheet>
       <Sheet>
         <SheetTrigger>
-          <Button variant="outline">Sheet extra ancho (2xl)</Button>
+          <Button variant="outline">{{ t('demo.sheet.extraWide2xl') }}</Button>
         </SheetTrigger>
         <SheetContent class="sm:max-w-2xl">
           <SheetHeader>
-            <SheetTitle>Panel extra amplio</SheetTitle>
+            <SheetTitle>{{ t('demo.sheet.extraWidePanelTitle') }}</SheetTitle>
             <SheetDescription>
-              Este sheet tiene un ancho de
+              {{ t('demo.sheet.extraWidePanelDesc') }}
               <code class="text-foreground font-mono text-xs">sm:max-w-2xl</code>.
             </SheetDescription>
           </SheetHeader>
           <div class="py-4">
-            <p class="text-muted-foreground text-sm">Ideal para vistas de detalle o tablas.</p>
+            <p class="text-muted-foreground text-sm">{{ t('demo.sheet.extraWidePanelContent') }}</p>
           </div>
         </SheetContent>
       </Sheet>

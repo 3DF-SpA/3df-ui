@@ -31,15 +31,15 @@ const codeTriggers = `<DropdownMenu>
 </script>
 
 <template>
-  <DocShowcase title="Variantes de trigger" :code="codeTriggers">
+  <DocShowcase :title="t('demo.dropdown.triggersTitle')" :code="codeTriggers">
     <div class="flex flex-wrap items-center gap-4">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Button>Primary trigger</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>Acción 1</DropdownMenuItem>
-          <DropdownMenuItem>Acción 2</DropdownMenuItem>
+          <DropdownMenuItem>{{ t('demo.dropdown.action1') }}</DropdownMenuItem>
+          <DropdownMenuItem>{{ t('demo.dropdown.action2') }}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -48,8 +48,8 @@ const codeTriggers = `<DropdownMenu>
           <Button variant="secondary">Secondary trigger</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>Acción 1</DropdownMenuItem>
-          <DropdownMenuItem>Acción 2</DropdownMenuItem>
+          <DropdownMenuItem>{{ t('demo.dropdown.action1') }}</DropdownMenuItem>
+          <DropdownMenuItem>{{ t('demo.dropdown.action2') }}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -58,7 +58,7 @@ const codeTriggers = `<DropdownMenu>
           <Button variant="destructive">Danger trigger</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem :destructive="true">Confirmar eliminación</DropdownMenuItem>
+          <DropdownMenuItem :destructive="true">{{ t('demo.dropdown.confirmDeletion') }}</DropdownMenuItem>
           <DropdownMenuItem>{{ t('common.cancel') }}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -70,8 +70,8 @@ const codeTriggers = `<DropdownMenu>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>El trigger cambia de texto</DropdownMenuItem>
-          <DropdownMenuItem>según el estado</DropdownMenuItem>
+          <DropdownMenuItem>{{ t('demo.dropdown.triggerChangesText') }}</DropdownMenuItem>
+          <DropdownMenuItem>{{ t('demo.dropdown.accordingToState') }}</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

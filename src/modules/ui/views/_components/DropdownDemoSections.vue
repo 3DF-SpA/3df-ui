@@ -38,11 +38,11 @@ const codeSections = `<DropdownMenu>
 </script>
 
 <template>
-  <DocShowcase title="Con secciones (labels)" :code="codeSections">
+  <DocShowcase :title="t('demo.dropdown.sectionsTitle')" :code="codeSections">
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Button variant="outline">
-          Mi cuenta
+          {{ t('demo.dropdown.myAccount') }}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -60,18 +60,18 @@ const codeSections = `<DropdownMenu>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent class="w-56">
-        <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+        <DropdownMenuLabel>{{ t('demo.dropdown.myAccount') }}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem @select="onAction('perfil')">{{ t('demo.profile') }}</DropdownMenuItem>
-        <DropdownMenuItem @select="onAction('facturación')">Facturación</DropdownMenuItem>
-        <DropdownMenuItem @select="onAction('equipo')">Equipo</DropdownMenuItem>
-        <DropdownMenuItem @select="onAction('suscripción')">Suscripción</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('facturación')">{{ t('demo.dropdown.billing') }}</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('equipo')">{{ t('demo.dropdown.team') }}</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('suscripción')">{{ t('demo.dropdown.subscription') }}</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>Soporte</DropdownMenuLabel>
+        <DropdownMenuLabel>{{ t('demo.dropdown.support') }}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem @select="onAction('docs')">Documentación</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('docs')">{{ t('demo.dropdown.documentation') }}</DropdownMenuItem>
         <DropdownMenuItem @select="onAction('api')">API Reference</DropdownMenuItem>
-        <DropdownMenuItem :disabled="true">Chat en vivo</DropdownMenuItem>
+        <DropdownMenuItem :disabled="true">{{ t('demo.dropdown.liveChat') }}</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem :destructive="true" @select="onAction('eliminar cuenta')">
           {{ t('demo.deleteAccount') }}

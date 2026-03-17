@@ -31,7 +31,7 @@ const deleteResult = ref('');
 const programmaticOpen = ref(false);
 
 function handleDelete() {
-  deleteResult.value = 'Cuenta eliminada (simulado)';
+  deleteResult.value = t('demo.alertDialog.accountDeleted');
   setTimeout(() => {
     deleteResult.value = '';
   }, 3000);
@@ -122,27 +122,26 @@ const anatomyCode = `<AlertDialog>
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
     <DocShowcase :title="showcaseTitle('destructive')" :code="deleteCode">
       <AlertDialog>
         <AlertDialogTrigger>
-          <Button variant="destructive">Eliminar cuenta</Button>
+          <Button variant="destructive">{{ t('demo.deleteAccount') }}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Estás absolutamente seguro?</AlertDialogTitle>
+            <AlertDialogTitle>{{ t('demo.alertDialog.areYouSure') }}</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esto eliminará permanentemente tu cuenta y removerá
-              todos tus datos de nuestros servidores.
+              {{ t('demo.alertDialog.deleteAccountDesc') }}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogCancel>{{ t('common.cancel') }}</AlertDialogCancel>
             <AlertDialogAction variant="destructive" @click="handleDelete">
-              Sí, eliminar cuenta
+              {{ t('demo.alertDialog.confirmDelete') }}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -153,19 +152,18 @@ const anatomyCode = `<AlertDialog>
     <DocShowcase :title="showcaseTitle('generic')" :code="genericCode">
       <AlertDialog>
         <AlertDialogTrigger>
-          <Button variant="outline">Enviar formulario</Button>
+          <Button variant="outline">{{ t('demo.alertDialog.submitForm') }}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmar envío</AlertDialogTitle>
+            <AlertDialogTitle>{{ t('demo.alertDialog.confirmSubmit') }}</AlertDialogTitle>
             <AlertDialogDescription>
-              Estás a punto de enviar este formulario. Una vez enviado, no podrás modificar los
-              datos ingresados. ¿Deseas continuar?
+              {{ t('demo.alertDialog.confirmSubmitDesc') }}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction>Confirmar</AlertDialogAction>
+            <AlertDialogCancel>{{ t('common.cancel') }}</AlertDialogCancel>
+            <AlertDialogAction>{{ t('demo.alertDialog.confirm') }}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
@@ -176,14 +174,13 @@ const anatomyCode = `<AlertDialog>
       <AlertDialog v-model:open="programmaticOpen">
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Sesión expirada</AlertDialogTitle>
+            <AlertDialogTitle>{{ t('demo.alertDialog.sessionExpired') }}</AlertDialogTitle>
             <AlertDialogDescription>
-              Tu sesión ha expirado por inactividad. Serás redirigido a la página de inicio de
-              sesión.
+              {{ t('demo.alertDialog.sessionExpiredDesc') }}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogAction>Iniciar sesión</AlertDialogAction>
+            <AlertDialogAction>{{ t('demo.alertDialog.signIn') }}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

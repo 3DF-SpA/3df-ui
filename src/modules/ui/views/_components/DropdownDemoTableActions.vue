@@ -47,8 +47,8 @@ const codeTable = `<table class="w-full text-sm">
 
 <template>
   <DocShowcase
-    title="En contexto — Tabla con acciones"
-    description="Integración del dropdown como menú de acciones por fila en una tabla."
+    :title="t('demo.dropdown.tableActionsTitle')"
+    :description="t('demo.dropdown.tableActionsDesc')"
     :code="codeTable"
   >
     <div class="border-border max-w-2xl rounded-lg border">
@@ -57,8 +57,8 @@ const codeTable = `<table class="w-full text-sm">
           <tr class="border-border bg-muted/50 border-b">
             <th class="px-4 py-3 text-left font-medium">{{ t('demo.name') }}</th>
             <th class="px-4 py-3 text-left font-medium">{{ t('demo.status') }}</th>
-            <th class="px-4 py-3 text-left font-medium">Rol</th>
-            <th class="px-4 py-3 text-right font-medium">Acciones</th>
+            <th class="px-4 py-3 text-left font-medium">{{ t('demo.dropdown.role') }}</th>
+            <th class="px-4 py-3 text-right font-medium">{{ t('demo.dropdown.actions') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -88,13 +88,13 @@ const codeTable = `<table class="w-full text-sm">
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                  <DropdownMenuLabel>{{ t('demo.dropdown.actions') }}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>{{ t('demo.viewProfile') }}</DropdownMenuItem>
                   <DropdownMenuItem>{{ t('demo.editUser') }}</DropdownMenuItem>
-                  <DropdownMenuItem>Cambiar rol</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.dropdown.changeRole') }}</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem :destructive="true">Suspender</DropdownMenuItem>
+                  <DropdownMenuItem :destructive="true">{{ t('demo.dropdown.suspend') }}</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </td>
@@ -125,11 +125,11 @@ const codeTable = `<table class="w-full text-sm">
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                  <DropdownMenuLabel>{{ t('demo.dropdown.actions') }}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>{{ t('demo.viewProfile') }}</DropdownMenuItem>
                   <DropdownMenuItem>{{ t('demo.editUser') }}</DropdownMenuItem>
-                  <DropdownMenuItem>Reenviar invitación</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.dropdown.resendInvitation') }}</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem :destructive="true">{{ t('demo.delete') }}</DropdownMenuItem>
                 </DropdownMenuContent>
@@ -162,12 +162,12 @@ const codeTable = `<table class="w-full text-sm">
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                  <DropdownMenuLabel>{{ t('demo.dropdown.actions') }}</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>{{ t('demo.viewProfile') }}</DropdownMenuItem>
-                  <DropdownMenuItem>Reactivar</DropdownMenuItem>
+                  <DropdownMenuItem>{{ t('demo.dropdown.reactivate') }}</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem :destructive="true">Eliminar permanente</DropdownMenuItem>
+                  <DropdownMenuItem :destructive="true">{{ t('demo.dropdown.permanentDelete') }}</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </td>

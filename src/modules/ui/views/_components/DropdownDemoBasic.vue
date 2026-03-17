@@ -38,11 +38,11 @@ const codeBasic = `<DropdownMenu>
 </script>
 
 <template>
-  <DocShowcase title="Dropdown básico" :code="codeBasic">
+  <DocShowcase :title="t('demo.dropdown.basicTitle')" :code="codeBasic">
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Button variant="outline">
-          Abrir menú
+          {{ t('demo.dropdown.openMenu') }}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -115,7 +115,7 @@ const codeBasic = `<DropdownMenu>
             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
             <path d="M12 17h.01" />
           </svg>
-          Ayuda (próximamente)
+          {{ t('demo.dropdown.helpComingSoon') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem :destructive="true" @select="onAction('cerrar sesión')">

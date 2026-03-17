@@ -38,8 +38,8 @@ const codeIconActions = `<DropdownMenu>
 
 <template>
   <DocShowcase
-    title="Menú de acciones (botón icono)"
-    description="Patrón común para menús contextuales en tablas o tarjetas."
+    :title="t('demo.dropdown.iconActionsTitle')"
+    :description="t('demo.dropdown.iconActionsDesc')"
     :code="codeIconActions"
   >
     <DropdownMenu>
@@ -94,7 +94,7 @@ const codeIconActions = `<DropdownMenu>
             <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
             <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
           </svg>
-          Duplicar
+          {{ t('demo.dropdown.duplicate') }}
         </DropdownMenuItem>
         <DropdownMenuItem @select="onAction('compartir')">
           <svg
@@ -112,7 +112,7 @@ const codeIconActions = `<DropdownMenu>
             <polyline points="16 6 12 2 8 6" />
             <line x1="12" x2="12" y1="2" y2="15" />
           </svg>
-          Compartir
+          {{ t('demo.dropdown.share') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem @select="onAction('archivar')">
@@ -131,7 +131,7 @@ const codeIconActions = `<DropdownMenu>
             <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
             <path d="M10 12h4" />
           </svg>
-          Archivar
+          {{ t('demo.dropdown.archive') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem :destructive="true" @select="onAction('eliminar')">

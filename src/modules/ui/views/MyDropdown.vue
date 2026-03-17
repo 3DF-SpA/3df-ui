@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Button,
@@ -26,6 +27,8 @@ import DropdownDemoTriggers from './_components/DropdownDemoTriggers.vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const { description, propDesc, showcaseTitle } = useDocPage('dropdown');
+
+const { t } = useI18n();
 
 const dropdownProps = computed<PropItem[]>(() => [
   {
@@ -101,7 +104,7 @@ const sideTopCode = `<DropdownMenuContent side="top">
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
@@ -115,9 +118,9 @@ const sideTopCode = `<DropdownMenuContent side="top">
             <Button variant="outline" size="sm">Align start (default)</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuItem>Opción A</DropdownMenuItem>
-            <DropdownMenuItem>Opción B</DropdownMenuItem>
-            <DropdownMenuItem>Opción C</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionA') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionB') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionC') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -126,9 +129,9 @@ const sideTopCode = `<DropdownMenuContent side="top">
             <Button variant="outline" size="sm">Align center</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            <DropdownMenuItem>Opción A</DropdownMenuItem>
-            <DropdownMenuItem>Opción B</DropdownMenuItem>
-            <DropdownMenuItem>Opción C</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionA') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionB') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionC') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -137,9 +140,9 @@ const sideTopCode = `<DropdownMenuContent side="top">
             <Button variant="outline" size="sm">Align end</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Opción A</DropdownMenuItem>
-            <DropdownMenuItem>Opción B</DropdownMenuItem>
-            <DropdownMenuItem>Opción C</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionA') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionB') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.optionC') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -149,13 +152,13 @@ const sideTopCode = `<DropdownMenuContent side="top">
       <div class="mt-32 flex gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="outline">Menú arriba</Button>
+            <Button variant="outline">{{ t('demo.dropdown.menuUp') }}</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="top">
-            <DropdownMenuItem>Editar</DropdownMenuItem>
-            <DropdownMenuItem>Duplicar</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.edit') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.duplicate') }}</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem :destructive="true">Eliminar</DropdownMenuItem>
+            <DropdownMenuItem :destructive="true">{{ t('demo.delete') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
