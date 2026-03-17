@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -7,37 +10,41 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
-const breadcrumbLinkProps: PropItem[] = [
+const { t } = useI18n();
+const { description, propDesc, showcaseTitle } = useDocPage('breadcrumb');
+
+const breadcrumbLinkProps = computed<PropItem[]>(() => [
   {
     name: 'href',
     type: 'string',
     default: 'undefined',
-    description: 'URL del enlace. Si se proporciona y as no está definido, renderiza como <a>.',
+    description: propDesc('href'),
   },
   {
     name: 'as',
     type: 'string',
     default: 'undefined',
-    description: 'Elemento HTML o componente a renderizar. Toma precedencia sobre href.',
+    description: propDesc('as'),
   },
-];
+]);
 
 const basicCode = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Componentes</BreadcrumbLink>
+      <BreadcrumbLink href="#">Components</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
@@ -49,7 +56,7 @@ const basicCode = `<Breadcrumb>
 const ellipsisCode = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
@@ -57,7 +64,7 @@ const ellipsisCode = `<Breadcrumb>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Perfil</BreadcrumbPage>
+      <BreadcrumbPage>Profile</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`;
@@ -65,7 +72,7 @@ const ellipsisCode = `<Breadcrumb>
 const customSeparatorCode = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator>/</BreadcrumbSeparator>
     <BreadcrumbItem>
@@ -86,26 +93,26 @@ const anatomyCode = `import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Breadcrumb"
-      description="Navegación jerárquica que muestra la ubicación actual del usuario dentro de la estructura del sitio."
-      import-code="import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df/ui'"
     />
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.home') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Componentes</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.components') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -115,11 +122,11 @@ const anatomyCode = `import {
       </Breadcrumb>
     </DocShowcase>
 
-    <DocShowcase title="Con ellipsis (rutas largas)" :code="ellipsisCode">
+    <DocShowcase :title="showcaseTitle('ellipsis')" :code="ellipsisCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.home') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -127,25 +134,25 @@ const anatomyCode = `import {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Configuración</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.settings') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Perfil</BreadcrumbPage>
+            <BreadcrumbPage>{{ t('demo.profile') }}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
     </DocShowcase>
 
-    <DocShowcase title="Separador personalizado" :code="customSeparatorCode">
+    <DocShowcase :title="showcaseTitle('customSeparator')" :code="customSeparatorCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('common.home') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Proyectos</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.breadcrumb.projects') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>
@@ -159,7 +166,7 @@ const anatomyCode = `import {
       </Breadcrumb>
     </DocShowcase>
 
-    <DocShowcase title="Con icono" :code="iconCode">
+    <DocShowcase :title="showcaseTitle('withIcon')" :code="iconCode">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -183,25 +190,25 @@ const anatomyCode = `import {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Productos</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.breadcrumb.products') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="#">Categoría</BreadcrumbLink>
+            <BreadcrumbLink href="#">{{ t('demo.breadcrumb.category') }}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Detalle del producto</BreadcrumbPage>
+            <BreadcrumbPage>{{ t('demo.breadcrumb.productDetail') }}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
     </DocShowcase>
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <h2 class="text-sm font-semibold">{{ t('views.breadcrumb.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" language="typescript" />
     </section>
 
-    <DocPropsTable title="Props de BreadcrumbLink" :props="breadcrumbLinkProps" />
+    <DocPropsTable :title="t('views.breadcrumb.propsLinkTitle')" :props="breadcrumbLinkProps" />
   </div>
 </template>

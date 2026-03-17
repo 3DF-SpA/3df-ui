@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build:ui": "pnpm --filter @3df-spa/ui build",
-    "build:charts": "pnpm --filter @3df-spa/charts build",
+    "build:ui": "pnpm --filter @3df/ui build",
+    "build:charts": "pnpm --filter @3df/charts build",
     "build": "pnpm build:ui && pnpm build:charts && run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",
@@ -19,12 +19,13 @@
     "format:check": "prettier --check .",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "pnpm build:ui && pnpm build:charts && changeset publish"
+    "release": "pnpm build:ui && pnpm build:charts && changeset publish --registry https://registry.npmjs.org"
   },
   "dependencies": {
-    "@3df-spa/charts": "workspace:*",
-    "@3df-spa/ui": "workspace:*",
+    "@3df/charts": "workspace:*",
+    "@3df/ui": "workspace:*",
     "vue": "^3.5.27",
+    "vue-i18n": "^9.14.5",
     "vue-router": "^5.0.2"
   },
   "devDependencies": {

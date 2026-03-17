@@ -1,3 +1,6 @@
+<script lang="ts">
+let _alertDialogCounter = 0;
+</script>
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 
@@ -20,7 +23,7 @@ const emit = defineEmits<{
   'update:open': [value: boolean];
 }>();
 
-const uid = Math.random().toString(36).slice(2, 9);
+const uid = String(++_alertDialogCounter);
 const titleId = `alert-dialog-title-${uid}`;
 const descriptionId = `alert-dialog-desc-${uid}`;
 

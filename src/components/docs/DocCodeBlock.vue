@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { cn } from '@3df-spa/ui';
+import { cn } from '@3df/ui';
 import type { ClassValue } from 'clsx';
 
 import { useHighlighter } from '@/composables/useHighlighter';
+
+const { t } = useI18n();
 
 defineOptions({ name: 'DocCodeBlock', inheritAttrs: false });
 
@@ -52,7 +55,7 @@ function copyCode() {
       "
       @click="copyCode"
     >
-      {{ copied ? 'Copiado' : 'Copiar' }}
+      {{ copied ? t('common.copied') : t('common.copy') }}
     </button>
 
     <div

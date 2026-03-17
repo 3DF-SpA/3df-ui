@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { type HeroAction, HeroSimple } from '@3df-spa/ui';
+import { computed } from 'vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
+import { type HeroAction, HeroSimple } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -9,6 +11,8 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import HeroDemoGradients from './_components/HeroDemoGradients.vue';
 import HeroDemoImage from './_components/HeroDemoImage.vue';
 import HeroDemoSplit from './_components/HeroDemoSplit.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('hero');
 
 const actions: HeroAction[] = [
   { label: 'Get Started', variant: 'primary', href: '#' },
@@ -29,165 +33,165 @@ const leftCode = `<HeroSimple
   compact
 />`;
 
-const heroProps: PropItem[] = [
+const heroProps = computed<PropItem[]>(() => [
   {
     name: 'HeroAction: label',
     type: 'string',
     default: '-',
-    description: 'Texto del botón de acción.',
+    description: propDesc('label'),
   },
   {
     name: 'HeroAction: href',
     type: 'string',
     default: '-',
-    description: 'URL del enlace. Si se omite, renderiza un <button>.',
+    description: propDesc('href'),
   },
   {
     name: 'HeroAction: external',
     type: 'boolean',
     default: 'false',
-    description: 'Abre el enlace en una nueva pestaña.',
+    description: propDesc('external'),
   },
   {
     name: 'HeroAction: variant',
     type: "'primary' | 'secondary' | 'outline' | 'ghost'",
     default: '-',
-    description: 'Variante visual del botón.',
+    description: propDesc('variant'),
   },
   {
     name: 'HeroSimple: headline',
     type: 'string',
     default: '-',
-    description: 'Título principal del hero.',
+    description: propDesc('headline'),
   },
   {
     name: 'HeroSimple: description',
     type: 'string',
     default: '-',
-    description: 'Texto descriptivo debajo del headline.',
+    description: propDesc('descriptionProp'),
   },
   {
     name: 'HeroSimple: actions',
     type: 'HeroAction[]',
     default: '-',
-    description: 'Botones CTA del hero.',
+    description: propDesc('actions'),
   },
   {
     name: 'HeroSimple: align',
     type: "'left' | 'center' | 'right'",
     default: "'center'",
-    description: 'Alineación del contenido.',
+    description: propDesc('align'),
   },
   {
     name: 'HeroSimple: compact',
     type: 'boolean',
     default: 'false',
-    description: 'Reduce el padding vertical del hero.',
+    description: propDesc('compact'),
   },
   {
     name: 'HeroSplit: imageSrc',
     type: 'string',
     default: '-',
-    description: 'URL de la imagen lateral.',
+    description: propDesc('imageSrc'),
   },
   {
     name: 'HeroSplit: imageAlt',
     type: 'string',
     default: "''",
-    description: 'Texto alternativo de la imagen.',
+    description: propDesc('imageAlt'),
   },
   {
     name: 'HeroSplit: reverse',
     type: 'boolean',
     default: 'false',
-    description: 'Invierte el orden: imagen a la izquierda, texto a la derecha.',
+    description: propDesc('reverse'),
   },
   {
     name: 'HeroImage: imageSrc',
     type: 'string',
     default: '-',
-    description: 'URL de la imagen de fondo (requerido).',
+    description: propDesc('imageSrc'),
   },
   {
     name: 'HeroImage: overlay',
     type: "'dark' | 'light' | 'gradient' | 'none'",
     default: "'dark'",
-    description: 'Tipo de overlay sobre la imagen.',
+    description: propDesc('overlay'),
   },
   {
     name: 'HeroImage: overlayOpacity',
     type: 'number',
     default: '60',
-    description: 'Opacidad del overlay (0-100).',
+    description: propDesc('overlayOpacity'),
   },
   {
     name: 'HeroImage: minHeight',
     type: 'string',
     default: "'500px'",
-    description: 'Altura mínima del hero.',
+    description: propDesc('minHeight'),
   },
   {
     name: 'HeroCentered: badge',
     type: 'string',
     default: '-',
-    description: 'Texto del badge de anuncio.',
+    description: propDesc('badge'),
   },
   {
     name: 'HeroCentered: badgeHref',
     type: 'string',
     default: '-',
-    description: 'Enlace del badge.',
+    description: propDesc('badgeHref'),
   },
   {
     name: 'HeroCentered: highlightText',
     type: 'string',
     default: '-',
-    description: 'Texto dentro del headline que se resalta con gradiente.',
+    description: propDesc('highlightText'),
   },
   {
     name: 'HeroCentered: gridPattern',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra un patrón de grid decorativo en el fondo.',
+    description: propDesc('gridPattern'),
   },
   {
     name: 'HeroGradient: gradient',
     type: "'purple' | 'blue' | 'green' | 'orange' | 'rose' | 'custom'",
     default: "'purple'",
-    description: 'Preset de gradiente. Usa custom junto con customGradient.',
+    description: propDesc('gradient'),
   },
   {
     name: 'HeroGradient: customGradient',
     type: 'string',
     default: '-',
-    description: 'Clase CSS de gradiente personalizado (cuando gradient="custom").',
+    description: propDesc('customGradient'),
   },
   {
     name: 'HeroGradient: blobs',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra blobs decorativos animados en el fondo.',
+    description: propDesc('blobs'),
   },
   {
     name: 'HeroMinimal: separator',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra un separador inferior.',
+    description: propDesc('separator'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Hero Sections"
-      description="Secciones hero para landing pages. 6 variantes: simple, split, imagen de fondo, gradiente, centrado con badge, y minimalista."
-      import-code="import { HeroSimple, HeroSplit, HeroImage, HeroCentered, HeroGradient, HeroMinimal } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { HeroSimple, HeroSplit, HeroImage, HeroCentered, HeroGradient, HeroMinimal } from '@3df/ui'"
     />
 
     <DocShowcase
-      title="Hero Simple — Centrado"
-      description="Hero centrado estándar con headline, descripción y botones CTA."
+      :title="showcaseTitle('centered')"
+      :description="showcaseDesc('centered')"
       :code="centeredCode"
     >
       <div class="overflow-hidden rounded-xl">
@@ -200,8 +204,8 @@ const heroProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Hero Simple — Alineado a la izquierda"
-      description="Misma estructura con texto alineado a la izquierda y modo compacto."
+      :title="showcaseTitle('left')"
+      :description="showcaseDesc('left')"
       :code="leftCode"
     >
       <div class="overflow-hidden rounded-xl">

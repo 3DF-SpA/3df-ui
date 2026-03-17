@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +15,9 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
+
+const { t } = useI18n();
 
 const icons = {
   home: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10',
@@ -25,18 +30,18 @@ const icons = {
 
 type IconName = keyof typeof icons;
 
-const navItems: { label: string; icon: IconName }[] = [
-  { label: 'Dashboard', icon: 'home' },
-  { label: 'Proyectos', icon: 'folder' },
-  { label: 'Equipo', icon: 'users' },
-  { label: 'Bandeja', icon: 'inbox' },
-];
+const navItems = computed<{ label: string; icon: IconName }[]>(() => [
+  { label: t('demo.nav.dashboard'), icon: 'home' },
+  { label: t('demo.nav.projects'), icon: 'folder' },
+  { label: t('demo.nav.team'), icon: 'users' },
+  { label: t('demo.nav.inbox'), icon: 'inbox' },
+]);
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      4 · Variante floating — con sombra y bordes redondeados
+      {{ t('demo.sidebar.floatingTitle') }}
     </h2>
 
     <div class="border-border h-[480px] overflow-hidden rounded-lg border [contain:paint]">
@@ -54,7 +59,7 @@ const navItems: { label: string; icon: IconName }[] = [
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Menú</SidebarGroupLabel>
+              <SidebarGroupLabel>{{ t('demo.sidebar.floatingMenuLabel') }}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem v-for="item in navItems" :key="item.label">
@@ -87,11 +92,11 @@ const navItems: { label: string; icon: IconName }[] = [
         <SidebarInset>
           <header class="border-border flex h-12 items-center gap-2 border-b px-4">
             <SidebarTrigger />
-            <span class="text-sm font-medium">Variante floating</span>
+            <span class="text-sm font-medium">{{ t('demo.sidebar.floatingContent') }}</span>
           </header>
           <div class="flex-1 p-6">
             <p class="text-muted-foreground text-sm">
-              Flota sobre el contenido con bordes redondeados y sombra sutil.
+              {{ t('demo.sidebar.floatingContentDesc') }}
             </p>
           </div>
         </SidebarInset>

@@ -1,3 +1,6 @@
+<script lang="ts">
+let _menubarMenuCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, inject, nextTick, onBeforeUnmount, onMounted, provide, ref, watch } from 'vue';
 
@@ -19,9 +22,10 @@ const props = withDefaults(defineProps<UiMenubarMenuProps>(), {
 
 const menubar = inject(MENUBAR_KEY)!;
 
-const generatedValue = `menu-${Math.random().toString(36).slice(2, 9)}`;
+const _uid = ++_menubarMenuCounter;
+const generatedValue = `menu-${_uid}`;
 const menuValue = props.value ?? generatedValue;
-const triggerId = `menubar-trigger-${Math.random().toString(36).slice(2, 9)}`;
+const triggerId = `menubar-trigger-${_uid}`;
 
 const isOpen = computed(() => menubar.activeMenu.value === menuValue);
 const triggerRef = ref<HTMLElement>();

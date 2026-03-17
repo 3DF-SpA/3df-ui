@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -11,122 +16,125 @@ import SidebarDemoInset from './_components/SidebarDemoInset.vue';
 import SidebarDemoRight from './_components/SidebarDemoRight.vue';
 import SidebarDemoSkeleton from './_components/SidebarDemoSkeleton.vue';
 
-const providerProps: PropItem[] = [
+const { description, propDesc } = useDocPage('sidebar');
+const { t } = useI18n();
+
+const providerProps = computed<PropItem[]>(() => [
   {
     name: 'defaultOpen',
     type: 'boolean',
     default: 'true',
-    description: 'Estado abierto inicial (si open no está definido).',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'open',
     type: 'boolean',
     default: 'undefined',
-    description: 'Estado controlado de apertura. Soporta v-model.',
+    description: propDesc('open'),
   },
   {
     name: 'side',
     type: "'left' | 'right'",
     default: "'left'",
-    description: 'Lado en que se renderiza el sidebar.',
+    description: propDesc('side'),
   },
   {
     name: 'variant',
     type: "'sidebar' | 'floating' | 'inset'",
     default: "'sidebar'",
-    description: 'Variante visual del sidebar.',
+    description: propDesc('variant'),
   },
   {
     name: 'collapsible',
     type: "'offcanvas' | 'icon' | 'none'",
     default: "'offcanvas'",
-    description: 'Comportamiento de colapso.',
+    description: propDesc('collapsible'),
   },
-];
+]);
 
-const menuButtonProps: PropItem[] = [
+const menuButtonProps = computed<PropItem[]>(() => [
   {
     name: 'as',
     type: 'string | Component',
     default: "'button'",
-    description: 'Elemento o componente a renderizar.',
+    description: propDesc('menuButtonAs'),
   },
   {
     name: 'isActive',
     type: 'boolean',
     default: 'false',
-    description: 'Estado activo con estilos de acento y aria-current="page".',
+    description: propDesc('isActive'),
   },
   {
     name: 'size',
     type: "'sm' | 'default' | 'lg'",
     default: "'default'",
-    description: 'Tamaño del botón (sm=h-7, default=h-8, lg=h-10).',
+    description: propDesc('size'),
   },
   {
     name: 'tooltip',
     type: 'string',
     default: 'undefined',
-    description: 'Tooltip mostrado solo cuando el sidebar está colapsado en modo icono.',
+    description: propDesc('tooltip'),
   },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita pointer events y reduce opacidad.',
+    description: propDesc('disabled'),
   },
-];
+]);
 
-const menuSubProps: PropItem[] = [
+const menuSubProps = computed<PropItem[]>(() => [
   {
     name: 'open',
     type: 'boolean',
     default: 'false',
-    description: 'Controla la visibilidad del submenú. Soporta v-model.',
+    description: propDesc('open'),
   },
-];
+]);
 
-const menuSubButtonProps: PropItem[] = [
+const menuSubButtonProps = computed<PropItem[]>(() => [
   {
     name: 'as',
     type: 'string | Component',
     default: "'a'",
-    description: 'Elemento o componente a renderizar.',
+    description: propDesc('as'),
   },
   {
     name: 'isActive',
     type: 'boolean',
     default: 'false',
-    description: 'Estado activo con estilos de acento.',
+    description: propDesc('isActive'),
   },
   {
     name: 'size',
     type: "'sm' | 'default'",
     default: "'default'",
-    description: 'Tamaño del botón (sm=h-6, default=h-7).',
+    description: propDesc('size'),
   },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el botón del submenú.',
+    description: propDesc('disabled'),
   },
-];
+]);
 
-const otherProps: PropItem[] = [
+const otherProps = computed<PropItem[]>(() => [
   {
     name: 'MenuAction: showOnHover',
     type: 'boolean',
     default: 'false',
-    description: 'Muestra la acción solo al hacer hover en el item del menú.',
+    description: propDesc('showOnHover'),
   },
   {
     name: 'MenuSkeleton: showIcon',
     type: 'boolean',
     default: 'false',
-    description: 'Renderiza un placeholder de icono animado junto al texto.',
+    description: propDesc('showIcon'),
   },
-];
+]);
 
 const anatomyCode = `import {
   SidebarProvider,
@@ -150,15 +158,15 @@ const anatomyCode = `import {
   SidebarMenuSubItem,
   SidebarMenuSubButton,
   SidebarSeparator,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Sidebar"
-      description="Sistema de sidebar con múltiples variantes, colapso a iconos, posición izquierda/derecha, modo flotante e inset. Responsive con sheet en móvil."
-      import-code="import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarTrigger, SidebarRail, SidebarInset, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarTrigger, SidebarRail, SidebarInset, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@3df/ui'"
     />
 
     <SidebarDemoComplete />
@@ -169,7 +177,7 @@ const anatomyCode = `import {
     <SidebarDemoSkeleton />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-sm font-semibold">Anatomía</h2>
+      <h2 class="text-sm font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" language="typescript" />
     </section>
 

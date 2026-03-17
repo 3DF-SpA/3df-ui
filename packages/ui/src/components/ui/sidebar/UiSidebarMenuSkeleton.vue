@@ -1,3 +1,7 @@
+<script lang="ts">
+let _skeletonCounter = 0;
+</script>
+
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
 
@@ -23,7 +27,7 @@ const restAttrs = computed(() => {
 const classes = computed(() => cn('flex h-8 items-center gap-2 rounded-md px-2', attrs.class));
 
 const widths = ['60%', '70%', '50%', '80%', '65%', '75%'];
-const textWidth = widths[Math.floor(Math.random() * widths.length)];
+const textWidth = widths[_skeletonCounter++ % widths.length]!;
 </script>
 
 <template>

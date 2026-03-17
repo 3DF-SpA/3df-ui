@@ -149,7 +149,7 @@ const mobileSheetClasses = computed(() =>
           </div>
 
           <button
-            class="text-muted-foreground hover:text-foreground focus-visible:ring-ring absolute top-3 right-3 inline-flex size-7 items-center justify-center rounded-md focus-visible:ring-2 focus-visible:outline-none"
+            class="text-muted-foreground hover:text-foreground absolute top-3 right-3 inline-flex size-7 items-center justify-center rounded-md focus-visible:outline-2 focus-visible:outline-ring"
             aria-label="Close sidebar"
             @click="ctx.setOpenMobile(false)"
           >

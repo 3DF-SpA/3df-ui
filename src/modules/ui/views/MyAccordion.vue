@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df-spa/ui';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -7,76 +12,61 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
-const faqItems = [
-  {
-    value: 'item-1',
-    question: '¿Es accesible?',
-    answer: 'Sí. Sigue los patrones de diseño WAI-ARIA para acordeones.',
-  },
-  {
-    value: 'item-2',
-    question: '¿Es estilizable?',
-    answer:
-      'Sí. Viene con estilos por defecto que siguen el design system, pero puedes sobrescribir cualquier clase con Tailwind.',
-  },
-  {
-    value: 'item-3',
-    question: '¿Soporta animaciones?',
-    answer:
-      'Sí. Incluye animaciones suaves de expandir/colapsar usando transiciones CSS de altura.',
-  },
-  {
-    value: 'item-4',
-    question: '¿Puedo abrir múltiples items?',
-    answer:
-      'Sí. Usa type="multiple" para permitir que varios items estén abiertos simultáneamente.',
-  },
-];
+const { t } = useI18n();
 
-const accordionProps: PropItem[] = [
+const faqItems = computed(() => [
+  { value: 'item-1', question: t('demo.accordion.q1'), answer: t('demo.accordion.a1') },
+  { value: 'item-2', question: t('demo.accordion.q2'), answer: t('demo.accordion.a2') },
+  { value: 'item-3', question: t('demo.accordion.q3'), answer: t('demo.accordion.a3') },
+  { value: 'item-4', question: t('demo.accordion.q4'), answer: t('demo.accordion.a4') },
+]);
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('accordion');
+
+const accordionProps = computed<PropItem[]>(() => [
   {
     name: 'Accordion: type',
     type: "'single' | 'multiple'",
     default: "'single'",
-    description: 'Modo de apertura: un solo item o varios simultáneamente.',
+    description: propDesc('type'),
   },
   {
     name: 'Accordion: modelValue',
     type: 'string | string[]',
     default: '-',
-    description: 'Valor(es) del item abierto (v-model).',
+    description: propDesc('modelValue'),
   },
   {
     name: 'Accordion: defaultValue',
     type: 'string | string[]',
     default: '-',
-    description: 'Valor(es) inicialmente abiertos (no controlado).',
+    description: propDesc('defaultValue'),
   },
   {
     name: 'Accordion: collapsible',
     type: 'boolean',
     default: 'false',
-    description: 'Permite cerrar todos los items en modo single.',
+    description: propDesc('collapsible'),
   },
   {
     name: 'Accordion: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita todo el acordeón.',
+    description: propDesc('disabled'),
   },
   {
     name: 'AccordionItem: value',
     type: 'string',
     default: '-',
-    description: 'Identificador único del item (requerido).',
+    description: propDesc('value'),
   },
   {
     name: 'AccordionItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita un item específico.',
+    description: propDesc('itemDisabled'),
   },
-];
+]);
 
 const anatomyCode = `<Accordion>
   <AccordionItem>
@@ -115,18 +105,18 @@ const disabledCode = `<Accordion type="single" collapsible>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Accordion"
-      description="Paneles colapsables que permiten mostrar y ocultar secciones de contenido."
-      import-code="import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" />
     </section>
 
     <DocShowcase
-      title="Single (un item a la vez)"
-      description="Con collapsible habilitado y valor por defecto."
+      :title="showcaseTitle('single')"
+      :description="showcaseDesc('single')"
       :code="singleCode"
     >
       <div class="mx-auto w-full max-w-lg">
@@ -140,8 +130,8 @@ const disabledCode = `<Accordion type="single" collapsible>
     </DocShowcase>
 
     <DocShowcase
-      title="Multiple (varios abiertos)"
-      description="Permite abrir varios items simultáneamente."
+      :title="showcaseTitle('multiple')"
+      :description="showcaseDesc('multiple')"
       :code="multipleCode"
     >
       <div class="mx-auto w-full max-w-lg">
@@ -155,25 +145,23 @@ const disabledCode = `<Accordion type="single" collapsible>
     </DocShowcase>
 
     <DocShowcase
-      title="Con item deshabilitado"
-      description="Items individuales pueden deshabilitarse con la prop disabled."
+      :title="showcaseTitle('disabledItem')"
+      :description="showcaseDesc('disabledItem')"
       :code="disabledCode"
     >
       <div class="mx-auto w-full max-w-lg">
         <Accordion type="single" collapsible>
           <AccordionItem value="enabled-1">
-            <AccordionTrigger>Item habilitado</AccordionTrigger>
-            <AccordionContent>
-              Este item se puede expandir y colapsar normalmente.
-            </AccordionContent>
+            <AccordionTrigger>{{ t('demo.accordion.itemEnabled') }}</AccordionTrigger>
+            <AccordionContent>{{ t('demo.accordion.contentExpandsNormally') }}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="disabled-1" disabled>
-            <AccordionTrigger>Item deshabilitado</AccordionTrigger>
-            <AccordionContent>Este contenido no se puede ver.</AccordionContent>
+            <AccordionTrigger>{{ t('demo.accordion.itemDisabled') }}</AccordionTrigger>
+            <AccordionContent>{{ t('demo.accordion.contentNotVisible') }}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="enabled-2">
-            <AccordionTrigger>Otro item habilitado</AccordionTrigger>
-            <AccordionContent>Este también funciona correctamente.</AccordionContent>
+            <AccordionTrigger>{{ t('demo.accordion.anotherItemEnabled') }}</AccordionTrigger>
+            <AccordionContent>{{ t('demo.accordion.contentWorksCorrectly') }}</AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>

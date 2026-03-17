@@ -1,3 +1,6 @@
+<script lang="ts">
+let _menubarRadioItemCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, inject, onBeforeUnmount, onMounted, useAttrs } from 'vue';
 
@@ -36,7 +39,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const itemId = `menubar-radio-${Math.random().toString(36).slice(2, 9)}`;
+const itemId = `menubar-radio-${++_menubarRadioItemCounter}`;
 
 const itemIndex = computed(() => ctx.items.value.findIndex((i) => i.id === itemId));
 const isFocused = computed(() => ctx.focusedIndex.value === itemIndex.value);

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Button,
   DropdownMenu,
@@ -7,12 +8,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
+
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.dropdown.action', { action }));
 }
 
 const codeIconActions = `<DropdownMenu>
@@ -22,11 +25,11 @@ const codeIconActions = `<DropdownMenu>
     </Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent align="end">
-    <DropdownMenuItem>Editar</DropdownMenuItem>
-    <DropdownMenuItem>Duplicar</DropdownMenuItem>
+    <DropdownMenuItem>Edit</DropdownMenuItem>
+    <DropdownMenuItem>Duplicate</DropdownMenuItem>
     <DropdownMenuSeparator />
     <DropdownMenuItem :destructive="true">
-      Eliminar
+      Delete
       <DropdownMenuShortcut>⌫</DropdownMenuShortcut>
     </DropdownMenuItem>
   </DropdownMenuContent>
@@ -35,8 +38,8 @@ const codeIconActions = `<DropdownMenu>
 
 <template>
   <DocShowcase
-    title="Menú de acciones (botón icono)"
-    description="Patrón común para menús contextuales en tablas o tarjetas."
+    :title="t('demo.dropdown.iconActionsTitle')"
+    :description="t('demo.dropdown.iconActionsDesc')"
     :code="codeIconActions"
   >
     <DropdownMenu>
@@ -74,7 +77,7 @@ const codeIconActions = `<DropdownMenu>
           >
             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
           </svg>
-          Editar
+          {{ t('demo.edit') }}
         </DropdownMenuItem>
         <DropdownMenuItem @select="onAction('duplicar')">
           <svg
@@ -91,7 +94,7 @@ const codeIconActions = `<DropdownMenu>
             <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
             <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
           </svg>
-          Duplicar
+          {{ t('demo.dropdown.duplicate') }}
         </DropdownMenuItem>
         <DropdownMenuItem @select="onAction('compartir')">
           <svg
@@ -109,7 +112,7 @@ const codeIconActions = `<DropdownMenu>
             <polyline points="16 6 12 2 8 6" />
             <line x1="12" x2="12" y1="2" y2="15" />
           </svg>
-          Compartir
+          {{ t('demo.dropdown.share') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem @select="onAction('archivar')">
@@ -128,7 +131,7 @@ const codeIconActions = `<DropdownMenu>
             <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" />
             <path d="M10 12h4" />
           </svg>
-          Archivar
+          {{ t('demo.dropdown.archive') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem :destructive="true" @select="onAction('eliminar')">
@@ -149,7 +152,7 @@ const codeIconActions = `<DropdownMenu>
             <line x1="10" x2="10" y1="11" y2="17" />
             <line x1="14" x2="14" y1="11" y2="17" />
           </svg>
-          Eliminar
+          {{ t('demo.delete') }}
           <DropdownMenuShortcut>⌫</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

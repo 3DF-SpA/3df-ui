@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df-spa/ui';
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -13,26 +16,30 @@ import CollapsibleDemoStates from './_components/CollapsibleDemoStates.vue';
 
 const isOpen = ref(false);
 
-const collapsibleProps: PropItem[] = [
+const { t } = useI18n();
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('collapsible');
+
+const collapsibleProps = computed<PropItem[]>(() => [
   {
     name: 'Collapsible: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Collapsible: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Abierto por defecto (no controlado).',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'Collapsible: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el collapsible completo.',
+    description: propDesc('disabled'),
   },
-];
+]);
 
 const anatomyCode = `<Collapsible>
   <CollapsibleTrigger />
@@ -73,18 +80,18 @@ const controlledCode = `const isOpen = ref(false)
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Collapsible"
-      description="Componente interactivo que permite expandir y contraer secciones de contenido."
-      import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" />
     </section>
 
     <DocShowcase
-      title="Básico"
-      description="Usa el slot del trigger para reaccionar al estado de apertura."
+      :title="showcaseTitle('basic')"
+      :description="showcaseDesc('basic')"
       :code="basicCode"
     >
       <div class="mx-auto w-full max-w-sm">
@@ -131,22 +138,22 @@ const controlledCode = `const isOpen = ref(false)
     </DocShowcase>
 
     <DocShowcase
-      title="Controlado con v-model:open"
-      description="El estado se controla externamente y se sincroniza con el trigger interno."
+      :title="showcaseTitle('controlled')"
+      :description="showcaseDesc('controlled')"
       :code="controlledCode"
     >
       <div class="mx-auto w-full max-w-sm space-y-4">
         <div class="flex items-center gap-2">
           <Button variant="outline" size="sm" @click="isOpen = !isOpen">
-            {{ isOpen ? 'Cerrar' : 'Abrir' }}
+            {{ isOpen ? t('common.close') : t('common.open') }}
           </Button>
           <span class="text-muted-foreground text-sm">
-            Estado: <strong>{{ isOpen ? 'abierto' : 'cerrado' }}</strong>
+            Estado: <strong>{{ isOpen ? t('demo.collapsible.stateOpen') : t('demo.collapsible.stateClosed') }}</strong>
           </span>
         </div>
         <Collapsible v-model:open="isOpen" class="space-y-2">
           <div class="flex items-center justify-between space-x-4">
-            <h4 class="text-sm font-semibold">Sección controlada</h4>
+            <h4 class="text-sm font-semibold">{{ t('demo.collapsible.controlledSection') }}</h4>
             <CollapsibleTrigger>
               <Button variant="ghost" size="sm" class="w-9 p-0">
                 <svg
@@ -169,10 +176,7 @@ const controlledCode = `const isOpen = ref(false)
           </div>
           <CollapsibleContent>
             <div class="border-border/60 rounded-md border p-4">
-              <p class="text-sm">
-                Este contenido se puede controlar tanto con el trigger interno como con el botón
-                externo, gracias al binding bidireccional de v-model.
-              </p>
+              <p class="text-sm">{{ t('demo.collapsible.controlledDesc') }}</p>
             </div>
           </CollapsibleContent>
         </Collapsible>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   Button,
   DropdownMenu,
@@ -7,9 +9,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeAutoPos = `<!-- align="end" / "center" / "start" -->
 <DropdownMenuContent align="end">
@@ -25,59 +29,59 @@ const codeAutoPos = `<!-- align="end" / "center" / "start" -->
 <template>
   <DocShowcase
     title="Auto-positioning (flip + shift)"
-    description="El dropdown detecta los bordes del viewport y se reposiciona automáticamente."
+    :description="t('demo.dropdown.autoPositionDesc')"
     :code="codeAutoPos"
   >
     <div class="flex flex-col gap-6">
       <div class="flex items-start justify-between gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="outline" size="sm">← Borde izquierdo</Button>
+            <Button variant="outline" size="sm">{{ t('demo.dropdown.leftEdge') }}</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Auto-flip horizontal</DropdownMenuLabel>
+            <DropdownMenuLabel>{{ t('demo.dropdown.autoFlipHorizontal') }}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Se ajusta si no cabe</DropdownMenuItem>
-            <DropdownMenuItem>hacia la izquierda</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.adjustsIfNoSpace') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.toTheLeft') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="outline" size="sm">Centro</Button>
+            <Button variant="outline" size="sm">{{ t('demo.dropdown.center') }}</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center">
-            <DropdownMenuItem>Centrado respecto</DropdownMenuItem>
-            <DropdownMenuItem>al trigger</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.centeredRespect') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.toTrigger') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="outline" size="sm">Borde derecho →</Button>
+            <Button variant="outline" size="sm">{{ t('demo.dropdown.rightEdge') }}</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuLabel>Auto-flip horizontal</DropdownMenuLabel>
+            <DropdownMenuLabel>{{ t('demo.dropdown.autoFlipHorizontal') }}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Se ajusta si no cabe</DropdownMenuItem>
-            <DropdownMenuItem>hacia la derecha</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.adjustsIfNoSpace') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.toTheRight') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
       <div>
         <p class="text-muted-foreground mb-3 text-xs">
-          side="bottom" con auto-flip: si estás cerca del fondo, se abre arriba automáticamente.
+          {{ t('demo.dropdown.autoFlipNote') }}
         </p>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <Button variant="outline" size="sm">Auto-flip vertical ↕</Button>
+            <Button variant="outline" size="sm">{{ t('demo.dropdown.autoFlipVertical') }}</Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Si hay espacio abajo → abre abajo</DropdownMenuItem>
-            <DropdownMenuItem>Si NO hay espacio → abre arriba</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.opensDown') }}</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.opensUp') }}</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Haz scroll para probar</DropdownMenuItem>
+            <DropdownMenuItem>{{ t('demo.dropdown.scrollToTest') }}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

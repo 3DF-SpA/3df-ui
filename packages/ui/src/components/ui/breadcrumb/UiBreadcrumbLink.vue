@@ -4,6 +4,7 @@ import { computed, useAttrs } from 'vue';
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
+import { sanitizeHref } from '../../../lib/sanitize';
 
 defineOptions({ name: 'UiBreadcrumbLink', inheritAttrs: false });
 
@@ -24,19 +25,15 @@ const restAttrs = computed(() => {
 });
 
 const tag = computed(() => props.as ?? (props.href ? 'a' : 'span'));
+const safeHref = computed(() => (props.href ? sanitizeHref(props.href) : undefined));
 </script>
 
 <template>
   <component
     :is="tag"
     v-bind="restAttrs"
-    :href="href"
-    :class="
-      cn(
-        'text-muted-foreground transition-colors hover:text-foreground',
-        attrs.class,
-      )
-    "
+    :href="safeHref"
+    :class="cn('text-muted-foreground transition-colors hover:text-foreground', attrs.class)"
   >
     <slot />
   </component>

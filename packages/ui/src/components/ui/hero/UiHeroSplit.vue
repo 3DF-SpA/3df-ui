@@ -90,7 +90,7 @@ function handleAction(action: HeroAction, index: number) {
               "
               :class="
                 cn(
-                  'focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none',
+                  'inline-flex items-center justify-center rounded-md px-6 py-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-ring',
                   action.variant === 'outline'
                     ? 'bg-foreground/[0.06] text-foreground hover:bg-accent hover:text-accent-foreground'
                     : action.variant === 'secondary'
@@ -117,7 +117,7 @@ function handleAction(action: HeroAction, index: number) {
             :src="imageSrc"
             :alt="imageAlt"
             loading="lazy"
-            class="ring-border/10 w-full rounded-xl object-cover shadow-2xl ring-1"
+            class="w-full rounded-xl object-cover shadow-2xl [box-shadow:0_0_0_1px_hsl(var(--color-border)/0.1)]"
           />
         </slot>
       </div>

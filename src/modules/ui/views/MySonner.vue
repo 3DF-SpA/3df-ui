@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { Button, Toaster, toast } from '@3df-spa/ui';
+import { Button, Toaster, toast } from '@3df/ui';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -9,6 +12,10 @@ import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import SonnerDemoRich from './_components/SonnerDemoRich.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('sonner');
+
+const { t } = useI18n();
 
 const position = ref<
   'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
@@ -23,50 +30,50 @@ const positions = [
   'bottom-right',
 ] as const;
 
-const sonnerProps: PropItem[] = [
+const sonnerProps = computed<PropItem[]>(() => [
   {
     name: 'Toaster: position',
     type: "'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'",
     default: "'bottom-right'",
-    description: 'Posición de las notificaciones en la pantalla.',
+    description: propDesc('position'),
   },
   {
     name: 'Toaster: maxVisible',
     type: 'number',
     default: '3',
-    description: 'Máximo de notificaciones visibles simultáneamente.',
+    description: propDesc('maxVisible'),
   },
   {
     name: 'toast(): title',
     type: 'string',
     default: '-',
-    description: 'Título principal de la notificación.',
+    description: propDesc('title'),
   },
   {
     name: 'toast(): description',
     type: 'string',
     default: '-',
-    description: 'Texto descriptivo de la notificación.',
+    description: propDesc('descriptionProp'),
   },
   {
     name: 'toast(): duration',
     type: 'number',
     default: '5000',
-    description: 'Duración en ms (0 = persistente).',
+    description: propDesc('duration'),
   },
   {
     name: 'toast(): dismissible',
     type: 'boolean',
     default: 'true',
-    description: 'Permite cerrar manualmente la notificación.',
+    description: propDesc('dismissible'),
   },
   {
     name: 'toast(): action',
     type: '{ label: string, onClick: () => void }',
     default: '-',
-    description: 'Botón de acción dentro de la notificación.',
+    description: propDesc('action'),
   },
-];
+]);
 
 const variantsCode = `toast('Toast por defecto')
 toast.success('Operación completada')
@@ -104,25 +111,25 @@ const hoverCode = `toast.info({
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Sonner — Toast Notifications"
-      description="Sistema de notificaciones tipo toast con variantes, acciones y posicionamiento configurable."
-      import-code="import { Toaster, toast } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Toaster, toast } from '@3df/ui'"
     />
 
     <Toaster :position="position" />
 
-    <DocShowcase title="Variantes" :code="variantsCode">
+    <DocShowcase :title="showcaseTitle('variants')" :code="variantsCode">
       <div class="flex flex-wrap gap-3">
-        <Button variant="outline" @click="toast('Este es un toast por defecto')"> Default </Button>
-        <Button variant="outline" @click="toast.success('Operación completada exitosamente')">
+        <Button variant="outline" @click="toast(t('demo.sonner.defaultToast'))"> Default </Button>
+        <Button variant="outline" @click="toast.success(t('demo.sonner.successCompleted'))">
           Success
         </Button>
-        <Button variant="outline" @click="toast.error('Algo salió mal, intenta de nuevo')">
+        <Button variant="outline" @click="toast.error(t('demo.sonner.errorOccurred'))">
           Error
         </Button>
-        <Button variant="outline" @click="toast.warning('Ten cuidado con esta acción')">
+        <Button variant="outline" @click="toast.warning(t('demo.sonner.warningAction'))">
           Warning
         </Button>
-        <Button variant="outline" @click="toast.info('Aquí tienes información útil')">
+        <Button variant="outline" @click="toast.info(t('demo.sonner.infoUseful'))">
           Info
         </Button>
       </div>
@@ -130,17 +137,17 @@ const hoverCode = `toast.info({
 
     <SonnerDemoRich />
 
-    <DocShowcase title="Duración personalizada" :code="durationCode">
+    <DocShowcase :title="showcaseTitle('customDuration')" :code="durationCode">
       <div class="flex flex-wrap gap-3">
         <Button
           variant="outline"
-          @click="toast({ description: 'Me voy en 1.5 segundos', duration: 1500 })"
+          @click="toast({ description: t('demo.sonner.goneIn1s'), duration: 1500 })"
         >
           1.5s
         </Button>
         <Button
           variant="outline"
-          @click="toast({ description: 'Me quedo 10 segundos', duration: 10000 })"
+          @click="toast({ description: t('demo.sonner.staying10s'), duration: 10000 })"
         >
           10s
         </Button>
@@ -148,20 +155,20 @@ const hoverCode = `toast.info({
           variant="outline"
           @click="
             toast({
-              title: 'Persistente',
-              description: 'Solo se cierra manualmente.',
+              title: t('demo.sonner.persistentTitle'),
+              description: t('demo.sonner.persistentDesc'),
               duration: 0,
             })
           "
         >
-          Persistente (∞)
+          {{ t('demo.sonner.persistentBtn') }}
         </Button>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Posición" :code="positionCode">
+    <DocShowcase :title="showcaseTitle('position')" :code="positionCode">
       <p class="text-muted-foreground text-sm">
-        Actual: <code class="text-foreground font-mono">{{ position }}</code>
+        {{ t('demo.sonner.currentPosition') }} <code class="text-foreground font-mono">{{ position }}</code>
       </p>
       <div class="flex flex-wrap gap-2">
         <Button
@@ -174,28 +181,28 @@ const hoverCode = `toast.info({
           {{ pos }}
         </Button>
       </div>
-      <Button variant="outline" @click="toast.success('¡Mira la posición!')">
-        Probar posición
+      <Button variant="outline" @click="toast.success(t('demo.sonner.lookPosition'))">
+        {{ t('demo.sonner.testPosition') }}
       </Button>
     </DocShowcase>
 
-    <DocShowcase title="No dismissible" :code="noDismissCode">
+    <DocShowcase :title="showcaseTitle('noDismissible')" :code="noDismissCode">
       <Button
         variant="outline"
         @click="
           toast({
-            title: 'Procesando...',
-            description: 'Esta notificación no se puede cerrar manualmente.',
+            title: t('demo.sonner.processingTitle'),
+            description: t('demo.sonner.processingDesc'),
             dismissible: false,
             duration: 3000,
           })
         "
       >
-        Sin botón de cerrar
+        {{ t('demo.sonner.noDismissBtn') }}
       </Button>
     </DocShowcase>
 
-    <DocShowcase title="Control programático" :code="programmaticCode">
+    <DocShowcase :title="showcaseTitle('programmatic')" :code="programmaticCode">
       <div class="flex flex-wrap gap-3">
         <Button
           variant="outline"
@@ -207,28 +214,28 @@ const hoverCode = `toast.info({
             }
           "
         >
-          Crear 3 toasts
+          {{ t('demo.sonner.create3Toasts') }}
         </Button>
-        <Button variant="destructive" @click="toast.dismissAll()"> Cerrar todos </Button>
+        <Button variant="destructive" @click="toast.dismissAll()"> {{ t('common.closeAll') }} </Button>
       </div>
     </DocShowcase>
 
     <DocShowcase
-      title="Hover pausa el timer"
-      description="Al pasar el mouse sobre un toast, el temporizador de auto-cierre se pausa. Al quitar el mouse, se reanuda."
+      :title="showcaseTitle('hoverPause')"
+      :description="showcaseDesc('hoverPause')"
       :code="hoverCode"
     >
       <Button
         variant="outline"
         @click="
           toast.info({
-            title: 'Pasa el mouse encima',
-            description: 'El timer se pausa mientras mantengas el hover.',
+            title: t('demo.sonner.hoverTitle'),
+            description: t('demo.sonner.hoverDesc'),
             duration: 5000,
           })
         "
       >
-        Probar hover
+        {{ t('demo.sonner.testHover') }}
       </Button>
     </DocShowcase>
 

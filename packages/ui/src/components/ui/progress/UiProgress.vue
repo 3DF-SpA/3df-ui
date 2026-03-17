@@ -41,7 +41,7 @@ const rootClasses = computed(() =>
 
 const indicatorClasses = computed(() =>
   cn(
-    'h-full w-full flex-1 rounded-full bg-primary transition-transform duration-400 ease-in-out',
+    'h-full w-full flex-1 rounded-full bg-primary transition-transform duration-slow ease-in-out',
     isIndeterminate.value && 'animate-progress-indeterminate origin-left',
     attrs.indicatorClass,
   ),
@@ -83,6 +83,6 @@ const indicatorStyle = computed(() => {
 }
 
 .animate-progress-indeterminate {
-  animation: progress-indeterminate 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation: progress-indeterminate 1.5s var(--ease-snappy, cubic-bezier(0.25, 0, 0, 1)) infinite;
 }
 </style>

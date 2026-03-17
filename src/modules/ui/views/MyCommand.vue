@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   CommandDialog,
@@ -10,80 +11,84 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import CommandDemoInline from './_components/CommandDemoInline.vue';
 
 const dialogOpen = ref(false);
 
-const commandProps: PropItem[] = [
+const { t } = useI18n();
+const { description, propDesc, showcaseTitle } = useDocPage('command');
+
+const commandProps = computed<PropItem[]>(() => [
   {
     name: 'Command: filter',
     type: '(value: string, search: string) => boolean',
     default: '-',
-    description: 'Función de filtro personalizada para los ítems.',
+    description: propDesc('filter'),
   },
   {
     name: 'Command: label',
     type: 'string',
     default: '-',
-    description: 'Etiqueta accesible del command.',
+    description: propDesc('label'),
   },
   {
     name: 'CommandInput: placeholder',
     type: 'string',
     default: '-',
-    description: 'Texto placeholder del input de búsqueda.',
+    description: propDesc('inputPlaceholder'),
   },
   {
     name: 'CommandInput: modelValue',
     type: 'string',
     default: '-',
-    description: 'Valor del input (v-model).',
+    description: propDesc('inputModelValue'),
   },
   {
     name: 'CommandGroup: heading',
     type: 'string',
     default: '-',
-    description: 'Título del grupo de ítems.',
+    description: propDesc('heading'),
   },
   {
     name: 'CommandItem: value',
     type: 'string',
     default: '-',
-    description: 'Valor usado para filtrar el ítem.',
+    description: propDesc('value'),
   },
   {
     name: 'CommandItem: keywords',
     type: 'string[]',
     default: '[]',
-    description: 'Palabras clave adicionales para el filtro.',
+    description: propDesc('keywords'),
   },
   {
     name: 'CommandItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Desactiva el ítem.',
+    description: propDesc('cmdItemDisabled'),
   },
   {
     name: 'CommandDialog: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado del dialog (v-model:open).',
+    description: propDesc('dialogOpen'),
   },
   {
     name: 'CommandDialog: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del dialog.',
+    description: propDesc('dialogDefaultOpen'),
   },
-];
+]);
 
 const anatomyCode = `<Command>
   <CommandInput />
@@ -100,19 +105,19 @@ const anatomyCode = `<Command>
 
 const dialogCode = `const open = ref(false)
 
-<button @click="open = true">Buscar comando...</button>
+<button @click="open = true">Search command...</button>
 
 <CommandDialog v-model:open="open">
-  <CommandInput placeholder="Escribe un comando o busca..." />
+  <CommandInput placeholder="Type a command or search..." />
   <CommandList>
-    <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-    <CommandGroup heading="Sugerencias">
-      <CommandItem value="Calendario">Calendario</CommandItem>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem value="Calendar">Calendar</CommandItem>
     </CommandGroup>
     <CommandSeparator />
-    <CommandGroup heading="Configuración">
-      <CommandItem value="Perfil">
-        Perfil
+    <CommandGroup heading="Settings">
+      <CommandItem value="Profile">
+        Profile
         <CommandShortcut>⌘P</CommandShortcut>
       </CommandItem>
     </CommandGroup>
@@ -124,21 +129,22 @@ const dialogCode = `const open = ref(false)
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Command"
-      description="Paleta de comandos con búsqueda y filtrado para acceso rápido a acciones y navegación."
-      import-code="import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandSeparator, CommandShortcut } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
     <CommandDemoInline />
 
-    <DocShowcase title="Command Dialog (⌘K / Ctrl+K)" :code="dialogCode">
+    <DocShowcase :title="showcaseTitle('commandDialog')" :code="dialogCode">
       <p class="text-muted-foreground text-sm">
-        Presiona <kbd class="bg-muted rounded px-1.5 py-0.5 font-mono text-xs">⌘K</kbd> o haz clic
-        en el botón para abrir el Command Dialog.
+        {{ t('demo.command.openHintBefore') }}
+        <kbd class="bg-muted rounded px-1.5 py-0.5 font-mono text-xs">⌘K</kbd>
+        {{ t('demo.command.openHintAfter') }}
       </p>
       <button
         class="bg-muted text-muted-foreground inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm"
@@ -159,31 +165,31 @@ const dialogCode = `const open = ref(false)
           <circle cx="11" cy="11" r="8" />
           <path d="m21 21-4.3-4.3" />
         </svg>
-        Buscar comando...
+        {{ t('demo.command.searchButton') }}
         <kbd class="bg-background rounded border px-1.5 py-0.5 font-mono text-xs">⌘K</kbd>
       </button>
 
       <CommandDialog v-model:open="dialogOpen">
-        <CommandInput placeholder="Escribe un comando o busca..." />
+        <CommandInput :placeholder="t('demo.command.searchPlaceholder')" />
         <CommandList>
-          <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-          <CommandGroup heading="Sugerencias">
-            <CommandItem value="Calendario">Calendario</CommandItem>
-            <CommandItem value="Buscar emoji">Buscar emoji</CommandItem>
-            <CommandItem value="Calculadora">Calculadora</CommandItem>
+          <CommandEmpty>{{ t('demo.command.noResults') }}</CommandEmpty>
+          <CommandGroup :heading="t('demo.command.suggestions')">
+            <CommandItem :value="t('demo.command.calendar')">{{ t('demo.command.calendar') }}</CommandItem>
+            <CommandItem :value="t('demo.searchEmoji')">{{ t('demo.searchEmoji') }}</CommandItem>
+            <CommandItem :value="t('demo.command.calculator')">{{ t('demo.command.calculator') }}</CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Configuración">
-            <CommandItem value="Perfil">
-              Perfil
+          <CommandGroup :heading="t('demo.command.configGroup')">
+            <CommandItem :value="t('demo.profile')">
+              {{ t('demo.profile') }}
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Facturación">
-              Facturación
+            <CommandItem :value="t('demo.command.billing')">
+              {{ t('demo.command.billing') }}
               <CommandShortcut>⌘B</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Ajustes">
-              Ajustes
+            <CommandItem :value="t('demo.command.ajustes')">
+              {{ t('demo.command.ajustes') }}
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
           </CommandGroup>
@@ -194,3 +200,4 @@ const dialogCode = `const open = ref(false)
     <DocPropsTable :props="commandProps" />
   </div>
 </template>
+

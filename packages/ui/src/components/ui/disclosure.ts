@@ -20,3 +20,11 @@ export { default as CarouselPrevious } from './carousel/UiCarouselPrevious.vue';
 export { default as CarouselNext } from './carousel/UiCarouselNext.vue';
 export { CAROUSEL_KEY } from './carousel/carousel-types';
 export type { CarouselContext, CarouselOrientation } from './carousel/carousel-types';
+/** Pestañas de navegación con contenido intercambiable. Variantes: underline, pill, card. */
+export { default as Tabs } from './tabs/UiTabs.vue';
+export { default as TabsList } from './tabs/UiTabsList.vue';
+export { default as TabsTrigger } from './tabs/UiTabsTrigger.vue';
+export { default as TabsContent } from './tabs/UiTabsContent.vue';
+export { TABS_KEY } from './tabs/tabs-types';
+export type { TabsContext } from './tabs/tabs-types';
+export { tabsTriggerVariants, type TabsTriggerVariant } from './tabs/tabs-variants';

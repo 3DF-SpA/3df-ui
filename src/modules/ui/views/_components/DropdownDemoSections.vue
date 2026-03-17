@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Button,
   DropdownMenu,
@@ -7,39 +8,41 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
+
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.dropdown.action', { action }));
 }
 
 const codeSections = `<DropdownMenu>
   <DropdownMenuTrigger>
-    <Button variant="outline">Mi cuenta</Button>
+    <Button variant="outline">My account</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent class="w-56">
-    <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+    <DropdownMenuLabel>My account</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem>Perfil</DropdownMenuItem>
-    <DropdownMenuItem>Facturación</DropdownMenuItem>
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuLabel>Soporte</DropdownMenuLabel>
+    <DropdownMenuLabel>Support</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :disabled="true">Chat en vivo</DropdownMenuItem>
+    <DropdownMenuItem :disabled="true">Live chat</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :destructive="true">Eliminar cuenta</DropdownMenuItem>
+    <DropdownMenuItem :destructive="true">Delete account</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>`;
 </script>
 
 <template>
-  <DocShowcase title="Con secciones (labels)" :code="codeSections">
+  <DocShowcase :title="t('demo.dropdown.sectionsTitle')" :code="codeSections">
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Button variant="outline">
-          Mi cuenta
+          {{ t('demo.dropdown.myAccount') }}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -57,21 +60,21 @@ const codeSections = `<DropdownMenu>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent class="w-56">
-        <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+        <DropdownMenuLabel>{{ t('demo.dropdown.myAccount') }}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem @select="onAction('perfil')">Perfil</DropdownMenuItem>
-        <DropdownMenuItem @select="onAction('facturación')">Facturación</DropdownMenuItem>
-        <DropdownMenuItem @select="onAction('equipo')">Equipo</DropdownMenuItem>
-        <DropdownMenuItem @select="onAction('suscripción')">Suscripción</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('perfil')">{{ t('demo.profile') }}</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('facturación')">{{ t('demo.dropdown.billing') }}</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('equipo')">{{ t('demo.dropdown.team') }}</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('suscripción')">{{ t('demo.dropdown.subscription') }}</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>Soporte</DropdownMenuLabel>
+        <DropdownMenuLabel>{{ t('demo.dropdown.support') }}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem @select="onAction('docs')">Documentación</DropdownMenuItem>
+        <DropdownMenuItem @select="onAction('docs')">{{ t('demo.dropdown.documentation') }}</DropdownMenuItem>
         <DropdownMenuItem @select="onAction('api')">API Reference</DropdownMenuItem>
-        <DropdownMenuItem :disabled="true">Chat en vivo</DropdownMenuItem>
+        <DropdownMenuItem :disabled="true">{{ t('demo.dropdown.liveChat') }}</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem :destructive="true" @select="onAction('eliminar cuenta')">
-          Eliminar cuenta
+          {{ t('demo.deleteAccount') }}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

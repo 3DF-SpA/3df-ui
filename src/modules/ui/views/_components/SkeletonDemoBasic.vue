@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { Card, CardContent, CardFooter, CardHeader, Skeleton } from '@3df-spa/ui';
+import { useI18n } from 'vue-i18n';
+import { Card, CardContent, CardFooter, CardHeader, Skeleton } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const formasCode = `<Skeleton class="h-4 w-[250px]" />
 <Skeleton class="h-4 w-[200px]" />
@@ -43,8 +46,8 @@ const tablaCode = `<div class="flex gap-4 border-b pb-3">
 
 <template>
   <DocShowcase
-    title="Formas básicas"
-    description="Líneas de texto, bloques y círculos para representar diferentes tipos de contenido."
+    :title="t('views.skeleton.showcases.basicShapes.title')"
+    :description="t('views.skeleton.showcases.basicShapes.description')"
     :code="formasCode"
   >
     <div class="flex flex-col gap-4">
@@ -56,8 +59,8 @@ const tablaCode = `<div class="flex gap-4 border-b pb-3">
   </DocShowcase>
 
   <DocShowcase
-    title="Card skeleton"
-    description="Esqueleto de tarjeta con avatar, líneas de texto y botones de acción."
+    :title="t('views.skeleton.showcases.card.title')"
+    :description="t('views.skeleton.showcases.card.description')"
     :code="cardCode"
   >
     <Card class="w-full max-w-sm">
@@ -83,8 +86,8 @@ const tablaCode = `<div class="flex gap-4 border-b pb-3">
   </DocShowcase>
 
   <DocShowcase
-    title="Tabla skeleton"
-    description="Filas de tabla con celdas skeleton para representar datos tabulares en carga."
+    :title="t('views.skeleton.showcases.table.title')"
+    :description="t('views.skeleton.showcases.table.description')"
     :code="tablaCode"
   >
     <div class="w-full max-w-2xl">

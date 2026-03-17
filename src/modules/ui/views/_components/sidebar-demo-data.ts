@@ -21,37 +21,44 @@ export const icons = {
 export type IconName = keyof typeof icons;
 
 export interface NavItem {
+  key: string;
   label: string;
   icon: IconName;
   badge?: number;
-  children?: { label: string }[];
+  children?: { key: string; label: string }[];
 }
 
 export const mainNav: NavItem[] = [
-  { label: 'Dashboard', icon: 'home' },
+  { key: 'dashboard', label: 'Dashboard', icon: 'home' },
   {
-    label: 'Proyectos',
+    key: 'projects',
+    label: 'Projects',
     icon: 'folder',
     badge: 12,
-    children: [{ label: 'Todos los proyectos' }, { label: 'Recientes' }, { label: 'Archivados' }],
+    children: [
+      { key: 'allProjects', label: 'All projects' },
+      { key: 'recent', label: 'Recent' },
+      { key: 'archived', label: 'Archived' },
+    ],
   },
-  { label: 'Equipo', icon: 'users', badge: 3 },
-  { label: 'Bandeja', icon: 'inbox', badge: 28 },
-  { label: 'Calendario', icon: 'calendar' },
+  { key: 'team', label: 'Team', icon: 'users', badge: 3 },
+  { key: 'inbox', label: 'Inbox', icon: 'inbox', badge: 28 },
+  { key: 'calendar', label: 'Calendar', icon: 'calendar' },
   {
-    label: 'Configuración',
+    key: 'settings',
+    label: 'Settings',
     icon: 'settings',
     children: [
-      { label: 'General' },
-      { label: 'Seguridad' },
-      { label: 'Notificaciones' },
-      { label: 'Integraciones' },
+      { key: 'general', label: 'General' },
+      { key: 'security', label: 'Security' },
+      { key: 'notifications', label: 'Notifications' },
+      { key: 'integrations', label: 'Integrations' },
     ],
   },
 ];
 
-export const secondaryNav: { label: string; icon: IconName }[] = [
-  { label: 'Documentación', icon: 'book' },
-  { label: 'Soporte', icon: 'help' },
-  { label: 'Novedades', icon: 'sparkles' },
+export const secondaryNav: { key: string; label: string; icon: IconName }[] = [
+  { key: 'documentation', label: 'Documentation', icon: 'book' },
+  { key: 'support', label: 'Support', icon: 'help' },
+  { key: 'whatsNew', label: "What's new", icon: 'sparkles' },
 ];

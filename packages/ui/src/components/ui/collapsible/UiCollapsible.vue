@@ -1,3 +1,6 @@
+<script lang="ts">
+let _collapsibleCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, provide, ref, useAttrs, watch } from 'vue';
 
@@ -32,7 +35,7 @@ const restAttrs = computed(() => {
 
 const isOpen = ref(props.defaultOpen);
 const disabled = computed(() => props.disabled);
-const contentId = `collapsible-content-${Math.random().toString(36).slice(2, 9)}`;
+const contentId = `collapsible-content-${++_collapsibleCounter}`;
 
 watch(
   () => props.open,

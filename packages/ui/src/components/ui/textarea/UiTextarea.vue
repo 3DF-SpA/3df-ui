@@ -35,8 +35,8 @@ const baseClasses = [
   'transition-[color,box-shadow,transform] duration-200 ease-out',
   'placeholder:text-muted-foreground',
   'disabled:pointer-events-none disabled:opacity-50',
-  'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring',
-  'aria-[invalid=true]:ring-1 aria-[invalid=true]:ring-destructive aria-[invalid=true]:focus-visible:ring-destructive/30',
+  'focus-visible:outline-2 focus-visible:outline-ring',
+  'aria-[invalid=true]:border-destructive',
   'resize-y',
 ].join(' ');
 

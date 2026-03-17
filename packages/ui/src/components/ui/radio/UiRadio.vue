@@ -34,7 +34,7 @@ const classes = computed(() =>
       'rounded-full border-ui border-input bg-background',
       'transition-[color,background-color,border-color,box-shadow] duration-200',
       'disabled:pointer-events-none disabled:opacity-50',
-      'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring focus-visible:border-ring',
+      'focus-visible:outline-2 focus-visible:outline-ring focus-visible:border-ring',
       'checked:border-primary checked:border-[5px]',
     ].join(' '),
     attrs.class,

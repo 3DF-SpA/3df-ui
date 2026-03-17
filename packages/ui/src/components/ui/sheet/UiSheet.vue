@@ -1,3 +1,6 @@
+<script lang="ts">
+let _sheetCounter = 0;
+</script>
 <script setup lang="ts">
 import { onBeforeUnmount, provide, ref, watch } from 'vue';
 
@@ -20,7 +23,7 @@ const emit = defineEmits<{
   'update:open': [value: boolean];
 }>();
 
-const uid = Math.random().toString(36).slice(2, 9);
+const uid = String(++_sheetCounter);
 const triggerId = `sheet-trigger-${uid}`;
 const titleId = `sheet-title-${uid}`;
 const descriptionId = `sheet-desc-${uid}`;

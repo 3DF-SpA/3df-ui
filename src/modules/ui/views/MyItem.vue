@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { Item, ItemDescription, ItemLabel } from '@3df-spa/ui';
+import { computed } from 'vue';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+import { Item, ItemDescription, ItemLabel } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -10,32 +14,34 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import ItemDemoNavSettings from './_components/ItemDemoNavSettings.vue';
 import ItemDemoVariantsSizes from './_components/ItemDemoVariantsSizes.vue';
 
-const itemProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('item');
+
+const itemProps = computed<PropItem[]>(() => [
   {
     name: 'as',
     type: "'string' | Component",
     default: "'div'",
-    description: 'Elemento HTML a renderizar. Con "button" o "a" se agrega cursor-pointer.',
+    description: propDesc('as'),
   },
   {
     name: 'variant',
     type: "'default' | 'ghost' | 'muted' | 'destructive'",
     default: "'default'",
-    description: 'Estilo visual del item.',
+    description: propDesc('variant'),
   },
   {
     name: 'size',
     type: "'sm' | 'default' | 'lg'",
     default: "'default'",
-    description: 'Tamaño del item (gap, padding, font-size).',
+    description: propDesc('size'),
   },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el item visualmente y previene interacción.',
+    description: propDesc('disabled'),
   },
-];
+]);
 
 const basicCode = `<Item as="button">
   <template #start>
@@ -52,15 +58,15 @@ const anatomyCode = `import {
   Item,
   ItemLabel,
   ItemDescription,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Item"
-      description="Elemento de lista genérico para navegación, settings y menús. Soporta slots de inicio/fin, variantes, tamaños y estado disabled."
-      import-code="import { Item, ItemLabel, ItemDescription } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Item, ItemLabel, ItemDescription } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
@@ -68,7 +74,7 @@ const anatomyCode = `import {
       <DocCodeBlock :code="anatomyCode" lang="typescript" />
     </section>
 
-    <DocShowcase title="Uso básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <div class="w-full max-w-md">
         <Item as="button">
           <ItemLabel>General</ItemLabel>

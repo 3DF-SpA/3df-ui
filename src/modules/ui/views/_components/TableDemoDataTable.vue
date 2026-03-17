@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Badge,
@@ -16,9 +17,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import { formatCurrency, invoices, statusBadge } from './table-demo-data';
+
+const { t } = useI18n();
+
+const methodLabel = (m: string) => (m === 'PayPal' ? m : t('demo.table.' + m));
 
 type SortKey = 'id' | 'status' | 'method' | 'email' | 'amount';
 type SortDir = 'asc' | 'desc';
@@ -118,30 +123,30 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      Data Table — Sorting, filtro, paginación y selección
+      {{ t('demo.table.dataTableTitle') }}
     </h2>
 
     <div class="flex flex-wrap items-center gap-3">
       <Input
         v-model="filterText"
-        placeholder="Buscar por ID, email o método..."
+        :placeholder="t('common.search')"
         class="max-w-xs"
         @input="onFilterChange"
       />
       <Select
         v-model="filterStatus"
-        placeholder="Todos los estados"
+        :placeholder="t('demo.table.allStatuses')"
         class="w-[180px]"
         @update:model-value="onFilterChange"
       >
-        <SelectItem value="">Todos</SelectItem>
-        <SelectItem value="paid">Pagado</SelectItem>
-        <SelectItem value="pending">Pendiente</SelectItem>
-        <SelectItem value="unpaid">No pagado</SelectItem>
-        <SelectItem value="overdue">Vencido</SelectItem>
+        <SelectItem value="">{{ t('demo.table.all') }}</SelectItem>
+        <SelectItem value="paid">{{ t('demo.table.paid') }}</SelectItem>
+        <SelectItem value="pending">{{ t('demo.pending') }}</SelectItem>
+        <SelectItem value="unpaid">{{ t('demo.table.unpaid') }}</SelectItem>
+        <SelectItem value="overdue">{{ t('demo.table.overdue') }}</SelectItem>
       </Select>
       <span v-if="selectedIds.size" class="text-muted-foreground ml-auto text-sm">
-        {{ selectedIds.size }} seleccionado{{ selectedIds.size > 1 ? 's' : '' }}
+        {{ t('demo.table.selected', { n: selectedIds.size }, selectedIds.size) }}
       </span>
     </div>
 
@@ -152,19 +157,19 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
             <Checkbox :model-value="allSelected" @update:model-value="toggleAll" />
           </TableHead>
           <TableHead class="cursor-pointer select-none" @click="toggleSort('id')">
-            Factura {{ sortIcon('id') }}
+            {{ t('demo.table.invoice') }} {{ sortIcon('id') }}
           </TableHead>
           <TableHead class="cursor-pointer select-none" @click="toggleSort('status')">
-            Estado {{ sortIcon('status') }}
+            {{ t('demo.table.statusCol') }} {{ sortIcon('status') }}
           </TableHead>
           <TableHead class="cursor-pointer select-none" @click="toggleSort('email')">
             Email {{ sortIcon('email') }}
           </TableHead>
           <TableHead class="cursor-pointer select-none" @click="toggleSort('method')">
-            Método {{ sortIcon('method') }}
+            {{ t('demo.table.method') }} {{ sortIcon('method') }}
           </TableHead>
           <TableHead class="cursor-pointer text-right select-none" @click="toggleSort('amount')">
-            Monto {{ sortIcon('amount') }}
+            {{ t('demo.table.amount') }} {{ sortIcon('amount') }}
           </TableHead>
         </TableRow>
       </TableHeader>
@@ -184,19 +189,19 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
             <TableCell class="font-medium">{{ inv.id }}</TableCell>
             <TableCell>
               <Badge :variant="statusBadge[inv.status].variant as any" size="sm">
-                {{ statusBadge[inv.status].label }}
+                {{ t('demo.table.' + statusBadge[inv.status].label) }}
               </Badge>
             </TableCell>
             <TableCell>{{ inv.email }}</TableCell>
-            <TableCell>{{ inv.method }}</TableCell>
+            <TableCell>{{ methodLabel(inv.method) }}</TableCell>
             <TableCell class="text-right">{{ formatCurrency(inv.amount) }}</TableCell>
           </TableRow>
         </template>
-        <TableEmpty v-else :colspan="6">No se encontraron facturas.</TableEmpty>
+        <TableEmpty v-else :colspan="6">{{ t('demo.table.noInvoices') }}</TableEmpty>
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell :colspan="5">Total (filtrado)</TableCell>
+          <TableCell :colspan="5">{{ t('demo.totalFiltered') }}</TableCell>
           <TableCell class="text-right font-bold">{{ formatCurrency(total) }}</TableCell>
         </TableRow>
       </TableFooter>
@@ -204,16 +209,15 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
 
     <div class="flex items-center justify-between">
       <p class="text-muted-foreground text-sm">
-        Mostrando {{ (page - 1) * pageSize + 1 }}–{{ Math.min(page * pageSize, sorted.length) }} de
-        {{ sorted.length }} resultado{{ sorted.length !== 1 ? 's' : '' }}
+        {{ t('demo.table.showing', { from: (page - 1) * pageSize + 1, to: Math.min(page * pageSize, sorted.length), total: sorted.length }, sorted.length) }}
       </p>
       <div class="flex items-center gap-2">
         <Button variant="outline" size="sm" :disabled="page <= 1" @click="page--">
-          Anterior
+          {{ t('demo.table.previous') }}
         </Button>
         <span class="text-sm">{{ page }} / {{ totalPages }}</span>
         <Button variant="outline" size="sm" :disabled="page >= totalPages" @click="page++">
-          Siguiente
+          {{ t('demo.table.next') }}
         </Button>
       </div>
     </div>

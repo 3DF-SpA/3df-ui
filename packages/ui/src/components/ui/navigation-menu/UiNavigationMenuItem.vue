@@ -1,3 +1,6 @@
+<script lang="ts">
+let _navMenuItemCounter = 0;
+</script>
 <script setup lang="ts">
 import { computed, provide, useAttrs } from 'vue';
 
@@ -16,7 +19,7 @@ const props = withDefaults(defineProps<UiNavigationMenuItemProps>(), {
   value: undefined,
 });
 
-const generatedId = `nav-item-${Math.random().toString(36).slice(2, 9)}`;
+const generatedId = `nav-item-${++_navMenuItemCounter}`;
 const itemValue = props.value ?? generatedId;
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };

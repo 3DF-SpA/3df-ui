@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,14 +8,16 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from '@3df-spa/ui';
+} from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">6. Navbar con logo</h2>
+    <h2 class="text-xl font-semibold">{{ t('demo.navigationMenu.navbar.title') }}</h2>
     <p class="text-muted-foreground text-sm">
-      Ejemplo usando el menú como parte de una barra de navegación con logo.
+      {{ t('demo.navigationMenu.navbar.description') }}
     </p>
 
     <div class="border-border bg-background flex items-center gap-6 rounded-lg border px-6 py-3">
@@ -30,41 +33,47 @@ import {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem value="product-nav">
-            <NavigationMenuTrigger>Producto</NavigationMenuTrigger>
+            <NavigationMenuTrigger>{{ t('demo.navigationMenu.navbar.productTrigger') }}</NavigationMenuTrigger>
             <NavigationMenuContent class="w-[400px]">
               <NavigationMenuLink href="#">
-                <div class="text-sm leading-none font-medium">Características</div>
+                <div class="text-sm leading-none font-medium">
+                  {{ t('demo.navigationMenu.navbar.features') }}
+                </div>
                 <p class="text-muted-foreground mt-1 text-sm">
-                  Todo lo que necesitas para tu proyecto.
+                  {{ t('demo.navigationMenu.navbar.featuresDesc') }}
                 </p>
               </NavigationMenuLink>
               <NavigationMenuLink href="#">
-                <div class="text-sm leading-none font-medium">Integraciones</div>
+                <div class="text-sm leading-none font-medium">
+                  {{ t('demo.navigationMenu.navbar.integrations') }}
+                </div>
                 <p class="text-muted-foreground mt-1 text-sm">
-                  Conecta con tus herramientas favoritas.
+                  {{ t('demo.navigationMenu.navbar.integrationsDesc') }}
                 </p>
               </NavigationMenuLink>
               <NavigationMenuLink href="#">
-                <div class="text-sm leading-none font-medium">Precios</div>
+                <div class="text-sm leading-none font-medium">{{ t('demo.prices') }}</div>
                 <p class="text-muted-foreground mt-1 text-sm">
-                  Planes para equipos de todos los tamaños.
+                  {{ t('demo.navigationMenu.navbar.pricesDesc') }}
                 </p>
               </NavigationMenuLink>
             </NavigationMenuContent>
           </NavigationMenuItem>
 
           <NavigationMenuItem value="solutions-nav">
-            <NavigationMenuTrigger>Soluciones</NavigationMenuTrigger>
+            <NavigationMenuTrigger>{{ t('demo.navigationMenu.navbar.solutionsTrigger') }}</NavigationMenuTrigger>
             <NavigationMenuContent class="w-[400px]">
               <NavigationMenuLink href="#">
                 <div class="text-sm leading-none font-medium">Startups</div>
                 <p class="text-muted-foreground mt-1 text-sm">
-                  Herramientas para crecer rápidamente.
+                  {{ t('demo.navigationMenu.navbar.startupsDesc') }}
                 </p>
               </NavigationMenuLink>
               <NavigationMenuLink href="#">
                 <div class="text-sm leading-none font-medium">Enterprise</div>
-                <p class="text-muted-foreground mt-1 text-sm">Soluciones empresariales a escala.</p>
+                <p class="text-muted-foreground mt-1 text-sm">
+                  {{ t('demo.navigationMenu.navbar.enterpriseDesc') }}
+                </p>
               </NavigationMenuLink>
             </NavigationMenuContent>
           </NavigationMenuItem>
@@ -83,7 +92,7 @@ import {
               href="#"
               class="hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center rounded-md px-4 py-2 text-sm font-medium transition-colors"
             >
-              Contacto
+              {{ t('demo.navigationMenu.navbar.contact') }}
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>

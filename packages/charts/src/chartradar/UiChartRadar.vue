@@ -1,3 +1,7 @@
+<script lang="ts">
+let _radarCounter = 0;
+</script>
+
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref, useAttrs, watch } from 'vue';
 
@@ -71,8 +75,7 @@ const attrs = useAttrs();
 
 const rootRef = ref<HTMLDivElement>();
 
-let _radarUid = 0;
-const chartUid = `radar-${++_radarUid}-${Math.random().toString(36).slice(2, 6)}`;
+const chartUid = `radar-${++_radarCounter}`;
 const filtGlow = computed(() => `${chartUid}-glow`);
 
 const resolvedColors = ref<Record<string, string>>({});
@@ -307,7 +310,7 @@ function onDotLeave() {
         <!-- eslint-disable-next-line vue/no-unused-vars -->
         <g v-if="categories.length >= 3" :transform="`translate(0,0)`">
           <template
-            v-for="c in [
+            v-for="(c, i) in [
               {
                 grid: computeGrid(w / 2, h / 2, Math.min(w, h) / 2 - 50),
                 series: computeSeries(w / 2, h / 2, Math.min(w, h) / 2 - 50),
@@ -317,7 +320,7 @@ function onDotLeave() {
                 r: Math.min(w, h) / 2 - 50,
               },
             ]"
-            :key="0"
+            :key="i"
           >
             <defs>
               <!-- Gradient fill per series -->

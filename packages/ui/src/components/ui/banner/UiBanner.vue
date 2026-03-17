@@ -72,7 +72,7 @@ function dismiss() {
     <button
       v-if="dismissible"
       type="button"
-      class="ml-2 inline-flex shrink-0 items-center justify-center rounded-sm p-1 opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-current/30 focus:outline-none"
+      class="ml-2 inline-flex shrink-0 items-center justify-center rounded-sm p-1 opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-ring"
       aria-label="Cerrar"
       @click="dismiss"
     >

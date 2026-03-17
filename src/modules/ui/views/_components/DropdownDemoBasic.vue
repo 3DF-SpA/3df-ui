@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   Button,
   DropdownMenu,
@@ -7,38 +9,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
+
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.dropdown.action', { action }));
 }
 
 const codeBasic = `<DropdownMenu>
   <DropdownMenuTrigger>
-    <Button variant="outline">Abrir menú</Button>
+    <Button variant="outline">Open menu</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuItem>
-      Perfil
+      Profile
       <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
     </DropdownMenuItem>
-    <DropdownMenuItem>Configuración</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :disabled="true">Ayuda (próximamente)</DropdownMenuItem>
+    <DropdownMenuItem :disabled="true">Help (coming soon)</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :destructive="true">Cerrar sesión</DropdownMenuItem>
+    <DropdownMenuItem :destructive="true">Log out</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>`;
 </script>
 
 <template>
-  <DocShowcase title="Dropdown básico" :code="codeBasic">
+  <DocShowcase :title="t('demo.dropdown.basicTitle')" :code="codeBasic">
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Button variant="outline">
-          Abrir menú
+          {{ t('demo.dropdown.openMenu') }}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -71,7 +75,7 @@ const codeBasic = `<DropdownMenu>
             <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
-          Perfil
+          {{ t('demo.profile') }}
           <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuItem @select="onAction('configuración')">
@@ -91,7 +95,7 @@ const codeBasic = `<DropdownMenu>
             />
             <circle cx="12" cy="12" r="3" />
           </svg>
-          Configuración
+          {{ t('common.settings') }}
           <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -111,7 +115,7 @@ const codeBasic = `<DropdownMenu>
             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
             <path d="M12 17h.01" />
           </svg>
-          Ayuda (próximamente)
+          {{ t('demo.dropdown.helpComingSoon') }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem :destructive="true" @select="onAction('cerrar sesión')">
@@ -130,7 +134,7 @@ const codeBasic = `<DropdownMenu>
             <polyline points="16 17 21 12 16 7" />
             <line x1="21" x2="9" y1="12" y2="12" />
           </svg>
-          Cerrar sesión
+          {{ t('common.logout') }}
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

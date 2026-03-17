@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { Alert, AlertDescription, AlertTitle } from '@3df-spa/ui';
+import { useI18n } from 'vue-i18n';
+import { Alert, AlertDescription, AlertTitle } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 </script>
 
 <template>
-  <DocShowcase title="Contenido rico" code="">
+  <DocShowcase :title="t('demo.alert.richContentTitle')" code="">
     <Alert variant="destructive">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -21,13 +24,13 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
         <line x1="12" x2="12" y1="8" y2="12" />
         <line x1="12" x2="12.01" y1="16" y2="16" />
       </svg>
-      <AlertTitle>Errores de validación</AlertTitle>
+      <AlertTitle>{{ t('demo.alert.validationErrors') }}</AlertTitle>
       <AlertDescription>
-        <p>Se encontraron los siguientes errores:</p>
+        <p>{{ t('demo.alert.errorsFound') }}</p>
         <ul class="mt-2 list-inside list-disc space-y-1">
-          <li>El campo email es requerido</li>
-          <li>La contraseña debe tener al menos 8 caracteres</li>
-          <li>El nombre de usuario ya está en uso</li>
+          <li>{{ t('demo.alert.errorEmail') }}</li>
+          <li>{{ t('demo.alert.errorPassword') }}</li>
+          <li>{{ t('demo.alert.errorUsername') }}</li>
         </ul>
       </AlertDescription>
     </Alert>

@@ -30,7 +30,7 @@ const classes = computed(() =>
   cn(
     'inline-flex h-8 w-8 items-center justify-center rounded-md text-xs font-medium',
     'transition-colors duration-200',
-    'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
+    'focus-visible:outline-2 focus-visible:outline-ring',
     'cursor-pointer select-none',
     props.isActive
       ? 'bg-accent text-accent-foreground'

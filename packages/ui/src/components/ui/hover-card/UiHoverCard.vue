@@ -1,3 +1,6 @@
+<script lang="ts">
+let _hoverCardCounter = 0;
+</script>
 <script setup lang="ts">
 import { onBeforeUnmount, provide, ref } from 'vue';
 
@@ -19,7 +22,7 @@ const props = withDefaults(
 const isOpen = ref(false);
 const triggerRef = ref<HTMLElement>();
 const contentRef = ref<HTMLElement>();
-const cardId = `hover-card-${Math.random().toString(36).slice(2, 9)}`;
+const cardId = `hover-card-${++_hoverCardCounter}`;
 
 let openTimer: ReturnType<typeof setTimeout> | undefined;
 let closeTimer: ReturnType<typeof setTimeout> | undefined;

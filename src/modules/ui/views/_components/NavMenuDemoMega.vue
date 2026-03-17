@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,29 +10,31 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
-const frameworks = [
-  { title: 'Next.js', description: 'Framework React fullstack con SSR y App Router.' },
-  { title: 'SvelteKit', description: 'Framework Svelte con routing, SSR y adaptadores.' },
-  { title: 'Nuxt', description: 'Framework Vue intuitivo con auto-imports y SSR.' },
-  { title: 'Remix', description: 'Framework web centrado en estándares y user experience.' },
-  { title: 'Astro', description: 'Framework para sitios centrados en contenido.' },
-];
+const { t } = useI18n();
 
-const services = [
-  { title: 'API Gateway', description: 'Gestión centralizada de APIs y rate limiting.' },
-  { title: 'Authentication', description: 'Login social, MFA y gestión de sesiones.' },
-  { title: 'Database', description: 'PostgreSQL, Redis y almacenamiento de objetos.' },
-  { title: 'Analytics', description: 'Métricas en tiempo real y paneles personalizados.' },
-];
+const frameworks = computed(() => [
+  { title: 'Next.js', description: t('demo.navigationMenu.frameworks.nextjs') },
+  { title: 'SvelteKit', description: t('demo.navigationMenu.frameworks.sveltekit') },
+  { title: 'Nuxt', description: t('demo.navigationMenu.frameworks.nuxt') },
+  { title: 'Remix', description: t('demo.navigationMenu.frameworks.remix') },
+  { title: 'Astro', description: t('demo.navigationMenu.frameworks.astro') },
+]);
+
+const services = computed(() => [
+  { title: 'API Gateway', description: t('demo.navigationMenu.services.apiGateway') },
+  { title: 'Authentication', description: t('demo.navigationMenu.services.authentication') },
+  { title: 'Database', description: t('demo.navigationMenu.services.database') },
+  { title: 'Analytics', description: t('demo.navigationMenu.services.analytics') },
+]);
 </script>
 
 <template>
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">8. Panel con columna triple</h2>
+    <h2 class="text-xl font-semibold">{{ t('demo.navigationMenu.mega.title') }}</h2>
     <p class="text-muted-foreground text-sm">
-      Panel ancho con grid de tres columnas para contenido extenso.
+      {{ t('demo.navigationMenu.mega.description') }}
     </p>
 
     <NavigationMenu>
@@ -52,7 +57,7 @@ const services = [
                 <p
                   class="text-muted-foreground mb-2 text-xs font-semibold tracking-wider uppercase"
                 >
-                  Servicios
+                  {{ t('demo.navigationMenu.mega.servicesLabel') }}
                 </p>
                 <NavigationMenuLink v-for="svc in services" :key="svc.title" href="#">
                   <div class="text-sm leading-none font-medium">{{ svc.title }}</div>
@@ -62,7 +67,7 @@ const services = [
                 <p
                   class="text-muted-foreground mb-2 text-xs font-semibold tracking-wider uppercase"
                 >
-                  Recursos
+                  {{ t('demo.navigationMenu.mega.resourcesLabel') }}
                 </p>
                 <NavigationMenuLink href="#">
                   <div class="text-sm leading-none font-medium">Blog</div>

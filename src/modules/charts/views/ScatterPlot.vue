@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { type ScatterConfig, UiChartScatter } from '@3df-spa/charts';
+import { computed } from 'vue';
+
+import { type ScatterConfig, UiChartScatter } from '@3df/charts';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('scatterPlot');
 
 const bodyData = [
   { height: 160, weight: 55, bmi: 21.5 },
@@ -131,99 +137,99 @@ const squareCode = `<UiChartScatter
   :show-legend="false"
 />`;
 
-const scatterProps: PropItem[] = [
+const scatterProps = computed<PropItem[]>(() => [
   {
     name: 'data',
     type: 'Record<string, unknown>[]',
     default: '-',
-    description: 'Array de objetos con los datos del gráfico.',
+    description: propDesc('data'),
   },
   {
     name: 'config',
     type: 'ScatterConfig',
     default: '-',
-    description: 'Configuración de series con xKey, yKey, sizeKey, shape y color.',
+    description: propDesc('config'),
   },
   {
     name: 'dotRadius',
     type: 'number',
     default: '5',
-    description: 'Radio base de los puntos en px.',
+    description: propDesc('dotRadius'),
   },
   {
     name: 'minDotRadius',
     type: 'number',
     default: '4',
-    description: 'Radio mínimo en modo bubble (con sizeKey).',
+    description: propDesc('minDotRadius'),
   },
   {
     name: 'maxDotRadius',
     type: 'number',
     default: '20',
-    description: 'Radio máximo en modo bubble (con sizeKey).',
+    description: propDesc('maxDotRadius'),
   },
   {
     name: 'xFormatter',
     type: '(v: number) => string',
     default: '-',
-    description: 'Formateador del eje X en el tooltip.',
+    description: propDesc('xFormatter'),
   },
   {
     name: 'yFormatter',
     type: '(v: number) => string',
     default: '-',
-    description: 'Formateador del eje Y en el tooltip.',
+    description: propDesc('yFormatter'),
   },
   {
     name: 'showLegend',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra la leyenda interactiva.',
+    description: propDesc('showLegend'),
   },
   {
     name: 'animate',
     type: 'boolean',
     default: 'true',
-    description: 'Habilita la animación de entrada.',
+    description: propDesc('animate'),
   },
   {
     name: 'ScatterSeriesConfig: xKey',
     type: 'string',
     default: '-',
-    description: 'Key numérica para el eje X.',
+    description: propDesc('xKey'),
   },
   {
     name: 'ScatterSeriesConfig: yKey',
     type: 'string',
     default: '-',
-    description: 'Key numérica para el eje Y.',
+    description: propDesc('yKey'),
   },
   {
     name: 'ScatterSeriesConfig: sizeKey',
     type: 'string',
     default: '-',
-    description: 'Key numérica para mapear el tamaño del punto (modo bubble).',
+    description: propDesc('sizeKey'),
   },
   {
     name: 'ScatterSeriesConfig: shape',
     type: "'circle' | 'square' | 'diamond'",
     default: "'circle'",
-    description: 'Forma del marcador.',
+    description: propDesc('shape'),
   },
-];
+]);
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Scatter Plot"
-      description="Correlación, clusters y burbujas — formas circle/square/diamond, mapeo de tamaño, leyenda interactiva. 100% SVG, sin dependencias."
-      import-code="import { UiChartScatter, type ScatterConfig } from '@3df-spa/charts'"
+      :description="description"
+      import-code="import { UiChartScatter, type ScatterConfig } from '@3df/charts'"
     />
 
     <DocShowcase
-      title="Scatter básico"
-      description="Gráfico de correlación simple. Hover en los puntos para ver valores de ambos ejes."
+      :title="showcaseTitle('basic')"
+      :description="showcaseDesc('basic')"
       :code="basicCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -237,8 +243,8 @@ const scatterProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Multi-serie — Formas diferentes"
-      description="Dos regiones con formas circle y diamond. Alternar series en la leyenda."
+      :title="showcaseTitle('multiSeries')"
+      :description="showcaseDesc('multiSeries')"
       :code="multiCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -252,8 +258,8 @@ const scatterProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Bubble chart"
-      description="Tamaño del punto mapeado a presupuesto. Tres variables en un solo gráfico."
+      :title="showcaseTitle('bubble')"
+      :description="showcaseDesc('bubble')"
       :code="bubbleCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">
@@ -269,8 +275,8 @@ const scatterProps: PropItem[] = [
     </DocShowcase>
 
     <DocShowcase
-      title="Forma square — Sin animación"
-      description="Marcadores cuadrados con mayor tamaño, sin animación de entrada."
+      :title="showcaseTitle('squareNoAnim')"
+      :description="showcaseDesc('squareNoAnim')"
       :code="squareCode"
     >
       <div class="border-border bg-card rounded-xl border p-6">

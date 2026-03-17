@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Menubar,
@@ -15,22 +16,24 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 const showStatusBar = ref(true);
 const showActivityBar = ref(true);
 const showPanel = ref(false);
 const selectedProfile = ref('name');
 
+const { t } = useI18n();
+
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.actionAlert', { action }));
 }
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      Menubar estilo IDE — configuración de paneles
+      {{ t('demo.ideMenubar') }}
     </h2>
 
     <Menubar class="w-fit">
@@ -121,15 +124,13 @@ function onAction(action: string) {
     </Menubar>
 
     <p class="text-muted-foreground mt-2 text-xs">
-      Estado: StatusBar={{ showStatusBar }}, ActivityBar={{ showActivityBar }}, Panel={{
-        showPanel
-      }}
+      {{ t('demo.menubarIdeStatus', { statusBar: showStatusBar, activityBar: showActivityBar, panel: showPanel }) }}
     </p>
   </section>
 
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      Menubar compacto — mínimo sin submenús
+      {{ t('demo.compactMenubar') }}
     </h2>
 
     <Menubar class="w-fit">

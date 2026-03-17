@@ -44,7 +44,7 @@ const classes = computed(() =>
     'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md px-2 outline-none ring-sidebar-ring transition-[width,height,padding,gap] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
     'text-sidebar-foreground/80',
     'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-    'focus-visible:ring-2',
+    'focus-visible:outline-2 focus-visible:outline-ring',
     'active:bg-sidebar-accent active:text-sidebar-accent-foreground',
     'disabled:pointer-events-none disabled:opacity-50',
     '[&>svg]:size-4 [&>svg]:shrink-0',

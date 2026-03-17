@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   ContextMenu,
@@ -15,7 +16,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -23,62 +24,68 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('contextMenu');
+
+const { t } = useI18n();
+
 const showBookmarks = ref(true);
 const showFullUrls = ref(false);
 const person = ref('pedro');
 
-const contextMenuProps: PropItem[] = [
+const contextMenuProps = computed<PropItem[]>(() => [
   {
     name: 'ContextMenuItem: disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita el item.',
+    description: propDesc('itemDisabled'),
   },
   {
     name: 'ContextMenuItem: destructive',
     type: 'boolean',
     default: 'false',
-    description: 'Estilo destructivo para acciones peligrosas.',
+    description: propDesc('destructive'),
   },
   {
     name: 'ContextMenuCheckboxItem: checked',
     type: 'boolean',
     default: 'false',
-    description: 'Estado del checkbox (v-model:checked).',
+    description: propDesc('checked'),
   },
   {
     name: 'ContextMenuRadioGroup: modelValue',
     type: 'string',
     default: '-',
-    description: 'Valor seleccionado del grupo (v-model).',
+    description: propDesc('modelValue'),
   },
   {
     name: 'ContextMenuRadioItem: value',
     type: 'string',
     default: '-',
-    description: 'Valor del radio item.',
+    description: propDesc('value'),
   },
   {
     name: 'ContextMenuLabel: inset',
     type: 'boolean',
     default: 'false',
-    description: 'Agrega padding izquierdo para alinear con items.',
+    description: propDesc('inset'),
   },
-];
+]);
 
 const basicCode = `<ContextMenu>
   <ContextMenuTrigger>
     <div class="flex h-[150px] items-center justify-center rounded-md border border-dashed">
-      Clic derecho aquí
+      Right click here
     </div>
   </ContextMenuTrigger>
   <ContextMenuContent class="w-64">
-    <ContextMenuItem>Atrás <ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+    <ContextMenuItem>Back <ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
     <ContextMenuSeparator />
     <ContextMenuCheckboxItem v-model:checked="checked">
-      Mostrar marcadores
+      Show bookmarks
     </ContextMenuCheckboxItem>
-    <ContextMenuLabel inset>Personas</ContextMenuLabel>
+    <ContextMenuLabel inset>People</ContextMenuLabel>
     <ContextMenuRadioGroup v-model="person">
       <ContextMenuRadioItem value="pedro">Pedro</ContextMenuRadioItem>
     </ContextMenuRadioGroup>
@@ -86,12 +93,12 @@ const basicCode = `<ContextMenu>
 </ContextMenu>`;
 
 const subMenuCode = `<ContextMenuSub>
-  <ContextMenuSubTrigger>Compartir</ContextMenuSubTrigger>
+  <ContextMenuSubTrigger>Share</ContextMenuSubTrigger>
   <ContextMenuSubContent>
     <ContextMenuItem>Email</ContextMenuItem>
-    <ContextMenuItem>Mensaje</ContextMenuItem>
+    <ContextMenuItem>Message</ContextMenuItem>
     <ContextMenuSeparator />
-    <ContextMenuItem>Copiar enlace</ContextMenuItem>
+    <ContextMenuItem>Copy link</ContextMenuItem>
   </ContextMenuSubContent>
 </ContextMenuSub>`;
 
@@ -117,47 +124,47 @@ const anatomyCode = `<ContextMenu>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Context Menu"
-      description="Menú contextual que aparece al hacer clic derecho, con soporte para checkboxes, radios y sub-menús."
-      import-code="import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico con checkboxes y radios" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basicCheckboxRadio')" :code="basicCode">
       <ContextMenu>
         <ContextMenuTrigger>
           <div
             class="text-muted-foreground flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm"
           >
-            Clic derecho aquí
+            {{ t('demo.contextMenu.rightClickHere') }}
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent class="w-64">
           <ContextMenuItem @select="() => {}">
-            Atrás
+            {{ t('demo.contextMenu.back') }}
             <ContextMenuShortcut>⌘[</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuItem disabled>
-            Adelante
+            {{ t('demo.contextMenu.forward') }}
             <ContextMenuShortcut>⌘]</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuItem>
-            Recargar
+            {{ t('demo.contextMenu.reload') }}
             <ContextMenuShortcut>⌘R</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuCheckboxItem v-model:checked="showBookmarks">
-            Mostrar marcadores
+            {{ t('demo.contextMenu.showBookmarks') }}
             <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem v-model:checked="showFullUrls">
-            Mostrar URLs completas
+            {{ t('demo.showFullUrls') }}
           </ContextMenuCheckboxItem>
           <ContextMenuSeparator />
-          <ContextMenuLabel inset>Personas</ContextMenuLabel>
+          <ContextMenuLabel inset>{{ t('demo.contextMenu.people') }}</ContextMenuLabel>
           <ContextMenuRadioGroup v-model="person">
             <ContextMenuRadioItem value="pedro">Pedro García</ContextMenuRadioItem>
             <ContextMenuRadioItem value="maria">María López</ContextMenuRadioItem>
@@ -167,34 +174,34 @@ const anatomyCode = `<ContextMenu>
       </ContextMenu>
     </DocShowcase>
 
-    <DocShowcase title="Sub-menú" :code="subMenuCode">
+    <DocShowcase :title="showcaseTitle('subMenu')" :code="subMenuCode">
       <ContextMenu>
         <ContextMenuTrigger>
           <div
             class="text-muted-foreground flex h-[150px] w-full items-center justify-center rounded-md border border-dashed text-sm"
           >
-            Clic derecho para acciones de archivo
+            {{ t('demo.contextMenu.rightClickFileActions') }}
           </div>
         </ContextMenuTrigger>
         <ContextMenuContent class="w-56">
           <ContextMenuItem>
-            Editar
+            {{ t('demo.contextMenu.edit') }}
             <ContextMenuShortcut>⌘E</ContextMenuShortcut>
           </ContextMenuItem>
-          <ContextMenuItem>Duplicar</ContextMenuItem>
+          <ContextMenuItem>{{ t('demo.contextMenu.duplicate') }}</ContextMenuItem>
           <ContextMenuSeparator />
           <ContextMenuSub>
-            <ContextMenuSubTrigger>Compartir</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger>{{ t('demo.contextMenu.share') }}</ContextMenuSubTrigger>
             <ContextMenuSubContent>
               <ContextMenuItem>Email</ContextMenuItem>
-              <ContextMenuItem>Mensaje</ContextMenuItem>
+              <ContextMenuItem>{{ t('demo.contextMenu.message') }}</ContextMenuItem>
               <ContextMenuSeparator />
-              <ContextMenuItem>Copiar enlace</ContextMenuItem>
+              <ContextMenuItem>{{ t('demo.copyLink') }}</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator />
           <ContextMenuItem destructive>
-            Eliminar
+            {{ t('demo.contextMenu.delete') }}
             <ContextMenuShortcut>⌘⌫</ContextMenuShortcut>
           </ContextMenuItem>
         </ContextMenuContent>
@@ -202,11 +209,11 @@ const anatomyCode = `<ContextMenu>
     </DocShowcase>
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Estado reactivo</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.contextMenu.reactiveState') }}</h2>
       <div class="space-y-1 rounded-md border p-4 text-sm">
-        <p><strong>Marcadores:</strong> {{ showBookmarks ? 'Visible' : 'Oculto' }}</p>
-        <p><strong>URLs completas:</strong> {{ showFullUrls ? 'Sí' : 'No' }}</p>
-        <p><strong>Persona:</strong> {{ person }}</p>
+        <p><strong>{{ t('demo.contextMenu.bookmarksLabel') }}</strong> {{ showBookmarks ? t('demo.contextMenu.visible') : t('demo.contextMenu.hidden') }}</p>
+        <p><strong>{{ t('demo.contextMenu.fullUrlsLabel') }}</strong> {{ showFullUrls ? t('demo.contextMenu.yes') : t('demo.contextMenu.no') }}</p>
+        <p><strong>{{ t('demo.contextMenu.personLabel') }}</strong> {{ person }}</p>
       </div>
     </section>
 

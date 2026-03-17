@@ -1,1805 +1,1250 @@
 # @3df-spa/ui + @3df-spa/charts — LLM Reference
 
-> Complete API reference for AI assistants helping consumers use these packages.
-> This file is NOT published. It is a local reference for LLMs.
+> Complete API reference for AI assistants. Use this to help consumers use these packages correctly.
 
 ## Overview
 
-`@3df-spa/ui` is a private Vue 3 component library with 199 components.
-`@3df-spa/charts` is a companion SVG chart library with 6 chart types (zero dependencies).
+`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles.
+`@3df-spa/charts` — SVG chart library for Vue 3. Zero external dependencies. 6 chart types.
 
-Both packages are published privately to GitHub Packages under the `@3df` scope.
-All imports come from `@3df-spa/ui` or `@3df-spa/charts` — never from internal paths.
-
-### Design Philosophy: Configurable Borders
-
-All components use `border-ui` (a custom Tailwind utility) which reads `--ui-border-width` (default: `2px`). Border radius tokens (`--radius-*`) scale from `--ui-radius` (default: `0.625rem`).
-
-The consumer can customize **all** borders and radii globally with just 2 CSS variables:
-
-```css
-:root {
-  --ui-border-width: 1px;   /* thinner borders everywhere */
-  --ui-radius: 1rem;        /* rounder corners everywhere */
-}
-```
-
-| Variable | Default | Controls |
-|----------|---------|----------|
-| `--ui-border-width` | `2px` | All component borders (`border-ui`, `border-t-ui`, etc.) |
-| `--ui-radius` | `0.625rem` | `rounded-sm` (0.72×), `rounded-md` (1×), `rounded-lg` (1.2×), `rounded-xl` (1.6×) |
-
-Set `--ui-border-width: 0px` for a fully borderless look.
+Both are published publicly to npmjs.org under the `@3df-spa` scope.
 
 ---
 
-## Setup (Consumer Project)
-
-### 1. Configure `.npmrc`
-
-```ini
-@3df:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
-```
-
-### 2. Install
+## Installation
 
 ```bash
-# UI components
+# UI components + required peers
 pnpm add @3df-spa/ui class-variance-authority clsx tailwind-merge
 
-# Charts (optional)
+# Charts (optional, zero deps)
 pnpm add @3df-spa/charts
 
-# Required peer dependencies (if using Calendar/DatePicker)
+# Optional peers (only if using Calendar/DatePicker)
 pnpm add date-fns
 
-# Required peer dependency (if using Carousel)
+# Optional peers (only if using Carousel)
 pnpm add embla-carousel
 ```
 
-### 3. CSS Setup
+---
 
-There are **two options** for setting up CSS. Choose one:
+## CSS Setup (choose one)
 
-**Option A — Pre-compiled CSS (simplest, recommended for most projects):**
-
+### Option A — Pre-compiled CSS (recommended, no Tailwind needed)
 ```css
 @import '@3df-spa/ui/styles.css';
 ```
 
-This single import includes all Tailwind utilities, theme tokens, and component animations. No additional Tailwind configuration needed.
-
-> **`tailwindcss` is NOT required** with this option. Everything is pre-compiled.
->
-> **Note:** If your project also uses Tailwind CSS for your own styles, use Option B to avoid duplicating Tailwind's base styles.
-
-**Option B — Integration with your own Tailwind CSS v4:**
-
-Requires `tailwindcss` v4 installed in the consumer project:
-
-```bash
-pnpm add -D tailwindcss @tailwindcss/vite
-```
-
+### Option B — With your own Tailwind CSS v4
 ```css
-@import 'tailwindcss';
-@import '@3df-spa/ui/theme.css';
+@import "tailwindcss";
+@import "@3df-spa/ui/theme.css";
 ```
-
-> **No `@source` directive needed!** The `theme.css` file already includes `@source "../../dist"` internally, which Tailwind resolves relative to the imported CSS file — automatically pointing to `node_modules/@3df-spa/ui/dist/`.
-
-### 4. Import & Use
-
-```vue
-<script setup lang="ts">
-import { Button, Badge, Input } from '@3df-spa/ui';
-</script>
-
-<template>
-  <Button variant="outline" size="sm">Click me</Button>
-  <Badge variant="success">Online</Badge>
-  <Input v-model="email" placeholder="Email" />
-</template>
-```
-
-### 5. Update Packages
-
-```bash
-pnpm update @3df-spa/ui @3df-spa/charts
-```
-
-### 6. Tailwind Requirement Summary
-
-| Scenario | Need `tailwindcss`? |
-|---|---|
-| Option A (pre-compiled CSS) | **No** — all CSS is pre-built |
-| Option B (Tailwind integration) | **Yes** — `tailwindcss` v4 + `@tailwindcss/vite` or `@tailwindcss/postcss` |
-| Customizing theme tokens | **Yes** — requires Option B with `@theme` overrides |
-| Using `@3df-spa/charts` only | **No** — charts are pure SVG, no CSS framework needed |
-
-### 7. Tree-shaking & Performance
-
-- Build uses `preserveModules: true` — each component is a separate ES module (~2 KB avg)
-- Only imported components are included in the consumer's bundle
-- All heavy deps (`vue`, `cva`, `clsx`, `tailwind-merge`, `date-fns`, `embla-carousel`) are externalized
-- `@3df-spa/charts` has zero deps (only `vue` peer) — pure SVG, ~88 KB total
-- Standard barrel import works perfectly with Vite (tree-shaking is automatic)
-- Direct imports also available: `import Button from '@3df-spa/ui/dist/components/ui/buttons/UiButton.vue.js'`
-
----
-
-## Utility: `cn()`
-
+Add to vite.config.ts:
 ```ts
-import { cn } from '@3df-spa/ui';
-```
-
-Combines `clsx` + `tailwind-merge`. Use it to conditionally merge Tailwind classes:
-
-```ts
-cn('px-4 py-2', isActive && 'bg-primary', className)
-```
-
----
-
-## Dark Mode
-
-Add/remove the `.dark` class on `<html>` or any ancestor:
-
-```ts
-document.documentElement.classList.toggle('dark');
-```
-
-All components adapt automatically.
-
----
-
-# COMPONENT REFERENCE
-
-## Button
-
-```ts
-import { Button, buttonVariants } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `variant` | `'default' \| 'secondary' \| 'outline' \| 'ghost' \| 'destructive' \| 'link'` | `'default'` |
-| `size` | `'default' \| 'xs' \| 'sm' \| 'lg' \| 'icon'` | `'default'` |
-| `as` | `string \| Component` | `'button'` |
-
-### Examples
-
-```vue
-<Button>Default</Button>
-<Button variant="destructive" size="sm">Delete</Button>
-<Button variant="outline" size="icon"><TrashIcon /></Button>
-<Button as="a" href="/home" variant="link">Go home</Button>
-
-<!-- Use buttonVariants() without the component -->
-<a :class="buttonVariants({ variant: 'link' })">Link styled</a>
-```
-
----
-
-## Badge
-
-```ts
-import { Badge, badgeVariants } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `variant` | `'default' \| 'secondary' \| 'outline' \| 'destructive' \| 'success' \| 'warning' \| 'red' \| 'orange' \| 'yellow' \| 'green' \| 'teal' \| 'blue' \| 'indigo' \| 'purple' \| 'pink' \| 'gray'` | `'default'` |
-| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |
-| `as` | `string \| Component` | `'span'` |
-
-### Examples
-
-```vue
-<Badge>Default</Badge>
-<Badge variant="success">Active</Badge>
-<Badge variant="destructive" size="sm">Error</Badge>
-<Badge variant="blue" class="rounded-full">Pill</Badge>
-
-<!-- Use badgeVariants() without the component -->
-<span :class="badgeVariants({ variant: 'outline' })">Tag</span>
-```
-
----
-
-## Alert
-
-```ts
-import { Alert, AlertTitle, AlertDescription, alertVariants } from '@3df-spa/ui';
-```
-
-### Props (Alert)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `variant` | `'default' \| 'destructive' \| 'success' \| 'warning' \| 'info'` | `'default'` |
-
-### Example
-
-```vue
-<Alert variant="success">
-  <CheckIcon />
-  <AlertTitle>Success</AlertTitle>
-  <AlertDescription>Your changes have been saved.</AlertDescription>
-</Alert>
-```
-
----
-
-## Label
-
-```ts
-import { Label } from '@3df-spa/ui';
-```
-
-Simple `<label>` wrapper. Pass `for` attribute normally.
-
-```vue
-<Label for="email">Email</Label>
-```
-
----
-
-## Input
-
-```ts
-import { Input, inputVariants } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |
-| `modelValue` | `string \| number` | — |
-
-### Example
-
-```vue
-<Input v-model="name" placeholder="Your name" />
-<Input size="sm" type="email" />
-<Input aria-invalid="true" /> <!-- Shows destructive ring (validation only) -->
-```
-
----
-
-## Textarea
-
-```ts
-import { Textarea } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `string` | — |
-
-```vue
-<Textarea v-model="message" placeholder="Write something..." rows="4" />
-```
-
----
-
-## Select
-
-```ts
-import { Select, SelectItem } from '@3df-spa/ui';
-```
-
-### Props (Select)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `string` | `''` |
-| `placeholder` | `string` | `'Select an option'` |
-| `disabled` | `boolean` | `false` |
-
-### Example
-
-```vue
-<Select v-model="country" placeholder="Choose country">
-  <SelectItem value="mx">Mexico</SelectItem>
-  <SelectItem value="co">Colombia</SelectItem>
-  <SelectItem value="ar" disabled>Argentina</SelectItem>
-</Select>
-```
-
----
-
-## Checkbox
-
-```ts
-import { Checkbox } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `boolean` | `false` |
-| `indeterminate` | `boolean` | `false` |
-
-```vue
-<Checkbox v-model="agreed" />
-```
-
----
-
-## Radio
-
-```ts
-import { Radio } from '@3df-spa/ui';
-```
-
-```vue
-<Radio v-model="plan" value="free" name="plan">Free</Radio>
-<Radio v-model="plan" value="pro" name="plan">Pro</Radio>
-```
-
----
-
-## Switch
-
-```ts
-import { Switch } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `boolean` | `false` |
-
-```vue
-<Switch v-model="notifications" />
-```
-
----
-
-## Slider
-
-```ts
-import { Slider } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `number` | `0` |
-| `min` | `number` | `0` |
-| `max` | `number` | `100` |
-| `step` | `number` | `1` |
-| `disabled` | `boolean` | `false` |
-
-```vue
-<Slider v-model="volume" :min="0" :max="100" :step="5" />
-```
-
----
-
-## Toggle
-
-```ts
-import { Toggle, toggleVariants } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `variant` | `'default' \| 'outline'` | `'default'` |
-| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |
-| `pressed` | `boolean` | `false` |
-| `disabled` | `boolean` | `false` |
-
-```vue
-<Toggle v-model:pressed="isBold" variant="outline" size="sm">
-  <BoldIcon />
-</Toggle>
-```
-
----
-
-## Card
-
-```ts
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df-spa/ui';
-```
-
-### Example
-
-```vue
-<Card>
-  <CardHeader>
-    <CardTitle>Account</CardTitle>
-    <CardDescription>Manage your account settings.</CardDescription>
-  </CardHeader>
-  <CardContent>
-    <!-- form fields -->
-  </CardContent>
-  <CardFooter>
-    <Button>Save</Button>
-  </CardFooter>
-</Card>
-```
-
----
-
-## Dialog
-
-```ts
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription, DialogClose } from '@3df-spa/ui';
-```
-
-### Props (Dialog)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `open` | `boolean` | `undefined` (uncontrolled) |
-| `defaultOpen` | `boolean` | `false` |
-
-### Example
-
-```vue
-<Dialog>
-  <DialogTrigger as-child>
-    <Button>Open Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Edit Profile</DialogTitle>
-      <DialogDescription>Make changes to your profile.</DialogDescription>
-    </DialogHeader>
-    <!-- content -->
-    <DialogFooter>
-      <DialogClose as-child>
-        <Button variant="outline">Cancel</Button>
-      </DialogClose>
-      <Button>Save</Button>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-
-<!-- Controlled -->
-<Dialog v-model:open="isOpen">...</Dialog>
-```
-
----
-
-## Alert Dialog
-
-```ts
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from '@3df-spa/ui';
-```
-
-```vue
-<AlertDialog>
-  <AlertDialogTrigger as-child>
-    <Button variant="destructive">Delete</Button>
-  </AlertDialogTrigger>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction @click="handleDelete">Delete</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
-```
-
----
-
-## Sheet (Side Panel)
-
-```ts
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription, SheetClose } from '@3df-spa/ui';
-```
-
-### Props (SheetContent)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `side` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'right'` |
-
-```vue
-<Sheet>
-  <SheetTrigger as-child>
-    <Button variant="outline">Open</Button>
-  </SheetTrigger>
-  <SheetContent side="right">
-    <SheetHeader>
-      <SheetTitle>Settings</SheetTitle>
-      <SheetDescription>Configure your preferences.</SheetDescription>
-    </SheetHeader>
-    <!-- content -->
-  </SheetContent>
-</Sheet>
-```
-
----
-
-## Drawer (Bottom Sheet)
-
-```ts
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription } from '@3df-spa/ui';
-```
-
-```vue
-<Drawer>
-  <DrawerTrigger as-child>
-    <Button>Open Drawer</Button>
-  </DrawerTrigger>
-  <DrawerContent>
-    <DrawerHeader>
-      <DrawerTitle>Confirm</DrawerTitle>
-    </DrawerHeader>
-    <p>Drawer body</p>
-    <DrawerFooter>
-      <Button>Submit</Button>
-    </DrawerFooter>
-  </DrawerContent>
-</Drawer>
-```
-
----
-
-## Dropdown Menu
-
-```ts
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuShortcut } from '@3df-spa/ui';
-```
-
-```vue
-<DropdownMenu>
-  <DropdownMenuTrigger as-child>
-    <Button variant="ghost" size="icon"><MoreIcon /></Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem @select="handleEdit">
-      Edit
-      <DropdownMenuShortcut>⌘E</DropdownMenuShortcut>
-    </DropdownMenuItem>
-    <DropdownMenuItem @select="handleDelete" class="text-destructive">
-      Delete
-    </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
-```
-
----
-
-## Context Menu
-
-```ts
-import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator, ContextMenuLabel, ContextMenuShortcut, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent } from '@3df-spa/ui';
-```
-
-```vue
-<ContextMenu>
-  <ContextMenuTrigger>
-    <div class="h-40 w-full border border-dashed rounded-md flex items-center justify-center">
-      Right-click here
-    </div>
-  </ContextMenuTrigger>
-  <ContextMenuContent>
-    <ContextMenuItem @select="handleCopy">Copy</ContextMenuItem>
-    <ContextMenuItem @select="handlePaste">Paste</ContextMenuItem>
-    <ContextMenuSeparator />
-    <ContextMenuSub>
-      <ContextMenuSubTrigger>More</ContextMenuSubTrigger>
-      <ContextMenuSubContent>
-        <ContextMenuItem>Option A</ContextMenuItem>
-        <ContextMenuItem>Option B</ContextMenuItem>
-      </ContextMenuSubContent>
-    </ContextMenuSub>
-  </ContextMenuContent>
-</ContextMenu>
-```
-
----
-
-## Menubar
-
-```ts
-import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator, MenubarLabel, MenubarShortcut, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSub, MenubarSubTrigger, MenubarSubContent } from '@3df-spa/ui';
-```
-
-```vue
-<Menubar>
-  <MenubarMenu>
-    <MenubarTrigger>File</MenubarTrigger>
-    <MenubarContent>
-      <MenubarItem>New <MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
-      <MenubarItem>Open <MenubarShortcut>⌘O</MenubarShortcut></MenubarItem>
-      <MenubarSeparator />
-      <MenubarItem>Exit</MenubarItem>
-    </MenubarContent>
-  </MenubarMenu>
-  <MenubarMenu>
-    <MenubarTrigger>Edit</MenubarTrigger>
-    <MenubarContent>
-      <MenubarItem>Undo</MenubarItem>
-      <MenubarItem>Redo</MenubarItem>
-    </MenubarContent>
-  </MenubarMenu>
-</Menubar>
-```
-
----
-
-## Popover
-
-```ts
-import { Popover, PopoverTrigger, PopoverContent } from '@3df-spa/ui';
-```
-
-```vue
-<Popover>
-  <PopoverTrigger as-child>
-    <Button variant="outline">Open Popover</Button>
-  </PopoverTrigger>
-  <PopoverContent>
-    <p>Popover content here</p>
-  </PopoverContent>
-</Popover>
-```
-
----
-
-## Tooltip
-
-```ts
-import { Tooltip, TooltipTrigger, TooltipContent } from '@3df-spa/ui';
-```
-
-### Props (Tooltip)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `delay` | `number` | `300` |
-| `closeDelay` | `number` | `150` |
-
-```vue
-<Tooltip>
-  <TooltipTrigger as-child>
-    <Button variant="ghost" size="icon"><InfoIcon /></Button>
-  </TooltipTrigger>
-  <TooltipContent>Helpful tooltip text</TooltipContent>
-</Tooltip>
-```
-
----
-
-## Hover Card
-
-```ts
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui';
-```
-
-### Props (HoverCard)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `openDelay` | `number` | `700` |
-| `closeDelay` | `number` | `300` |
-
-```vue
-<HoverCard>
-  <HoverCardTrigger as-child>
-    <a href="#">@user</a>
-  </HoverCardTrigger>
-  <HoverCardContent>
-    <p>User profile card content</p>
-  </HoverCardContent>
-</HoverCard>
-```
-
----
-
-## Toast / Sonner
-
-```ts
-import { Toaster, toast } from '@3df-spa/ui';
-```
-
-### API
-
-```ts
-toast('Simple message');
-toast.success('Saved!');
-toast.error('Something failed');
-toast.warning('Be careful');
-toast.info('FYI');
-
-toast({
-  title: 'Scheduled',
-  description: 'Meeting at 3pm',
-  duration: 5000,
-  action: { label: 'Undo', onClick: () => handleUndo() },
-});
-
-toast.dismiss(id);
-toast.dismissAll();
-```
-
-### Setup — Add `<Toaster />` once at the app root
-
-```vue
-<!-- App.vue -->
-<template>
-  <RouterView />
-  <Toaster position="bottom-right" />
-</template>
-```
-
-### Toaster Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `position` | `'top-left' \| 'top-center' \| 'top-right' \| 'bottom-left' \| 'bottom-center' \| 'bottom-right'` | `'bottom-right'` |
-| `maxToasts` | `number` | `5` |
-
----
-
-## Accordion
-
-```ts
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df-spa/ui';
-```
-
-### Props (Accordion)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `type` | `'single' \| 'multiple'` | `'single'` |
-| `modelValue` | `string \| string[]` | — |
-| `defaultValue` | `string \| string[]` | — |
-| `collapsible` | `boolean` | `false` |
-| `disabled` | `boolean` | `false` |
-
-### Example
-
-```vue
-<Accordion type="single" collapsible>
-  <AccordionItem value="item-1">
-    <AccordionTrigger>Is it accessible?</AccordionTrigger>
-    <AccordionContent>Yes. It follows WAI-ARIA guidelines.</AccordionContent>
-  </AccordionItem>
-  <AccordionItem value="item-2">
-    <AccordionTrigger>Is it styled?</AccordionTrigger>
-    <AccordionContent>Yes, with Tailwind CSS.</AccordionContent>
-  </AccordionItem>
-</Accordion>
-
-<!-- Multiple open -->
-<Accordion type="multiple" v-model="openItems">...</Accordion>
-```
-
----
-
-## Collapsible
-
-```ts
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `open` | `boolean` | `undefined` |
-| `defaultOpen` | `boolean` | `false` |
-| `disabled` | `boolean` | `false` |
-
-```vue
-<Collapsible>
-  <CollapsibleTrigger as-child>
-    <Button variant="ghost">Toggle</Button>
-  </CollapsibleTrigger>
-  <CollapsibleContent>
-    <p>Hidden content</p>
-  </CollapsibleContent>
-</Collapsible>
-```
-
----
-
-## Table
-
-```ts
-import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df-spa/ui';
-```
-
-```vue
-<Table>
-  <TableCaption>A list of users</TableCaption>
-  <TableHeader>
-    <TableRow>
-      <TableHead>Name</TableHead>
-      <TableHead>Email</TableHead>
-      <TableHead class="text-right">Amount</TableHead>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow v-for="user in users" :key="user.id">
-      <TableCell class="font-medium">{{ user.name }}</TableCell>
-      <TableCell>{{ user.email }}</TableCell>
-      <TableCell class="text-right">{{ user.amount }}</TableCell>
-    </TableRow>
-    <TableEmpty v-if="!users.length" :colspan="3">No users found.</TableEmpty>
-  </TableBody>
-</Table>
-```
-
----
-
-## Pagination
-
-```ts
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from '@3df-spa/ui';
-```
-
-```vue
-<Pagination>
-  <PaginationContent>
-    <PaginationItem>
-      <PaginationPrevious @click="page--" :disabled="page === 1" />
-    </PaginationItem>
-    <PaginationItem v-for="p in pages" :key="p">
-      <PaginationLink :is-active="p === page" @click="page = p">{{ p }}</PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationNext @click="page++" :disabled="page === totalPages" />
-    </PaginationItem>
-  </PaginationContent>
-</Pagination>
-```
-
----
-
-## Progress
-
-```ts
-import { Progress } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `number \| undefined` | `undefined` (indeterminate) |
-| `max` | `number` | `100` |
-
-```vue
-<Progress :model-value="75" />
-<Progress /> <!-- indeterminate / pulsing -->
-```
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 
----
-
-## Skeleton
-
-```ts
-import { Skeleton } from '@3df-spa/ui';
-```
-
-```vue
-<Skeleton class="h-4 w-[200px]" />
-<Skeleton class="h-12 w-12 rounded-full" />
-```
-
----
-
-## Separator
-
-```ts
-import { Separator } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
-
-```vue
-<Separator />
-<Separator orientation="vertical" class="h-6" />
-```
-
----
-
-## Scroll Area
-
-```ts
-import { ScrollArea } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `type` | `'auto' \| 'always' \| 'scroll' \| 'hover'` | `'hover'` |
-| `orientation` | `'vertical' \| 'horizontal' \| 'both'` | `'vertical'` |
-
-```vue
-<ScrollArea class="h-72 w-48">
-  <div v-for="i in 50" :key="i" class="py-2">Item {{ i }}</div>
-</ScrollArea>
-```
-
----
-
-## Avatar
-
-```ts
-import { Avatar, AvatarImage, AvatarFallback } from '@3df-spa/ui';
-```
-
-### Props (Avatar)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` |
-
-```vue
-<Avatar size="lg">
-  <AvatarImage src="/avatar.jpg" alt="User" />
-  <AvatarFallback>JD</AvatarFallback>
-</Avatar>
-```
-
----
-
-## Breadcrumb
-
-```ts
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis } from '@3df-spa/ui';
-```
-
-```vue
-<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/">Home</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/settings">Settings</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbPage>Profile</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>
-```
-
----
-
-## Calendar
-
-```ts
-import { Calendar } from '@3df-spa/ui';
-import type { DateRange } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `mode` | `'single' \| 'range'` | `'single'` |
-| `modelValue` | `Date \| DateRange` | — |
-| `numberOfMonths` | `number` | `1` |
-| `weekStartsOn` | `0-6` | `1` (Monday) |
-| `showOutsideDays` | `boolean` | `true` |
-| `fixedWeeks` | `boolean` | `true` |
-| `disabled` | `(date: Date) => boolean` | — |
-| `locale` | `Locale` (date-fns) | — |
-
-```vue
-<Calendar v-model="selectedDate" />
-<Calendar mode="range" v-model="dateRange" :number-of-months="2" />
-```
-
----
-
-## DatePicker
-
-```ts
-import { DatePicker, DateRangePicker } from '@3df-spa/ui';
-```
-
-### Props (DatePicker)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `Date` | — |
-| `placeholder` | `string` | `'Pick a date'` |
-| `formatStr` | `string` | `'PPP'` |
-| `disabled` | `(date: Date) => boolean` | — |
-| `locale` | `Locale` (date-fns) | — |
-
-```vue
-<DatePicker v-model="date" placeholder="Select date" />
-<DateRangePicker v-model="range" />
-```
-
----
-
-## Combobox
-
-```ts
-import { Combobox } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `string` | `''` |
-| `options` | `{ value: string; label: string; disabled?: boolean }[]` | *required* |
-| `placeholder` | `string` | `'Select option...'` |
-| `searchPlaceholder` | `string` | `'Search...'` |
-| `emptyMessage` | `string` | `'No results found.'` |
-
-```vue
-<Combobox
-  v-model="framework"
-  :options="[
-    { value: 'vue', label: 'Vue' },
-    { value: 'react', label: 'React' },
-    { value: 'svelte', label: 'Svelte' },
-  ]"
-  placeholder="Choose framework..."
-/>
-```
-
----
-
-## Command (⌘K Palette)
-
-```ts
-import { Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator } from '@3df-spa/ui';
-```
-
-```vue
-<CommandDialog v-model:open="isOpen">
-  <CommandInput placeholder="Type a command..." />
-  <CommandList>
-    <CommandEmpty>No results found.</CommandEmpty>
-    <CommandGroup heading="Suggestions">
-      <CommandItem @select="handleCalendar">Calendar</CommandItem>
-      <CommandItem @select="handleSearch">Search</CommandItem>
-    </CommandGroup>
-    <CommandSeparator />
-    <CommandGroup heading="Settings">
-      <CommandItem @select="handleProfile">
-        Profile
-        <CommandShortcut>⌘P</CommandShortcut>
-      </CommandItem>
-    </CommandGroup>
-  </CommandList>
-</CommandDialog>
-```
-
----
-
-## Input OTP
-
-```ts
-import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df-spa/ui';
-```
-
-### Props (InputOTP)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `modelValue` | `string` | `''` |
-| `length` | `number` | `6` |
-| `pattern` | `'numeric' \| 'alphanumeric' \| 'alpha' \| RegExp` | `'numeric'` |
-| `autoSubmit` | `boolean` | `false` |
-| `disabled` | `boolean` | `false` |
-
-```vue
-<InputOTP v-model="code" :length="6" @complete="verify">
-  <InputOTPGroup>
-    <InputOTPSlot v-for="i in 3" :key="i" :index="i - 1" />
-  </InputOTPGroup>
-  <InputOTPSeparator />
-  <InputOTPGroup>
-    <InputOTPSlot v-for="i in 3" :key="i + 3" :index="i + 2" />
-  </InputOTPGroup>
-</InputOTP>
-```
-
----
-
-## Carousel
-
-```ts
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df-spa/ui';
-```
-
-### Props (Carousel)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` |
-| `opts` | `Partial<EmblaOptionsType>` | — |
-
-```vue
-<Carousel :opts="{ loop: true }">
-  <CarouselContent>
-    <CarouselItem v-for="i in 5" :key="i" class="basis-1/3">
-      <Card>{{ i }}</Card>
-    </CarouselItem>
-  </CarouselContent>
-  <CarouselPrevious />
-  <CarouselNext />
-</Carousel>
-```
-
----
-
-## Navigation Menu
-
-```ts
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport } from '@3df-spa/ui';
-```
-
-```vue
-<NavigationMenu>
-  <NavigationMenuList>
-    <NavigationMenuItem>
-      <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
-      <NavigationMenuContent>
-        <ul class="grid gap-3 p-4 w-[400px]">
-          <li><NavigationMenuLink href="/docs">Documentation</NavigationMenuLink></li>
-        </ul>
-      </NavigationMenuContent>
-    </NavigationMenuItem>
-    <NavigationMenuItem>
-      <NavigationMenuLink href="/about">About</NavigationMenuLink>
-    </NavigationMenuItem>
-  </NavigationMenuList>
-  <NavigationMenuViewport />
-</NavigationMenu>
-```
-
----
-
-## Sidebar
-
-```ts
-import { SidebarProvider, Sidebar, SidebarTrigger, SidebarHeader, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, SidebarMenuBadge, SidebarMenuAction, SidebarMenuSkeleton, SidebarSeparator, SidebarRail, SidebarInset, useSidebar } from '@3df-spa/ui';
-```
-
-### Props (Sidebar)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `side` | `'left' \| 'right'` | `'left'` |
-| `variant` | `'sidebar' \| 'floating' \| 'inset'` | `'sidebar'` |
-| `collapsible` | `'offcanvas' \| 'icon' \| 'none'` | `'offcanvas'` |
-
-### Example
-
-```vue
-<SidebarProvider>
-  <Sidebar>
-    <SidebarHeader>
-      <h2>My App</h2>
-    </SidebarHeader>
-    <SidebarContent>
-      <SidebarGroup>
-        <SidebarGroupLabel>Main</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton is-active>
-                <HomeIcon />
-                Dashboard
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <SettingsIcon />
-                Settings
-                <SidebarMenuBadge>3</SidebarMenuBadge>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    </SidebarContent>
-    <SidebarRail />
-  </Sidebar>
-  <SidebarInset>
-    <header>
-      <SidebarTrigger />
-    </header>
-    <main>
-      <RouterView />
-    </main>
-  </SidebarInset>
-</SidebarProvider>
-```
-
-### Composable
-
-```ts
-const { state, open, isMobile, toggleSidebar } = useSidebar();
-```
-
----
-
-## Kbd
-
-```ts
-import { Kbd } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `size` | `'xs' \| 'sm' \| 'default' \| 'lg'` | `'default'` |
-
-```vue
-<Kbd>⌘</Kbd><Kbd>K</Kbd>
-<Kbd size="sm">Ctrl</Kbd>
-```
-
----
-
-## Item
-
-```ts
-import { Item, ItemLabel, ItemDescription, itemVariants } from '@3df-spa/ui';
-```
-
-### Props (Item)
-
-| Prop | Type | Default |
-|------|------|---------|
-| `variant` | `'default' \| 'ghost' \| 'muted' \| 'destructive'` | `'default'` |
-| `size` | `'sm' \| 'default' \| 'lg'` | `'default'` |
-
-```vue
-<Item variant="default" as="button" @click="handleClick">
-  <UserIcon />
-  <div>
-    <ItemLabel>John Doe</ItemLabel>
-    <ItemDescription>john@example.com</ItemDescription>
-  </div>
-</Item>
-```
-
----
-
-## Empty State
-
-```ts
-import { EmptyState } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `title` | `string` | — |
-| `description` | `string` | — |
-
-```vue
-<EmptyState title="No results" description="Try a different search term.">
-  <template #icon><SearchIcon /></template>
-  <Button variant="outline" size="sm">Clear filters</Button>
-</EmptyState>
-```
-
----
-
-## Logo Cloud
-
-```ts
-import { LogoCloud } from '@3df-spa/ui';
-import type { LogoItem } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `logos` | `LogoItem[]` | *required* |
-| `columns` | `3 \| 4 \| 5 \| 6` | `4` |
-| `showNames` | `boolean` | `false` |
-| `logoHeight` | `number` | `40` |
-| `grayscale` | `boolean` | `true` |
-| `heading` | `string` | — |
-
-```ts
-// LogoItem = { name: string; src: string; href?: string; alt?: string }
-```
-
-```vue
-<LogoCloud
-  heading="Trusted by"
-  :logos="[
-    { name: 'Acme', src: '/logos/acme.svg' },
-    { name: 'Corp', src: '/logos/corp.svg', href: 'https://corp.com' },
-  ]"
-  :columns="4"
-  grayscale
-/>
-```
-
----
-
-## Logo Marquee
-
-```ts
-import { LogoMarquee } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `logos` | `LogoItem[]` | *required* |
-| `direction` | `'left' \| 'right'` | `'left'` |
-| `duration` | `number` (seconds) | `30` |
-| `hoverDuration` | `number` | `80` |
-| `logoHeight` | `number` | `40` |
-| `gap` | `number` (px) | `48` |
-| `grayscale` | `boolean` | `true` |
-| `fadeMask` | `boolean` | `true` |
-| `pauseOnHover` | `boolean` | `false` |
-| `showNames` | `boolean` | `false` |
-| `heading` | `string` | — |
-| `reverse` | `boolean` | `false` (two-row opposite) |
-
-```vue
-<LogoMarquee :logos="logos" heading="Our partners" :duration="25" />
-```
-
----
-
-## Hero Sections
-
-```ts
-import { HeroSimple, HeroSplit, HeroImage, HeroGradient, HeroCentered, HeroMinimal, HeroVideo } from '@3df-spa/ui';
-import type { HeroAction, HeroAlign } from '@3df-spa/ui';
-```
-
-### HeroAction type
-
-```ts
-interface HeroAction {
-  label: string;
-  href?: string;
-  external?: boolean;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-}
-```
-
-### HeroSimple
-
-```vue
-<HeroSimple
-  headline="Build faster"
-  description="A modern component library."
-  :actions="[
-    { label: 'Get Started', variant: 'primary' },
-    { label: 'Learn More', variant: 'outline' },
-  ]"
-  align="center"
-  @action="handleAction"
-/>
-```
-
-### HeroSplit
-
-```vue
-<HeroSplit
-  headline="Ship with confidence"
-  description="Production-ready components."
-  image-src="/hero.jpg"
-  image-alt="Hero image"
-  :reverse="false"
-  :actions="[{ label: 'Start', variant: 'primary' }]"
-/>
-```
-
-### HeroGradient
-
-| Prop | Type | Default |
-|------|------|---------|
-| `gradient` | `'purple' \| 'blue' \| 'green' \| 'orange' \| 'rose' \| 'custom'` | `'purple'` |
-| `customGradient` | `string` (CSS) | — |
-| `blobs` | `boolean` | `true` |
-
-```vue
-<HeroGradient
-  headline="Beautiful gradients"
-  gradient="blue"
-  :blobs="true"
-  :actions="[{ label: 'Explore', variant: 'secondary' }]"
-/>
-```
-
----
-
-## Banner
-
-```ts
-import { Banner, bannerVariants } from '@3df-spa/ui';
-```
-
-### Props
-
-| Prop | Type | Default |
-|------|------|--------|
-| `variant` | `'default' \| 'info' \| 'success' \| 'warning' \| 'destructive' \| 'muted'` | `'default'` |
-| `position` | `'static' \| 'sticky' \| 'fixed'` | `'static'` |
-| `align` | `'start' \| 'center' \| 'between'` | `'center'` |
-| `dismissible` | `boolean` | `false` |
-
-### Slots
-
-| Slot | Description |
-|------|-------------|
-| `default` | Main content |
-| `icon` | Left icon |
-| `action` | Right action area |
-
-### Events
-
-| Event | Description |
-|-------|-------------|
-| `dismiss` | Emitted when the banner is dismissed |
-
-### Examples
-
-```vue
-<Banner variant="info" dismissible>New version available.</Banner>
-
-<Banner variant="success">
-  <template #icon>🎉</template>
-  Account verified!
-  <template #action>
-    <Button variant="ghost" size="sm" class="text-white">Details</Button>
-  </template>
-</Banner>
-
-<Banner variant="warning" position="sticky">
-  Scheduled maintenance at 2:00 AM.
-</Banner>
-```
-
----
-
-# CHART REFERENCE (`@3df-spa/charts`)
-
-## Setup
-
-```ts
-import { UiChartBar, UiChartLine, UiChartPie, UiChartRadar, UiChartScatter, UiChartGauge, UiChartTooltip, UiChartLegend } from '@3df-spa/charts';
-import type { ChartConfig, ChartDataRow } from '@3df-spa/charts';
-```
-
-## Shared Types
-
-```ts
-type ChartConfig = Record<string, { label: string; color: string }>;
-type ChartDataRow = Record<string, string | number>;
+// In vite config css.preprocessorOptions or just add @source in CSS:
+// @source './node_modules/@3df-spa/ui/dist';
 ```
-
----
-
-## Bar Chart
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `config` | `ChartConfig` | *required* |
-| `data` | `ChartDataRow[]` | *required* |
-| `index` | `string` | *required* |
-| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` |
-| `mode` | `'grouped' \| 'stacked'` | `'grouped'` |
-| `showTooltip` | `boolean` | `true` |
-| `showLegend` | `boolean` | `true` |
-| `showGrid` | `boolean` | `true` |
-| `showXAxis` / `showYAxis` | `boolean` | `true` |
-| `tickCount` | `number` | `5` |
-| `radius` | `number` | `6` |
-| `barGap` | `number` | `0.15` |
-| `categoryGap` | `number` | `0.25` |
-| `minHeight` | `number` | `350` |
-| `animate` | `boolean` | `true` |
-| `valueFormatter` | `(v: number) => string` | — |
-| `tooltipFormatter` | `(v: number, key: string) => string` | — |
-
-### Example
-
-```vue
-<script setup lang="ts">
-import { UiChartBar } from '@3df-spa/charts';
-import type { ChartConfig, ChartDataRow } from '@3df-spa/charts';
-
-const data: ChartDataRow[] = [
-  { month: 'Jan', revenue: 4000, expenses: 2400 },
-  { month: 'Feb', revenue: 3000, expenses: 1398 },
-  { month: 'Mar', revenue: 5000, expenses: 3200 },
-];
-
-const config: ChartConfig = {
-  revenue: { label: 'Revenue', color: '#3b82f6' },
-  expenses: { label: 'Expenses', color: '#ef4444' },
-};
-</script>
-
-<template>
-  <UiChartBar :data="data" :config="config" index="month" />
-  <UiChartBar :data="data" :config="config" index="month" mode="stacked" />
-  <UiChartBar :data="data" :config="config" index="month" orientation="horizontal" />
-</template>
-```
-
----
-
-## Line Chart
-
-### Additional Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `curveType` | `'monotone' \| 'linear' \| 'step'` | `'monotone'` |
-| `mode` | `'none' \| 'stacked' \| 'expanded'` | `'none'` |
-| `showDots` | `boolean` | `false` |
-| `showArea` | `boolean` | `true` |
-| `showLine` | `boolean` | `true` |
-| `fillOpacity` | `number` | `0.25` |
-| `strokeWidth` | `number` | `2.5` |
-| `dotRadius` | `number` | `4` |
-
-### Example
-
-```vue
-<UiChartLine
-  :data="data"
-  :config="config"
-  index="month"
-  curve-type="monotone"
-  :show-area="true"
-  :show-dots="true"
-/>
-```
-
----
-
-## Pie Chart
-
-### Additional Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `valueKey` | `string` | — |
-| `innerRadius` | `number` | `0` (0 = pie, >0 = donut) |
-| `radiusFraction` | `number` | `0.85` |
-| `padAngle` | `number` | `1.5` |
-| `cornerRadius` | `number` | `3` |
-| `showLabels` | `boolean` | `false` |
-| `labelType` | `'percent' \| 'value' \| 'name'` | `'percent'` |
-| `startAngle` | `number` | `-90` |
-
-### Example
-
-```vue
-<!-- Simple pie: each key in config is a slice -->
-<UiChartPie
-  :data="[{ os: 'Desktop', users: 400, mobile: 300, tablet: 100 }]"
-  :config="{
-    users: { label: 'Desktop', color: '#3b82f6' },
-    mobile: { label: 'Mobile', color: '#10b981' },
-    tablet: { label: 'Tablet', color: '#f59e0b' },
-  }"
-  index="os"
-/>
-
-<!-- Donut -->
-<UiChartPie :data="data" :config="config" index="os" :inner-radius="60" />
-```
-
----
-
-## Radar Chart
-
-### Additional Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `variant` | `'polygon' \| 'circle'` | `'polygon'` |
-| `levels` | `number` | `5` |
-| `showFill` | `boolean` | `true` |
-| `fillOpacity` | `number` | `0.2` |
-| `showDots` | `boolean` | `true` |
-| `showAxisLabels` | `boolean` | `true` |
-
-### Example
-
-```vue
-<UiChartRadar
-  :data="[
-    { skill: 'Vue', alice: 90, bob: 70 },
-    { skill: 'TypeScript', alice: 85, bob: 90 },
-    { skill: 'CSS', alice: 70, bob: 60 },
-    { skill: 'Testing', alice: 60, bob: 80 },
-    { skill: 'DevOps', alice: 50, bob: 75 },
-  ]"
-  :config="{
-    alice: { label: 'Alice', color: '#3b82f6' },
-    bob: { label: 'Bob', color: '#ef4444' },
-  }"
-  index="skill"
-  variant="polygon"
-/>
-```
-
----
-
-## Scatter Chart
-
-Uses `ScatterConfig` instead of `ChartConfig`. Each series specifies its own `xKey` and `yKey`.
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `config` | `ScatterConfig` | *required* |
-| `data` | `Record<string, string \| number>[]` | *required* |
-| `dotRadius` | `number` | `6` |
-| `minDotRadius` / `maxDotRadius` | `number` | `4` / `24` |
-
-```ts
-// ScatterConfig
-type ScatterConfig = Record<string, {
-  label: string;
-  color: string;
-  xKey: string;
-  yKey: string;
-  sizeKey?: string;
-  shape?: 'circle' | 'square' | 'diamond';
-}>;
-```
-
-### Example
-
-```vue
-<UiChartScatter
-  :data="[
-    { height: 170, weight: 70, bmi: 24 },
-    { height: 180, weight: 85, bmi: 26 },
-    { height: 160, weight: 55, bmi: 21 },
-  ]"
-  :config="{
-    series1: {
-      label: 'People',
-      color: '#3b82f6',
-      xKey: 'height',
-      yKey: 'weight',
-      sizeKey: 'bmi',
-      shape: 'circle',
-    },
-  }"
-/>
-```
-
----
-
-## Gauge Chart
-
-Standalone — no `config`, no `data` array. Just a single `value`.
-
-### Props
-
-| Prop | Type | Default |
-|------|------|---------|
-| `value` | `number` | *required* |
-| `min` | `number` | `0` |
-| `max` | `number` | `100` |
-| `variant` | `'semicircle' \| 'arc' \| 'full'` | `'semicircle'` |
-| `segments` | `GaugeSegment[]` | — |
-| `color` | `string` | `'var(--color-chart-1)'` |
-| `trackColor` | `string` | `'var(--color-border)'` |
-| `label` | `string` | — |
-| `strokeWidth` | `number` | `20` |
-| `showNeedle` | `boolean` | `true` |
-| `showSegmentLabels` | `boolean` | `false` |
-| `valueFormatter` | `(v: number) => string` | — |
-
-```ts
-// GaugeSegment = { label?: string; max: number; color: string }
-```
-
-### Examples
-
-```vue
-<!-- Simple gauge -->
-<UiChartGauge :value="72" label="CPU Usage" />
-
-<!-- With segments -->
-<UiChartGauge
-  :value="65"
-  :min="0"
-  :max="100"
-  variant="arc"
-  label="Performance"
-  :segments="[
-    { max: 30, color: '#ef4444', label: 'Low' },
-    { max: 70, color: '#f59e0b', label: 'Med' },
-    { max: 100, color: '#10b981', label: 'High' },
-  ]"
-  :show-segment-labels="true"
-  :value-formatter="(v) => `${v}%`"
-/>
-
-<!-- Full circle -->
-<UiChartGauge :value="42" variant="full" :show-needle="false" />
-```
-
----
-
-## Class Override Pattern
-
-All components support Tailwind class overrides via the `class` attribute:
-
-```vue
-<Button class="w-full rounded-full">Full width pill</Button>
-<Badge class="rounded-full">Pill badge</Badge>
-<Card class="bg-muted">Gray card</Card>
-<UiChartBar class="rounded-xl border" :data="..." :config="..." index="..." />
-```
-
-Classes are merged via `cn()` (clsx + tailwind-merge), so your classes will properly override defaults without needing `!important`.
 
 ---
 
 ## Design Tokens
 
-Available Tailwind token classes from the theme:
+All components use CSS custom properties defined in `theme.css`. Key tokens:
 
-**Colors:** `background`, `foreground`, `card`, `card-foreground`, `popover`, `popover-foreground`, `primary`, `primary-foreground`, `secondary`, `secondary-foreground`, `muted`, `muted-foreground`, `accent`, `accent-foreground`, `destructive`, `destructive-foreground`, `border`, `input`, `ring`
+| Token | Default | Usage |
+|---|---|---|
+| `--color-primary` | hsl(0 0% 0%) | Primary actions, buttons |
+| `--color-secondary` | hsl(0 0% 94%) | Secondary backgrounds |
+| `--color-muted` | hsl(0 0% 96%) | Subtle backgrounds |
+| `--color-muted-foreground` | hsl(0 0% 45%) | Secondary text |
+| `--color-destructive` | hsl(0 84% 50%) | Errors, delete actions |
+| `--color-border` | hsl(0 0% 85%) | Default borders |
+| `--color-background` | hsl(0 0% 98%) | Page background |
+| `--color-card` | hsl(0 0% 100%) | Card backgrounds |
+| `--ui-border-width` | 2px | All component borders (set 0px for borderless) |
+| `--ui-radius` | 0.625rem | Base border radius (scales all rounded-* variants) |
 
-**Usage:** `bg-primary`, `text-muted-foreground`, `bg-card`, `shadow-sm`, etc.
+Dark mode: add `.dark` class to `<html>`.
 
-**Radius:** `rounded-sm` (0.45rem), `rounded-md` (0.65rem), `rounded-lg` (0.75rem), `rounded-xl` (1rem)
+Global customization:
+```css
+:root {
+  --ui-border-width: 1px;  /* thinner borders */
+  --ui-radius: 1rem;       /* rounder corners */
+}
+```
 
-**Key dark mode values:**
-| Token | Light | Dark |
-|-------|-------|------|
-| `background` | `hsl(0 0% 98%)` | `hsl(0 0% 0%)` |
-| `card` | `hsl(0 0% 100%)` | `hsl(0 0% 5%)` |
-| `popover` | `hsl(0 0% 100%)` | `hsl(0 0% 5%)` |
-| `muted` | `hsl(0 0% 96%)` | `hsl(0 0% 10%)` |
+---
 
-**Note:** Form controls (Input, Textarea, Select) use `bg-foreground/5` instead of a dedicated background token — this adapts automatically to light/dark mode. The `border` and `input` tokens are still available for directional borders (e.g., `border-b border-border` on table rows) but are NOT used on component edges.
+## Vue Plugin Setup
+
+```ts
+// main.ts
+import { createApp } from 'vue'
+import App from './App.vue'
+import '@3df-spa/ui/styles.css' // or theme.css with Option B
+
+createApp(App).mount('#app')
+```
+
+No plugin registration needed — all components are imported directly.
+
+---
+
+## @3df-spa/ui — Component Reference
+
+All imports come from `@3df-spa/ui`. Never import from internal paths.
+
+### Buttons
+
+```vue
+<script setup lang="ts">
+import { Button } from '@3df-spa/ui'
+</script>
+<template>
+  <Button variant="default">Click me</Button>
+  <Button variant="destructive" size="sm">Delete</Button>
+  <Button variant="outline" size="lg" :disabled="loading">
+    <Loader2 class="animate-spin" /> Loading
+  </Button>
+</template>
+```
+
+Button props: `variant` (default|destructive|outline|secondary|ghost|link), `size` (default|sm|lg|icon), `disabled`, `as` (renders as different element).
+
+### Input & Label
+
+```vue
+<script setup lang="ts">
+import { Input, Label } from '@3df-spa/ui'
+</script>
+<template>
+  <div class="flex flex-col gap-2">
+    <Label for="email">Email</Label>
+    <Input id="email" type="email" placeholder="user@example.com" />
+  </div>
+</template>
+```
+
+### Textarea
+
+```vue
+<script setup lang="ts">
+import { Textarea } from '@3df-spa/ui'
+</script>
+<template>
+  <Textarea placeholder="Write something..." rows="4" />
+</template>
+```
+
+### Select
+
+```vue
+<script setup lang="ts">
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@3df-spa/ui'
+const value = ref('')
+</script>
+<template>
+  <Select v-model="value">
+    <SelectTrigger><SelectValue placeholder="Choose..." /></SelectTrigger>
+    <SelectContent>
+      <SelectItem value="a">Option A</SelectItem>
+      <SelectItem value="b">Option B</SelectItem>
+    </SelectContent>
+  </Select>
+</template>
+```
+
+### Checkbox
+
+```vue
+<script setup lang="ts">
+import { Checkbox, Label } from '@3df-spa/ui'
+const checked = ref(false)
+</script>
+<template>
+  <div class="flex items-center gap-2">
+    <Checkbox id="terms" v-model:checked="checked" />
+    <Label for="terms">Accept terms</Label>
+  </div>
+</template>
+```
+
+### Switch
+
+```vue
+<script setup lang="ts">
+import { Switch, Label } from '@3df-spa/ui'
+const enabled = ref(false)
+</script>
+<template>
+  <div class="flex items-center gap-2">
+    <Switch id="notif" v-model:checked="enabled" />
+    <Label for="notif">Notifications</Label>
+  </div>
+</template>
+```
+
+### Radio Group
+
+```vue
+<script setup lang="ts">
+import { RadioGroup, RadioGroupItem, Label } from '@3df-spa/ui'
+const plan = ref('free')
+</script>
+<template>
+  <RadioGroup v-model="plan">
+    <div class="flex items-center gap-2">
+      <RadioGroupItem id="free" value="free" />
+      <Label for="free">Free</Label>
+    </div>
+    <div class="flex items-center gap-2">
+      <RadioGroupItem id="pro" value="pro" />
+      <Label for="pro">Pro</Label>
+    </div>
+  </RadioGroup>
+</template>
+```
+
+### Combobox
+
+```vue
+<script setup lang="ts">
+import { Combobox } from '@3df-spa/ui'
+const value = ref('')
+const options = [
+  { value: 'react', label: 'React' },
+  { value: 'vue', label: 'Vue' },
+]
+</script>
+<template>
+  <Combobox v-model="value" :options="options" placeholder="Search framework..." />
+</template>
+```
+
+### DatePicker
+
+```vue
+<script setup lang="ts">
+import { DatePicker } from '@3df-spa/ui'
+const date = ref<Date>()
+</script>
+<template>
+  <DatePicker v-model="date" placeholder="Pick a date" />
+</template>
+```
+
+### Slider
+
+```vue
+<script setup lang="ts">
+import { Slider } from '@3df-spa/ui'
+const volume = ref([50])
+</script>
+<template>
+  <Slider v-model="volume" :min="0" :max="100" :step="1" />
+</template>
+```
+
+### Toggle
+
+```vue
+<script setup lang="ts">
+import { Toggle } from '@3df-spa/ui'
+</script>
+<template>
+  <Toggle>Bold</Toggle>
+  <Toggle variant="outline" size="sm">Italic</Toggle>
+</template>
+```
+
+Toggle props: `variant` (default|outline), `size` (default|sm|lg), `pressed`.
+
+### InputOTP
+
+```vue
+<script setup lang="ts">
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@3df-spa/ui'
+const otp = ref('')
+</script>
+<template>
+  <InputOTP v-model="otp" :maxlength="6">
+    <InputOTPGroup>
+      <InputOTPSlot :index="0" />
+      <InputOTPSlot :index="1" />
+      <InputOTPSlot :index="2" />
+      <InputOTPSlot :index="3" />
+      <InputOTPSlot :index="4" />
+      <InputOTPSlot :index="5" />
+    </InputOTPGroup>
+  </InputOTP>
+</template>
+```
+
+### Card
+
+```vue
+<script setup lang="ts">
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df-spa/ui'
+</script>
+<template>
+  <Card>
+    <CardHeader>
+      <CardTitle>Title</CardTitle>
+      <CardDescription>Description</CardDescription>
+    </CardHeader>
+    <CardContent>Content here</CardContent>
+    <CardFooter>
+      <Button>Action</Button>
+    </CardFooter>
+  </Card>
+</template>
+```
+
+### Badge
+
+```vue
+<script setup lang="ts">
+import { Badge } from '@3df-spa/ui'
+</script>
+<template>
+  <Badge>Default</Badge>
+  <Badge variant="secondary">Secondary</Badge>
+  <Badge variant="destructive">Error</Badge>
+  <Badge variant="outline">Outline</Badge>
+</template>
+```
+
+Badge props: `variant` (default|secondary|destructive|outline).
+
+### Avatar
+
+```vue
+<script setup lang="ts">
+import { Avatar, AvatarImage, AvatarFallback } from '@3df-spa/ui'
+</script>
+<template>
+  <Avatar>
+    <AvatarImage src="/avatar.png" alt="User" />
+    <AvatarFallback>JD</AvatarFallback>
+  </Avatar>
+</template>
+```
+
+### Alert
+
+```vue
+<script setup lang="ts">
+import { Alert, AlertTitle, AlertDescription } from '@3df-spa/ui'
+</script>
+<template>
+  <Alert>
+    <AlertTitle>Heads up!</AlertTitle>
+    <AlertDescription>Something important happened.</AlertDescription>
+  </Alert>
+  <Alert variant="destructive">
+    <AlertTitle>Error</AlertTitle>
+    <AlertDescription>Something went wrong.</AlertDescription>
+  </Alert>
+</template>
+```
+
+### Banner
+
+```vue
+<script setup lang="ts">
+import { Banner } from '@3df-spa/ui'
+</script>
+<template>
+  <Banner variant="info">Your session expires soon.</Banner>
+  <Banner variant="warning" dismissible>Maintenance scheduled.</Banner>
+</template>
+```
+
+### Progress
+
+```vue
+<script setup lang="ts">
+import { Progress } from '@3df-spa/ui'
+const value = ref(60)
+</script>
+<template>
+  <Progress :value="value" />
+</template>
+```
+
+### Skeleton
+
+```vue
+<script setup lang="ts">
+import { Skeleton } from '@3df-spa/ui'
+</script>
+<template>
+  <Skeleton class="h-4 w-[200px]" />
+  <Skeleton class="h-12 w-12 rounded-full" />
+</template>
+```
+
+### Separator
+
+```vue
+<script setup lang="ts">
+import { Separator } from '@3df-spa/ui'
+</script>
+<template>
+  <Separator />
+  <Separator orientation="vertical" class="h-4" />
+</template>
+```
+
+### ScrollArea
+
+```vue
+<script setup lang="ts">
+import { ScrollArea } from '@3df-spa/ui'
+</script>
+<template>
+  <ScrollArea class="h-72 w-48">
+    <div v-for="i in 50" :key="i">Item {{ i }}</div>
+  </ScrollArea>
+</template>
+```
+
+### Tabs
+
+```vue
+<script setup lang="ts">
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@3df-spa/ui'
+</script>
+<template>
+  <Tabs default-value="account">
+    <TabsList>
+      <TabsTrigger value="account">Account</TabsTrigger>
+      <TabsTrigger value="password">Password</TabsTrigger>
+    </TabsList>
+    <TabsContent value="account">Account settings...</TabsContent>
+    <TabsContent value="password">Password settings...</TabsContent>
+  </Tabs>
+</template>
+```
+
+### Accordion
+
+```vue
+<script setup lang="ts">
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df-spa/ui'
+</script>
+<template>
+  <Accordion type="single" collapsible>
+    <AccordionItem value="item-1">
+      <AccordionTrigger>Is it accessible?</AccordionTrigger>
+      <AccordionContent>Yes. It follows WAI-ARIA patterns.</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</template>
+```
+
+### Collapsible
+
+```vue
+<script setup lang="ts">
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui'
+const open = ref(false)
+</script>
+<template>
+  <Collapsible v-model:open="open">
+    <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+    <CollapsibleContent>Hidden content here.</CollapsibleContent>
+  </Collapsible>
+</template>
+```
+
+### Dialog
+
+```vue
+<script setup lang="ts">
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df-spa/ui'
+</script>
+<template>
+  <Dialog>
+    <DialogTrigger as-child><Button>Open</Button></DialogTrigger>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Edit profile</DialogTitle>
+        <DialogDescription>Make changes here.</DialogDescription>
+      </DialogHeader>
+      <div>Form content</div>
+      <DialogFooter>
+        <DialogClose as-child><Button variant="outline">Cancel</Button></DialogClose>
+        <Button>Save</Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</template>
+```
+
+### AlertDialog
+
+```vue
+<script setup lang="ts">
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@3df-spa/ui'
+</script>
+<template>
+  <AlertDialog>
+    <AlertDialogTrigger as-child><Button variant="destructive">Delete</Button></AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+        <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction>Delete</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+</template>
+```
+
+### Sheet
+
+```vue
+<script setup lang="ts">
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '@3df-spa/ui'
+</script>
+<template>
+  <Sheet>
+    <SheetTrigger as-child><Button>Open Sheet</Button></SheetTrigger>
+    <SheetContent side="right">
+      <SheetHeader>
+        <SheetTitle>Edit profile</SheetTitle>
+        <SheetDescription>Make changes here.</SheetDescription>
+      </SheetHeader>
+      <div>Content</div>
+      <SheetFooter>
+        <SheetClose as-child><Button>Save</Button></SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+</template>
+```
+
+Sheet `side` prop: `right` (default) | `left` | `top` | `bottom`.
+
+### Drawer
+
+```vue
+<script setup lang="ts">
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from '@3df-spa/ui'
+</script>
+<template>
+  <Drawer>
+    <DrawerTrigger as-child><Button>Open Drawer</Button></DrawerTrigger>
+    <DrawerContent>
+      <DrawerHeader>
+        <DrawerTitle>Title</DrawerTitle>
+        <DrawerDescription>Description</DrawerDescription>
+      </DrawerHeader>
+      <div class="p-4">Content</div>
+      <DrawerFooter>
+        <DrawerClose as-child><Button variant="outline">Cancel</Button></DrawerClose>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
+</template>
+```
+
+### DropdownMenu
+
+```vue
+<script setup lang="ts">
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from '@3df-spa/ui'
+</script>
+<template>
+  <DropdownMenu>
+    <DropdownMenuTrigger as-child><Button variant="outline">Options</Button></DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Settings</DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem variant="destructive">Logout</DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</template>
+```
+
+### ContextMenu
+
+```vue
+<script setup lang="ts">
+import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } from '@3df-spa/ui'
+</script>
+<template>
+  <ContextMenu>
+    <ContextMenuTrigger>Right-click here</ContextMenuTrigger>
+    <ContextMenuContent>
+      <ContextMenuItem>View</ContextMenuItem>
+      <ContextMenuItem>Edit</ContextMenuItem>
+    </ContextMenuContent>
+  </ContextMenu>
+</template>
+```
+
+### Command
+
+```vue
+<script setup lang="ts">
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@3df-spa/ui'
+</script>
+<template>
+  <Command>
+    <CommandInput placeholder="Search..." />
+    <CommandList>
+      <CommandEmpty>No results.</CommandEmpty>
+      <CommandGroup heading="Suggestions">
+        <CommandItem value="calendar">Calendar</CommandItem>
+        <CommandItem value="settings">Settings</CommandItem>
+      </CommandGroup>
+    </CommandList>
+  </Command>
+</template>
+```
+
+### Popover
+
+```vue
+<script setup lang="ts">
+import { Popover, PopoverTrigger, PopoverContent } from '@3df-spa/ui'
+</script>
+<template>
+  <Popover>
+    <PopoverTrigger as-child><Button>Open</Button></PopoverTrigger>
+    <PopoverContent>Content inside popover.</PopoverContent>
+  </Popover>
+</template>
+```
+
+### HoverCard
+
+```vue
+<script setup lang="ts">
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui'
+</script>
+<template>
+  <HoverCard>
+    <HoverCardTrigger>Hover me</HoverCardTrigger>
+    <HoverCardContent>Preview content here.</HoverCardContent>
+  </HoverCard>
+</template>
+```
+
+### Tooltip
+
+```vue
+<script setup lang="ts">
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@3df-spa/ui'
+</script>
+<template>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger as-child><Button>Hover me</Button></TooltipTrigger>
+      <TooltipContent>Helpful text</TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</template>
+```
+
+### Sonner (Toast)
+
+```vue
+<script setup lang="ts">
+import { Toaster } from '@3df-spa/ui'
+import { toast } from 'vue-sonner'
+</script>
+<template>
+  <!-- Add once in App.vue -->
+  <Toaster />
+
+  <!-- Trigger anywhere -->
+  <Button @click="toast('File saved!')">Save</Button>
+  <Button @click="toast.error('Something went wrong')">Error</Button>
+  <Button @click="toast.success('Done!')">Success</Button>
+</template>
+```
+
+### Breadcrumb
+
+```vue
+<script setup lang="ts">
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '@3df-spa/ui'
+</script>
+<template>
+  <Breadcrumb>
+    <BreadcrumbList>
+      <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+      <BreadcrumbSeparator />
+      <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+    </BreadcrumbList>
+  </Breadcrumb>
+</template>
+```
+
+### NavigationMenu
+
+```vue
+<script setup lang="ts">
+import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink } from '@3df-spa/ui'
+</script>
+<template>
+  <NavigationMenu>
+    <NavigationMenuList>
+      <NavigationMenuItem>
+        <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+        <NavigationMenuContent>
+          <NavigationMenuLink href="/ui">UI Library</NavigationMenuLink>
+        </NavigationMenuContent>
+      </NavigationMenuItem>
+    </NavigationMenuList>
+  </NavigationMenu>
+</template>
+```
+
+### Menubar
+
+```vue
+<script setup lang="ts">
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarSeparator } from '@3df-spa/ui'
+</script>
+<template>
+  <Menubar>
+    <MenubarMenu>
+      <MenubarTrigger>File</MenubarTrigger>
+      <MenubarContent>
+        <MenubarItem>New</MenubarItem>
+        <MenubarItem>Open</MenubarItem>
+        <MenubarSeparator />
+        <MenubarItem>Exit</MenubarItem>
+      </MenubarContent>
+    </MenubarMenu>
+  </Menubar>
+</template>
+```
+
+### Pagination
+
+```vue
+<script setup lang="ts">
+import { Pagination, PaginationList, PaginationListItem, PaginationPrev, PaginationNext, PaginationFirst, PaginationLast, PaginationEllipsis } from '@3df-spa/ui'
+const page = ref(1)
+</script>
+<template>
+  <Pagination v-model:page="page" :total="100" :sibling-count="1" show-edges>
+    <PaginationList v-slot="{ items }">
+      <PaginationFirst />
+      <PaginationPrev />
+      <template v-for="item in items" :key="item.type">
+        <PaginationListItem v-if="item.type === 'page'" :value="item.value">
+          {{ item.value }}
+        </PaginationListItem>
+        <PaginationEllipsis v-else />
+      </template>
+      <PaginationNext />
+      <PaginationLast />
+    </PaginationList>
+  </Pagination>
+</template>
+```
+
+### Table
+
+```vue
+<script setup lang="ts">
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption } from '@3df-spa/ui'
+</script>
+<template>
+  <Table>
+    <TableCaption>List of users</TableCaption>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Name</TableHead>
+        <TableHead>Email</TableHead>
+        <TableHead>Role</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow>
+        <TableCell>John Doe</TableCell>
+        <TableCell>john@example.com</TableCell>
+        <TableCell>Admin</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</template>
+```
+
+### Sidebar
+
+```vue
+<script setup lang="ts">
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from '@3df-spa/ui'
+</script>
+<template>
+  <SidebarProvider>
+    <Sidebar>
+      <SidebarHeader>My App</SidebarHeader>
+      <SidebarContent>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>Dashboard</SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton>Settings</SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarContent>
+      <SidebarFooter>Footer</SidebarFooter>
+    </Sidebar>
+    <main>
+      <SidebarTrigger />
+      <!-- page content -->
+    </main>
+  </SidebarProvider>
+</template>
+```
+
+### EmptyState
+
+```vue
+<script setup lang="ts">
+import { EmptyState } from '@3df-spa/ui'
+import { Search } from 'lucide-vue-next'
+</script>
+<template>
+  <EmptyState
+    title="No results found"
+    description="Try adjusting your search filters."
+    :icon="Search"
+  >
+    <Button>Clear filters</Button>
+  </EmptyState>
+</template>
+```
+
+### Hero
+
+```vue
+<script setup lang="ts">
+import { Hero, HeroTitle, HeroDescription, HeroActions } from '@3df-spa/ui'
+</script>
+<template>
+  <Hero>
+    <HeroTitle>Build faster with 3DF UI</HeroTitle>
+    <HeroDescription>A complete Vue 3 component library.</HeroDescription>
+    <HeroActions>
+      <Button size="lg">Get started</Button>
+      <Button variant="outline" size="lg">View docs</Button>
+    </HeroActions>
+  </Hero>
+</template>
+```
+
+### Carousel
+
+```vue
+<script setup lang="ts">
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df-spa/ui'
+</script>
+<template>
+  <Carousel>
+    <CarouselContent>
+      <CarouselItem v-for="i in 5" :key="i">Slide {{ i }}</CarouselItem>
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+  </Carousel>
+</template>
+```
+
+### Calendar
+
+```vue
+<script setup lang="ts">
+import { Calendar } from '@3df-spa/ui'
+const selected = ref<Date>()
+</script>
+<template>
+  <Calendar v-model="selected" />
+</template>
+```
+
+### Kbd
+
+```vue
+<script setup lang="ts">
+import { Kbd } from '@3df-spa/ui'
+</script>
+<template>
+  <Kbd>⌘K</Kbd>
+  <span>Press <Kbd>Ctrl</Kbd> + <Kbd>S</Kbd> to save</span>
+</template>
+```
+
+---
+
+## @3df-spa/charts — Component Reference
+
+All imports from `@3df-spa/charts`. Zero external dependencies (Vue peer only).
+
+### Core Concepts
+
+Every chart uses `UiChartContainer` as the wrapper (provides responsive width/height via ResizeObserver). The `config` prop maps series keys to labels and colors. Data is an array of row objects.
+
+```ts
+import type { ChartConfig } from '@3df-spa/charts'
+
+const config: ChartConfig = {
+  sales: { label: 'Sales', color: 'hsl(215 20% 42%)' },
+  revenue: { label: 'Revenue', color: 'hsl(170 25% 38%)' },
+}
+```
+
+### Bar Chart
+
+```vue
+<script setup lang="ts">
+import { UiChartBar } from '@3df-spa/charts'
+import type { ChartConfig } from '@3df-spa/charts'
+
+const data = [
+  { month: 'Jan', sales: 120, returns: 20 },
+  { month: 'Feb', sales: 200, returns: 35 },
+  { month: 'Mar', sales: 180, returns: 28 },
+]
+
+const config: ChartConfig = {
+  sales: { label: 'Sales', color: 'hsl(215 20% 42%)' },
+  returns: { label: 'Returns', color: 'hsl(340 18% 48%)' },
+}
+</script>
+<template>
+  <UiChartBar
+    :data="data"
+    :config="config"
+    index="month"
+    :categories="['sales', 'returns']"
+    class="h-64"
+  />
+</template>
+```
+
+UiChartBar props:
+- `data` — array of row objects (required)
+- `config` — ChartConfig mapping series keys to label/color (required)
+- `index` — key in data used for X axis labels (required)
+- `categories` — array of keys to plot as bars (required)
+- `stack` — boolean, stacks bars (default: false)
+- `orientation` — `'horizontal'` | `'vertical'` (default: `'vertical'`)
+- `showLegend` — boolean (default: true)
+- `showTooltip` — boolean (default: true)
+- `showGrid` — boolean (default: true)
+- `showXAxis` — boolean (default: true)
+- `showYAxis` — boolean (default: true)
+
+### Line Chart
+
+```vue
+<script setup lang="ts">
+import { UiChartLine } from '@3df-spa/charts'
+import type { ChartConfig } from '@3df-spa/charts'
+
+const data = [
+  { month: 'Jan', visitors: 400, pageviews: 1200 },
+  { month: 'Feb', visitors: 600, pageviews: 1800 },
+  { month: 'Mar', visitors: 550, pageviews: 1600 },
+]
+
+const config: ChartConfig = {
+  visitors: { label: 'Visitors', color: 'hsl(215 20% 42%)' },
+  pageviews: { label: 'Page Views', color: 'hsl(170 25% 38%)' },
+}
+</script>
+<template>
+  <UiChartLine
+    :data="data"
+    :config="config"
+    index="month"
+    :categories="['visitors', 'pageviews']"
+    class="h-64"
+  />
+</template>
+```
+
+UiChartLine props: same as UiChartBar plus:
+- `curve` — `'linear'` | `'smooth'` | `'step'` (default: `'smooth'`)
+- `dots` — boolean, show data points (default: true)
+
+### Pie Chart
+
+```vue
+<script setup lang="ts">
+import { UiChartPie } from '@3df-spa/charts'
+import type { ChartConfig } from '@3df-spa/charts'
+
+const data = [
+  { name: 'Chrome', value: 62 },
+  { name: 'Safari', value: 18 },
+  { name: 'Firefox', value: 12 },
+  { name: 'Other', value: 8 },
+]
+
+const config: ChartConfig = {
+  Chrome: { label: 'Chrome', color: 'hsl(215 20% 42%)' },
+  Safari: { label: 'Safari', color: 'hsl(170 25% 38%)' },
+  Firefox: { label: 'Firefox', color: 'hsl(340 18% 48%)' },
+  Other: { label: 'Other', color: 'hsl(38 92% 50%)' },
+}
+</script>
+<template>
+  <UiChartPie
+    :data="data"
+    :config="config"
+    index="name"
+    category="value"
+    class="h-64"
+  />
+</template>
+```
+
+UiChartPie props:
+- `data`, `config`, `index` — same as above
+- `category` — key in data for numeric values (required)
+- `donut` — boolean, renders as donut (default: false)
+- `showLegend`, `showTooltip` — boolean
+
+### Radar Chart
+
+```vue
+<script setup lang="ts">
+import { UiChartRadar } from '@3df-spa/charts'
+import type { ChartConfig } from '@3df-spa/charts'
+
+const data = [
+  { skill: 'HTML', alice: 90, bob: 70 },
+  { skill: 'CSS', alice: 85, bob: 60 },
+  { skill: 'JS', alice: 78, bob: 88 },
+  { skill: 'Vue', alice: 92, bob: 55 },
+  { skill: 'Node', alice: 65, bob: 80 },
+]
+
+const config: ChartConfig = {
+  alice: { label: 'Alice', color: 'hsl(215 20% 42%)' },
+  bob: { label: 'Bob', color: 'hsl(340 18% 48%)' },
+}
+</script>
+<template>
+  <UiChartRadar
+    :data="data"
+    :config="config"
+    index="skill"
+    :categories="['alice', 'bob']"
+    class="h-64"
+  />
+</template>
+```
+
+### Scatter Chart
+
+```vue
+<script setup lang="ts">
+import { UiChartScatter } from '@3df-spa/charts'
+import type { ChartConfig, ScatterConfig } from '@3df-spa/charts'
+
+const data = [
+  { x: 10, y: 30, group: 'A' },
+  { x: 25, y: 15, group: 'A' },
+  { x: 40, y: 50, group: 'B' },
+]
+
+const config: ChartConfig = {
+  A: { label: 'Group A', color: 'hsl(215 20% 42%)' },
+  B: { label: 'Group B', color: 'hsl(340 18% 48%)' },
+}
+</script>
+<template>
+  <UiChartScatter
+    :data="data"
+    :config="config"
+    x-key="x"
+    y-key="y"
+    group-key="group"
+    class="h-64"
+  />
+</template>
+```
+
+### Gauge Chart
+
+```vue
+<script setup lang="ts">
+import { UiChartGauge } from '@3df-spa/charts'
+</script>
+<template>
+  <!-- Simple gauge -->
+  <UiChartGauge :value="72" :max="100" label="Performance" class="h-48" />
+
+  <!-- Segmented gauge -->
+  <UiChartGauge
+    :value="65"
+    :segments="[
+      { min: 0, max: 33, color: 'hsl(0 84% 50%)' },
+      { min: 33, max: 66, color: 'hsl(38 92% 50%)' },
+      { min: 66, max: 100, color: 'hsl(152 69% 31%)' },
+    ]"
+    label="Health"
+    class="h-48"
+  />
+</template>
+```
+
+UiChartGauge props:
+- `value` — current value (required)
+- `min` — minimum value (default: 0)
+- `max` — maximum value (default: 100)
+- `label` — text label below gauge
+- `variant` — `'default'` | `'segmented'`
+- `segments` — array of `{ min, max, color }` for segmented variant
+- `showValue` — boolean (default: true)
+- `animated` — boolean (default: true)
+
+---
+
+## TypeScript Types (@3df-spa/charts)
+
+```ts
+import type {
+  ChartConfig,        // Record<string, { label: string; color: string }>
+  ChartSeriesConfig,  // Single series config entry
+  ChartDataRow,       // Record<string, string | number>
+  ChartContext,       // Provided by UiChartContainer
+  GaugeSegment,       // { min: number; max: number; color: string }
+  GaugeVariant,       // 'default' | 'segmented'
+  RadarVariant,       // radar chart variant type
+  ScatterShape,       // 'circle' | 'square' | 'triangle' | 'diamond'
+  CurveType,          // 'linear' | 'smooth' | 'step'
+} from '@3df-spa/charts'
+```
+
+---
+
+## Common Patterns
+
+### Form with validation
+```vue
+<script setup lang="ts">
+import { Input, Label, Button } from '@3df-spa/ui'
+const email = ref('')
+const error = ref('')
+
+function submit() {
+  if (!email.value.includes('@')) {
+    error.value = 'Invalid email'
+    return
+  }
+  // submit...
+}
+</script>
+<template>
+  <form @submit.prevent="submit" class="flex flex-col gap-4">
+    <div class="flex flex-col gap-1.5">
+      <Label for="email">Email</Label>
+      <Input id="email" v-model="email" type="email" :class="error ? 'border-destructive' : ''" />
+      <p v-if="error" class="text-sm text-destructive">{{ error }}</p>
+    </div>
+    <Button type="submit">Submit</Button>
+  </form>
+</template>
+```
+
+### Dashboard layout with sidebar
+```vue
+<script setup lang="ts">
+import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from '@3df-spa/ui'
+</script>
+<template>
+  <SidebarProvider>
+    <Sidebar>
+      <SidebarContent>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>Dashboard</SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarContent>
+    </Sidebar>
+    <main class="flex-1 p-6">
+      <SidebarTrigger class="mb-4" />
+      <slot />
+    </main>
+  </SidebarProvider>
+</template>
+```
+
+### Data table with pagination
+```vue
+<script setup lang="ts">
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, Pagination, PaginationList, PaginationListItem, PaginationPrev, PaginationNext } from '@3df-spa/ui'
+const page = ref(1)
+const perPage = 10
+const data = ref([/* ... */])
+const paginatedData = computed(() => data.value.slice((page.value - 1) * perPage, page.value * perPage))
+</script>
+<template>
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Name</TableHead>
+        <TableHead>Status</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      <TableRow v-for="row in paginatedData" :key="row.id">
+        <TableCell>{{ row.name }}</TableCell>
+        <TableCell><Badge>{{ row.status }}</Badge></TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+  <Pagination v-model:page="page" :total="data.length">
+    <PaginationList v-slot="{ items }">
+      <PaginationPrev />
+      <template v-for="item in items" :key="item.type">
+        <PaginationListItem v-if="item.type === 'page'" :value="item.value">{{ item.value }}</PaginationListItem>
+      </template>
+      <PaginationNext />
+    </PaginationList>
+  </Pagination>
+</template>
+```
+
+---
+
+## Rules for AI Assistants
+
+1. **Always import from `@3df-spa/ui` or `@3df-spa/charts`** — never from internal paths
+2. **All components accept `class` prop** for Tailwind customization via tailwind-merge
+3. **Use `as-child` prop** on triggers to render as a custom element instead of the default button
+4. **Dark mode**: add `.dark` class to `<html>` element
+5. **Never use `!important`** — use tailwind-merge via `class` prop instead
+6. **Charts need a height** — always add a height class (e.g., `class="h-64"`) to chart components
+7. **TooltipProvider** must wrap all Tooltip usage (place once high in the component tree)
+8. **Toaster** must be placed once in App.vue for `toast()` to work
+9. **Carousel requires `embla-carousel`** peer dependency
+10. **Calendar/DatePicker require `date-fns`** peer dependency

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 import {
   Sidebar,
   SidebarContent,
@@ -14,13 +16,15 @@ import {
   SidebarProvider,
   SidebarSeparator,
   SidebarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      6 · Sidebar skeleton — estado de carga
+      {{ t('demo.sidebar.skeletonTitle') }}
     </h2>
 
     <div class="border-border h-[400px] overflow-hidden rounded-lg border [contain:paint]">
@@ -76,13 +80,13 @@ import {
         <SidebarInset>
           <header class="border-border flex h-12 items-center gap-2 border-b px-4">
             <SidebarTrigger />
-            <span class="text-sm font-medium">Skeleton de carga</span>
+            <span class="text-sm font-medium">{{ t('demo.sidebar.skeletonContent') }}</span>
           </header>
           <div class="flex-1 p-6">
             <p class="text-muted-foreground text-sm">
               Usa
               <code class="bg-muted rounded px-1 font-mono text-xs">SidebarMenuSkeleton</code>
-              para estados de carga elegantes.
+              {{ t('demo.sidebar.skeletonContentDesc') }}
             </p>
           </div>
         </SidebarInset>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df-spa/ui';
+import { useI18n } from 'vue-i18n';
+import { Button, Tooltip, TooltipContent, TooltipTrigger } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const codeIcons = `<Tooltip>
   <TooltipTrigger>
@@ -9,12 +12,12 @@ const codeIcons = `<Tooltip>
       <DownloadIcon class="size-4" />
     </Button>
   </TooltipTrigger>
-  <TooltipContent>Descargar archivo</TooltipContent>
+  <TooltipContent>Download file</TooltipContent>
 </Tooltip>`;
 </script>
 
 <template>
-  <DocShowcase title="Con botones de icono" :code="codeIcons">
+  <DocShowcase :title="t('demo.tooltip.iconButtons')" :code="codeIcons">
     <div class="flex gap-3">
       <Tooltip>
         <TooltipTrigger>
@@ -35,7 +38,7 @@ const codeIcons = `<Tooltip>
             </svg>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Descargar archivo</TooltipContent>
+        <TooltipContent>{{ t('demo.downloadFile') }}</TooltipContent>
       </Tooltip>
 
       <Tooltip>
@@ -56,7 +59,7 @@ const codeIcons = `<Tooltip>
             </svg>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Copiar al portapapeles</TooltipContent>
+        <TooltipContent>{{ t('demo.copyToClipboard') }}</TooltipContent>
       </Tooltip>
 
       <Tooltip>
@@ -80,7 +83,7 @@ const codeIcons = `<Tooltip>
             </svg>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Eliminar elemento</TooltipContent>
+        <TooltipContent>{{ t('demo.deleteElement') }}</TooltipContent>
       </Tooltip>
     </div>
   </DocShowcase>

@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { uiRoutes, chartRoutes } from '@/router';
+import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
+import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
+
+const { t } = useI18n();
 
 const route = useRoute();
 const sidebarOpen = ref(true);
-
+const searchQuery = ref('');
 
 interface NavItem {
   path: string;
@@ -21,7 +26,7 @@ interface NavGroup {
 function groupRoutes(routes: typeof uiRoutes, prefix: string): NavGroup[] {
   const map = new Map<string, NavItem[]>();
   for (const r of routes) {
-    const group = (r.meta?.group as string) ?? 'Otros';
+    const group = (r.meta?.group as string) ?? 'other';
     if (!map.has(group)) map.set(group, []);
     map.get(group)!.push({
       path: r.path,
@@ -35,6 +40,28 @@ function groupRoutes(routes: typeof uiRoutes, prefix: string): NavGroup[] {
 const uiGroups = computed(() => groupRoutes(uiRoutes, '/ui'));
 const chartGroups = computed(() => groupRoutes(chartRoutes, '/charts'));
 
+const filteredUiGroups = computed(() => {
+  const q = searchQuery.value.trim().toLowerCase();
+  if (!q) return uiGroups.value;
+  return uiGroups.value
+    .map(group => ({
+      label: group.label,
+      items: group.items.filter(item => item.name.toLowerCase().includes(q)),
+    }))
+    .filter(group => group.items.length > 0);
+});
+
+const filteredChartGroups = computed(() => {
+  const q = searchQuery.value.trim().toLowerCase();
+  if (!q) return chartGroups.value;
+  return chartGroups.value
+    .map(group => ({
+      label: group.label,
+      items: group.items.filter(item => item.name.toLowerCase().includes(q)),
+    }))
+    .filter(group => group.items.length > 0);
+});
+
 const activeSection = ref<'ui' | 'charts'>(route.path.startsWith('/charts') ? 'charts' : 'ui');
 
 function isActive(fullPath: string) {
@@ -47,7 +74,7 @@ function isActive(fullPath: string) {
     
     <aside
       :class="[
-        'flex h-full shrink-0 flex-col border-r border-border bg-muted/50 transition-[width] duration-200',
+        'flex h-full shrink-0 flex-col border-r-ui border-border bg-muted/50 transition-[width] duration-200',
         sidebarOpen ? 'w-60' : 'w-0 overflow-hidden border-r-0',
       ]"
     >
@@ -55,7 +82,7 @@ function isActive(fullPath: string) {
       <div class="flex h-14 items-center gap-2 border-b border-border px-4">
         <span class="text-sm font-bold tracking-tight">3DF UI</span>
         <span class="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
-          Playground
+          {{ t('layout.playground') }}
         </span>
       </div>
 
@@ -70,7 +97,7 @@ function isActive(fullPath: string) {
           ]"
           @click="activeSection = 'ui'"
         >
-          Componentes
+          {{ t('layout.components') }}
         </button>
         <button
           :class="[
@@ -81,16 +108,37 @@ function isActive(fullPath: string) {
           ]"
           @click="activeSection = 'charts'"
         >
-          Charts
+          {{ t('layout.charts') }}
         </button>
+      </div>
+
+      
+      <div class="border-b border-border px-3 py-2">
+        <div class="relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            aria-hidden="true"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            v-model="searchQuery"
+            type="search"
+            :placeholder="t('layout.search')"
+            class="h-8 w-full rounded-md border border-border bg-background pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring"
+          />
+        </div>
       </div>
 
       
       <nav class="flex-1 overflow-y-auto px-3 py-3">
         <template v-if="activeSection === 'ui'">
-          <div v-for="group in uiGroups" :key="group.label" class="mb-4">
+          <div v-for="group in filteredUiGroups" :key="group.label" class="mb-4">
             <h3 class="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {{ group.label }}
+              {{ t('groups.' + group.label, group.label) }}
             </h3>
             <ul class="space-y-0.5">
               <li v-for="item in group.items" :key="item.path">
@@ -108,12 +156,15 @@ function isActive(fullPath: string) {
               </li>
             </ul>
           </div>
+          <p v-if="filteredUiGroups.length === 0 && activeSection === 'ui'" class="px-3 py-4 text-xs text-muted-foreground text-center">
+            {{ t('layout.noResults') }}
+          </p>
         </template>
 
         <template v-else>
-          <div v-for="group in chartGroups" :key="group.label" class="mb-4">
+          <div v-for="group in filteredChartGroups" :key="group.label" class="mb-4">
             <h3 class="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-              {{ group.label }}
+              {{ t('groups.' + group.label, group.label) }}
             </h3>
             <ul class="space-y-0.5">
               <li v-for="item in group.items" :key="item.path">
@@ -131,6 +182,9 @@ function isActive(fullPath: string) {
               </li>
             </ul>
           </div>
+          <p v-if="filteredChartGroups.length === 0 && activeSection === 'charts'" class="px-3 py-4 text-xs text-muted-foreground text-center">
+            {{ t('layout.noResults') }}
+          </p>
         </template>
       </nav>
     </aside>
@@ -155,6 +209,9 @@ function isActive(fullPath: string) {
         </span>
 
         <div class="flex-1" />
+
+        <LocaleSwitcher />
+        <ThemeSwitcher />
 
         <span class="text-xs text-muted-foreground">
           @3df-spa/ui

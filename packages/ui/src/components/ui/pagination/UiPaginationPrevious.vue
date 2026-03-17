@@ -29,7 +29,7 @@ const classes = computed(() =>
     'inline-flex h-8 items-center justify-center gap-1 rounded-md px-2 text-xs font-medium',
     'transition-colors duration-200',
     'hover:bg-accent hover:text-accent-foreground',
-    'focus-visible:outline-none focus-visible:ring-[3.2px] focus-visible:ring-ring',
+    'focus-visible:outline-2 focus-visible:outline-ring',
     'cursor-pointer select-none',
     props.disabled && 'pointer-events-none opacity-50',
     attrs.class,

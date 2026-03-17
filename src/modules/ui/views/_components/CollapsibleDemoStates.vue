@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df-spa/ui';
+import { useI18n } from 'vue-i18n';
+import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const disabledCode = `<Collapsible disabled>
   <CollapsibleTrigger>
@@ -26,14 +29,14 @@ const defaultOpenCode = `<Collapsible default-open>
 
 <template>
   <DocShowcase
-    title="Deshabilitado"
-    description="El collapsible no responde a interacciones."
+    :title="t('demo.collapsible.disabledShowcase')"
+    :description="t('demo.collapsible.disabledDesc')"
     :code="disabledCode"
   >
     <div class="mx-auto w-full max-w-sm">
       <Collapsible disabled class="space-y-2">
         <div class="flex items-center justify-between space-x-4">
-          <h4 class="text-sm font-semibold opacity-50">Sección deshabilitada</h4>
+          <h4 class="text-sm font-semibold opacity-50">{{ t('demo.collapsible.disabledSection') }}</h4>
           <CollapsibleTrigger>
             <Button variant="ghost" size="sm" class="w-9 p-0" disabled>
               <svg
@@ -55,7 +58,7 @@ const defaultOpenCode = `<Collapsible default-open>
         </div>
         <CollapsibleContent>
           <div class="border-border/60 rounded-md border p-4">
-            <p class="text-sm">Este contenido no debería mostrarse.</p>
+            <p class="text-sm">{{ t('demo.collapsible.disabledContent') }}</p>
           </div>
         </CollapsibleContent>
       </Collapsible>
@@ -63,28 +66,25 @@ const defaultOpenCode = `<Collapsible default-open>
   </DocShowcase>
 
   <DocShowcase
-    title="Abierto por defecto"
-    description="El contenido se muestra inicialmente con default-open."
+    :title="t('demo.collapsible.defaultOpenShowcase')"
+    :description="t('demo.collapsible.defaultOpenDesc')"
     :code="defaultOpenCode"
   >
     <div class="mx-auto w-full max-w-sm">
       <Collapsible default-open class="space-y-2">
         <div class="flex items-center justify-between space-x-4">
-          <h4 class="text-sm font-semibold">FAQ: ¿Qué es un Collapsible?</h4>
+          <h4 class="text-sm font-semibold">{{ t('demo.collapsible.faqTitle') }}</h4>
           <CollapsibleTrigger>
             <template #default="{ open }">
               <Button variant="ghost" size="sm">
-                {{ open ? 'Ocultar' : 'Mostrar' }}
+                {{ open ? t('common.hide') : t('common.show') }}
               </Button>
             </template>
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent>
           <div class="border-border/60 rounded-md border p-4">
-            <p class="text-sm">
-              Un Collapsible es un componente interactivo que permite expandir y contraer una
-              sección de contenido. Es ideal para FAQs, menús laterales y paneles de configuración.
-            </p>
+            <p class="text-sm">{{ t('demo.collapsible.faqAnswer') }}</p>
           </div>
         </CollapsibleContent>
       </Collapsible>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import {
   Command,
   CommandEmpty,
@@ -8,22 +9,24 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
+
 const codeInline = `<Command class="rounded-lg border shadow-md">
-  <CommandInput placeholder="Escribe un comando o busca..." />
+  <CommandInput placeholder="Type a command or search..." />
   <CommandList>
-    <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-    <CommandGroup heading="Sugerencias">
-      <CommandItem value="Calendario">Calendario</CommandItem>
-      <CommandItem value="Buscar emoji" :keywords="['emoticon']">Buscar emoji</CommandItem>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem value="Calendar">Calendar</CommandItem>
+      <CommandItem value="Search emoji" :keywords="['emoticon']">Search emoji</CommandItem>
     </CommandGroup>
     <CommandSeparator />
-    <CommandGroup heading="Configuración">
-      <CommandItem value="Perfil">
-        Perfil
+    <CommandGroup heading="Settings">
+      <CommandItem value="Profile">
+        Profile
         <CommandShortcut>⌘P</CommandShortcut>
       </CommandItem>
     </CommandGroup>
@@ -32,14 +35,14 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
 </script>
 
 <template>
-  <DocShowcase title="Command básico" :code="codeInline">
+  <DocShowcase :title="t('demo.command.inlineTitle')" :code="codeInline">
     <div class="mx-auto w-full max-w-md">
       <Command class="rounded-lg border shadow-md">
-        <CommandInput placeholder="Escribe un comando o busca..." />
+        <CommandInput :placeholder="t('demo.command.searchPlaceholder')" />
         <CommandList>
-          <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-          <CommandGroup heading="Sugerencias">
-            <CommandItem value="Calendario">
+          <CommandEmpty>{{ t('demo.command.noResults') }}</CommandEmpty>
+          <CommandGroup :heading="t('demo.command.suggestions')">
+            <CommandItem :value="t('demo.command.calendar')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -57,9 +60,9 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <rect width="18" height="18" x="3" y="4" rx="2" />
                 <path d="M3 10h18" />
               </svg>
-              Calendario
+              {{ t('demo.command.calendar') }}
             </CommandItem>
-            <CommandItem value="Buscar emoji" :keywords="['emoticon', 'smiley']">
+            <CommandItem :value="t('demo.searchEmoji')" :keywords="['emoticon', 'smiley']">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -77,9 +80,9 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <line x1="9" x2="9.01" y1="9" y2="9" />
                 <line x1="15" x2="15.01" y1="9" y2="9" />
               </svg>
-              Buscar emoji
+              {{ t('demo.searchEmoji') }}
             </CommandItem>
-            <CommandItem value="Calculadora">
+            <CommandItem :value="t('demo.command.calculator')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -103,12 +106,12 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <path d="M12 18h.01" />
                 <path d="M8 18h.01" />
               </svg>
-              Calculadora
+              {{ t('demo.command.calculator') }}
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading="Configuración">
-            <CommandItem value="Perfil">
+          <CommandGroup :heading="t('demo.command.configGroup')">
+            <CommandItem :value="t('demo.profile')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -124,10 +127,10 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
               </svg>
-              Perfil
+              {{ t('demo.profile') }}
               <CommandShortcut>⌘P</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Facturación" :keywords="['billing', 'pago']">
+            <CommandItem :value="t('demo.command.billing')" :keywords="['billing', 'pago']">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -143,10 +146,10 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 <rect width="20" height="14" x="2" y="5" rx="2" />
                 <line x1="2" x2="22" y1="10" y2="10" />
               </svg>
-              Facturación
+              {{ t('demo.command.billing') }}
               <CommandShortcut>⌘B</CommandShortcut>
             </CommandItem>
-            <CommandItem value="Ajustes">
+            <CommandItem :value="t('demo.command.ajustes')">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -164,7 +167,7 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
                 />
                 <circle cx="12" cy="12" r="3" />
               </svg>
-              Ajustes
+              {{ t('demo.command.ajustes') }}
               <CommandShortcut>⌘S</CommandShortcut>
             </CommandItem>
           </CommandGroup>
@@ -173,3 +176,4 @@ const codeInline = `<Command class="rounded-lg border shadow-md">
     </div>
   </DocShowcase>
 </template>
+

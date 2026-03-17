@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, useAttrs } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, useAttrs } from 'vue';
 
 defineOptions({ inheritAttrs: false });
 
@@ -37,10 +37,12 @@ onMounted(() => {
   }
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   observer?.disconnect();
   observer = null;
 });
+
+const containerClass = computed(() => ['relative w-full', props.class].filter(Boolean).join(' '));
 
 defineExpose({ width, height });
 </script>
@@ -49,7 +51,7 @@ defineExpose({ width, height });
   <div
     ref="containerRef"
     v-bind="attrs"
-    :class="['relative w-full', props.class]"
+    :class="containerClass"
     :style="{ minHeight: `${minHeight}px` }"
     role="img"
   >

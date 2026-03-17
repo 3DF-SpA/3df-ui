@@ -136,7 +136,7 @@ onBeforeUnmount(() => {
         cn(
           'shrink-0 rounded-md px-3 py-1.5 text-xs font-semibold',
           'bg-primary text-primary-foreground hover:bg-primary/90',
-          'focus-visible:ring-ring transition-colors focus-visible:ring-2 focus-visible:outline-none',
+          'transition-colors focus-visible:outline-2 focus-visible:outline-ring',
         )
       "
       @click="
@@ -153,7 +153,7 @@ onBeforeUnmount(() => {
         cn(
           'shrink-0 rounded-md p-0.5',
           'opacity-50 transition-opacity hover:opacity-100',
-          'focus-visible:ring-ring focus-visible:ring-2 focus-visible:outline-none',
+          'focus-visible:outline-2 focus-visible:outline-ring',
         )
       "
       aria-label="Close notification"

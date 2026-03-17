@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
 
-import { Separator, cn } from '@3df-spa/ui';
+import { Separator, cn } from '@3df/ui';
 import type { ClassValue } from 'clsx';
 
 import DocCodeBlock from './DocCodeBlock.vue';

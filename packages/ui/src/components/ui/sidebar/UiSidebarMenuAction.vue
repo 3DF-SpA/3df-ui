@@ -24,7 +24,7 @@ const classes = computed(() =>
   cn(
     'absolute right-1.5 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-md p-0.5 text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-transform',
     'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
-    'focus-visible:ring-2',
+    'focus-visible:outline-2 focus-visible:outline-ring',
     '[&>svg]:size-4 [&>svg]:shrink-0',
     'group-data-[collapsible=icon]/sidebar-wrapper:hidden',
     props.showOnHover &&

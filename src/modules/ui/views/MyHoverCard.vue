@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df-spa/ui';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -9,44 +12,50 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import HoverCardDemoRich from './_components/HoverCardDemoRich.vue';
 
-const hoverCardProps: PropItem[] = [
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('hoverCard');
+
+const { t } = useI18n();
+
+const hoverCardProps = computed<PropItem[]>(() => [
   {
     name: 'HoverCard: openDelay',
     type: 'number',
     default: '700',
-    description: 'Milisegundos antes de abrir al hacer hover.',
+    description: propDesc('openDelay'),
   },
   {
     name: 'HoverCard: closeDelay',
     type: 'number',
     default: '300',
-    description: 'Milisegundos antes de cerrar al quitar hover.',
+    description: propDesc('closeDelay'),
   },
   {
     name: 'HoverCardContent: align',
     type: "'start' | 'center' | 'end'",
     default: "'center'",
-    description: 'Alineación horizontal respecto al trigger.',
+    description: propDesc('align'),
   },
   {
     name: 'HoverCardContent: side',
     type: "'top' | 'bottom'",
     default: "'bottom'",
-    description: 'Lado preferido para mostrar el card.',
+    description: propDesc('side'),
   },
   {
     name: 'HoverCardContent: sideOffset',
     type: 'number',
     default: '8',
-    description: 'Distancia en px entre trigger y card.',
+    description: propDesc('sideOffset'),
   },
   {
     name: 'HoverCardContent: viewportPadding',
     type: 'number',
     default: '8',
-    description: 'Padding mínimo respecto al viewport.',
+    description: propDesc('viewportPadding'),
   },
-];
+]);
 
 const anatomyCode = `<HoverCard>
   <HoverCardTrigger />
@@ -91,18 +100,18 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Hover Card"
-      description="Tarjeta flotante que aparece al pasar el cursor sobre un elemento, ideal para vistas previas."
-      import-code="import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { HoverCard, HoverCardTrigger, HoverCardContent } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Perfil de usuario" :code="profileCode">
+    <DocShowcase :title="showcaseTitle('profile')" :code="profileCode">
       <p class="text-muted-foreground text-xs">
-        Pasa el cursor sobre el enlace para ver la vista previa.
+        {{ t('demo.hoverCardHint') }}
       </p>
       <HoverCard>
         <HoverCardTrigger>
@@ -151,77 +160,71 @@ const delaysCode = `<HoverCard :open-delay="200" :close-delay="100">
       </HoverCard>
     </DocShowcase>
 
-    <DocShowcase title="Alineación start" :code="alignStartCode">
+    <DocShowcase :title="showcaseTitle('alignStart')" :code="alignStartCode">
       <HoverCard>
         <HoverCardTrigger>
           <span
             class="cursor-default text-sm font-medium underline decoration-dotted underline-offset-4"
           >
-            Hover aquí (align start)
+            {{ t('demo.hoverCard.hoverAlignStart') }}
           </span>
         </HoverCardTrigger>
         <HoverCardContent align="start">
-          <p class="text-sm">
-            Este card está alineado al <strong>inicio</strong> del trigger. Útil para elementos al
-            borde izquierdo.
-          </p>
+          <p class="text-sm" v-html="t('demo.hoverCard.alignStartDesc')" />
         </HoverCardContent>
       </HoverCard>
     </DocShowcase>
 
-    <DocShowcase title="Alineación end" :code="alignEndCode">
+    <DocShowcase :title="showcaseTitle('alignEnd')" :code="alignEndCode">
       <div class="flex justify-end">
         <HoverCard>
           <HoverCardTrigger>
             <span
               class="cursor-default text-sm font-medium underline decoration-dotted underline-offset-4"
             >
-              Hover aquí (align end)
+              {{ t('demo.hoverCard.hoverAlignEnd') }}
             </span>
           </HoverCardTrigger>
           <HoverCardContent align="end">
-            <p class="text-sm">
-              Este card está alineado al <strong>final</strong> del trigger. Ideal para elementos al
-              borde derecho.
-            </p>
+            <p class="text-sm" v-html="t('demo.hoverCard.alignEndDesc')" />
           </HoverCardContent>
         </HoverCard>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Posición superior" :code="sideTopCode">
+    <DocShowcase :title="showcaseTitle('topPosition')" :code="sideTopCode">
       <div class="pt-40">
         <HoverCard>
           <HoverCardTrigger>
             <span
               class="cursor-default text-sm font-medium underline decoration-dotted underline-offset-4"
             >
-              Hover aquí (side top)
+              {{ t('demo.hoverCard.hoverSideTop') }}
             </span>
           </HoverCardTrigger>
           <HoverCardContent side="top">
             <p class="text-sm">
-              Contenido posicionado arriba del trigger con auto-flip si no hay espacio.
+              {{ t('demo.hoverCard.topPositionDesc') }}
             </p>
           </HoverCardContent>
         </HoverCard>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Delays personalizados" :code="delaysCode">
+    <DocShowcase :title="showcaseTitle('customDelays')" :code="delaysCode">
       <HoverCard :open-delay="200" :close-delay="100">
         <HoverCardTrigger>
           <span
             class="cursor-default text-sm font-medium underline decoration-dotted underline-offset-4"
           >
-            Hover aquí (delays rápidos)
+            {{ t('demo.hoverCard.hoverFastDelays') }}
           </span>
         </HoverCardTrigger>
         <HoverCardContent>
           <div class="space-y-2">
-            <h4 class="text-sm font-semibold">Respuesta rápida</h4>
+            <h4 class="text-sm font-semibold">{{ t('demo.hoverCard.fastResponseTitle') }}</h4>
             <p class="text-muted-foreground text-sm">
-              Este hover card abre más rápido (200ms) y cierra más rápido (100ms) que el default.
+              {{ t('demo.hoverCard.fastResponseDesc') }}
             </p>
           </div>
         </HoverCardContent>

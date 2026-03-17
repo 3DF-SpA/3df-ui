@@ -1,3 +1,7 @@
+<script lang="ts">
+let _scatterCounter = 0;
+</script>
+
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, provide, ref, useAttrs, watch } from 'vue';
 
@@ -54,8 +58,7 @@ const attrs = useAttrs();
 
 const rootRef = ref<HTMLDivElement>();
 
-let _scatterUid = 0;
-const chartUid = `scatter-${++_scatterUid}-${Math.random().toString(36).slice(2, 6)}`;
+const chartUid = `scatter-${++_scatterCounter}`;
 const filtGlow = computed(() => `${chartUid}-glow`);
 
 const resolvedColors = ref<Record<string, string>>({});
@@ -357,8 +360,8 @@ function onDotLeave() {
     <UiChartContainer :min-height="minHeight" class="w-full">
       <template #default="{ width: w, height: h }">
         <template
-          v-for="c in [{ grid: computeGridAndAxes(w, h), points: computePoints(w, h) }]"
-          :key="0"
+          v-for="(c, i) in [{ grid: computeGridAndAxes(w, h), points: computePoints(w, h) }]"
+          :key="i"
         >
           <defs>
             <!-- Glow filter -->

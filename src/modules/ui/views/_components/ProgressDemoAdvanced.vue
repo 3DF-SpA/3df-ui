@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { Progress } from '@3df-spa/ui';
+import { Progress } from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
+const { t } = useI18n();
 const sizesValue = ref(55);
 const colorValue = ref(72);
 
-const steps = ref([
-  { label: 'Descarga', value: 100 },
-  { label: 'Extracción', value: 78 },
-  { label: 'Instalación', value: 45 },
-  { label: 'Configuración', value: 12 },
+const steps = computed(() => [
+  { label: t('demo.progress.stepDownload'), value: 100 },
+  { label: t('demo.progress.stepExtraction'), value: 78 },
+  { label: t('demo.progress.stepInstall'), value: 45 },
+  { label: t('demo.progress.stepConfig'), value: 12 },
 ]);
 
 const sizesCode = `<Progress :model-value="55" class="h-1" />
@@ -45,8 +47,8 @@ const maxCode = `<Progress :model-value="150" :max="200" class="w-full max-w-md"
 
 <template>
   <DocShowcase
-    title="Tamaños personalizados"
-    description="Ajusta la altura con clases de Tailwind."
+    :title="t('demo.customSizes')"
+    :description="t('demo.progress.customSizesDesc')"
     :code="sizesCode"
   >
     <div class="max-w-md space-y-3">
@@ -70,8 +72,8 @@ const maxCode = `<Progress :model-value="150" :max="200" class="w-full max-w-md"
   </DocShowcase>
 
   <DocShowcase
-    title="Colores personalizados"
-    description="Usa indicatorClass para sobrescribir el color del indicador."
+    :title="t('demo.customColors')"
+    :description="t('demo.progress.customColorsDesc')"
     :code="colorsCode"
   >
     <div class="max-w-md space-y-3">
@@ -83,8 +85,8 @@ const maxCode = `<Progress :model-value="150" :max="200" class="w-full max-w-md"
   </DocShowcase>
 
   <DocShowcase
-    title="Pasos de instalación"
-    description="Varias barras mostrando el progreso de cada paso."
+    :title="t('demo.progress.installStepsTitle')"
+    :description="t('demo.progress.installStepsDesc')"
     :code="stepsCode"
   >
     <div class="max-w-md space-y-3">
@@ -103,8 +105,8 @@ const maxCode = `<Progress :model-value="150" :max="200" class="w-full max-w-md"
   </DocShowcase>
 
   <DocShowcase
-    title="Max personalizado"
-    description="Progreso con max=200 — valor 150 = 75%."
+    :title="t('demo.progress.customMaxTitle')"
+    :description="t('demo.progress.customMaxDesc')"
     :code="maxCode"
   >
     <Progress :model-value="150" :max="200" class="w-full max-w-md" />

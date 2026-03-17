@@ -118,7 +118,7 @@ function handleAction(action: HeroAction, index: number) {
             "
             :class="
               cn(
-                'focus-visible:ring-ring inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none',
+                'inline-flex items-center justify-center rounded-md px-5 py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-ring',
                 action.variant === 'outline'
                   ? 'bg-foreground/[0.06] text-foreground hover:bg-accent hover:text-accent-foreground'
                   : action.variant === 'secondary'

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,41 +10,43 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
-const components = [
+const { t } = useI18n();
+
+const components = computed(() => [
   {
     title: 'Alert Dialog',
-    description: 'Diálogo modal que interrumpe al usuario con contenido importante.',
+    description: t('demo.navigationMenu.components.alertDialog'),
   },
   {
     title: 'Hover Card',
-    description: 'Vista previa del contenido al pasar el cursor sobre un enlace.',
+    description: t('demo.navigationMenu.components.hoverCard'),
   },
   {
     title: 'Progress',
-    description: 'Barra de progreso para operaciones de larga duración.',
+    description: t('demo.navigationMenu.components.progress'),
   },
   {
     title: 'Scroll Area',
-    description: 'Área de desplazamiento con barras personalizadas.',
+    description: t('demo.navigationMenu.components.scrollArea'),
   },
   {
     title: 'Tabs',
-    description: 'Conjunto de paneles de contenido organizados en pestañas.',
+    description: t('demo.navigationMenu.components.tabs'),
   },
   {
     title: 'Tooltip',
-    description: 'Información contextual al pasar el cursor sobre un elemento.',
+    description: t('demo.navigationMenu.components.tooltip'),
   },
-];
+]);
 </script>
 
 <template>
   <section class="space-y-4">
-    <h2 class="text-xl font-semibold">2. Centrado (estilo shadcn)</h2>
+    <h2 class="text-xl font-semibold">{{ t('demo.navigationMenu.centered.title') }}</h2>
     <p class="text-muted-foreground text-sm">
-      Menú centrado con borde redondeado. Ideal como navegación principal de una aplicación.
+      {{ t('demo.navigationMenu.centered.description') }}
     </p>
 
     <div class="border-border bg-background flex justify-center rounded-lg border p-20">
@@ -54,7 +59,7 @@ const components = [
                 <div
                   class="from-muted/50 to-muted row-span-3 flex flex-col justify-end rounded-md bg-gradient-to-b p-6"
                 >
-                  <div class="mb-2 text-lg font-medium">shadcn/ui</div>
+                  <div class="mb-2 text-lg font-medium">@3df/ui</div>
                   <p class="text-muted-foreground text-sm leading-tight">
                     Beautifully designed components built with Tailwind CSS.
                   </p>
@@ -62,7 +67,7 @@ const components = [
                 <NavigationMenuLink href="#">
                   <div class="text-sm leading-none font-medium">Introduction</div>
                   <p class="text-muted-foreground mt-1 text-sm leading-snug">
-                    Re-usable components built with Radix UI and Tailwind CSS.
+                    Re-usable components built with Vue 3 and Tailwind CSS v4.
                   </p>
                 </NavigationMenuLink>
                 <NavigationMenuLink href="#">

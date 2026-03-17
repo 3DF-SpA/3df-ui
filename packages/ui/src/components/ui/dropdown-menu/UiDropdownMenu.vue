@@ -1,3 +1,6 @@
+<script lang="ts">
+let _dropdownCounter = 0;
+</script>
 <script setup lang="ts">
 import { type Ref, computed, onBeforeUnmount, provide, ref, watch } from 'vue';
 
@@ -10,7 +13,7 @@ const triggerRef = ref<HTMLElement>();
 const contentRef = ref<HTMLElement>();
 const focusedIndex = ref(-1);
 const items: Ref<{ id: string; disabled: boolean; action: () => void }[]> = ref([]);
-const triggerId = `dropdown-trigger-${Math.random().toString(36).slice(2, 9)}`;
+const triggerId = `dropdown-trigger-${++_dropdownCounter}`;
 
 function open() {
   isOpen.value = true;

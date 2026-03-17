@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   Button,
   Checkbox,
@@ -9,50 +11,54 @@ import {
   SelectItem,
   Switch,
   Textarea,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
+
+const completeCode = computed(() => `<form @submit.prevent>
+  <Input :placeholder="t('demo.forms.fullNamePlaceholder')" />
+  <Select :placeholder="t('demo.forms.selectCountryPlaceholder')">
+    <SelectItem value="mx">${t('demo.forms.country_mx')}</SelectItem>
+  </Select>
+  <Textarea :placeholder="t('demo.forms.messagePlaceholder')" />
+  <Radio value="pro" name="plan" />
+  <Switch id="newsletter" />
+  <Checkbox id="terms" />
+  <Button type="submit">${t('demo.forms.submit')}</Button>
+</form>`);
 </script>
 
 <template>
   <DocShowcase
-    title="Formulario completo"
-    description="Ejemplo de formulario combinando todos los componentes."
-    code='<form @submit.prevent>
-  <Input placeholder="Juan Pérez" />
-  <Select placeholder="Selecciona un país">
-    <SelectItem value="mx">México</SelectItem>
-  </Select>
-  <Textarea placeholder="¿En qué podemos ayudarte?" />
-  <Radio value="pro" name="plan" />
-  <Switch id="newsletter" />
-  <Checkbox id="terms" />
-  <Button type="submit">Enviar</Button>
-</form>'
+    :title="t('views.forms.showcases.complete.title')"
+    :description="t('views.forms.showcases.complete.description')"
+    :code="completeCode"
   >
     <form class="border-border grid max-w-md gap-5 rounded-lg border p-6" @submit.prevent>
       <div class="flex flex-col gap-2">
-        <Label for="form-name">Nombre completo</Label>
-        <Input id="form-name" placeholder="Juan Pérez" />
+        <Label for="form-name">{{ t('demo.fullName') }}</Label>
+        <Input id="form-name" :placeholder="t('demo.forms.fullNamePlaceholder')" />
       </div>
       <div class="flex flex-col gap-2">
         <Label for="form-email">Email</Label>
-        <Input id="form-email" type="email" placeholder="juan@ejemplo.com" />
+        <Input id="form-email" type="email" :placeholder="t('demo.forms.emailPlaceholder')" />
       </div>
       <div class="flex flex-col gap-2">
-        <Label for="form-country">País</Label>
-        <Select id="form-country" placeholder="Selecciona un país">
-          <SelectItem value="mx">México</SelectItem>
-          <SelectItem value="ar">Argentina</SelectItem>
-          <SelectItem value="co">Colombia</SelectItem>
+        <Label for="form-country">{{ t('demo.country') }}</Label>
+        <Select id="form-country" :placeholder="t('demo.forms.selectCountryPlaceholder')">
+          <SelectItem value="mx">{{ t('demo.forms.country_mx') }}</SelectItem>
+          <SelectItem value="ar">{{ t('demo.forms.country_ar') }}</SelectItem>
+          <SelectItem value="co">{{ t('demo.forms.country_co') }}</SelectItem>
         </Select>
       </div>
       <div class="flex flex-col gap-2">
-        <Label for="form-bio">Mensaje</Label>
-        <Textarea id="form-bio" placeholder="¿En qué podemos ayudarte?" />
+        <Label for="form-bio">{{ t('demo.forms.message') }}</Label>
+        <Textarea id="form-bio" :placeholder="t('demo.forms.messagePlaceholder')" />
       </div>
       <div class="flex flex-col gap-3">
-        <p class="text-sm font-medium">Plan</p>
+        <p class="text-sm font-medium">{{ t('demo.plan') }}</p>
         <div class="flex items-center gap-2">
           <Radio id="form-free" value="free" name="form-plan" />
           <Label for="form-free">Free</Label>
@@ -63,17 +69,18 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
         </div>
       </div>
       <div class="flex items-center justify-between">
-        <Label for="form-newsletter">Recibir novedades</Label>
+        <Label for="form-newsletter">{{ t('demo.receiveNews') }}</Label>
         <Switch id="form-newsletter" />
       </div>
       <div class="flex items-center gap-2">
         <Checkbox id="form-terms" />
-        <Label for="form-terms">Acepto los términos y condiciones</Label>
+        <Label for="form-terms">{{ t('demo.forms.acceptTerms') }}</Label>
       </div>
       <div class="flex gap-3 pt-2">
-        <Button type="submit" class="flex-1">Enviar</Button>
-        <Button type="reset" variant="outline">Limpiar</Button>
+        <Button type="submit" class="flex-1">{{ t('demo.forms.submit') }}</Button>
+        <Button type="reset" variant="outline">{{ t('demo.forms.clear') }}</Button>
       </div>
     </form>
   </DocShowcase>
 </template>
+

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, ref, useAttrs } from 'vue';
+import { computed, inject, nextTick, onBeforeUnmount, ref, useAttrs, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -37,6 +37,32 @@ const restAttrs = computed(() => {
   return rest;
 });
 
+const isVisible = ref(false);
+const isEntering = ref(false);
+let animTimeout: ReturnType<typeof setTimeout> | undefined;
+
+watch(
+  () => tooltip.isOpen.value,
+  async (open) => {
+    clearTimeout(animTimeout);
+    if (open) {
+      isVisible.value = true;
+      await nextTick();
+      isEntering.value = true;
+    } else {
+      isEntering.value = false;
+      animTimeout = setTimeout(() => {
+        isVisible.value = false;
+      }, 100);
+    }
+  },
+  { immediate: true },
+);
+
+onBeforeUnmount(() => {
+  clearTimeout(animTimeout);
+});
+
 const contentRef = ref<HTMLElement>();
 
 const { positionStyle, updatePosition } = useFloatingPosition(
@@ -51,7 +77,7 @@ const { positionStyle, updatePosition } = useFloatingPosition(
 );
 
 useFloatingLifecycle({
-  isOpen: tooltip.isOpen,
+  isOpen: isVisible,
   updatePosition,
   onScrollClose: () => tooltip.close(),
 });
@@ -59,40 +85,33 @@ useFloatingLifecycle({
 
 <template>
   <Teleport to="body">
-    <Transition
-      enter-active-class="transition duration-150 ease-out"
-      enter-from-class="opacity-0 scale-95"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition duration-100 ease-in"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
+    <div
+      v-if="isVisible"
+      :ref="
+        (el) => {
+          const element = el as HTMLElement;
+          tooltip.contentRef.value = element;
+          contentRef = element;
+        }
+      "
+      v-bind="restAttrs"
+      :id="tooltip.tooltipId"
+      role="tooltip"
+      :style="positionStyle"
+      :class="
+        cn(
+          'z-50 max-w-xs',
+          'bg-popover text-popover-foreground',
+          'border-ui border-border rounded-md px-3 py-1.5 text-sm shadow-md',
+          'transition-all duration-100',
+          isEntering ? 'opacity-100 scale-100 ease-out' : 'opacity-0 scale-95 ease-in',
+          attrs.class,
+        )
+      "
+      @mouseenter="tooltip.cancelClose()"
+      @mouseleave="tooltip.close()"
     >
-      <div
-        v-if="tooltip.isOpen.value"
-        :ref="
-          (el) => {
-            const element = el as HTMLElement;
-            tooltip.contentRef.value = element;
-            contentRef = element;
-          }
-        "
-        v-bind="restAttrs"
-        :id="tooltip.tooltipId"
-        role="tooltip"
-        :style="positionStyle"
-        :class="
-          cn(
-            'z-50 max-w-xs',
-            'bg-popover text-popover-foreground',
-            'border-ui border-border rounded-md px-3 py-1.5 text-sm shadow-md',
-            attrs.class,
-          )
-        "
-        @mouseenter="tooltip.cancelClose()"
-        @mouseleave="tooltip.close()"
-      >
-        <slot />
-      </div>
-    </Transition>
+      <slot />
+    </div>
   </Teleport>
 </template>

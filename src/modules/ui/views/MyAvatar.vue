@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui';
+import { computed } from 'vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
+import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -7,14 +9,16 @@ import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
-const avatarProps: PropItem[] = [
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('avatar');
+
+const avatarProps = computed<PropItem[]>(() => [
   {
     name: 'size',
     type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'",
     default: "'md'",
-    description: 'Tamaño del avatar',
+    description: propDesc('size'),
   },
-];
+]);
 
 const anatomyCode = `<Avatar>
   <AvatarImage src="..." alt="..." />
@@ -22,12 +26,12 @@ const anatomyCode = `<Avatar>
 </Avatar>`;
 
 const profileCode = `<Avatar>
-  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="@adiaz" />
+  <AvatarFallback>AD</AvatarFallback>
 </Avatar>
 <div>
-  <p class="text-sm leading-none font-medium">shadcn</p>
-  <p class="text-muted-foreground text-sm">m@example.com</p>
+  <p class="text-sm leading-none font-medium">adiaz</p>
+  <p class="text-muted-foreground text-sm">alex@3df.dev</p>
 </div>`;
 
 const sizesCode = `<Avatar size="xs">...</Avatar>
@@ -52,7 +56,7 @@ const fallbackCode = `<!-- Imagen rota -->
 </Avatar>`;
 
 const teamCode = `<div class="flex -space-x-3">
-  <Avatar v-for="member in members" :key="member.name" class="border-background border-2">
+  <Avatar v-for="member in members" :key="member.name" class="border-background border-ui">
     <AvatarImage v-if="member.src" :src="member.src" :alt="member.name" />
     <AvatarFallback>{{ member.initials }}</AvatarFallback>
   </Avatar>
@@ -81,8 +85,8 @@ const teamMembers = [
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Avatar"
-      description="Imagen de perfil circular con fallback de iniciales o ícono cuando la imagen no está disponible."
-      import-code="import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui'"
     />
 
     <DocPropsTable :props="avatarProps" />
@@ -93,60 +97,60 @@ const teamMembers = [
     </div>
 
     <DocShowcase
-      title="Perfil de usuario"
-      description="Avatar con imagen y datos del usuario."
+      :title="showcaseTitle('profile')"
+      :description="showcaseDesc('profile')"
       :code="profileCode"
     >
       <div class="flex items-center gap-4">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="@adiaz" />
+          <AvatarFallback>AD</AvatarFallback>
         </Avatar>
         <div>
-          <p class="text-sm leading-none font-medium">shadcn</p>
-          <p class="text-muted-foreground text-sm">m@example.com</p>
+          <p class="text-sm leading-none font-medium">adiaz</p>
+          <p class="text-muted-foreground text-sm">alex@3df.dev</p>
         </div>
       </div>
     </DocShowcase>
 
     <DocShowcase
-      title="Tamaños"
-      description="Cinco tamaños disponibles desde xs hasta xl."
+      :title="showcaseTitle('sizes')"
+      :description="showcaseDesc('sizes')"
       :code="sizesCode"
     >
       <div class="flex items-end gap-4">
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xs">
-            <AvatarImage src="https://github.com/shadcn.png" alt="xs" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="xs" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xs</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="sm">
-            <AvatarImage src="https://github.com/shadcn.png" alt="sm" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="sm" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">sm</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="md">
-            <AvatarImage src="https://github.com/shadcn.png" alt="md" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="md" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">md</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="lg">
-            <AvatarImage src="https://github.com/shadcn.png" alt="lg" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="lg" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">lg</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xl">
-            <AvatarImage src="https://github.com/shadcn.png" alt="xl" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="xl" />
+            <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xl</span>
         </div>
@@ -154,8 +158,8 @@ const teamMembers = [
     </DocShowcase>
 
     <DocShowcase
-      title="Fallback"
-      description="Iniciales mostradas cuando la imagen falla, está vacía o no se proporciona."
+      :title="showcaseTitle('fallback')"
+      :description="showcaseDesc('fallback')"
       :code="fallbackCode"
     >
       <div class="flex items-center gap-4">
@@ -174,12 +178,12 @@ const teamMembers = [
     </DocShowcase>
 
     <DocShowcase
-      title="Equipo"
-      description="Avatares apilados con superposición negativa para mostrar miembros de un equipo."
+      :title="showcaseTitle('team')"
+      :description="showcaseDesc('team')"
       :code="teamCode"
     >
       <div class="flex -space-x-3">
-        <Avatar v-for="member in teamMembers" :key="member.name" class="border-background border-2">
+        <Avatar v-for="member in teamMembers" :key="member.name" class="border-background border-ui">
           <AvatarImage v-if="member.src" :src="member.src" :alt="member.name" />
           <AvatarFallback>{{ member.initials }}</AvatarFallback>
         </Avatar>
@@ -187,8 +191,8 @@ const teamMembers = [
     </DocShowcase>
 
     <DocShowcase
-      title="Fallback con ícono"
-      description="Usa un SVG como contenido del fallback en lugar de iniciales."
+      :title="showcaseTitle('iconFallback')"
+      :description="showcaseDesc('iconFallback')"
       :code="iconFallbackCode"
     >
       <div class="flex items-center gap-4">

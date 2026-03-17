@@ -9,13 +9,14 @@ interface UseChartContextReturn {
   resolvedColors: Ref<Record<string, string>>;
 }
 
+let _chartCounter = 0;
+
 export function useChartContext(
   config: Ref<ChartConfig>,
   rootRef: Ref<HTMLElement | undefined>,
   prefix: string,
 ): UseChartContextReturn {
-  let _uid = 0;
-  const chartUid = `${prefix}-${++_uid}-${Math.random().toString(36).slice(2, 6)}`;
+  const chartUid = `${prefix}-${++_chartCounter}`;
 
   const resolvedColors = ref<Record<string, string>>({});
   const configRef = computed(() => config.value);

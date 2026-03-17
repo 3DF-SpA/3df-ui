@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Button,
@@ -13,77 +14,82 @@ import {
   DialogTrigger,
   Input,
   Label,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const controlledOpen = ref(false);
 
-const dialogProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('dialog');
+
+const { t } = useI18n();
+
+const dialogProps = computed<PropItem[]>(() => [
   {
     name: 'Dialog: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Dialog: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del dialog.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'DialogContent: showClose',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra el botón de cierre (×).',
+    description: propDesc('showClose'),
   },
   {
     name: 'DialogContent: closeOnOverlay',
     type: 'boolean',
     default: 'true',
-    description: 'Permite cerrar haciendo clic en el overlay.',
+    description: propDesc('closeOnOverlay'),
   },
   {
     name: 'DialogContent: closeLabel',
     type: 'string',
-    default: "'Cerrar'",
-    description: 'Etiqueta accesible del botón de cierre.',
+    default: "'Close'",
+    description: propDesc('closeLabel'),
   },
-];
+]);
 
 const basicCode = `<Dialog>
   <DialogTrigger>
-    <Button variant="outline">Editar perfil</Button>
+    <Button variant="outline">Edit profile</Button>
   </DialogTrigger>
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Editar perfil</DialogTitle>
-      <DialogDescription>Realiza cambios en tu perfil.</DialogDescription>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>Make changes to your profile.</DialogDescription>
     </DialogHeader>
     <DialogFooter>
-      <DialogClose><Button variant="outline">Cancelar</Button></DialogClose>
-      <Button>Guardar</Button>
+      <DialogClose><Button variant="outline">Cancel</Button></DialogClose>
+      <Button>Save</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`;
 
 const confirmCode = `<Dialog>
   <DialogTrigger>
-    <Button variant="destructive">Eliminar cuenta</Button>
+    <Button variant="destructive">Delete account</Button>
   </DialogTrigger>
   <DialogContent class="max-w-md">
     <DialogHeader>
-      <DialogTitle>¿Estás seguro?</DialogTitle>
-      <DialogDescription>Esta acción no se puede deshacer.</DialogDescription>
+      <DialogTitle>Are you sure?</DialogTitle>
+      <DialogDescription>This action cannot be undone.</DialogDescription>
     </DialogHeader>
     <DialogFooter>
-      <DialogClose><Button variant="outline">Cancelar</Button></DialogClose>
-      <Button variant="destructive">Eliminar</Button>
+      <DialogClose><Button variant="outline">Cancel</Button></DialogClose>
+      <Button variant="destructive">Delete</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`;
@@ -93,20 +99,20 @@ const controlledCode = `const open = ref(false)
 <Dialog v-model:open="open">
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Dialog controlado</DialogTitle>
+      <DialogTitle>Controlled dialog</DialogTitle>
     </DialogHeader>
     <DialogFooter>
-      <Button @click="open = false">Entendido</Button>
+      <Button @click="open = false">Got it</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`;
 
 const noOverlayCode = `<DialogContent :close-on-overlay="false">
-  <!-- Solo se cierra con × o Escape -->
+  <!-- Only closes with × or Escape -->
 </DialogContent>`;
 
 const noCloseCode = `<DialogContent :show-close="false" :close-on-overlay="false">
-  <!-- Solo se cierra con botones de acción -->
+  <!-- Only closes with action buttons -->
 </DialogContent>`;
 
 const anatomyCode = `<Dialog>
@@ -127,128 +133,127 @@ const anatomyCode = `<Dialog>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Dialog"
-      description="Ventana modal que interrumpe al usuario para confirmar una acción o mostrar información importante."
-      import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="outline">Editar perfil</Button>
+          <Button variant="outline">{{ t('demo.dialog.editProfile') }}</Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Editar perfil</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.editProfile') }}</DialogTitle>
             <DialogDescription>
-              Realiza cambios en tu perfil aquí. Haz clic en guardar cuando hayas terminado.
+              {{ t('demo.dialog.editProfileDescFull') }}
             </DialogDescription>
           </DialogHeader>
           <div class="grid gap-4 py-4">
             <div class="grid grid-cols-4 items-center gap-4">
-              <Label class="text-right">Nombre</Label>
-              <Input class="col-span-3" placeholder="Tu nombre" />
+              <Label class="text-right">{{ t('demo.name') }}</Label>
+              <Input class="col-span-3" :placeholder="t('demo.dialog.namePlaceholder')" />
             </div>
             <div class="grid grid-cols-4 items-center gap-4">
-              <Label class="text-right">Usuario</Label>
-              <Input class="col-span-3" placeholder="@usuario" />
+              <Label class="text-right">{{ t('demo.dialog.usernameLabel') }}</Label>
+              <Input class="col-span-3" :placeholder="t('demo.dialog.usernamePlaceholder')" />
             </div>
           </div>
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{{ t('common.cancel') }}</Button>
             </DialogClose>
-            <Button>Guardar cambios</Button>
+            <Button>{{ t('demo.dialog.saveChanges') }}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Confirmación destructiva" :code="confirmCode">
+    <DocShowcase :title="showcaseTitle('destructiveConfirm')" :code="confirmCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="destructive">Eliminar cuenta</Button>
+          <Button variant="destructive">{{ t('demo.deleteAccount') }}</Button>
         </DialogTrigger>
         <DialogContent class="max-w-md">
           <DialogHeader>
-            <DialogTitle>¿Estás seguro?</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.areYouSure') }}</DialogTitle>
             <DialogDescription>
-              Esta acción no se puede deshacer. Se eliminará permanentemente tu cuenta y todos tus
-              datos de nuestros servidores.
+              {{ t('demo.dialog.deleteDesc') }}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{{ t('common.cancel') }}</Button>
             </DialogClose>
-            <Button variant="destructive">Sí, eliminar cuenta</Button>
+            <Button variant="destructive">{{ t('demo.dialog.yesDelete') }}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Controlado (v-model)" :code="controlledCode">
+    <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <p class="text-muted-foreground text-xs">
-        Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
+        Estado: <code class="text-foreground">{{ controlledOpen ? t('demo.dialog.statusOpen') : t('demo.dialog.statusClosed') }}</code>
       </p>
       <div class="flex gap-2">
-        <Button variant="outline" @click="controlledOpen = true">Abrir programáticamente</Button>
+        <Button variant="outline" @click="controlledOpen = true">{{ t('demo.openProgrammatically') }}</Button>
       </div>
       <Dialog v-model:open="controlledOpen">
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Dialog controlado</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.controlledTitle') }}</DialogTitle>
             <DialogDescription>
-              Este dialog se controla externamente con v-model:open.
+              {{ t('demo.dialog.controlledDesc') }}
             </DialogDescription>
           </DialogHeader>
           <div class="py-4">
             <p class="text-muted-foreground text-sm">
-              Puedes abrirlo y cerrarlo programáticamente desde fuera del componente.
+              {{ t('demo.dialog.controlledContent') }}
             </p>
           </div>
           <DialogFooter>
-            <Button @click="controlledOpen = false">Entendido</Button>
+            <Button @click="controlledOpen = false">{{ t('demo.dialog.understood') }}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Sin cierre por overlay" :code="noOverlayCode">
+    <DocShowcase :title="showcaseTitle('noOverlay')" :code="noOverlayCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="outline">Abrir (sin cierre overlay)</Button>
+          <Button variant="outline">{{ t('demo.dialog.openNoOverlay') }}</Button>
         </DialogTrigger>
         <DialogContent :close-on-overlay="false">
           <DialogHeader>
-            <DialogTitle>Acción requerida</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.requiredActionTitle') }}</DialogTitle>
             <DialogDescription>
-              Debes completar esta acción. No puedes cerrar haciendo clic fuera.
+              {{ t('demo.dialog.requiredActionDesc') }}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose>
-              <Button>Aceptar</Button>
+              <Button>{{ t('demo.dialog.accept') }}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </DocShowcase>
 
-    <DocShowcase title="Sin botón de cierre" :code="noCloseCode">
+    <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Dialog>
         <DialogTrigger>
-          <Button variant="outline">Términos y condiciones</Button>
+          <Button variant="outline">{{ t('demo.dialog.termsAndConditions') }}</Button>
         </DialogTrigger>
         <DialogContent :show-close="false" :close-on-overlay="false">
           <DialogHeader>
-            <DialogTitle>Términos de servicio</DialogTitle>
+            <DialogTitle>{{ t('demo.dialog.termsOfService') }}</DialogTitle>
             <DialogDescription>
-              Por favor lee y acepta los términos de servicio para continuar.
+              {{ t('demo.dialog.termsOfServiceDesc') }}
             </DialogDescription>
           </DialogHeader>
           <div class="border-border max-h-60 overflow-y-auto rounded-md border p-4">
@@ -259,10 +264,10 @@ const anatomyCode = `<Dialog>
           </div>
           <DialogFooter>
             <DialogClose>
-              <Button variant="outline">Rechazar</Button>
+              <Button variant="outline">{{ t('demo.dialog.reject') }}</Button>
             </DialogClose>
             <DialogClose>
-              <Button>Aceptar</Button>
+              <Button>{{ t('demo.dialog.accept') }}</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

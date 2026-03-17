@@ -1,51 +1,58 @@
 <script setup lang="ts">
-import { Button, EmptyState } from '@3df-spa/ui';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import { Button, EmptyState } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
-const emptyProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('empty');
+const { t } = useI18n();
+
+const emptyProps = computed<PropItem[]>(() => [
   {
     name: 'title',
     type: 'string',
     default: 'undefined',
-    description: 'Título del estado vacío. También disponible como slot.',
+    description: propDesc('title'),
   },
   {
     name: 'description',
     type: 'string',
     default: 'undefined',
-    description: 'Descripción del estado vacío. También disponible como slot.',
+    description: propDesc('descriptionProp'),
   },
-];
+]);
 
 const searchCode = `<EmptyState
-  title="No se encontraron resultados"
-  description="Intenta ajustar los filtros de búsqueda."
+  title="No results found"
+  description="Try adjusting your search filters."
 >
   <template #icon>
     <svg>...</svg>
   </template>
-  <Button variant="outline" size="sm">Limpiar filtros</Button>
-  <Button size="sm">Crear nuevo</Button>
+  <Button variant="outline" size="sm">Clear filters</Button>
+  <Button size="sm">Create new</Button>
 </EmptyState>`;
 
 const minimalCode = `<EmptyState
-  title="Sin datos disponibles"
-  description="Los datos se mostrarán aquí cuando estén disponibles."
+  title="No data available"
+  description="Data will appear here when available."
 />`;
 
 const heightCode = `<EmptyState
   class="min-h-80"
-  title="Sube tu primer archivo"
-  description="Arrastra y suelta archivos aquí."
+  title="Upload your first file"
+  description="Drag and drop files here."
 >
   <template #icon>
     <svg>...</svg>
   </template>
-  <Button variant="outline" size="sm">Seleccionar</Button>
+  <Button variant="outline" size="sm">Select</Button>
 </EmptyState>`;
 </script>
 
@@ -53,15 +60,15 @@ const heightCode = `<EmptyState
   <div class="flex flex-col gap-10">
     <DocHeader
       title="EmptyState"
-      description="Indicador visual para secciones sin contenido. Incluye icono, título, descripción y acciones opcionales."
-      import-code="import { EmptyState } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { EmptyState } from '@3df/ui'"
     />
 
-    <DocShowcase title="Sin resultados" :code="searchCode">
+    <DocShowcase :title="showcaseTitle('noResults')" :code="searchCode">
       <div class="border-border rounded-lg border">
         <EmptyState
-          title="No se encontraron resultados"
-          description="Intenta ajustar los filtros de búsqueda o crea un nuevo elemento."
+          :title="t('demo.empty.noResultsFull')"
+          :description="t('demo.empty.tryAdjustFiltersFull')"
         >
           <template #icon>
             <svg
@@ -77,17 +84,17 @@ const heightCode = `<EmptyState
               <path d="m21 21-4.3-4.3" />
             </svg>
           </template>
-          <Button variant="outline" size="sm">Limpiar filtros</Button>
-          <Button size="sm">Crear nuevo</Button>
+          <Button variant="outline" size="sm">{{ t('demo.empty.clearFilters') }}</Button>
+          <Button size="sm">{{ t('demo.empty.createNew') }}</Button>
         </EmptyState>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Carrito vacío" code="">
+    <DocShowcase :title="showcaseTitle('emptyCart')" code="">
       <div class="border-border rounded-lg border">
         <EmptyState
-          title="Tu carrito está vacío"
-          description="Agrega productos para comenzar tu compra."
+          :title="t('demo.empty.emptyCart')"
+          :description="t('demo.empty.addProducts')"
         >
           <template #icon>
             <svg
@@ -106,16 +113,16 @@ const heightCode = `<EmptyState
               />
             </svg>
           </template>
-          <Button size="sm">Explorar productos</Button>
+          <Button size="sm">{{ t('demo.empty.exploreProducts') }}</Button>
         </EmptyState>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Sin notificaciones" code="">
+    <DocShowcase :title="t('demo.empty.noNotifications')" code="">
       <div class="border-border rounded-lg border">
         <EmptyState
-          title="Todo al día"
-          description="No tienes notificaciones nuevas. Relájate y disfruta."
+          :title="t('demo.empty.upToDate')"
+          :description="t('demo.empty.noNewNotifications')"
         >
           <template #icon>
             <svg
@@ -135,21 +142,21 @@ const heightCode = `<EmptyState
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Mínimo (solo texto)" :code="minimalCode">
+    <DocShowcase :title="t('demo.empty.minimalOnly')" :code="minimalCode">
       <div class="border-border rounded-lg border">
         <EmptyState
-          title="Sin datos disponibles"
-          description="Los datos se mostrarán aquí cuando estén disponibles."
+          :title="t('demo.empty.noData')"
+          :description="t('demo.empty.dataWillAppear')"
         />
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con altura mínima" :code="heightCode">
+    <DocShowcase :title="showcaseTitle('withHeight')" :code="heightCode">
       <div class="border-border rounded-lg border">
         <EmptyState
           class="min-h-80"
-          title="Sube tu primer archivo"
-          description="Arrastra y suelta archivos aquí, o haz clic para seleccionar."
+          :title="t('demo.empty.uploadFirstFile')"
+          :description="t('demo.empty.dragAndDropFull')"
         >
           <template #icon>
             <svg
@@ -166,7 +173,7 @@ const heightCode = `<EmptyState
               <line x1="12" x2="12" y1="3" y2="15" />
             </svg>
           </template>
-          <Button variant="outline" size="sm">Seleccionar archivos</Button>
+          <Button variant="outline" size="sm">{{ t('demo.empty.selectFiles') }}</Button>
         </EmptyState>
       </div>
     </DocShowcase>

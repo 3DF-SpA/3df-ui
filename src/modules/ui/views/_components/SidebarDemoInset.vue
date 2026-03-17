@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Sidebar,
@@ -15,8 +16,9 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
+const { t } = useI18n();
 const activeItem = ref('Dashboard');
 
 const icons = {
@@ -37,18 +39,18 @@ interface NavItem {
   badge?: number;
 }
 
-const navItems: NavItem[] = [
-  { label: 'Dashboard', icon: 'home' },
-  { label: 'Equipo', icon: 'users', badge: 3 },
-  { label: 'Bandeja', icon: 'inbox', badge: 28 },
-  { label: 'Calendario', icon: 'calendar' },
-];
+const navItems = computed<NavItem[]>(() => [
+  { label: t('demo.nav.dashboard'), icon: 'home' },
+  { label: t('demo.nav.team'), icon: 'users', badge: 3 },
+  { label: t('demo.nav.inbox'), icon: 'inbox', badge: 28 },
+  { label: t('demo.nav.calendar'), icon: 'calendar' },
+]);
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
     <h2 class="text-muted-foreground text-sm font-medium">
-      5 · Variante inset — contenido empotrado
+      {{ t('demo.sidebar.insetTitle') }}
     </h2>
 
     <div class="border-border h-[480px] overflow-hidden rounded-lg border [contain:paint]">
@@ -69,7 +71,7 @@ const navItems: NavItem[] = [
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Navegación</SidebarGroupLabel>
+              <SidebarGroupLabel>{{ t('demo.sidebar.insetNavLabel') }}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   <SidebarMenuItem v-for="item in navItems" :key="item.label">
@@ -107,11 +109,11 @@ const navItems: NavItem[] = [
         <SidebarInset>
           <header class="border-border flex h-12 items-center gap-2 border-b px-4">
             <SidebarTrigger />
-            <span class="text-sm font-medium">Variante inset</span>
+            <span class="text-sm font-medium">{{ t('demo.sidebar.insetContent') }}</span>
           </header>
           <div class="flex-1 p-6">
             <p class="text-muted-foreground text-sm">
-              Contenido enmarcado con bordes redondeados y sombra.
+              {{ t('demo.sidebar.insetContentDesc') }}
             </p>
           </div>
         </SidebarInset>

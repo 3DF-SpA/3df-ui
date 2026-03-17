@@ -31,13 +31,13 @@ const isInteractive = computed(() => {
 });
 
 const variantClasses: Record<string, string> = {
-  default: 'bg-card text-card-foreground rounded-xl border-ui border-border shadow-sm',
+  default: 'bg-card text-card-foreground rounded-xl border-ui border-border shadow-md',
 };
 
 const classes = computed(() =>
   cn(
     variantClasses[props.variant] ?? variantClasses.default,
-    isInteractive.value && 'cursor-pointer transition-all duration-200 active:scale-[0.98] active:brightness-[0.97]',
+    isInteractive.value && 'cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-[0.98] active:brightness-[0.97] active:shadow-md active:translate-y-0',
     attrs.class,
   ),
 );

@@ -80,7 +80,7 @@ function onSelect(value: string) {
             cn(
               'border-ui border-input bg-foreground/5 ring-offset-background flex h-10 w-full min-w-[200px] items-center justify-between rounded-md px-3 py-2 text-sm',
               'hover:bg-accent/50',
-              'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+              'focus-visible:outline-2 focus-visible:outline-ring',
               !modelValue && 'text-muted-foreground',
               attrs.class,
             )

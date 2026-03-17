@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { Label, Slider } from '@3df-spa/ui';
+import { Label, Slider } from '@3df/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { t } = useI18n();
+const { description, propDesc, showcaseTitle, showcaseDesc } = useDocPage('slider');
 
 const basic = ref(50);
 const volume = ref(75);
@@ -16,23 +21,23 @@ const disabled = ref(40);
 const stepped = ref(25);
 const custom = ref(60);
 
-const sliderProps: PropItem[] = [
+const sliderProps = computed<PropItem[]>(() => [
   {
     name: 'modelValue',
     type: 'number',
     default: '0',
-    description: 'Valor actual del slider (v-model)',
+    description: propDesc('modelValue'),
   },
-  { name: 'min', type: 'number', default: '0', description: 'Valor mínimo' },
-  { name: 'max', type: 'number', default: '100', description: 'Valor máximo' },
-  { name: 'step', type: 'number', default: '1', description: 'Incremento entre valores' },
+  { name: 'min', type: 'number', default: '0', description: propDesc('min') },
+  { name: 'max', type: 'number', default: '100', description: propDesc('max') },
+  { name: 'step', type: 'number', default: '1', description: propDesc('step') },
   {
     name: 'disabled',
     type: 'boolean',
     default: 'false',
-    description: 'Deshabilita la interacción',
+    description: propDesc('disabled'),
   },
-];
+]);
 
 const basicCode = `<Slider v-model="basic" />
 <p class="text-muted-foreground text-sm">Valor: {{ basic }}</p>
@@ -73,20 +78,20 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Slider"
-      description="Control deslizante para seleccionar un valor numérico dentro de un rango."
-      import-code="import { Slider } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Slider } from '@3df/ui'"
     />
 
-    <DocShowcase title="Básico y con Label" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <div class="flex max-w-sm flex-col gap-6">
         <div class="flex flex-col gap-3">
           <Slider v-model="basic" />
-          <p class="text-muted-foreground text-sm">Valor: {{ basic }}</p>
+          <p class="text-muted-foreground text-sm">{{ t('demo.slider.value') }} {{ basic }}</p>
         </div>
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
-            <Label>Volumen</Label>
+            <Label>{{ t('demo.slider.volume') }}</Label>
             <span class="text-muted-foreground text-sm">{{ volume }}%</span>
           </div>
           <Slider v-model="volume" />
@@ -94,7 +99,7 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
-            <Label>Brillo</Label>
+            <Label>{{ t('demo.slider.brightness') }}</Label>
             <span class="text-muted-foreground text-sm">{{ brightness }}%</span>
           </div>
           <Slider v-model="brightness" />
@@ -102,10 +107,10 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Con step" description="Incremento de 25 entre valores" :code="stepCode">
+    <DocShowcase :title="showcaseTitle('withStep')" :description="showcaseDesc('withStep')" :code="stepCode">
       <div class="flex max-w-sm flex-col gap-3">
         <div class="flex items-center justify-between">
-          <Label>Progreso</Label>
+          <Label>{{ t('demo.slider.progress') }}</Label>
           <span class="text-muted-foreground text-sm">{{ stepped }}%</span>
         </div>
         <Slider v-model="stepped" :step="25" />
@@ -120,13 +125,13 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
     </DocShowcase>
 
     <DocShowcase
-      title="Rango personalizado"
-      description="min=0, max=1000, step=50"
+      :title="showcaseTitle('customRange')"
+      :description="showcaseDesc('customRange')"
       :code="rangeCode"
     >
       <div class="flex max-w-sm flex-col gap-3">
         <div class="flex items-center justify-between">
-          <Label>Precio máximo</Label>
+          <Label>{{ t('demo.slider.maxPrice') }}</Label>
           <span class="text-muted-foreground text-sm">${{ price }}</span>
         </div>
         <Slider v-model="price" :min="0" :max="1000" :step="50" />
@@ -138,11 +143,11 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Deshabilitado y estilos personalizados" :code="disabledCode">
+    <DocShowcase :title="showcaseTitle('disabledCustom')" :code="disabledCode">
       <div class="flex max-w-sm flex-col gap-6">
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
-            <Label :disabled="true">Deshabilitado</Label>
+            <Label :disabled="true">{{ t('demo.slider.disabled') }}</Label>
             <span class="text-muted-foreground text-sm">{{ disabled }}%</span>
           </div>
           <Slider v-model="disabled" :disabled="true" />
@@ -150,7 +155,7 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
 
         <div class="flex flex-col gap-3">
           <div class="flex items-center justify-between">
-            <Label>Personalizado</Label>
+            <Label>{{ t('demo.slider.custom') }}</Label>
             <span class="text-muted-foreground text-sm">{{ custom }}%</span>
           </div>
           <Slider v-model="custom" class="h-3" />
@@ -158,11 +163,11 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
       </div>
     </DocShowcase>
 
-    <DocShowcase title="En contexto — Ecualizador" :code="eqCode">
+    <DocShowcase :title="showcaseTitle('eq')" :code="eqCode">
       <div
         class="bg-card border-border flex max-w-md flex-col gap-5 rounded-xl border p-6 shadow-sm"
       >
-        <h3 class="text-sm font-semibold">Ecualizador de audio</h3>
+        <h3 class="text-sm font-semibold">{{ t('demo.slider.equalizer') }}</h3>
         <div
           v-for="(band, i) in [
             { label: '60 Hz', value: 50 },
@@ -184,3 +189,4 @@ const eqCode = `<div v-for="band in bands" :key="band.label" class="flex items-c
     <DocPropsTable :props="sliderProps" />
   </div>
 </template>
+

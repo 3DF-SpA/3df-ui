@@ -35,7 +35,7 @@ const trackClasses = computed(() =>
       'bg-input',
       'transition-colors duration-200',
       'disabled:pointer-events-none disabled:opacity-50',
-      'focus-visible:outline-none focus-visible:ring-[2.2px] focus-visible:ring-ring',
+      'focus-visible:outline-2 focus-visible:outline-ring',
     ].join(' '),
     props.modelValue && 'bg-primary',
     attrs.class,

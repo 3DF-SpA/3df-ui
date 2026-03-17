@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { type HeroAction, HeroSplit } from '@3df-spa/ui';
+import { type HeroAction, HeroSplit } from '@3df/ui';
+import { useI18n } from 'vue-i18n';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+
+const { t } = useI18n();
 
 const actions: HeroAction[] = [
   { label: 'Get Started', variant: 'primary', href: '#' },
@@ -29,8 +32,8 @@ const reverseCode = `<HeroSplit
 
 <template>
   <DocShowcase
-    title="Hero Split — Texto + Imagen"
-    description="Layout dividido: contenido de texto a la izquierda, imagen a la derecha."
+    :title="t('views.hero.showcases.splitTextImage.title')"
+    :description="t('views.hero.showcases.splitTextImage.description')"
     :code="splitCode"
   >
     <div class="overflow-hidden rounded-xl">
@@ -45,8 +48,8 @@ const reverseCode = `<HeroSplit
   </DocShowcase>
 
   <DocShowcase
-    title="Hero Split — Invertido"
-    description="La imagen a la izquierda y texto a la derecha con reverse."
+    :title="t('views.hero.showcases.splitReversed.title')"
+    :description="t('views.hero.showcases.splitReversed.description')"
     :code="reverseCode"
   >
     <div class="overflow-hidden rounded-xl">

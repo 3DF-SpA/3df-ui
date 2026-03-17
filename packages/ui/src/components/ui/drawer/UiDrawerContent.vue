@@ -219,7 +219,7 @@ const panelStyle = computed(() => {
         <button
           v-if="showClose"
           type="button"
-          class="ring-offset-background focus:ring-ring absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:pointer-events-none"
+          class="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-ring disabled:pointer-events-none"
           aria-label="Close"
           @click="drawer.close()"
         >

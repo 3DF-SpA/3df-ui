@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Button,
@@ -13,7 +14,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -23,46 +24,52 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 import SheetDemoReference from './_components/SheetDemoReference.vue';
 
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
+const { description, propDesc, showcaseTitle } = useDocPage('sheet');
+
+const { t } = useI18n();
+
 const controlledOpen = ref(false);
 
-const sheetProps: PropItem[] = [
+const sheetProps = computed<PropItem[]>(() => [
   {
     name: 'Sheet: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Sheet: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del sheet.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'SheetContent: side',
     type: "'top' | 'right' | 'bottom' | 'left'",
     default: "'right'",
-    description: 'Lado desde el que se desliza el panel.',
+    description: propDesc('side'),
   },
   {
     name: 'SheetContent: showClose',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra el botón de cierre (×).',
+    description: propDesc('showClose'),
   },
   {
     name: 'SheetContent: closeLabel',
     type: 'string',
-    default: "'Cerrar'",
-    description: 'Etiqueta accesible del botón de cierre.',
+    default: "'Close'",
+    description: propDesc('closeLabel'),
   },
   {
     name: 'SheetTitle: as',
     type: 'string',
     default: "'h2'",
-    description: 'Elemento HTML para el título.',
+    description: propDesc('titleAs'),
   },
-];
+]);
 
 const anatomyCode = `<Sheet>
   <SheetTrigger />
@@ -71,7 +78,7 @@ const anatomyCode = `<Sheet>
       <SheetTitle />
       <SheetDescription />
     </SheetHeader>
-    <!-- contenido -->
+    <!-- content -->
     <SheetFooter>
       <SheetClose />
     </SheetFooter>
@@ -80,20 +87,20 @@ const anatomyCode = `<Sheet>
 
 const basicCode = `<Sheet>
   <SheetTrigger>
-    <Button variant="outline">Abrir Sheet</Button>
+    <Button variant="outline">Open Sheet</Button>
   </SheetTrigger>
   <SheetContent>
     <SheetHeader>
-      <SheetTitle>Editar perfil</SheetTitle>
-      <SheetDescription>Realiza cambios en tu perfil.</SheetDescription>
+      <SheetTitle>Edit profile</SheetTitle>
+      <SheetDescription>Make changes to your profile.</SheetDescription>
     </SheetHeader>
     <div class="flex flex-col gap-4 py-4">
-      <Label for="name">Nombre</Label>
+      <Label for="name">Name</Label>
       <Input id="name" value="Pedro Duarte" />
     </div>
     <SheetFooter>
-      <SheetClose><Button variant="outline">Cancelar</Button></SheetClose>
-      <SheetClose><Button>Guardar cambios</Button></SheetClose>
+      <SheetClose><Button variant="outline">Cancel</Button></SheetClose>
+      <SheetClose><Button>Save changes</Button></SheetClose>
     </SheetFooter>
   </SheetContent>
 </Sheet>`;
@@ -104,7 +111,7 @@ const sidesCode = `<Sheet v-for="side in ['top', 'right', 'bottom', 'left']" :ke
   </SheetTrigger>
   <SheetContent :side="side">
     <SheetHeader>
-      <SheetTitle>Sheet desde {{ side }}</SheetTitle>
+      <SheetTitle>Sheet from {{ side }}</SheetTitle>
     </SheetHeader>
   </SheetContent>
 </Sheet>`;
@@ -113,19 +120,19 @@ const controlledCode = `const open = ref(false)
 
 <Sheet v-model:open="open">
   <SheetTrigger>
-    <Button>Abrir controlado</Button>
+    <Button>Open controlled</Button>
   </SheetTrigger>
   <SheetContent side="left">
     <SheetHeader>
-      <SheetTitle>Sheet controlado</SheetTitle>
+      <SheetTitle>Controlled sheet</SheetTitle>
     </SheetHeader>
   </SheetContent>
 </Sheet>
 
-<Button @click="open = !open">Toggle externo</Button>`;
+<Button @click="open = !open">External toggle</Button>`;
 
 const noCloseCode = `<SheetContent :show-close="false">
-  <!-- Solo se cierra con Escape, overlay, o botón propio -->
+  <!-- Only closes with Escape, overlay, or own button -->
 </SheetContent>`;
 </script>
 
@@ -133,30 +140,30 @@ const noCloseCode = `<SheetContent :show-close="false">
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Sheet"
-      description="Panel lateral que se desliza desde un borde de la pantalla para mostrar contenido secundario."
-      import-code="import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico — derecha (default)" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Sheet>
         <SheetTrigger>
-          <Button variant="outline">Abrir Sheet</Button>
+          <Button variant="outline">{{ t('demo.sheet.openSheet') }}</Button>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Editar perfil</SheetTitle>
+            <SheetTitle>{{ t('demo.sheet.editProfile') }}</SheetTitle>
             <SheetDescription>
-              Realiza cambios en tu perfil aquí. Haz clic en guardar cuando termines.
+              {{ t('demo.sheet.editProfileDesc') }}
             </SheetDescription>
           </SheetHeader>
           <div class="flex flex-col gap-4 py-4">
             <div class="flex flex-col gap-2">
-              <Label for="name">Nombre</Label>
+              <Label for="name">{{ t('demo.name') }}</Label>
               <Input id="name" value="Pedro Duarte" />
             </div>
             <div class="flex flex-col gap-2">
@@ -166,17 +173,17 @@ const noCloseCode = `<SheetContent :show-close="false">
           </div>
           <SheetFooter>
             <SheetClose>
-              <Button variant="outline">Cancelar</Button>
+              <Button variant="outline">{{ t('common.cancel') }}</Button>
             </SheetClose>
             <SheetClose>
-              <Button>Guardar cambios</Button>
+              <Button>{{ t('demo.sheet.saveChanges') }}</Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>
       </Sheet>
     </DocShowcase>
 
-    <DocShowcase title="Posiciones — 4 lados" :code="sidesCode">
+    <DocShowcase :title="showcaseTitle('sides')" :code="sidesCode">
       <div class="flex flex-wrap gap-4">
         <Sheet v-for="side in ['top', 'right', 'bottom', 'left'] as const" :key="side">
           <SheetTrigger>
@@ -184,18 +191,17 @@ const noCloseCode = `<SheetContent :show-close="false">
           </SheetTrigger>
           <SheetContent :side="side">
             <SheetHeader>
-              <SheetTitle>Sheet desde {{ side }}</SheetTitle>
+              <SheetTitle>{{ t('demo.sheet.sheetFromSide', { side }) }}</SheetTitle>
               <SheetDescription>
-                Este panel se desliza desde el lado <strong>{{ side }}</strong
-                >.
+                {{ t('demo.sheet.sidePanelDescPre') }} <strong>{{ side }}</strong>{{ t('demo.sheet.sidePanelDescPost') }}
               </SheetDescription>
             </SheetHeader>
             <div class="py-4">
-              <p class="text-muted-foreground text-sm">Contenido del sheet.</p>
+              <p class="text-muted-foreground text-sm">{{ t('demo.sheet.content') }}</p>
             </div>
             <SheetFooter>
               <SheetClose>
-                <Button variant="outline">Cerrar</Button>
+                <Button variant="outline">{{ t('common.close') }}</Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>
@@ -203,58 +209,57 @@ const noCloseCode = `<SheetContent :show-close="false">
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Controlado (v-model:open)" :code="controlledCode">
+    <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <div class="flex items-center gap-4">
         <Sheet v-model:open="controlledOpen">
           <SheetTrigger>
-            <Button>Abrir controlado</Button>
+            <Button>{{ t('demo.sheet.openControlled') }}</Button>
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>
-              <SheetTitle>Sheet controlado</SheetTitle>
+              <SheetTitle>{{ t('demo.sheet.controlledTitle') }}</SheetTitle>
               <SheetDescription>
-                Este sheet usa v-model:open para control externo.
+                {{ t('demo.sheet.controlledDesc') }}
               </SheetDescription>
             </SheetHeader>
             <div class="py-4">
               <p class="text-muted-foreground text-sm">
-                Estado actual: <strong>{{ controlledOpen ? 'Abierto' : 'Cerrado' }}</strong>
+                {{ t('demo.sheet.currentState') }} <strong>{{ controlledOpen ? t('demo.sheet.open') : t('demo.sheet.closed') }}</strong>
               </p>
             </div>
             <SheetFooter>
               <SheetClose>
-                <Button variant="outline">Cerrar</Button>
+                <Button variant="outline">{{ t('common.close') }}</Button>
               </SheetClose>
             </SheetFooter>
           </SheetContent>
         </Sheet>
         <span class="text-muted-foreground text-sm">
-          Estado: <code class="text-foreground font-mono">{{ controlledOpen }}</code>
+          {{ t('demo.sheet.stateLabel') }} <code class="text-foreground font-mono">{{ controlledOpen }}</code>
         </span>
         <Button variant="ghost" size="sm" @click="controlledOpen = !controlledOpen">
-          Toggle externo
+          {{ t('demo.sheet.externalToggle') }}
         </Button>
       </div>
     </DocShowcase>
 
-    <DocShowcase title="Sin botón (×) — showClose=false" :code="noCloseCode">
+    <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Sheet>
         <SheetTrigger>
-          <Button variant="outline">Sin botón ×</Button>
+          <Button variant="outline">{{ t('demo.sheet.noCloseButton') }}</Button>
         </SheetTrigger>
         <SheetContent :show-close="false">
           <SheetHeader>
-            <SheetTitle>Sin botón de cierre</SheetTitle>
+            <SheetTitle>{{ t('demo.sheet.noCloseTitle') }}</SheetTitle>
             <SheetDescription>
-              Puedes cerrar con
-              <kbd class="border-border bg-muted rounded border px-1 py-0.5 text-xs">Escape</kbd>,
-              click en el overlay, o con el botón de abajo.
+              {{ t('demo.sheet.noCloseDescBefore') }}
+              <kbd class="border-border bg-muted rounded border px-1 py-0.5 text-xs">Escape</kbd>{{ t('demo.sheet.noCloseDescAfter') }}
             </SheetDescription>
           </SheetHeader>
           <div class="flex-1" />
           <SheetFooter>
             <SheetClose>
-              <Button class="w-full">Cerrar sheet</Button>
+              <Button class="w-full">{{ t('demo.closeSheet') }}</Button>
             </SheetClose>
           </SheetFooter>
         </SheetContent>

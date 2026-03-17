@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
+import { useDocPage } from '@/i18n/composables/useDocPage';
+
 import {
   Badge,
   Table,
@@ -10,7 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -21,14 +25,16 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 import TableDemoDataTable from './_components/TableDemoDataTable.vue';
 import { formatCurrency, invoices, statusBadge } from './_components/table-demo-data';
 
-const tableEmptyProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('tables');
+
+const tableEmptyProps = computed<PropItem[]>(() => [
   {
     name: 'colspan',
     type: 'number',
     default: '1',
-    description: 'Número de columnas que abarca la celda vacía.',
+    description: propDesc('colspan'),
   },
-];
+]);
 
 const basicCode = `<Table>
   <TableCaption>Lista de facturas recientes.</TableCaption>
@@ -93,15 +99,15 @@ const anatomyCode = `import {
   TableCell,
   TableCaption,
   TableEmpty,
-} from '@3df-spa/ui'`;
+} from '@3df/ui'`;
 </script>
 
 <template>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Table"
-      description="Tabla de datos con soporte para header, body, footer, caption y estado vacío."
-      import-code="import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
@@ -109,7 +115,7 @@ const anatomyCode = `import {
       <DocCodeBlock :code="anatomyCode" lang="typescript" />
     </section>
 
-    <DocShowcase title="Básica" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Table>
         <TableCaption>Lista de facturas recientes.</TableCaption>
         <TableHeader>

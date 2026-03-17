@@ -2,10 +2,10 @@
  * Post-build script: generates dist/styles.css
  *
  * Produces a pre-compiled CSS file containing the theme tokens AND
- * every Tailwind utility class used by @3df-spa/ui components.
+ * every Tailwind utility class used by @3df/ui components.
  *
  * Consumers only need:
- *   @import '@3df-spa/ui/styles.css';
+ *   @import '@3df/ui/styles.css';
  *
  * No @source, no @theme, no extra config required.
  */

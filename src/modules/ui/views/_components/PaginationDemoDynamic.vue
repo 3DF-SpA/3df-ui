@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Pagination,
@@ -9,12 +10,14 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 
 const totalPages = ref(20);
 const currentPage = ref(1);
+
+const { t } = useI18n();
 
 function goToPage(page: number) {
   if (page >= 1 && page <= totalPages.value) {
@@ -81,11 +84,11 @@ const code = `const visiblePages = computed(() => {
 </script>
 
 <template>
-  <DocShowcase title="Dinámica con ellipsis" :code="code">
+  <DocShowcase :title="t('views.pagination.showcases.dynamic.title')" :code="code">
     <p class="text-muted-foreground mb-3 text-sm">
-      {{ totalPages }} páginas con ventana deslizante y ellipsis. Página
+      {{ t('views.pagination.dynamicDescBefore', { total: totalPages }) }}
       <span class="font-mono font-medium">{{ currentPage }}</span>
-      de {{ totalPages }}.
+      {{ t('views.pagination.dynamicDescAfter', { total: totalPages }) }}
     </p>
     <Pagination>
       <PaginationContent>

@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { cn } from '@3df-spa/ui';
+import { cn } from '@3df/ui';
 import type { ClassValue } from 'clsx';
 
 import DocCodeBlock from './DocCodeBlock.vue';
+
+const { t } = useI18n();
 
 defineOptions({ name: 'DocShowcase', inheritAttrs: false });
 
@@ -49,7 +52,7 @@ const showCode = ref(false);
         "
         @click="showCode = !showCode"
       >
-        {{ showCode ? 'Ocultar' : 'Código' }}
+        {{ showCode ? t('common.hideCode') : t('common.showCode') }}
       </button>
     </div>
 

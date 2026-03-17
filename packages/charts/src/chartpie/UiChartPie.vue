@@ -106,7 +106,7 @@ function onSliceLeave() {
     <UiChartContainer :min-height="minHeight" class="w-full">
       <template #default="{ width: w, height: h }">
         <template
-          v-for="c in [
+          v-for="(c, i) in [
             {
               arcs: computeArcs(
                 w,
@@ -121,7 +121,7 @@ function onSliceLeave() {
               ),
             },
           ]"
-          :key="0"
+          :key="i"
         >
           <defs>
             <radialGradient

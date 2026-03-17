@@ -175,14 +175,14 @@ function onPointLeave() {
     <UiChartContainer :min-height="minHeight" class="w-full">
       <template #default="{ width: w, height: h }">
         <template
-          v-for="c in [
+          v-for="(c, i) in [
             {
               series: computeSeriesData(w, h, stackedData, lineParams),
               grid: computeLineGrid(w, h, lineParams),
               hover: computeLineHoverRegions(w, h, lineParams),
             },
           ]"
-          :key="0"
+          :key="i"
         >
           <defs>
             <linearGradient

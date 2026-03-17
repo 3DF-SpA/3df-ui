@@ -1,13 +1,19 @@
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+</script>
+
 <template>
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">7 · Referencia rápida</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.quickReference') }}</h2>
     <div class="overflow-x-auto">
       <table class="w-full max-w-2xl text-sm">
         <thead>
           <tr class="border-border border-b text-left">
-            <th class="pr-4 pb-2 font-medium">Componente / Prop</th>
-            <th class="pr-4 pb-2 font-medium">Valores</th>
-            <th class="pb-2 font-medium">Default</th>
+            <th class="pr-4 pb-2 font-medium">{{ t('demo.sidebar.componentProp') }}</th>
+            <th class="pr-4 pb-2 font-medium">{{ t('demo.sidebar.values') }}</th>
+            <th class="pb-2 font-medium">{{ t('table.default') }}</th>
           </tr>
         </thead>
         <tbody class="divide-border divide-y">

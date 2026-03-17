@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df-spa/ui';
+import { useI18n } from 'vue-i18n';
+import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
+
+const { t } = useI18n();
 </script>
 
 <template>
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Contenido rico</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.popover.richContent') }}</h2>
     <div class="flex gap-4">
       <Popover>
         <PopoverTrigger>
@@ -23,7 +26,7 @@ import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
               <circle cx="12" cy="7" r="4" />
             </svg>
-            Ver perfil
+            {{ t('demo.viewProfile') }}
           </Button>
         </PopoverTrigger>
         <PopoverContent class="w-80">
@@ -35,11 +38,11 @@ import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@
             </div>
             <div class="flex flex-col gap-1">
               <h3 class="text-sm font-semibold">María García</h3>
-              <p class="text-muted-foreground text-xs">Diseñadora de producto</p>
+              <p class="text-muted-foreground text-xs">{{ t('demo.popover.productDesigner') }}</p>
               <p class="text-muted-foreground text-xs">maria@3df.io</p>
               <div class="mt-2 flex gap-2">
-                <Button size="xs">Seguir</Button>
-                <Button variant="outline" size="xs">Mensaje</Button>
+                <Button size="xs">{{ t('demo.popover.follow') }}</Button>
+                <Button variant="outline" size="xs">{{ t('demo.popover.message') }}</Button>
               </div>
             </div>
           </div>
@@ -67,10 +70,9 @@ import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@
         </PopoverTrigger>
         <PopoverContent class="w-64">
           <div class="flex flex-col gap-2">
-            <h3 class="text-sm font-medium">¿Qué es esto?</h3>
+            <h3 class="text-sm font-medium">{{ t('demo.popover.whatIsThis') }}</h3>
             <p class="text-muted-foreground text-sm">
-              Los popovers son paneles flotantes ideales para mostrar información contextual,
-              formularios rápidos o acciones adicionales sin navegar a otra página.
+              {{ t('demo.popover.whatIsThisDesc') }}
             </p>
           </div>
         </PopoverContent>
@@ -79,24 +81,24 @@ import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@
   </section>
 
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Scoped slot (estado del trigger)</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.popover.scopedSlot') }}</h2>
     <div class="flex gap-4">
       <Popover>
         <PopoverTrigger v-slot="{ open }">
           <Button :variant="open ? 'secondary' : 'outline'">
-            {{ open ? '✕ Cerrar' : '⚙ Abrir configuración' }}
+            {{ open ? `✕ ${t('common.close')}` : t('demo.openSettings') }}
           </Button>
         </PopoverTrigger>
         <PopoverContent>
           <div class="flex flex-col gap-3">
-            <h3 class="text-sm font-medium">Configuración rápida</h3>
+            <h3 class="text-sm font-medium">{{ t('demo.popover.quickSettings') }}</h3>
             <div class="grid gap-2">
               <div class="grid grid-cols-3 items-center gap-4">
-                <Label class="text-right text-xs">Tema</Label>
+                <Label class="text-right text-xs">{{ t('demo.popover.theme') }}</Label>
                 <Input class="col-span-2 h-8" value="Oscuro" />
               </div>
               <div class="grid grid-cols-3 items-center gap-4">
-                <Label class="text-right text-xs">Idioma</Label>
+                <Label class="text-right text-xs">{{ t('demo.popover.language') }}</Label>
                 <Input class="col-span-2 h-8" value="Español" />
               </div>
             </div>
@@ -107,28 +109,24 @@ import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@
   </section>
 
   <section class="flex flex-col gap-4">
-    <h2 class="text-muted-foreground text-sm font-medium">Ancho personalizado</h2>
+    <h2 class="text-muted-foreground text-sm font-medium">{{ t('demo.popover.customWidth') }}</h2>
     <div class="flex gap-4">
       <Popover>
         <PopoverTrigger>
-          <Button variant="outline" size="sm">Pequeño (w-48)</Button>
+          <Button variant="outline" size="sm">{{ t('demo.popover.smallWidth') }}</Button>
         </PopoverTrigger>
         <PopoverContent class="w-48">
-          <p class="text-sm">Popover angosto.</p>
+          <p class="text-sm">{{ t('demo.popover.narrowPopover') }}</p>
         </PopoverContent>
       </Popover>
       <Popover>
         <PopoverTrigger>
-          <Button variant="outline" size="sm">Grande (w-96)</Button>
+          <Button variant="outline" size="sm">{{ t('demo.popover.largeWidth') }}</Button>
         </PopoverTrigger>
         <PopoverContent class="w-96">
           <div class="flex flex-col gap-2">
-            <h3 class="text-sm font-medium">Panel amplio</h3>
-            <p class="text-muted-foreground text-sm">
-              El ancho default es <code class="bg-muted rounded px-1 text-xs">w-72</code> pero
-              puedes sobrescribirlo con cualquier clase de Tailwind via la prop
-              <code class="bg-muted rounded px-1 text-xs">class</code>.
-            </p>
+            <h3 class="text-sm font-medium">{{ t('demo.popover.widePanel') }}</h3>
+            <p class="text-muted-foreground text-sm" v-html="t('demo.popover.widePanelDesc')" />
           </div>
         </PopoverContent>
       </Popover>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import {
   Button,
@@ -10,13 +11,14 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@3df-spa/ui';
+} from '@3df/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
 import type { PropItem } from '@/components/docs/DocPropsTable.vue';
 import DocShowcase from '@/components/docs/DocShowcase.vue';
+import { useDocPage } from '@/i18n/composables/useDocPage';
 
 const controlledOpen = ref(false);
 const goal = ref(350);
@@ -25,44 +27,48 @@ function adjustGoal(delta: number) {
   goal.value = Math.max(100, Math.min(1000, goal.value + delta));
 }
 
-const drawerProps: PropItem[] = [
+const { description, propDesc, showcaseTitle } = useDocPage('drawer');
+
+const { t } = useI18n();
+
+const drawerProps = computed<PropItem[]>(() => [
   {
     name: 'Drawer: open',
     type: 'boolean',
     default: '-',
-    description: 'Estado abierto/cerrado (v-model:open).',
+    description: propDesc('open'),
   },
   {
     name: 'Drawer: defaultOpen',
     type: 'boolean',
     default: 'false',
-    description: 'Estado inicial del drawer.',
+    description: propDesc('defaultOpen'),
   },
   {
     name: 'DrawerContent: showClose',
     type: 'boolean',
     default: 'true',
-    description: 'Muestra el botón de cierre (×).',
+    description: propDesc('showClose'),
   },
   {
     name: 'DrawerContent: dragCloseThreshold',
     type: 'number',
     default: '0.4',
-    description: 'Umbral de arrastre para cerrar (0-1).',
+    description: propDesc('dragCloseThreshold'),
   },
-];
+]);
 
 const basicCode = `<Drawer>
   <DrawerTrigger>
-    <Button variant="outline">Abrir Drawer</Button>
+    <Button variant="outline">Open Drawer</Button>
   </DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>
-      <DrawerTitle>Título</DrawerTitle>
-      <DrawerDescription>Descripción del drawer.</DrawerDescription>
+      <DrawerTitle>Title</DrawerTitle>
+      <DrawerDescription>Drawer description.</DrawerDescription>
     </DrawerHeader>
     <DrawerFooter>
-      <Button>Guardar</Button>
+      <Button>Save</Button>
     </DrawerFooter>
   </DrawerContent>
 </Drawer>`;
@@ -71,7 +77,7 @@ const interactiveCode = `const goal = ref(350)
 
 <DrawerContent>
   <DrawerHeader>
-    <DrawerTitle>Objetivo de movimiento</DrawerTitle>
+    <DrawerTitle>Movement goal</DrawerTitle>
   </DrawerHeader>
   <div class="flex items-center gap-4">
     <Button variant="outline" size="icon" @click="goal -= 10">-</Button>
@@ -85,16 +91,16 @@ const controlledCode = `const open = ref(false)
 <Drawer v-model:open="open">
   <DrawerContent>
     <DrawerHeader>
-      <DrawerTitle>Drawer controlado</DrawerTitle>
+      <DrawerTitle>Controlled drawer</DrawerTitle>
     </DrawerHeader>
     <DrawerFooter>
-      <Button @click="open = false">Cerrar</Button>
+      <Button @click="open = false">Close</Button>
     </DrawerFooter>
   </DrawerContent>
 </Drawer>`;
 
 const noCloseCode = `<DrawerContent :show-close="false">
-  <!-- Solo cierra con drag o Escape -->
+  <!-- Closes only with drag or Escape -->
 </DrawerContent>`;
 
 const anatomyCode = `<Drawer>
@@ -113,48 +119,48 @@ const anatomyCode = `<Drawer>
   <div class="flex flex-col gap-10">
     <DocHeader
       title="Drawer"
-      description="Panel inferior deslizable, ideal para acciones rápidas en dispositivos móviles. Se cierra arrastrando hacia abajo."
-      import-code="import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter } from '@3df-spa/ui'"
+      :description="description"
+      import-code="import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter } from '@3df/ui'"
     />
 
     <section class="flex flex-col gap-4">
-      <h2 class="text-lg font-semibold">Anatomía</h2>
+      <h2 class="text-lg font-semibold">{{ t('demo.anatomy') }}</h2>
       <DocCodeBlock :code="anatomyCode" lang="vue" />
     </section>
 
-    <DocShowcase title="Básico" :code="basicCode">
+    <DocShowcase :title="showcaseTitle('basic')" :code="basicCode">
       <Drawer>
         <DrawerTrigger>
-          <Button variant="outline">Abrir Drawer</Button>
+          <Button variant="outline">{{ t('demo.openDrawer') }}</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Editar perfil</DrawerTitle>
+            <DrawerTitle>{{ t('demo.drawer.editProfile') }}</DrawerTitle>
             <DrawerDescription>
-              Realiza cambios en tu perfil aquí. Haz clic en guardar cuando hayas terminado.
+              {{ t('demo.drawer.editProfileDesc') }}
             </DrawerDescription>
           </DrawerHeader>
           <div class="p-4">
             <p class="text-muted-foreground text-sm">
-              Contenido del drawer. Puedes arrastrarlo hacia abajo para cerrarlo.
+              {{ t('demo.drawer.drawerContent') }}
             </p>
           </div>
           <DrawerFooter>
-            <Button>Guardar cambios</Button>
+            <Button>{{ t('demo.drawer.saveChanges') }}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </DocShowcase>
 
-    <DocShowcase title="Interactivo" :code="interactiveCode">
+    <DocShowcase :title="showcaseTitle('interactive')" :code="interactiveCode">
       <Drawer>
         <DrawerTrigger>
-          <Button variant="outline">Establecer objetivo</Button>
+          <Button variant="outline">{{ t('demo.drawer.setGoal') }}</Button>
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Objetivo de movimiento</DrawerTitle>
-            <DrawerDescription>Establece tu objetivo de calorías diarias.</DrawerDescription>
+            <DrawerTitle>{{ t('demo.drawer.movementGoal') }}</DrawerTitle>
+            <DrawerDescription>{{ t('demo.drawer.caloriesGoalDesc') }}</DrawerDescription>
           </DrawerHeader>
           <div class="flex flex-col items-center gap-4 p-4">
             <div class="flex items-center gap-4">
@@ -174,7 +180,7 @@ const anatomyCode = `<Drawer>
               </Button>
               <div class="text-center">
                 <div class="text-5xl font-bold tracking-tighter">{{ goal }}</div>
-                <div class="text-muted-foreground text-sm">calorías/día</div>
+                <div class="text-muted-foreground text-sm">{{ t('demo.drawer.caloriesUnit') }}</div>
               </div>
               <Button variant="outline" size="icon" @click="adjustGoal(10)">
                 <svg
@@ -194,52 +200,52 @@ const anatomyCode = `<Drawer>
             </div>
           </div>
           <DrawerFooter>
-            <Button>Confirmar objetivo</Button>
+            <Button>{{ t('demo.drawer.confirmGoal') }}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </DocShowcase>
 
-    <DocShowcase title="Controlado (v-model)" :code="controlledCode">
+    <DocShowcase :title="showcaseTitle('controlled')" :code="controlledCode">
       <p class="text-muted-foreground text-xs">
-        Estado: <code class="text-foreground">{{ controlledOpen ? 'abierto' : 'cerrado' }}</code>
+        Estado: <code class="text-foreground">{{ controlledOpen ? t('demo.drawer.statusOpen') : t('demo.drawer.statusClosed') }}</code>
       </p>
       <div class="flex gap-2">
-        <Button variant="outline" @click="controlledOpen = true">Abrir programáticamente</Button>
+        <Button variant="outline" @click="controlledOpen = true">{{ t('demo.openProgrammatically') }}</Button>
       </div>
       <Drawer v-model:open="controlledOpen">
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Drawer controlado</DrawerTitle>
-            <DrawerDescription>Este drawer se controla con v-model:open.</DrawerDescription>
+            <DrawerTitle>{{ t('demo.drawer.controlledTitle') }}</DrawerTitle>
+            <DrawerDescription>{{ t('demo.drawer.controlledDesc') }}</DrawerDescription>
           </DrawerHeader>
           <div class="p-4">
             <p class="text-muted-foreground text-sm">
-              Puedes abrirlo y cerrarlo programáticamente.
+              {{ t('demo.drawer.controlledContent') }}
             </p>
           </div>
           <DrawerFooter>
-            <Button @click="controlledOpen = false">Cerrar</Button>
-            <Button variant="outline" @click="controlledOpen = false">Cancelar</Button>
+            <Button @click="controlledOpen = false">{{ t('common.close') }}</Button>
+            <Button variant="outline" @click="controlledOpen = false">{{ t('common.cancel') }}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </DocShowcase>
 
-    <DocShowcase title="Sin botón de cierre" :code="noCloseCode">
+    <DocShowcase :title="showcaseTitle('noCloseButton')" :code="noCloseCode">
       <Drawer>
         <DrawerTrigger>
-          <Button variant="outline">Abrir (sin ×)</Button>
+          <Button variant="outline">{{ t('demo.drawer.openNoClose') }}</Button>
         </DrawerTrigger>
         <DrawerContent :show-close="false">
           <DrawerHeader>
-            <DrawerTitle>Solo drag o Escape</DrawerTitle>
+            <DrawerTitle>{{ t('demo.drawer.dragOrEscapeTitle') }}</DrawerTitle>
             <DrawerDescription>
-              Arrastra el handle hacia abajo o presiona Escape para cerrar.
+              {{ t('demo.drawer.dragOrEscapeDesc') }}
             </DrawerDescription>
           </DrawerHeader>
           <div class="p-4 pb-8">
-            <p class="text-muted-foreground text-sm">No hay botón de cierre visible.</p>
+            <p class="text-muted-foreground text-sm">{{ t('demo.drawer.noCloseVisible') }}</p>
           </div>
         </DrawerContent>
       </Drawer>
