@@ -1,6 +1,6 @@
 {
   "name": "@3df-spa/charts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "sideEffects": false,
   "repository": {
@@ -9,9 +9,18 @@
     "directory": "packages/charts"
   },
   "description": "Pure SVG chart components for Vue 3 — zero dependencies, TypeScript, responsive",
-  "keywords": ["vue", "vue3", "charts", "svg", "visualization", "typescript"],
+  "keywords": [
+    "vue",
+    "vue3",
+    "charts",
+    "svg",
+    "visualization",
+    "typescript"
+  ],
   "homepage": "https://github.com/3DF-SpA/3df-ui#readme",
-  "bugs": { "url": "https://github.com/3DF-SpA/3df-ui/issues" },
+  "bugs": {
+    "url": "https://github.com/3DF-SpA/3df-ui/issues"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"

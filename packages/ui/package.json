@@ -1,8 +1,17 @@
 {
   "name": "@3df-spa/ui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue 3 component library — TypeScript strict, Tailwind CSS v4, accessible, zero-runtime",
-  "keywords": ["vue", "vue3", "components", "ui", "design-system", "tailwind", "typescript", "accessible"],
+  "keywords": [
+    "vue",
+    "vue3",
+    "components",
+    "ui",
+    "design-system",
+    "tailwind",
+    "typescript",
+    "accessible"
+  ],
   "homepage": "https://github.com/3DF-SpA/3df-ui#readme",
   "bugs": {
     "url": "https://github.com/3DF-SpA/3df-ui/issues"
@@ -37,7 +46,6 @@
   "files": [
     "dist",
     "src/styles",
-    "src/components",
     "README.md",
     "LICENSE"
   ],
