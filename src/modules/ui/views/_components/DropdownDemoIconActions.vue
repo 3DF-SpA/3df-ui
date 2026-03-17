@@ -15,7 +15,7 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 const { t } = useI18n();
 
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.dropdown.action', { action }));
 }
 
 const codeIconActions = `<DropdownMenu>
@@ -25,11 +25,11 @@ const codeIconActions = `<DropdownMenu>
     </Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent align="end">
-    <DropdownMenuItem>Editar</DropdownMenuItem>
-    <DropdownMenuItem>Duplicar</DropdownMenuItem>
+    <DropdownMenuItem>Edit</DropdownMenuItem>
+    <DropdownMenuItem>Duplicate</DropdownMenuItem>
     <DropdownMenuSeparator />
     <DropdownMenuItem :destructive="true">
-      Eliminar
+      Delete
       <DropdownMenuShortcut>⌫</DropdownMenuShortcut>
     </DropdownMenuItem>
   </DropdownMenuContent>

@@ -29,30 +29,30 @@ const emptyProps = computed<PropItem[]>(() => [
 ]);
 
 const searchCode = `<EmptyState
-  title="No se encontraron resultados"
-  description="Intenta ajustar los filtros de búsqueda."
+  title="No results found"
+  description="Try adjusting your search filters."
 >
   <template #icon>
     <svg>...</svg>
   </template>
-  <Button variant="outline" size="sm">Limpiar filtros</Button>
-  <Button size="sm">Crear nuevo</Button>
+  <Button variant="outline" size="sm">Clear filters</Button>
+  <Button size="sm">Create new</Button>
 </EmptyState>`;
 
 const minimalCode = `<EmptyState
-  title="Sin datos disponibles"
-  description="Los datos se mostrarán aquí cuando estén disponibles."
+  title="No data available"
+  description="Data will appear here when available."
 />`;
 
 const heightCode = `<EmptyState
   class="min-h-80"
-  title="Sube tu primer archivo"
-  description="Arrastra y suelta archivos aquí."
+  title="Upload your first file"
+  description="Drag and drop files here."
 >
   <template #icon>
     <svg>...</svg>
   </template>
-  <Button variant="outline" size="sm">Seleccionar</Button>
+  <Button variant="outline" size="sm">Select</Button>
 </EmptyState>`;
 </script>
 

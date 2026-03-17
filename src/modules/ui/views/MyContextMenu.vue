@@ -76,16 +76,16 @@ const contextMenuProps = computed<PropItem[]>(() => [
 const basicCode = `<ContextMenu>
   <ContextMenuTrigger>
     <div class="flex h-[150px] items-center justify-center rounded-md border border-dashed">
-      Clic derecho aquí
+      Right click here
     </div>
   </ContextMenuTrigger>
   <ContextMenuContent class="w-64">
-    <ContextMenuItem>Atrás <ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
+    <ContextMenuItem>Back <ContextMenuShortcut>⌘[</ContextMenuShortcut></ContextMenuItem>
     <ContextMenuSeparator />
     <ContextMenuCheckboxItem v-model:checked="checked">
-      Mostrar marcadores
+      Show bookmarks
     </ContextMenuCheckboxItem>
-    <ContextMenuLabel inset>Personas</ContextMenuLabel>
+    <ContextMenuLabel inset>People</ContextMenuLabel>
     <ContextMenuRadioGroup v-model="person">
       <ContextMenuRadioItem value="pedro">Pedro</ContextMenuRadioItem>
     </ContextMenuRadioGroup>
@@ -93,12 +93,12 @@ const basicCode = `<ContextMenu>
 </ContextMenu>`;
 
 const subMenuCode = `<ContextMenuSub>
-  <ContextMenuSubTrigger>Compartir</ContextMenuSubTrigger>
+  <ContextMenuSubTrigger>Share</ContextMenuSubTrigger>
   <ContextMenuSubContent>
     <ContextMenuItem>Email</ContextMenuItem>
-    <ContextMenuItem>Mensaje</ContextMenuItem>
+    <ContextMenuItem>Message</ContextMenuItem>
     <ContextMenuSeparator />
-    <ContextMenuItem>Copiar enlace</ContextMenuItem>
+    <ContextMenuItem>Copy link</ContextMenuItem>
   </ContextMenuSubContent>
 </ContextMenuSub>`;
 

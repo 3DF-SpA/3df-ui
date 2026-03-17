@@ -807,6 +807,7 @@ export default {
       opensUp: 'Si NO hay espacio → abre arriba',
       scrollToTest: 'Haz scroll para probar',
       autoPositionDesc: 'El dropdown detecta los bordes del viewport y se reposiciona automáticamente.',
+      action: 'Acción: {action}',
     },
     contextMenu: {
       rightClickHere: 'Clic derecho aquí',
@@ -1001,6 +1002,7 @@ export default {
     Feedback: 'Feedback',
     Charts: 'Charts',
     Otros: 'Otros',
+    other: 'Otros',
   },
   table: {
     title: 'Props',

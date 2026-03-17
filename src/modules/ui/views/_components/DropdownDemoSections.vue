@@ -15,24 +15,24 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 const { t } = useI18n();
 
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.dropdown.action', { action }));
 }
 
 const codeSections = `<DropdownMenu>
   <DropdownMenuTrigger>
-    <Button variant="outline">Mi cuenta</Button>
+    <Button variant="outline">My account</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent class="w-56">
-    <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+    <DropdownMenuLabel>My account</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem>Perfil</DropdownMenuItem>
-    <DropdownMenuItem>Facturación</DropdownMenuItem>
+    <DropdownMenuItem>Profile</DropdownMenuItem>
+    <DropdownMenuItem>Billing</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuLabel>Soporte</DropdownMenuLabel>
+    <DropdownMenuLabel>Support</DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :disabled="true">Chat en vivo</DropdownMenuItem>
+    <DropdownMenuItem :disabled="true">Live chat</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :destructive="true">Eliminar cuenta</DropdownMenuItem>
+    <DropdownMenuItem :destructive="true">Delete account</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>`;
 </script>

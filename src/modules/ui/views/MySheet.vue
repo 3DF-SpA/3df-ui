@@ -60,7 +60,7 @@ const sheetProps = computed<PropItem[]>(() => [
   {
     name: 'SheetContent: closeLabel',
     type: 'string',
-    default: "'Cerrar'",
+    default: "'Close'",
     description: propDesc('closeLabel'),
   },
   {
@@ -78,7 +78,7 @@ const anatomyCode = `<Sheet>
       <SheetTitle />
       <SheetDescription />
     </SheetHeader>
-    <!-- contenido -->
+    <!-- content -->
     <SheetFooter>
       <SheetClose />
     </SheetFooter>
@@ -87,20 +87,20 @@ const anatomyCode = `<Sheet>
 
 const basicCode = `<Sheet>
   <SheetTrigger>
-    <Button variant="outline">Abrir Sheet</Button>
+    <Button variant="outline">Open Sheet</Button>
   </SheetTrigger>
   <SheetContent>
     <SheetHeader>
-      <SheetTitle>Editar perfil</SheetTitle>
-      <SheetDescription>Realiza cambios en tu perfil.</SheetDescription>
+      <SheetTitle>Edit profile</SheetTitle>
+      <SheetDescription>Make changes to your profile.</SheetDescription>
     </SheetHeader>
     <div class="flex flex-col gap-4 py-4">
-      <Label for="name">Nombre</Label>
+      <Label for="name">Name</Label>
       <Input id="name" value="Pedro Duarte" />
     </div>
     <SheetFooter>
-      <SheetClose><Button variant="outline">Cancelar</Button></SheetClose>
-      <SheetClose><Button>Guardar cambios</Button></SheetClose>
+      <SheetClose><Button variant="outline">Cancel</Button></SheetClose>
+      <SheetClose><Button>Save changes</Button></SheetClose>
     </SheetFooter>
   </SheetContent>
 </Sheet>`;
@@ -111,7 +111,7 @@ const sidesCode = `<Sheet v-for="side in ['top', 'right', 'bottom', 'left']" :ke
   </SheetTrigger>
   <SheetContent :side="side">
     <SheetHeader>
-      <SheetTitle>Sheet desde {{ side }}</SheetTitle>
+      <SheetTitle>Sheet from {{ side }}</SheetTitle>
     </SheetHeader>
   </SheetContent>
 </Sheet>`;
@@ -120,19 +120,19 @@ const controlledCode = `const open = ref(false)
 
 <Sheet v-model:open="open">
   <SheetTrigger>
-    <Button>Abrir controlado</Button>
+    <Button>Open controlled</Button>
   </SheetTrigger>
   <SheetContent side="left">
     <SheetHeader>
-      <SheetTitle>Sheet controlado</SheetTitle>
+      <SheetTitle>Controlled sheet</SheetTitle>
     </SheetHeader>
   </SheetContent>
 </Sheet>
 
-<Button @click="open = !open">Toggle externo</Button>`;
+<Button @click="open = !open">External toggle</Button>`;
 
 const noCloseCode = `<SheetContent :show-close="false">
-  <!-- Solo se cierra con Escape, overlay, o botón propio -->
+  <!-- Only closes with Escape, overlay, or own button -->
 </SheetContent>`;
 </script>
 

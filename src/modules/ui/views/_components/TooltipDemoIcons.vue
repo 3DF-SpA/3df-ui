@@ -12,7 +12,7 @@ const codeIcons = `<Tooltip>
       <DownloadIcon class="size-4" />
     </Button>
   </TooltipTrigger>
-  <TooltipContent>Descargar archivo</TooltipContent>
+  <TooltipContent>Download file</TooltipContent>
 </Tooltip>`;
 </script>
 

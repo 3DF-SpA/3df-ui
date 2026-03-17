@@ -60,28 +60,28 @@ const alertDialogProps = computed<PropItem[]>(() => [
 
 const deleteCode = `<AlertDialog>
   <AlertDialogTrigger>
-    <Button variant="destructive">Eliminar cuenta</Button>
+    <Button variant="destructive">Delete account</Button>
   </AlertDialogTrigger>
   <AlertDialogContent>
     <AlertDialogHeader>
-      <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
-      <AlertDialogDescription>Esta acción no se puede deshacer.</AlertDialogDescription>
+      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+      <AlertDialogDescription>This action cannot be undone.</AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogCancel>Cancelar</AlertDialogCancel>
-      <AlertDialogAction variant="destructive">Eliminar</AlertDialogAction>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`;
 
 const genericCode = `<AlertDialogContent>
   <AlertDialogHeader>
-    <AlertDialogTitle>Confirmar envío</AlertDialogTitle>
-    <AlertDialogDescription>¿Deseas continuar?</AlertDialogDescription>
+    <AlertDialogTitle>Confirm submission</AlertDialogTitle>
+    <AlertDialogDescription>Do you want to continue?</AlertDialogDescription>
   </AlertDialogHeader>
   <AlertDialogFooter>
-    <AlertDialogCancel>Cancelar</AlertDialogCancel>
-    <AlertDialogAction>Confirmar</AlertDialogAction>
+    <AlertDialogCancel>Cancel</AlertDialogCancel>
+    <AlertDialogAction>Confirm</AlertDialogAction>
   </AlertDialogFooter>
 </AlertDialogContent>`;
 
@@ -90,10 +90,10 @@ const controlledCode = `const open = ref(false)
 <AlertDialog v-model:open="open">
   <AlertDialogContent>
     <AlertDialogHeader>
-      <AlertDialogTitle>Sesión expirada</AlertDialogTitle>
+      <AlertDialogTitle>Session expired</AlertDialogTitle>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogAction>Iniciar sesión</AlertDialogAction>
+      <AlertDialogAction>Sign in</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`;

@@ -16,17 +16,17 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 const { t } = useI18n();
 
 const codeInline = `<Command class="rounded-lg border shadow-md">
-  <CommandInput placeholder="Escribe un comando o busca..." />
+  <CommandInput placeholder="Type a command or search..." />
   <CommandList>
-    <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-    <CommandGroup heading="Sugerencias">
-      <CommandItem value="Calendario">Calendario</CommandItem>
-      <CommandItem value="Buscar emoji" :keywords="['emoticon']">Buscar emoji</CommandItem>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem value="Calendar">Calendar</CommandItem>
+      <CommandItem value="Search emoji" :keywords="['emoticon']">Search emoji</CommandItem>
     </CommandGroup>
     <CommandSeparator />
-    <CommandGroup heading="Configuración">
-      <CommandItem value="Perfil">
-        Perfil
+    <CommandGroup heading="Settings">
+      <CommandItem value="Profile">
+        Profile
         <CommandShortcut>⌘P</CommandShortcut>
       </CommandItem>
     </CommandGroup>

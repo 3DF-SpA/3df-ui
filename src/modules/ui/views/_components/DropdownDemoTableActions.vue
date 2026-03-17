@@ -18,25 +18,25 @@ const { t } = useI18n();
 const codeTable = `<table class="w-full text-sm">
   <thead>
     <tr class="border-b">
-      <th>Nombre</th>
-      <th>Estado</th>
-      <th>Acciones</th>
+      <th>Name</th>
+      <th>Status</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>María García</td>
-      <td><Badge variant="success">Activo</Badge></td>
+      <td><Badge variant="success">Active</Badge></td>
       <td>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Button variant="ghost" size="icon" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Ver perfil</DropdownMenuItem>
-            <DropdownMenuItem :destructive="true">Suspender</DropdownMenuItem>
+            <DropdownMenuItem>View profile</DropdownMenuItem>
+            <DropdownMenuItem :destructive="true">Suspend</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </td>

@@ -16,23 +16,23 @@ import DocShowcase from '@/components/docs/DocShowcase.vue';
 const { t } = useI18n();
 
 function onAction(action: string) {
-  alert(`Acción: ${action}`);
+  alert(t('demo.dropdown.action', { action }));
 }
 
 const codeBasic = `<DropdownMenu>
   <DropdownMenuTrigger>
-    <Button variant="outline">Abrir menú</Button>
+    <Button variant="outline">Open menu</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuItem>
-      Perfil
+      Profile
       <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
     </DropdownMenuItem>
-    <DropdownMenuItem>Configuración</DropdownMenuItem>
+    <DropdownMenuItem>Settings</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :disabled="true">Ayuda (próximamente)</DropdownMenuItem>
+    <DropdownMenuItem :disabled="true">Help (coming soon)</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem :destructive="true">Cerrar sesión</DropdownMenuItem>
+    <DropdownMenuItem :destructive="true">Log out</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>`;
 </script>

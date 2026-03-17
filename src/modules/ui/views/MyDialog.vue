@@ -57,39 +57,39 @@ const dialogProps = computed<PropItem[]>(() => [
   {
     name: 'DialogContent: closeLabel',
     type: 'string',
-    default: "'Cerrar'",
+    default: "'Close'",
     description: propDesc('closeLabel'),
   },
 ]);
 
 const basicCode = `<Dialog>
   <DialogTrigger>
-    <Button variant="outline">Editar perfil</Button>
+    <Button variant="outline">Edit profile</Button>
   </DialogTrigger>
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Editar perfil</DialogTitle>
-      <DialogDescription>Realiza cambios en tu perfil.</DialogDescription>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>Make changes to your profile.</DialogDescription>
     </DialogHeader>
     <DialogFooter>
-      <DialogClose><Button variant="outline">Cancelar</Button></DialogClose>
-      <Button>Guardar</Button>
+      <DialogClose><Button variant="outline">Cancel</Button></DialogClose>
+      <Button>Save</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`;
 
 const confirmCode = `<Dialog>
   <DialogTrigger>
-    <Button variant="destructive">Eliminar cuenta</Button>
+    <Button variant="destructive">Delete account</Button>
   </DialogTrigger>
   <DialogContent class="max-w-md">
     <DialogHeader>
-      <DialogTitle>¿Estás seguro?</DialogTitle>
-      <DialogDescription>Esta acción no se puede deshacer.</DialogDescription>
+      <DialogTitle>Are you sure?</DialogTitle>
+      <DialogDescription>This action cannot be undone.</DialogDescription>
     </DialogHeader>
     <DialogFooter>
-      <DialogClose><Button variant="outline">Cancelar</Button></DialogClose>
-      <Button variant="destructive">Eliminar</Button>
+      <DialogClose><Button variant="outline">Cancel</Button></DialogClose>
+      <Button variant="destructive">Delete</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`;
@@ -99,20 +99,20 @@ const controlledCode = `const open = ref(false)
 <Dialog v-model:open="open">
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Dialog controlado</DialogTitle>
+      <DialogTitle>Controlled dialog</DialogTitle>
     </DialogHeader>
     <DialogFooter>
-      <Button @click="open = false">Entendido</Button>
+      <Button @click="open = false">Got it</Button>
     </DialogFooter>
   </DialogContent>
 </Dialog>`;
 
 const noOverlayCode = `<DialogContent :close-on-overlay="false">
-  <!-- Solo se cierra con × o Escape -->
+  <!-- Only closes with × or Escape -->
 </DialogContent>`;
 
 const noCloseCode = `<DialogContent :show-close="false" :close-on-overlay="false">
-  <!-- Solo se cierra con botones de acción -->
+  <!-- Only closes with action buttons -->
 </DialogContent>`;
 
 const anatomyCode = `<Dialog>

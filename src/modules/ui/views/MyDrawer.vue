@@ -60,15 +60,15 @@ const drawerProps = computed<PropItem[]>(() => [
 
 const basicCode = `<Drawer>
   <DrawerTrigger>
-    <Button variant="outline">Abrir Drawer</Button>
+    <Button variant="outline">Open Drawer</Button>
   </DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>
-      <DrawerTitle>Título</DrawerTitle>
-      <DrawerDescription>Descripción del drawer.</DrawerDescription>
+      <DrawerTitle>Title</DrawerTitle>
+      <DrawerDescription>Drawer description.</DrawerDescription>
     </DrawerHeader>
     <DrawerFooter>
-      <Button>Guardar</Button>
+      <Button>Save</Button>
     </DrawerFooter>
   </DrawerContent>
 </Drawer>`;
@@ -77,7 +77,7 @@ const interactiveCode = `const goal = ref(350)
 
 <DrawerContent>
   <DrawerHeader>
-    <DrawerTitle>Objetivo de movimiento</DrawerTitle>
+    <DrawerTitle>Movement goal</DrawerTitle>
   </DrawerHeader>
   <div class="flex items-center gap-4">
     <Button variant="outline" size="icon" @click="goal -= 10">-</Button>
@@ -91,16 +91,16 @@ const controlledCode = `const open = ref(false)
 <Drawer v-model:open="open">
   <DrawerContent>
     <DrawerHeader>
-      <DrawerTitle>Drawer controlado</DrawerTitle>
+      <DrawerTitle>Controlled drawer</DrawerTitle>
     </DrawerHeader>
     <DrawerFooter>
-      <Button @click="open = false">Cerrar</Button>
+      <Button @click="open = false">Close</Button>
     </DrawerFooter>
   </DrawerContent>
 </Drawer>`;
 
 const noCloseCode = `<DrawerContent :show-close="false">
-  <!-- Solo cierra con drag o Escape -->
+  <!-- Closes only with drag or Escape -->
 </DrawerContent>`;
 
 const anatomyCode = `<Drawer>

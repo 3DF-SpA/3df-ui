@@ -62,40 +62,40 @@ const subComponentProps = computed<PropItem[]>(() => [
 
 const basicCode = `<Card>
   <CardHeader>
-    <CardTitle>Título</CardTitle>
-    <CardDescription>Descripción breve.</CardDescription>
+    <CardTitle>Title</CardTitle>
+    <CardDescription>Brief description.</CardDescription>
   </CardHeader>
   <CardContent>
-    <p>Contenido principal.</p>
+    <p>Main content.</p>
   </CardContent>
   <CardFooter>
-    <Button size="sm">Acción</Button>
+    <Button size="sm">Action</Button>
   </CardFooter>
 </Card>`;
 
 const formCode = `<Card>
   <CardHeader>
-    <CardTitle>Crear proyecto</CardTitle>
-    <CardDescription>Configura tu nuevo proyecto.</CardDescription>
+    <CardTitle>Create project</CardTitle>
+    <CardDescription>Configure your new project.</CardDescription>
   </CardHeader>
   <CardContent>
     <form class="flex flex-col gap-4">
-      <Input placeholder="Mi proyecto" />
+      <Input placeholder="My project" />
       <Select v-model="framework" placeholder="Framework">
         <SelectItem value="vue">Vue</SelectItem>
       </Select>
     </form>
   </CardContent>
   <CardFooter class="justify-between">
-    <Button variant="ghost">Cancelar</Button>
-    <Button>Crear</Button>
+    <Button variant="ghost">Cancel</Button>
+    <Button>Create</Button>
   </CardFooter>
 </Card>`;
 
 const notifCode = `<Card>
   <CardHeader>
-    <CardTitle>Notificaciones</CardTitle>
-    <CardDescription>Configura cómo recibirlas.</CardDescription>
+    <CardTitle>Notifications</CardTitle>
+    <CardDescription>Configure how to receive them.</CardDescription>
   </CardHeader>
   <CardContent>
     <div class="flex items-center justify-between">
@@ -109,22 +109,22 @@ const badgeCode = `<Card>
   <CardHeader>
     <div class="flex items-center justify-between">
       <CardTitle>Deploy #1234</CardTitle>
-      <Badge variant="success" size="sm">Exitoso</Badge>
+      <Badge variant="success" size="sm">Successful</Badge>
     </div>
-    <CardDescription>Desplegado hace 3 minutos.</CardDescription>
+    <CardDescription>Deployed 3 minutes ago.</CardDescription>
   </CardHeader>
 </Card>`;
 
 const hoverCode = `<Card class="cursor-pointer transition-shadow hover:shadow-md">
   <CardHeader>
-    <CardTitle>Documentación</CardTitle>
-    <CardDescription>Guías y ejemplos.</CardDescription>
+    <CardTitle>Documentation</CardTitle>
+    <CardDescription>Guides and examples.</CardDescription>
   </CardHeader>
 </Card>`;
 
 const contentOnlyCode = `<Card>
   <CardContent class="pt-6">
-    <p>Card solo con contenido, sin header ni footer.</p>
+    <p>Card with content only, no header or footer.</p>
   </CardContent>
 </Card>`;
 

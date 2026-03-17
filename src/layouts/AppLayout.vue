@@ -26,7 +26,7 @@ interface NavGroup {
 function groupRoutes(routes: typeof uiRoutes, prefix: string): NavGroup[] {
   const map = new Map<string, NavItem[]>();
   for (const r of routes) {
-    const group = (r.meta?.group as string) ?? 'Otros';
+    const group = (r.meta?.group as string) ?? 'other';
     if (!map.has(group)) map.set(group, []);
     map.get(group)!.push({
       path: r.path,

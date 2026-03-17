@@ -40,11 +40,11 @@ const breadcrumbLinkProps = computed<PropItem[]>(() => [
 const basicCode = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Componentes</BreadcrumbLink>
+      <BreadcrumbLink href="#">Components</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
@@ -56,7 +56,7 @@ const basicCode = `<Breadcrumb>
 const ellipsisCode = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
@@ -64,7 +64,7 @@ const ellipsisCode = `<Breadcrumb>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Perfil</BreadcrumbPage>
+      <BreadcrumbPage>Profile</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`;
@@ -72,7 +72,7 @@ const ellipsisCode = `<Breadcrumb>
 const customSeparatorCode = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Inicio</BreadcrumbLink>
+      <BreadcrumbLink href="#">Home</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator>/</BreadcrumbSeparator>
     <BreadcrumbItem>

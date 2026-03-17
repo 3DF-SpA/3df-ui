@@ -19,29 +19,29 @@ const { t } = useI18n();
 
 const codeScrollable = `<Sheet>
   <SheetTrigger>
-    <Button variant="outline">Contenido largo</Button>
+    <Button variant="outline">Long content</Button>
   </SheetTrigger>
   <SheetContent class="overflow-y-auto">
     <SheetHeader>
-      <SheetTitle>Términos y condiciones</SheetTitle>
-      <SheetDescription>Lee los términos antes de continuar.</SheetDescription>
+      <SheetTitle>Terms and conditions</SheetTitle>
+      <SheetDescription>Read the terms before continuing.</SheetDescription>
     </SheetHeader>
     <div class="flex flex-col gap-4 py-4">
       <p v-for="i in 20" :key="i">Lorem ipsum...</p>
     </div>
     <SheetFooter>
-      <SheetClose><Button variant="outline">Rechazar</Button></SheetClose>
-      <SheetClose><Button>Aceptar</Button></SheetClose>
+      <SheetClose><Button variant="outline">Reject</Button></SheetClose>
+      <SheetClose><Button>Accept</Button></SheetClose>
     </SheetFooter>
   </SheetContent>
 </Sheet>`;
 
 const codeCustomWidth = `<SheetContent class="sm:max-w-lg">
-  <!-- Ancho personalizado con sm:max-w-lg -->
+  <!-- Custom width with sm:max-w-lg -->
 </SheetContent>
 
 <SheetContent class="sm:max-w-2xl">
-  <!-- Ancho extra con sm:max-w-2xl -->
+  <!-- Extra width with sm:max-w-2xl -->
 </SheetContent>`;
 </script>
 

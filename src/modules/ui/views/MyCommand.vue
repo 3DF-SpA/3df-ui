@@ -105,19 +105,19 @@ const anatomyCode = `<Command>
 
 const dialogCode = `const open = ref(false)
 
-<button @click="open = true">Buscar comando...</button>
+<button @click="open = true">Search command...</button>
 
 <CommandDialog v-model:open="open">
-  <CommandInput placeholder="Escribe un comando o busca..." />
+  <CommandInput placeholder="Type a command or search..." />
   <CommandList>
-    <CommandEmpty>No se encontraron resultados.</CommandEmpty>
-    <CommandGroup heading="Sugerencias">
-      <CommandItem value="Calendario">Calendario</CommandItem>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem value="Calendar">Calendar</CommandItem>
     </CommandGroup>
     <CommandSeparator />
-    <CommandGroup heading="Configuración">
-      <CommandItem value="Perfil">
-        Perfil
+    <CommandGroup heading="Settings">
+      <CommandItem value="Profile">
+        Profile
         <CommandShortcut>⌘P</CommandShortcut>
       </CommandItem>
     </CommandGroup>
