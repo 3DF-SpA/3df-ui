@@ -257,7 +257,7 @@ export default {
       duration: 'Duración',
       viewLogs: 'Ver logs',
       documentation: 'Documentación',
-      docDescription: 'Aprende a usar @3df-spa/ui con guías y ejemplos.',
+      docDescription: 'Aprende a usar @3df/ui con guías y ejemplos.',
       docDescriptionFull: 'Guías completas, API reference y ejemplos interactivos para cada componente.',
       learnWithGuides: 'Guías y ejemplos.',
       cardWithContentOnly: 'Una card puede tener solo contenido, sin header ni footer. Usa',
