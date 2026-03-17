@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-import { type ScatterConfig, UiChartScatter } from '@3df-spa/charts';
+import { type ScatterConfig, UiChartScatter } from '@3df/charts';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
@@ -224,7 +224,7 @@ const scatterProps = computed<PropItem[]>(() => [
     <DocHeader
       title="Scatter Plot"
       :description="description"
-      import-code="import { UiChartScatter, type ScatterConfig } from '@3df-spa/charts'"
+      import-code="import { UiChartScatter, type ScatterConfig } from '@3df/charts'"
     />
 
     <DocShowcase
