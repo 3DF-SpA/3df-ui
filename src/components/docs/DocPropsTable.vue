@@ -2,7 +2,7 @@
 import { computed, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, cn } from '@3df-spa/ui';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow, cn } from '@3df/ui';
 import type { ClassValue } from 'clsx';
 
 const { t } = useI18n();
