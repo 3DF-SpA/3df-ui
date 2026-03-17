@@ -9,6 +9,7 @@ export default defineConfig({
     dts({
       tsconfigPath: './tsconfig.json',
       cleanVueFileName: true,
+      rollupTypes: true,
     }),
   ],
   build: {
@@ -19,11 +20,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['vue'],
-      output: {
-        preserveModules: true,
-        preserveModulesRoot: 'src',
-        entryFileNames: '[name].mjs',
-      },
+      output: {},
     },
   },
 });

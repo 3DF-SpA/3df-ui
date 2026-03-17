@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-
 import vue from '@vitejs/plugin-vue';
-
 import { resolve } from 'node:path';
 
 export default defineConfig({
@@ -11,6 +9,7 @@ export default defineConfig({
     dts({
       tsconfigPath: './tsconfig.json',
       cleanVueFileName: true,
+      rollupTypes: true,
     }),
   ],
   build: {
@@ -21,13 +20,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['vue', 'class-variance-authority', 'clsx', 'tailwind-merge', 'date-fns', 'embla-carousel'],
-      // Ensure date-fns sub-path imports are also externalized
-      // Rollup matches external as prefix, so 'date-fns' covers 'date-fns/*'
-      output: {
-        preserveModules: true,
-        preserveModulesRoot: 'src',
-        entryFileNames: '[name].js',
-      },
+      output: {},
     },
   },
 });
