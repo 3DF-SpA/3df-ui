@@ -33,10 +33,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build @3df-spa/ui
+      - name: Build @3df/ui
         run: pnpm build:ui
 
-      - name: Build @3df-spa/charts
+      - name: Build @3df/charts
         run: pnpm build:charts
 
       - name: Publish packages

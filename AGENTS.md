@@ -1,10 +1,10 @@
-﻿# AGENTS.md — Project Context for AI Agents
+# AGENTS.md — Project Context for AI Agents
 
 > This file provides structured context for AI coding assistants (GitHub Copilot, Claude, Cursor, etc.) to understand and work effectively with this codebase.
 
 ## Project Identity
 
-- **Name**: `@3df-spa/ui` + `@3df-spa/charts`
+- **Name**: `@3df/ui` + `@3df/charts`
 - **Type**: Private Vue 3 component library (monorepo)
 - **Purpose**: Design system & chart library for internal 3DF projects
 - **Language**: TypeScript (strict)
@@ -31,7 +31,7 @@
 ```
 3df-ui/                          # Root workspace (playground app)
 ├── packages/
-│   ├── ui/                      # @3df-spa/ui — 199 Vue components
+│   ├── ui/                      # @3df/ui — 199 Vue components
 │   │   ├── src/
 │   │   │   ├── index.ts         # All public exports
 │   │   │   ├── components/ui/   # Component families (48 folders)
@@ -39,7 +39,7 @@
 │   │   │   └── styles/theme.css # Design tokens (light + dark)
 │   │   ├── dist/                # Build output
 │   │   └── package.json
-│   └── charts/                  # @3df-spa/charts — 6 chart types (SVG, zero deps)
+│   └── charts/                  # @3df/charts — 6 chart types (SVG, zero deps)
 │       ├── src/
 │       │   ├── index.ts
 │       │   ├── shared/          # UiChartContainer, UiChartTooltip, UiChartLegend, utils
@@ -125,7 +125,7 @@ export const DROPDOWN_MENU_KEY: InjectionKey<DropdownMenuContext> = Symbol('drop
 
 - Root component: `provide(KEY, context)`
 - Child components: `inject(KEY)!`
-- All keys and context types are exported from `@3df-spa/ui` for consumer access
+- All keys and context types are exported from `@3df/ui` for consumer access
 
 ### Tailwind CSS v4 Tokens
 
@@ -184,8 +184,8 @@ Charts are **pure SVG, zero external dependencies**. Architecture:
 | Script | What it does |
 |--------|-------------|
 | `pnpm dev` | Start playground dev server |
-| `pnpm build:ui` | Build `@3df-spa/ui` package |
-| `pnpm build:charts` | Build `@3df-spa/charts` package |
+| `pnpm build:ui` | Build `@3df/ui` package |
+| `pnpm build:charts` | Build `@3df/charts` package |
 | `pnpm build` | Build everything (packages + playground) |
 | `pnpm type-check` | Run vue-tsc strict type checking |
 | `pnpm lint` | oxlint + eslint with auto-fix |
@@ -215,19 +215,19 @@ Charts are **pure SVG, zero external dependencies**. Architecture:
 
 ## Publishing
 
-Packages are private on GitHub Packages (`@3df-spa` scope). Flow:
+Packages are private on GitHub Packages (`@3df` scope). Flow:
 1. Make changes
 2. `pnpm changeset` → describe what changed (patch/minor/major)
 3. `pnpm version-packages` → bumps versions + generates CHANGELOG
 4. `pnpm release` → builds + publishes
-5. Consumers update with `pnpm update @3df-spa/ui @3df-spa/charts`
+5. Consumers update with `pnpm update @3df/ui @3df/charts`
 
 ## Do NOT
 
 - Use Tailwind v3 config syntax (`tailwind.config.js`) — this is v4 with `@theme`
 - Install shadcn/ui or Radix Vue — this is a custom implementation inspired by shadcn
 - Use `scoped` styles — all styling is via Tailwind utility classes + `cn()`
-- Import from `dist/` paths — always import from package name (`@3df-spa/ui`, `@3df-spa/charts`)
+- Import from `dist/` paths — always import from package name (`@3df/ui`, `@3df/charts`)
 - Add runtime dependencies to chart package — it must remain zero-dependency (only `vue` peer)
 - Use `<Transition>` in complex components — manual animation classes are used for control
 - Create components without `inheritAttrs: false` + `useAttrs()` pattern

@@ -5,8 +5,8 @@
 ```bash
 pnpm install
 pnpm dev          # playground en localhost:5173
-pnpm build:ui     # compila @3df-spa/ui
-pnpm build:charts # compila @3df-spa/charts
+pnpm build:ui     # compila @3df/ui
+pnpm build:charts # compila @3df/charts
 pnpm type-check   # verifica tipos estrictamente
 pnpm lint         # oxlint + eslint con auto-fix
 ```
