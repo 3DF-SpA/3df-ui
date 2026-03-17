@@ -1,6 +1,6 @@
 {
   "name": "@3df/charts",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "type": "module",
   "sideEffects": false,
   "repository": {
