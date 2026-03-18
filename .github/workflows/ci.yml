@@ -32,14 +32,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build packages
+        run: pnpm build:ui && pnpm build:charts
+
       - name: Type-check
         run: pnpm type-check
 
       - name: Lint
         run: pnpm exec oxlint . && pnpm exec eslint . --cache
-
-      - name: Build packages
-        run: pnpm build:ui && pnpm build:charts
 
   test:
     name: Unit Tests
