@@ -1,5 +1,11 @@
 # @3df/ui
 
+## 1.0.7
+
+### Patch Changes
+
+- fix: optimizar estructura del paquete - theme.css minificado en dist/, exponer index.css para animaciones, eliminar src/styles de files
+
 ## 1.0.6
 
 ### Patch Changes
