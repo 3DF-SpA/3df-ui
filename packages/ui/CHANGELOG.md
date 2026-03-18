@@ -1,5 +1,11 @@
 # @3df/ui
 
+## 1.0.5
+
+### Patch Changes
+
+- fix: aplanar exports para compatibilidad con Vite y agregar prepublishOnly
+
 ## 1.5.2
 
 ### Patch Changes
