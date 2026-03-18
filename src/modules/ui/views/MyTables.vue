@@ -14,7 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -99,7 +99,7 @@ const anatomyCode = `import {
   TableCell,
   TableCaption,
   TableEmpty,
-} from '@3df/ui'`;
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
@@ -107,7 +107,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Table"
       :description="description"
-      import-code="import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df/ui'"
+      import-code="import { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption, TableEmpty } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { Button } from '@3df/ui';
+import { Button } from '@3df-spa/ui';
 
 import Icon from '@/components/MyIcons.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -68,7 +68,7 @@ const asLinkCode = `<Button as="a" href="https://vuejs.org" target="_blank">As a
     <DocHeader
       title="Button"
       :description="description"
-      import-code="import { Button } from '@3df/ui'"
+      import-code="import { Button } from '@3df-spa/ui'"
     />
 
     <DocShowcase

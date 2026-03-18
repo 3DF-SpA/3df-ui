@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
-import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df/ui';
+import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger } from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -81,7 +81,7 @@ const controlledCode = `const isOpen = ref(false)
     <DocHeader
       title="Collapsible"
       :description="description"
-      import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df/ui'"
+      import-code="import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

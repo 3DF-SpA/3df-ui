@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df/ui';
+import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger } from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -101,7 +101,7 @@ const anatomyCode = `<Popover>
     <DocHeader
       title="Popover"
       :description="description"
-      import-code="import { Popover, PopoverTrigger, PopoverContent } from '@3df/ui'"
+      import-code="import { Popover, PopoverTrigger, PopoverContent } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

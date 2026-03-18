@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui';
+import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -86,7 +86,7 @@ const teamMembers = [
     <DocHeader
       title="Avatar"
       :description="description"
-      import-code="import { Avatar, AvatarFallback, AvatarImage } from '@3df/ui'"
+      import-code="import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui'"
     />
 
     <DocPropsTable :props="avatarProps" />

@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@3df/ui';
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -120,7 +120,7 @@ const anatomyCode = `<InputOTP v-model="value" :length="6">
     <DocHeader
       title="Input OTP"
       :description="description"
-      import-code="import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df/ui'"
+      import-code="import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '@3df-spa/ui'"
     />
 
     <DocShowcase

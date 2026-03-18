@@ -158,7 +158,7 @@ const anatomyCode = `import {
   SidebarMenuSubItem,
   SidebarMenuSubButton,
   SidebarSeparator,
-} from '@3df/ui'`;
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
@@ -166,7 +166,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Sidebar"
       :description="description"
-      import-code="import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarTrigger, SidebarRail, SidebarInset, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@3df/ui'"
+      import-code="import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarTrigger, SidebarRail, SidebarInset, SidebarGroup, SidebarGroupLabel, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@3df-spa/ui'"
     />
 
     <SidebarDemoComplete />

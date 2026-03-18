@@ -6,12 +6,14 @@ import { useDocPage } from '@/i18n/composables/useDocPage';
 import {
   Card,
   CardContent,
+} from '@3df-spa/ui';
+import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '@3df/ui';
+} from '@3df-spa/ui/carousel';
 import type { EmblaCarouselType } from 'embla-carousel';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
@@ -129,7 +131,7 @@ const loopCode = `<Carousel :opts="{ loop: true }">
     <DocHeader
       title="Carousel"
       :description="description"
-      import-code="import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df/ui'"
+      import-code="import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

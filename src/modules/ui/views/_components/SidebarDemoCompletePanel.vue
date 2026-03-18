@@ -20,7 +20,7 @@ import {
   SidebarMenuSubItem,
   SidebarRail,
   SidebarSeparator,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 import { type NavItem, icons, mainNav, secondaryNav } from './sidebar-demo-data';
 

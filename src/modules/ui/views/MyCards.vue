@@ -18,7 +18,7 @@ import {
   Select,
   SelectItem,
   Switch,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -135,7 +135,7 @@ const anatomyCode = `import {
   CardDescription,
   CardContent,
   CardFooter,
-} from '@3df/ui'`;
+} from '@3df-spa/ui'`;
 </script>
 
 <template>
@@ -143,7 +143,7 @@ const anatomyCode = `import {
     <DocHeader
       title="Card"
       :description="description"
-      import-code="import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df/ui'"
+      import-code="import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

@@ -98,7 +98,7 @@ const formProps = computed<PropItem[]>(() => [
     <DocHeader
       :title="t('views.forms.title')"
       :description="description"
-      import-code="import { Input, Label, Select, SelectItem, Checkbox, Radio, Switch, Textarea, Button } from '@3df/ui'"
+      import-code="import { Input, Label, Select, SelectItem, Checkbox, Radio, Switch, Textarea, Button } from '@3df-spa/ui'"
     />
     <FormsDemoInputs />
     <FormsDemoTextareaSelect />

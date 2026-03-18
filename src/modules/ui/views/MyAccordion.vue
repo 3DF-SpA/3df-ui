@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import { useDocPage } from '@/i18n/composables/useDocPage';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df/ui';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@3df-spa/ui';
 
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
@@ -106,7 +106,7 @@ const disabledCode = `<Accordion type="single" collapsible>
     <DocHeader
       title="Accordion"
       :description="description"
-      import-code="import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df/ui'"
+      import-code="import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@3df-spa/ui'"
     />
 
     <section class="flex flex-col gap-4">

@@ -2,7 +2,7 @@
 import { computed, ref, useAttrs } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { cn } from '@3df/ui';
+import { cn } from '@3df-spa/ui';
 import type { ClassValue } from 'clsx';
 
 import DocCodeBlock from './DocCodeBlock.vue';

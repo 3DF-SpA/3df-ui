@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { Calendar, DatePicker, type DateRange, DateRangePicker } from '@3df/ui';
+import { Calendar, DatePicker, type DateRange, DateRangePicker } from '@3df-spa/ui/calendar';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -98,7 +98,7 @@ const calendarCode = `<Calendar v-model="calendarDate" />
     <DocHeader
       title="DatePicker"
       :description="description"
-      import-code="import { DatePicker, DateRangePicker, Calendar, type DateRange } from '@3df/ui'"
+      import-code="import { DatePicker, DateRangePicker, Calendar, type DateRange } from '@3df-spa/ui'"
     />
 
     <DocShowcase

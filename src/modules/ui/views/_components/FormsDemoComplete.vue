@@ -11,7 +11,7 @@ import {
   SelectItem,
   Switch,
   Textarea,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 import DocShowcase from '@/components/docs/DocShowcase.vue';
 

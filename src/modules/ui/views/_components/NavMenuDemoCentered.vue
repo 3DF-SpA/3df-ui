@@ -10,7 +10,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from '@3df/ui';
+} from '@3df-spa/ui';
 
 const { t } = useI18n();
 
@@ -59,7 +59,7 @@ const components = computed(() => [
                 <div
                   class="from-muted/50 to-muted row-span-3 flex flex-col justify-end rounded-md bg-gradient-to-b p-6"
                 >
-                  <div class="mb-2 text-lg font-medium">@3df/ui</div>
+                  <div class="mb-2 text-lg font-medium">@3df-spa/ui</div>
                   <p class="text-muted-foreground text-sm leading-tight">
                     Beautifully designed components built with Tailwind CSS.
                   </p>

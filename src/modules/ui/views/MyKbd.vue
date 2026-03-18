@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { Kbd } from '@3df/ui';
+import { Kbd } from '@3df-spa/ui';
 
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -57,7 +57,7 @@ const inlineAndOverrideCode = `<p class="text-sm">
     <DocHeader
       title="Kbd"
       :description="description"
-      import-code="import { Kbd } from '@3df/ui'"
+      import-code="import { Kbd } from '@3df-spa/ui'"
     />
 
     <DocShowcase
