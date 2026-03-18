@@ -14,9 +14,13 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: {
+        index: resolve(__dirname, 'src/index.ts'),
+        calendar: resolve(__dirname, 'src/index.calendar.ts'),
+        carousel: resolve(__dirname, 'src/index.carousel.ts'),
+      },
       formats: ['es'],
-      fileName: 'index',
+      fileName: (_format, entryName) => `${entryName}.js`,
     },
     minify: true,
     rollupOptions: {

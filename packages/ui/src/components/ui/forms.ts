@@ -41,15 +41,5 @@ export { default as InputOTPSeparator } from './input-otp/UiInputOTPSeparator.vu
 export { INPUT_OTP_KEY, OTP_PATTERNS } from './input-otp/input-otp-types';
 export type { InputOTPContext, OTPPatternType } from './input-otp/input-otp-types';
 
-/** Calendario interactivo con modo single, range y multiple. */
-export { default as Calendar } from './calendar/UiCalendar.vue';
-export type { DateRange, CalendarMode } from './calendar/calendar-types';
-
-/** Selector de fecha con popover integrado. */
-export { default as DatePicker } from './date-picker/UiDatePicker.vue';
-
-/** Selector de rango de fechas con dos calendarios. */
-export { default as DateRangePicker } from './date-picker/UiDateRangePicker.vue';
-
 /** Campo de búsqueda con lista desplegable filtrable y soporte de teclado. */
 export { default as Combobox } from './combobox/UiCombobox.vue';

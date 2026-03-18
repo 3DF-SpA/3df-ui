@@ -13,13 +13,6 @@ export { default as CollapsibleTrigger } from './collapsible/UiCollapsibleTrigge
 export { default as CollapsibleContent } from './collapsible/UiCollapsibleContent.vue';
 export { COLLAPSIBLE_KEY } from './collapsible/collapsible-types';
 export type { CollapsibleContext } from './collapsible/collapsible-types';
-export { default as Carousel } from './carousel/UiCarousel.vue';
-export { default as CarouselContent } from './carousel/UiCarouselContent.vue';
-export { default as CarouselItem } from './carousel/UiCarouselItem.vue';
-export { default as CarouselPrevious } from './carousel/UiCarouselPrevious.vue';
-export { default as CarouselNext } from './carousel/UiCarouselNext.vue';
-export { CAROUSEL_KEY } from './carousel/carousel-types';
-export type { CarouselContext, CarouselOrientation } from './carousel/carousel-types';
 /** Pestañas de navegación con contenido intercambiable. Variantes: underline, pill, card. */
 export { default as Tabs } from './tabs/UiTabs.vue';
 export { default as TabsList } from './tabs/UiTabsList.vue';

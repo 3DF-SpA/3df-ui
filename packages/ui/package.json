@@ -37,8 +37,18 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./calendar": {
+      "types": "./dist/calendar.d.ts",
+      "import": "./dist/calendar.js",
+      "default": "./dist/calendar.js"
+    },
+    "./carousel": {
+      "types": "./dist/carousel.d.ts",
+      "import": "./dist/carousel.js",
+      "default": "./dist/carousel.js"
+    },
     "./theme.css": "./dist/theme.css",
-    "./index.css": "./dist/index.css"
+    "./index.css": "./dist/ui.css"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -56,6 +66,10 @@
     "date-fns": "^3.0.0 || ^4.0.0",
     "embla-carousel": "^8.0.0",
     "vue": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "date-fns": { "optional": true },
+    "embla-carousel": { "optional": true }
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.3",
