@@ -33,3 +33,9 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# AI tooling (internal dev tools, not project files)
+.agents/
+.claude/
+.kilocode/
+AGENTS.md
