@@ -110,22 +110,27 @@
 
 @utility border-ui {
   border-width: var(--ui-border-width, 2px);
+  border-style: solid;
 }
 
 @utility border-t-ui {
   border-top-width: var(--ui-border-width, 2px);
+  border-top-style: solid;
 }
 
 @utility border-r-ui {
   border-right-width: var(--ui-border-width, 2px);
+  border-right-style: solid;
 }
 
 @utility border-b-ui {
   border-bottom-width: var(--ui-border-width, 2px);
+  border-bottom-style: solid;
 }
 
 @utility border-l-ui {
   border-left-width: var(--ui-border-width, 2px);
+  border-left-style: solid;
 }
 
 /* ── Keyframes ────────────────────────────────────── */
