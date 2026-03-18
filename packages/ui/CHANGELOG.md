@@ -1,5 +1,19 @@
 # @3df/ui
 
+## 1.1.0
+
+### Minor Changes
+
+- refactor: separar Calendar y Carousel en subpath imports opcionales
+
+  BREAKING CHANGE: Calendar, DatePicker, DateRangePicker y Carousel ya no se exportan desde `@3df-spa/ui`.
+
+  Usar los nuevos subpaths:
+  - `@3df-spa/ui/calendar` → Calendar, DatePicker, DateRangePicker (requiere `date-fns`)
+  - `@3df-spa/ui/carousel` → Carousel y sub-componentes (requiere `embla-carousel`)
+
+  `date-fns` y `embla-carousel` son ahora `peerDependencies` opcionales.
+
 ## 1.0.7
 
 ### Patch Changes

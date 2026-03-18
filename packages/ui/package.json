@@ -1,6 +1,6 @@
 {
   "name": "@3df-spa/ui",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "Vue 3 component library — TypeScript strict, Tailwind CSS v4, accessible, zero-runtime",
   "keywords": [
     "vue",
@@ -68,8 +68,12 @@
     "vue": "^3.0.0"
   },
   "peerDependenciesMeta": {
-    "date-fns": { "optional": true },
-    "embla-carousel": { "optional": true }
+    "date-fns": {
+      "optional": true
+    },
+    "embla-carousel": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.3",
