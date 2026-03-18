@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build:ui": "pnpm --filter @3df/ui build",
-    "build:charts": "pnpm --filter @3df/charts build",
+    "build:ui": "pnpm --filter @3df-spa/ui build",
+    "build:charts": "pnpm --filter @3df-spa/charts build",
     "build": "pnpm build:ui && pnpm build:charts && run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest",

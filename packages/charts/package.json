@@ -42,6 +42,7 @@
   ],
   "scripts": {
     "build": "vite build",
+    "prepack": "pnpm run build",
     "dev": "vite build --watch"
   },
   "peerDependencies": {

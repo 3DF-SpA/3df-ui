@@ -28,6 +28,7 @@
   ],
   "scripts": {
     "build": "vite build && node scripts/generate-styles.mjs",
+    "prepack": "pnpm run build",
     "dev": "vite build --watch"
   },
   "exports": {
