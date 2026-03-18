@@ -18,6 +18,7 @@ export default defineConfig({
       formats: ['es'],
       fileName: 'index',
     },
+    minify: true,
     rollupOptions: {
       external: ['vue', 'class-variance-authority', 'clsx', 'tailwind-merge', 'date-fns', 'embla-carousel'],
       output: {},
