@@ -1,5 +1,11 @@
 # @3df/ui
 
+## 1.0.6
+
+### Patch Changes
+
+- fix: eliminar styles.css del paquete para reducir tamaño (~93KB menos). Usar `@import '@3df-spa/ui/theme.css'` con Tailwind v4.
+
 ## 1.0.5
 
 ### Patch Changes
