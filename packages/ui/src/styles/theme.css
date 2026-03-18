@@ -40,8 +40,8 @@
   --color-info: hsl(217 91% 60%);
   --color-info-foreground: hsl(0 0% 100%);
 
-  --color-border: hsl(0 0% 85%);
-  --color-input: hsl(0 0% 85%);
+  --color-border: hsl(0 0% 70%);
+  --color-input: hsl(0 0% 70%);
   --color-ring: hsl(0 0% 25%);
 
   --color-sidebar: hsl(0 0% 98%);
@@ -50,7 +50,7 @@
   --color-sidebar-primary-foreground: hsl(0 0% 100%);
   --color-sidebar-accent: hsl(0 0% 92%);
   --color-sidebar-accent-foreground: hsl(0 0% 0%);
-  --color-sidebar-border: hsl(0 0% 85%);
+  --color-sidebar-border: hsl(0 0% 70%);
   --color-sidebar-ring: hsl(0 0% 25%);
 
   /* ── Chart Colors ─────────────────────────────── */
@@ -277,8 +277,8 @@
   --color-info: hsl(200 80% 50%);
   --color-info-foreground: hsl(0 0% 100%);
 
-  --color-border: hsl(140 15% 85%);
-  --color-input: hsl(140 15% 85%);
+  --color-border: hsl(140 15% 72%);
+  --color-input: hsl(140 15% 72%);
   --color-ring: hsl(45 90% 45%);
 
   --color-sidebar: hsl(140 20% 96%);
@@ -287,7 +287,7 @@
   --color-sidebar-primary-foreground: hsl(45 10% 5%);
   --color-sidebar-accent: hsl(140 15% 90%);
   --color-sidebar-accent-foreground: hsl(160 50% 5%);
-  --color-sidebar-border: hsl(140 15% 85%);
+  --color-sidebar-border: hsl(140 15% 72%);
   --color-sidebar-ring: hsl(45 90% 45%);
 
   --color-chart-1: hsl(45 90% 45%);
@@ -421,8 +421,8 @@
   --color-info: hsl(217 91% 60%);
   --color-info-foreground: hsl(0 0% 100%);
 
-  --color-border: hsl(30 15% 88%);
-  --color-input: hsl(30 15% 88%);
+  --color-border: hsl(30 15% 74%);
+  --color-input: hsl(30 15% 74%);
   --color-ring: hsl(28 50% 45%);
 
   --color-sidebar: hsl(36 25% 95%);
@@ -431,7 +431,7 @@
   --color-sidebar-primary-foreground: hsl(36 30% 98%);
   --color-sidebar-accent: hsl(35 30% 88%);
   --color-sidebar-accent-foreground: hsl(28 50% 45%);
-  --color-sidebar-border: hsl(30 15% 85%);
+  --color-sidebar-border: hsl(30 15% 72%);
   --color-sidebar-ring: hsl(28 50% 45%);
 
   --color-chart-1: hsl(28 60% 50%);
@@ -554,8 +554,8 @@
   --color-warning-foreground: hsl(0 0% 100%);
   --color-info: hsl(221 83% 53%);
   --color-info-foreground: hsl(0 0% 100%);
-  --color-border: hsl(214 32% 88%);
-  --color-input: hsl(214 32% 88%);
+  --color-border: hsl(214 32% 74%);
+  --color-input: hsl(214 32% 74%);
   --color-ring: hsl(221 83% 53%);
   --color-sidebar: hsl(210 40% 97%);
   --color-sidebar-foreground: hsl(222 47% 8%);
@@ -563,7 +563,7 @@
   --color-sidebar-primary-foreground: hsl(0 0% 100%);
   --color-sidebar-accent: hsl(210 30% 92%);
   --color-sidebar-accent-foreground: hsl(222 47% 15%);
-  --color-sidebar-border: hsl(214 32% 88%);
+  --color-sidebar-border: hsl(214 32% 74%);
   --color-sidebar-ring: hsl(221 83% 53%);
   --color-chart-1: hsl(221 83% 53%);
   --color-chart-2: hsl(191 91% 37%);
@@ -669,8 +669,8 @@
   --color-warning-foreground: hsl(0 0% 100%);
   --color-info: hsl(221 83% 53%);
   --color-info-foreground: hsl(0 0% 100%);
-  --color-border: hsl(270 20% 88%);
-  --color-input: hsl(270 20% 88%);
+  --color-border: hsl(270 20% 74%);
+  --color-input: hsl(270 20% 74%);
   --color-ring: hsl(262 83% 58%);
   --color-sidebar: hsl(270 30% 97%);
   --color-sidebar-foreground: hsl(270 50% 8%);
@@ -678,7 +678,7 @@
   --color-sidebar-primary-foreground: hsl(0 0% 100%);
   --color-sidebar-accent: hsl(270 25% 92%);
   --color-sidebar-accent-foreground: hsl(270 50% 15%);
-  --color-sidebar-border: hsl(270 20% 88%);
+  --color-sidebar-border: hsl(270 20% 74%);
   --color-sidebar-ring: hsl(262 83% 58%);
   --color-chart-1: hsl(262 83% 58%);
   --color-chart-2: hsl(316 72% 55%);
@@ -784,8 +784,8 @@
   --color-warning-foreground: hsl(0 0% 100%);
   --color-info: hsl(217 91% 60%);
   --color-info-foreground: hsl(0 0% 100%);
-  --color-border: hsl(15 20% 88%);
-  --color-input: hsl(15 20% 88%);
+  --color-border: hsl(15 20% 74%);
+  --color-input: hsl(15 20% 74%);
   --color-ring: hsl(16 90% 50%);
   --color-sidebar: hsl(15 30% 97%);
   --color-sidebar-foreground: hsl(15 50% 8%);
@@ -793,7 +793,7 @@
   --color-sidebar-primary-foreground: hsl(0 0% 100%);
   --color-sidebar-accent: hsl(15 25% 92%);
   --color-sidebar-accent-foreground: hsl(15 50% 15%);
-  --color-sidebar-border: hsl(15 20% 88%);
+  --color-sidebar-border: hsl(15 20% 74%);
   --color-sidebar-ring: hsl(16 90% 50%);
   --color-chart-1: hsl(16 90% 50%);
   --color-chart-2: hsl(35 95% 52%);
@@ -899,8 +899,8 @@
   --color-warning-foreground: hsl(0 0% 100%);
   --color-info: hsl(217 91% 60%);
   --color-info-foreground: hsl(0 0% 100%);
-  --color-border: hsl(340 20% 88%);
-  --color-input: hsl(340 20% 88%);
+  --color-border: hsl(340 20% 74%);
+  --color-input: hsl(340 20% 74%);
   --color-ring: hsl(340 75% 55%);
   --color-sidebar: hsl(340 30% 97%);
   --color-sidebar-foreground: hsl(340 40% 8%);
@@ -908,7 +908,7 @@
   --color-sidebar-primary-foreground: hsl(0 0% 100%);
   --color-sidebar-accent: hsl(340 25% 92%);
   --color-sidebar-accent-foreground: hsl(340 40% 15%);
-  --color-sidebar-border: hsl(340 20% 88%);
+  --color-sidebar-border: hsl(340 20% 74%);
   --color-sidebar-ring: hsl(340 75% 55%);
   --color-chart-1: hsl(340 75% 55%);
   --color-chart-2: hsl(355 80% 60%);
