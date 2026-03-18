@@ -1,68 +1,30 @@
 /**
- * Post-build script: generates dist/styles.css
+ * Post-build script: minifies src/styles/theme.css → dist/theme.css
  *
- * Produces a pre-compiled CSS file containing the theme tokens AND
- * every Tailwind utility class used by @3df/ui components.
+ * - Removes comments and collapses whitespace
+ * - Fixes @source path (from ../../dist to . since we're now inside dist/)
  *
  * Consumers only need:
- *   @import '@3df/ui/styles.css';
- *
- * No @source, no @theme, no extra config required.
+ *   @import '@3df-spa/ui/theme.css';
  */
 
-import { writeFile } from 'node:fs/promises';
+import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = join(__dirname, '..');
-const distDir = join(pkgRoot, 'dist');
+const src = readFileSync(join(pkgRoot, 'src/styles/theme.css'), 'utf-8');
 
-// Create input.css inside the package root (so Tailwind can resolve itself)
-const inputCSS = join(pkgRoot, '_tw-input.css');
-const outputCSS = join(distDir, 'styles.css');
+const minified = src
+  .replace(/\/\*[\s\S]*?\*\//g, '')          // remove block comments
+  .replace(/"\.\.\/\.\.\/dist"/g, '"."')      // fix @source path for dist/ location
+  .replace(/[ \t]*\n[ \t]*/g, '\n')          // trim leading/trailing spaces on lines
+  .replace(/\n{2,}/g, '\n')                  // collapse blank lines
+  .trim();
 
-const srcComponents = join(pkgRoot, 'src', 'components').replace(/\\/g, '/');
-const distPath = distDir.replace(/\\/g, '/');
+const outputPath = join(pkgRoot, 'dist/theme.css');
+writeFileSync(outputPath, minified, 'utf-8');
 
-const inputContent = [
-  '@import "tailwindcss";',
-  '',
-  '@import "./src/styles/theme.css";',
-  '',
-  `@source "${distPath}/**/*.js";`,
-  `@source "${distPath}/**/*.html";`,
-  `@source "${srcComponents}/**/*.vue";`,
-].join('\n');
-
-import { writeFileSync, unlinkSync } from 'node:fs';
-writeFileSync(inputCSS, inputContent, 'utf-8');
-
-try {
-  execSync(
-    `npx @tailwindcss/cli -i "${inputCSS}" -o "${outputCSS}" --minify`,
-    { cwd: pkgRoot, stdio: 'inherit' },
-  );
-} finally {
-  // Clean up temp input file
-  try { unlinkSync(inputCSS); } catch { }
-}
-
-// Append scoped Vue component CSS (transitions, animations, scroll-area, etc.)
-// Vite emits this as dist/index.css — it contains styles that use data-v-* scoped selectors
-import { readFileSync, statSync } from 'node:fs';
-const indexCSS = join(distDir, 'index.css');
-try {
-  const scopedCSS = readFileSync(indexCSS, 'utf-8').trim();
-  if (scopedCSS) {
-    const current = readFileSync(outputCSS, 'utf-8');
-    await writeFile(outputCSS, current + '\n/* --- Scoped component styles (auto-appended) --- */\n' + scopedCSS + '\n', 'utf-8');
-  }
-} catch {
-  // index.css might not exist if no components use <style> blocks
-}
-
-// Stats
-const sizeKB = (statSync(outputCSS).size / 1024).toFixed(1);
-console.log(`  ✓ styles.css generated (${sizeKB} KB)`);
+const sizeKB = (statSync(outputPath).size / 1024).toFixed(1);
+console.log(`  ✓ dist/theme.css generated (${sizeKB} KB)`);
