@@ -2,3 +2,7 @@
 @import "@3df/ui/theme.css";
 @source "../../packages/ui/src";
 @source inline("border-ui border-t-ui border-r-ui border-b-ui border-l-ui border-blue-500 border-red-500 border-2 border-border border-muted-foreground/25 border-muted-foreground/30 border border-border/60 border-border/20 shadow-none");
+
+html {
+  font-size: 18px;
+}

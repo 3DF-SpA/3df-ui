@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
 import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui';
-
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -103,7 +102,7 @@ const teamMembers = [
     >
       <div class="flex items-center gap-4">
         <Avatar>
-          <AvatarImage src="/avatar-ec.webp" alt="@adiaz" />
+          <AvatarImage src="/avatar-ec.webp" alt="@adiaz" style="transform: scale(1.5); object-position: 30% 15%;" />
           <AvatarFallback>AD</AvatarFallback>
         </Avatar>
         <div>
@@ -121,35 +120,35 @@ const teamMembers = [
       <div class="flex items-end gap-4">
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xs">
-            <AvatarImage src="/avatar-ec.webp" alt="xs" />
+            <AvatarImage src="/avatar-ec.webp" alt="xs" style="transform: scale(1.5); object-position: 30% 15%;" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xs</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="sm">
-            <AvatarImage src="/avatar-ec.webp" alt="sm" />
+            <AvatarImage src="/avatar-ec.webp" alt="sm" style="transform: scale(1.5); object-position: 30% 15%;" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">sm</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="md">
-            <AvatarImage src="/avatar-ec.webp" alt="md" />
+            <AvatarImage src="/avatar-ec.webp" alt="md" style="transform: scale(1.5); object-position: 30% 15%;" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">md</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="lg">
-            <AvatarImage src="/avatar-ec.webp" alt="lg" />
+            <AvatarImage src="/avatar-ec.webp" alt="lg" style="transform: scale(1.5); object-position: 30% 15%;" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">lg</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xl">
-            <AvatarImage src="/avatar-ec.webp" alt="xl" />
+            <AvatarImage src="/avatar-ec.webp" alt="xl" style="transform: scale(1.5); object-position: 30% 15%;" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xl</span>
