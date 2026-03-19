@@ -26,7 +26,7 @@ const anatomyCode = `<Avatar>
 </Avatar>`;
 
 const profileCode = `<Avatar>
-  <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="@adiaz" />
+  <AvatarImage src="/avatar-ec.webp" alt="@adiaz" />
   <AvatarFallback>AD</AvatarFallback>
 </Avatar>
 <div>
@@ -73,7 +73,7 @@ const iconFallbackCode = `<Avatar size="lg">
 </Avatar>`;
 
 const teamMembers = [
-  { name: 'Alice', src: 'https://i.pravatar.cc/150?u=alice', initials: 'AL' },
+  { name: 'Alice', src: '/avatar-ec.webp', initials: 'AL' },
   { name: 'Bob', src: 'https://i.pravatar.cc/150?u=bob', initials: 'BO' },
   { name: 'Charlie', src: 'https://i.pravatar.cc/150?u=charlie', initials: 'CH' },
   { name: 'Diana', src: 'https://i.pravatar.cc/150?u=diana', initials: 'DI' },
@@ -103,7 +103,7 @@ const teamMembers = [
     >
       <div class="flex items-center gap-4">
         <Avatar>
-          <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="@adiaz" />
+          <AvatarImage src="/avatar-ec.webp" alt="@adiaz" />
           <AvatarFallback>AD</AvatarFallback>
         </Avatar>
         <div>
@@ -121,35 +121,35 @@ const teamMembers = [
       <div class="flex items-end gap-4">
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xs">
-            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="xs" />
+            <AvatarImage src="/avatar-ec.webp" alt="xs" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xs</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="sm">
-            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="sm" />
+            <AvatarImage src="/avatar-ec.webp" alt="sm" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">sm</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="md">
-            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="md" />
+            <AvatarImage src="/avatar-ec.webp" alt="md" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">md</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="lg">
-            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="lg" />
+            <AvatarImage src="/avatar-ec.webp" alt="lg" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">lg</span>
         </div>
         <div class="flex flex-col items-center gap-2">
           <Avatar size="xl">
-            <AvatarImage src="https://i.pravatar.cc/150?u=3df-user" alt="xl" />
+            <AvatarImage src="/avatar-ec.webp" alt="xl" />
             <AvatarFallback>AD</AvatarFallback>
           </Avatar>
           <span class="text-muted-foreground text-xs">xl</span>
