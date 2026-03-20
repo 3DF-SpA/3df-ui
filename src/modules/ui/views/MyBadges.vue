@@ -109,8 +109,7 @@ const contextCode = `<Button>
       :description="showcaseDesc('colors')"
       :code="colorsCode"
     >
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-wrap items-center gap-4">
+      <div class="flex flex-wrap items-center gap-4">
           <Badge variant="red">Red</Badge>
           <Badge variant="orange">Orange</Badge>
           <Badge variant="yellow">Yellow</Badge>
@@ -122,19 +121,6 @@ const contextCode = `<Button>
           <Badge variant="pink">Pink</Badge>
           <Badge variant="gray">Gray</Badge>
         </div>
-        <div class="flex flex-wrap items-center gap-4">
-          <Badge variant="red" class="rounded-full">Red</Badge>
-          <Badge variant="orange" class="rounded-full">Orange</Badge>
-          <Badge variant="yellow" class="rounded-full">Yellow</Badge>
-          <Badge variant="green" class="rounded-full">Green</Badge>
-          <Badge variant="teal" class="rounded-full">Teal</Badge>
-          <Badge variant="blue" class="rounded-full">Blue</Badge>
-          <Badge variant="indigo" class="rounded-full">Indigo</Badge>
-          <Badge variant="purple" class="rounded-full">Purple</Badge>
-          <Badge variant="pink" class="rounded-full">Pink</Badge>
-          <Badge variant="gray" class="rounded-full">Gray</Badge>
-        </div>
-      </div>
     </DocShowcase>
 
     <DocShowcase

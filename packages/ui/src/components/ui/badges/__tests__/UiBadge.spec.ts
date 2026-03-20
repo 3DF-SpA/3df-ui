@@ -56,7 +56,7 @@ describe('UiBadge', () => {
       props: { size: 'sm' },
       slots: { default: 'Pequeño' },
     });
-    expect(wrapper.classes()).toEqual(expect.arrayContaining(['px-2']));
+    expect(wrapper.classes()).toEqual(expect.arrayContaining(['px-2.5']));
   });
 
   it('aplica clases de size "lg"', () => {
@@ -64,7 +64,7 @@ describe('UiBadge', () => {
       props: { size: 'lg' },
       slots: { default: 'Grande' },
     });
-    expect(wrapper.classes()).toEqual(expect.arrayContaining(['px-3']));
+    expect(wrapper.classes()).toEqual(expect.arrayContaining(['px-4']));
   });
 
   it('fusiona clases custom con cn()', () => {
