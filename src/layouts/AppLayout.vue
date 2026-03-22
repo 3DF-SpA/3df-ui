@@ -6,21 +6,12 @@ import { uiRoutes, chartRoutes } from '@/router';
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
 import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
 import CommandPalette from '@/components/CommandPalette.vue';
-import { useCustomization } from '@/composables/useCustomization';
-
 const { t } = useI18n();
 
 const route = useRoute();
 const sidebarOpen = ref(true);
 const searchQuery = ref('');
 const commandOpen = ref(false);
-
-const {
-  radiusRem,
-  letterSpacingIdx, shadowBlurPx, shadowOpacityIdx,
-  radiusLabel, letterSpacingLabel,
-  shadowBlurLabel, shadowOpacityLabel,
-} = useCustomization();
 
 interface NavItem {
   path: string;
@@ -75,7 +66,7 @@ const filteredChartGroups = computed(() => {
     .filter(group => group.items.length > 0);
 });
 
-const activeSection = ref<'ui' | 'charts' | 'settings'>(route.path.startsWith('/charts') ? 'charts' : 'ui');
+const activeSection = ref<'ui' | 'charts'>(route.path.startsWith('/charts') ? 'charts' : 'ui');
 
 function isActive(fullPath: string) {
   return route.path === fullPath;
@@ -122,17 +113,6 @@ function isActive(fullPath: string) {
           @click="activeSection = 'charts'"
         >
           {{ t('layout.charts') }}
-        </button>
-        <button
-          :class="[
-            'flex-1 py-2 text-xs font-semibold transition-colors',
-            activeSection === 'settings'
-              ? 'border-b-2 border-primary text-primary'
-              : 'text-muted-foreground hover:text-foreground',
-          ]"
-          @click="activeSection = 'settings'"
-        >
-          Ajustes
         </button>
       </div>
 
@@ -183,48 +163,6 @@ function isActive(fullPath: string) {
           <p v-if="filteredUiGroups.length === 0 && activeSection === 'ui'" class="px-3 py-4 text-xs text-muted-foreground text-center">
             {{ t('layout.noResults') }}
           </p>
-        </template>
-
-        <template v-else-if="activeSection === 'settings'">
-          <div class="space-y-5 px-1 py-2">
-            <h3 class="px-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Avatar</h3>
-
-            <!-- Border Radius -->
-            <div class="space-y-1.5 px-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-foreground">Border Radius</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ radiusLabel }}</span>
-              </div>
-              <input type="range" v-model.number="radiusRem" min="0" max="2.05" step="0.05" class="w-full accent-primary" />
-            </div>
-
-            <!-- Letter Spacing -->
-            <div class="space-y-1.5 px-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-foreground">Letter Spacing</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ letterSpacingLabel }}</span>
-              </div>
-              <input type="range" v-model.number="letterSpacingIdx" min="0" max="20" step="1" class="w-full accent-primary" />
-            </div>
-
-            <!-- Shadow Blur -->
-            <div class="space-y-1.5 px-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-foreground">Shadow Blur</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ shadowBlurLabel }}</span>
-              </div>
-              <input type="range" v-model.number="shadowBlurPx" min="0" max="50" step="1" class="w-full accent-primary" />
-            </div>
-
-            <!-- Shadow Opacity -->
-            <div class="space-y-1.5 px-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs text-foreground">Shadow Opacity</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ shadowOpacityLabel }}</span>
-              </div>
-              <input type="range" v-model.number="shadowOpacityIdx" min="0" max="20" step="1" class="w-full accent-primary" />
-            </div>
-          </div>
         </template>
 
         <template v-else>
