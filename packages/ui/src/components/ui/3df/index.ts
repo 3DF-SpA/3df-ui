@@ -1,0 +1,6 @@
+export { default as Ui3df } from './Ui3df.vue'
+export { default as Ui3dfRadius } from './Ui3dfRadius.vue'
+export { default as Ui3dfBorderOpacity } from './Ui3dfBorderOpacity.vue'
+export { default as Ui3dfLetterSpacing } from './Ui3dfLetterSpacing.vue'
+export { use3dfConfig, DEFAULT_CONFIG, CONFIG_VERSION, RADIUS_STEPS, RADIUS_LABELS } from './use-3df-config'
+export type { Ui3dfConfig } from './use-3df-config'

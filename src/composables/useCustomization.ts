@@ -1,21 +1,13 @@
-import { ref, watchEffect } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
+import { use3dfConfig, RADIUS_STEPS } from '@3df-spa/ui';
 
-const radiusRem = ref(1); // default 1rem
-const letterSpacingIdx = ref(10);
+// Module-level singletons for shadow controls only
 const shadowBlurPx = ref(0);
 const shadowOpacityIdx = ref(0);
 
+// Module-level watchEffect for shadows only (radius/letterSpacing handled by use3dfConfig)
 watchEffect(() => {
   const root = document.documentElement;
-
-  const radius = radiusRem.value >= 2.05 ? '9999px' : `${radiusRem.value}rem`;
-  root.style.setProperty('--radius', radius);
-  root.style.setProperty('--ui-radius', radius);
-  const badgeRadiusRem = Math.min(radiusRem.value, 1.5);
-  root.style.setProperty('--badge-radius', `calc(${badgeRadiusRem}rem - 4px)`);
-
-  const letterSpacing= `${(-0.1 + letterSpacingIdx.value * 0.01).toFixed(2)}em`;
-  root.style.setProperty('--ui-letter-spacing', letterSpacing);
 
   root.style.setProperty('--ui-shadow-blur', `${shadowBlurPx.value}px`);
   root.style.setProperty('--ui-shadow-opacity', `${(shadowOpacityIdx.value * 0.05).toFixed(2)}`);
@@ -34,6 +26,33 @@ watchEffect(() => {
 });
 
 export function useCustomization() {
+  const { config } = use3dfConfig();
+
+  // Writable computed: maps to/from config.value.radiusStep
+  const radiusRem = computed({
+    get: () => RADIUS_STEPS[config.value.radiusStep] ?? 0.5,
+    set: (val: number) => {
+      let closest = 0;
+      let minDiff = Infinity;
+      RADIUS_STEPS.forEach((step, idx) => {
+        const diff = Math.abs(step - val);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = idx;
+        }
+      });
+      config.value.radiusStep = closest;
+    },
+  });
+
+  // Writable computed: maps to/from config.value.letterSpacing
+  const letterSpacingIdx = computed({
+    get: () => config.value.letterSpacing,
+    set: (val: number) => {
+      config.value.letterSpacing = Math.round(val);
+    },
+  });
+
   return {
     radiusRem,
     letterSpacingIdx,
@@ -45,3 +64,4 @@ export function useCustomization() {
     shadowOpacityLabel: () => `${(shadowOpacityIdx.value * 0.05).toFixed(2)}`,
   };
 }
+

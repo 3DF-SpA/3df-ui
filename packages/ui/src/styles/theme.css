@@ -79,10 +79,12 @@
   --spacing: 0.25rem;
 
   /* Customization vars (used by composable + components) */
-  --ui-radius: 1rem;
-  --ui-letter-spacing: -0.10em;
+  --ui-radius: 0.5rem;
+  --ui-radius-field: 0.375rem;
+  --ui-letter-spacing: 0em;
   --ui-shadow-blur: 0px;
   --ui-shadow-opacity: 0;
+  --ui-border-opacity: 0.2;
 }
 
 .dark {
@@ -247,6 +249,11 @@
 @utility border-ui {
   border-width: var(--ui-border-width, 2px);
   border-style: solid;
+  border-color: color-mix(in srgb, var(--border) calc(var(--ui-border-opacity, 0.2) * 100%), transparent);
+}
+
+@utility rounded-ui-field {
+  border-radius: calc(var(--ui-radius) - 2px);
 }
 
 @utility border-t-ui {

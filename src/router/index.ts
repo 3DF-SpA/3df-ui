@@ -51,6 +51,8 @@ const uiRoutes = [
   { path: 'alert', name: 'Alert', component: () => import('@/modules/ui/views/MyAlerts.vue'), meta: { group: 'Feedback' } },
   { path: 'sonner', name: 'Sonner (Toast)', component: () => import('@/modules/ui/views/MySonner.vue'), meta: { group: 'Feedback' } },
   { path: 'progress', name: 'Progress', component: () => import('@/modules/ui/views/MyProgress.vue'), meta: { group: 'Feedback' } },
+
+  { path: '3df', name: '3DF Customizer', component: () => import('@/modules/ui/views/My3df.vue'), meta: { group: 'Configuración', title: '3DF Customizer' } },
 ];
 
 const chartRoutes = [
