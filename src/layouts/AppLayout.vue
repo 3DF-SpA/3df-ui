@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { uiRoutes, chartRoutes } from '@/router';
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
 import LocaleSwitcher from '@/components/LocaleSwitcher.vue';
+import CommandPalette from '@/components/CommandPalette.vue';
 import { useCustomization } from '@/composables/useCustomization';
 
 const { t } = useI18n();
@@ -12,6 +13,7 @@ const { t } = useI18n();
 const route = useRoute();
 const sidebarOpen = ref(true);
 const searchQuery = ref('');
+const commandOpen = ref(false);
 
 const {
   radiusRem,
@@ -274,6 +276,20 @@ function isActive(fullPath: string) {
 
         <div class="flex-1" />
 
+        <button
+          class="hidden sm:inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          @click="commandOpen = true"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <span>Buscar componente...</span>
+          <kbd class="pointer-events-none ml-1 hidden select-none rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground opacity-100 sm:inline-flex items-center gap-0.5">
+            <span class="text-[11px]">⌘</span>K
+          </kbd>
+        </button>
+
         <LocaleSwitcher />
         <ThemeSwitcher />
 
@@ -289,5 +305,7 @@ function isActive(fullPath: string) {
         </div>
       </main>
     </div>
+
+    <CommandPalette v-model:open="commandOpen" />
   </div>
 </template>
