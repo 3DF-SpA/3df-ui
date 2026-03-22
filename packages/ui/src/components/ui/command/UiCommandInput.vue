@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref, useAttrs } from 'vue';
+import { computed, inject, nextTick, onMounted, ref, useAttrs } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -40,8 +40,9 @@ const value = computed({
   },
 });
 
-onMounted(() => {
-  inputRef.value?.focus();
+onMounted(async () => {
+  await nextTick();
+  inputRef.value?.focus({ preventScroll: true });
 });
 </script>
 

@@ -76,7 +76,9 @@ function onClickOutside(event: MouseEvent) {
 
 watch(isOpen, (open) => {
   if (open) {
-    document.addEventListener('click', onClickOutside, true);
+    setTimeout(() => {
+      document.addEventListener('click', onClickOutside, true);
+    }, 0);
   } else {
     document.removeEventListener('click', onClickOutside, true);
   }
