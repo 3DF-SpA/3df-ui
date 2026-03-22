@@ -141,7 +141,7 @@ function onOverlayClick() {
           :aria-describedby="dialog.descriptionId"
           :class="
             cn(
-              'border-ui border-border relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-xl',
+              'border border-border relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-xl',
               'transition-all duration-200',
               'bg-popover',
               isAnimating ? 'scale-100 opacity-100' : 'scale-95 opacity-0',

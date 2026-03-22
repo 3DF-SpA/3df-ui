@@ -88,7 +88,7 @@ useFloatingLifecycle({
           cn(
             'z-50 max-w-[calc(100vw-1rem)] min-w-[8rem]',
             'bg-popover text-popover-foreground',
-            'border-ui border-border rounded-md p-1 shadow-md',
+            'border border-border rounded-md p-1 shadow-md',
             'max-h-[var(--context-menu-max-h,20rem)] overflow-auto',
             attrs.class,
           )

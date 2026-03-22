@@ -102,7 +102,7 @@ useFloatingLifecycle({
         cn(
           'z-50 max-w-xs',
           'bg-popover text-popover-foreground',
-          'border-ui border-border rounded-md px-3 py-1.5 text-sm shadow-md',
+          'border border-border rounded-md px-3 py-1.5 text-sm shadow-md',
           'transition-all duration-100',
           isEntering ? 'opacity-100 scale-100 ease-out' : 'opacity-0 scale-95 ease-in',
           attrs.class,

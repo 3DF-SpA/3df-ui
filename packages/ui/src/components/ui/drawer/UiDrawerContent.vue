@@ -193,7 +193,7 @@ const panelStyle = computed(() => {
         :aria-describedby="drawer.descriptionId"
         :class="
           cn(
-            'border-ui border-border fixed inset-x-0 bottom-0 z-50 flex max-h-[96dvh] flex-col rounded-t-xl',
+            'border border-border fixed inset-x-0 bottom-0 z-50 flex max-h-[96dvh] flex-col rounded-t-xl',
             'bg-popover',
             'transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
             isAnimating && !isDragging && dragOffset === 0

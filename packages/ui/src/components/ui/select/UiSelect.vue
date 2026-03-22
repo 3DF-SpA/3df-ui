@@ -248,7 +248,7 @@ const triggerClasses = computed(() =>
         :class="
           cn(
             'absolute inset-x-0 top-0 z-50 w-full',
-            'bg-popover text-popover-foreground border-ui border-border rounded-md',
+            'bg-popover text-popover-foreground border border-border rounded-md',
             'shadow-md',
             'p-1',
             'max-h-60 overflow-auto',

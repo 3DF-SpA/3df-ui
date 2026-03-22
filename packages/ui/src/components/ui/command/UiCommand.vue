@@ -136,7 +136,7 @@ provide(COMMAND_KEY, {
     :aria-label="label"
     :class="
       cn(
-        'border-ui border-border bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md',
+        'border border-border bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md',
         attrs.class,
       )
     "

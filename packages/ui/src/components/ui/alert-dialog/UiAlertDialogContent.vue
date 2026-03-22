@@ -120,7 +120,7 @@ onBeforeUnmount(() => {
           :aria-describedby="ctx.descriptionId"
           :class="
             cn(
-              'border-ui border-border bg-popover relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-lg',
+              'border border-border bg-popover relative z-50 grid w-full max-w-lg gap-4 rounded-lg p-6 shadow-lg',
               'transition-all duration-200',
               isAnimating ? 'scale-100 opacity-100' : 'scale-95 opacity-0',
               attrs.class,

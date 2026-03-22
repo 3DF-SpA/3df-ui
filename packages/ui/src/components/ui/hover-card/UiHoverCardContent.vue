@@ -84,7 +84,7 @@ useFloatingLifecycle({
           cn(
             'z-50 w-64',
             'bg-popover text-popover-foreground',
-            'border-ui border-border rounded-md p-4 shadow-md outline-none',
+            'border border-border rounded-md p-4 shadow-md outline-none',
             attrs.class,
           )
         "
