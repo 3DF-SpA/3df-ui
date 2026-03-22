@@ -31,8 +31,10 @@
   --warning-foreground: hsl(0 0% 98%);
   --info: hsl(217 91% 60%);
   --info-foreground: hsl(0 0% 98%);
-  --border: hsl(240 5.9% 50% / var(--ui-border-opacity, 0.5));
-  --input: hsl(240 5.9% 50% / var(--ui-border-opacity, 0.5));
+  --border-hsl: 240 5.9% 50%;
+  --input-hsl: 240 5.9% 50%;
+  --border: hsl(var(--border-hsl) / var(--ui-border-opacity, 0.5));
+  --input: hsl(var(--input-hsl) / var(--ui-border-opacity, 0.5));
   --ring: hsl(240 10% 3.9%);
 
   /* Sidebar */
@@ -112,8 +114,8 @@
   --warning-foreground: hsl(0 0% 0%);
   --info: hsl(213 94% 68%);
   --info-foreground: hsl(0 0% 0%);
-  --border: hsl(240 3.7% 64% / var(--ui-border-opacity, 0.5));
-  --input: hsl(240 3.7% 64% / var(--ui-border-opacity, 0.5));
+  --border-hsl: 240 3.7% 64%;
+  --input-hsl: 240 3.7% 64%;
   --ring: hsl(240 4.9% 83.9%);
 
   --sidebar: hsl(240 5.9% 10%);
