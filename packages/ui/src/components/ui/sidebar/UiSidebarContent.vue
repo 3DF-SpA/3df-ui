@@ -20,7 +20,7 @@ const classes = computed(() =>
     '[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-sidebar-border/60',
     '[&::-webkit-scrollbar-track]:bg-transparent',
     'hover:[&::-webkit-scrollbar-thumb]:bg-sidebar-border',
-    '[&>[data-sidebar=group]]:border-b-ui [&>[data-sidebar=group]]:border-sidebar-border/50 [&>[data-sidebar=group]:last-child]:border-b-0',
+    '[&>[data-sidebar=group]]:border-b-ui [&>[data-sidebar=group]]:border-sidebar-border/60 [&>[data-sidebar=group]:last-child]:border-b-0',
     attrs.class,
   ),
 );

@@ -25,8 +25,8 @@ describe('UiCard', () => {
 
   it('aplica clases base del variante default', () => {
     const wrapper = mount(UiCard);
-    expect(wrapper.classes()).toContain('rounded-xl');
-    expect(wrapper.classes()).toContain('shadow-md');
+    expect(wrapper.classes()).toContain('rounded-lg');
+    expect(wrapper.classes()).toContain('shadow-none');
   });
 
   it('NO aplica clases interactivas cuando as="div"', () => {
@@ -50,7 +50,7 @@ describe('UiCard', () => {
   it('hace merge de clase extra pasada vía attrs', () => {
     const wrapper = mount(UiCard, { attrs: { class: 'mi-clase-custom' } });
     expect(wrapper.classes()).toContain('mi-clase-custom');
-    expect(wrapper.classes()).toContain('rounded-xl');
+    expect(wrapper.classes()).toContain('rounded-lg');
   });
 });
 

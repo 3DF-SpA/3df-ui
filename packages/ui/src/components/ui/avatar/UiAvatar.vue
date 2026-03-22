@@ -44,13 +44,7 @@ provide(AVATAR_KEY, {
 <template>
   <span
     v-bind="restAttrs"
-    :class="
-      cn(
-        'relative flex shrink-0 overflow-hidden rounded-full',
-        sizeClasses[sizeRef],
-        attrs.class,
-      )
-    "
+    :class="cn('relative flex shrink-0 overflow-hidden rounded-full', sizeClasses[sizeRef], attrs.class)"
   >
     <slot />
   </span>

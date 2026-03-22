@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <RouterView />
+  <div style="letter-spacing: var(--ui-letter-spacing)">
+    <RouterView />
+  </div>
 </template>
