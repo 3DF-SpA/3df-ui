@@ -193,7 +193,7 @@ function isActive(fullPath: string) {
             <div class="space-y-1.5 px-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-foreground">Border Radius</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ radiusLabel() }}</span>
+                <span class="text-[11px] font-mono text-muted-foreground">{{ radiusLabel }}</span>
               </div>
               <input type="range" v-model.number="radiusRem" min="0" max="2.05" step="0.05" class="w-full accent-primary" />
             </div>
@@ -202,7 +202,7 @@ function isActive(fullPath: string) {
             <div class="space-y-1.5 px-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-foreground">Letter Spacing</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ letterSpacingLabel() }}</span>
+                <span class="text-[11px] font-mono text-muted-foreground">{{ letterSpacingLabel }}</span>
               </div>
               <input type="range" v-model.number="letterSpacingIdx" min="0" max="20" step="1" class="w-full accent-primary" />
             </div>
@@ -211,7 +211,7 @@ function isActive(fullPath: string) {
             <div class="space-y-1.5 px-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-foreground">Shadow Blur</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ shadowBlurLabel() }}</span>
+                <span class="text-[11px] font-mono text-muted-foreground">{{ shadowBlurLabel }}</span>
               </div>
               <input type="range" v-model.number="shadowBlurPx" min="0" max="50" step="1" class="w-full accent-primary" />
             </div>
@@ -220,7 +220,7 @@ function isActive(fullPath: string) {
             <div class="space-y-1.5 px-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs text-foreground">Shadow Opacity</span>
-                <span class="text-[11px] font-mono text-muted-foreground">{{ shadowOpacityLabel() }}</span>
+                <span class="text-[11px] font-mono text-muted-foreground">{{ shadowOpacityLabel }}</span>
               </div>
               <input type="range" v-model.number="shadowOpacityIdx" min="0" max="20" step="1" class="w-full accent-primary" />
             </div>

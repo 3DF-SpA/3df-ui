@@ -1,77 +1,44 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed } from 'vue'
-import { cn } from '../../../lib/utils'
-import type { ClassValue } from 'clsx'
+import { computed, useAttrs } from 'vue';
+import type { ClassValue } from 'clsx';
+import { cn } from '../../../lib/utils';
+import { use3dfConfig } from './use-3df-config';
 
-defineOptions({ name: 'Ui3dfLetterSpacing', inheritAttrs: false })
+defineOptions({ name: 'Ui3dfLetterSpacing', inheritAttrs: false });
 
-const props = defineProps<{
-  modelValue: number
-}>()
+const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
+const restAttrs = computed(() => { const { class: _cls, ...rest } = attrs; return rest; });
 
-const emit = defineEmits<{
-  'update:modelValue': [value: number]
-}>()
-
-const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue }
-const restAttrs = computed(() => {
-  const { class: _, ...rest } = attrs
-  return rest
-})
-
-const trackRef = ref<HTMLDivElement | null>(null)
-const dragging = ref(false)
-
-function calcStep(clientX: number): number {
-  const track = trackRef.value
-  if (!track) return props.modelValue
-  const rect = track.getBoundingClientRect()
-  const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
-  return Math.round(ratio * 25)
-}
-
-function onPointerDown(e: PointerEvent) {
-  dragging.value = true
-  ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
-  emit('update:modelValue', calcStep(e.clientX))
-}
-
-function onPointerMove(e: PointerEvent) {
-  if (!dragging.value) return
-  emit('update:modelValue', calcStep(e.clientX))
-}
-
-function onPointerUp(e: PointerEvent) {
-  dragging.value = false
-  ;(e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId)
-}
-
-const thumbPercent = computed(() => `${(props.modelValue / 25) * 100}%`)
-const emLabel = computed(() => `${(-0.10 + props.modelValue * 0.01).toFixed(2)}em`)
+const { config } = use3dfConfig();
+const displayLabel = computed(() => {
+  const v = config.value.letterSpacing;
+  if (v === 0) return 'Normal';
+  return `${v > 0 ? '+' : ''}${v.toFixed(3)}em`;
+});
 </script>
 
 <template>
-  <div v-bind="restAttrs" :class="cn('flex flex-col gap-1.5', attrs.class)">
+  <div v-bind="restAttrs" :class="cn('flex flex-col gap-3', attrs.class)">
     <div class="flex items-center justify-between">
-      <span class="text-xs font-mono text-muted-foreground">{{ emLabel }}</span>
+      <span class="text-sm font-medium text-foreground">Letter Spacing</span>
+      <span class="text-xs font-semibold text-primary">{{ displayLabel }}</span>
     </div>
-    <div
-      ref="trackRef"
-      class="relative h-2 w-full rounded-full bg-secondary cursor-pointer select-none touch-none"
-      @pointerdown="onPointerDown"
-      @pointermove="onPointerMove"
-      @pointerup="onPointerUp"
-    >
-      <!-- filled track -->
-      <div
-        class="absolute inset-y-0 left-0 rounded-full bg-primary"
-        :style="{ width: thumbPercent }"
+    <div class="py-1">
+      <input
+        type="range"
+        min="-0.1"
+        max="0.15"
+        step="0.005"
+        :value="config.letterSpacing"
+        class="w-full cursor-pointer"
+        style="accent-color: var(--color-primary)"
+        @input="config.letterSpacing = Number(($event.target as HTMLInputElement).value)"
       />
-      <!-- thumb -->
-      <div
-        class="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary ring-2 ring-background shadow-sm transition-shadow hover:shadow-md"
-        :style="{ left: thumbPercent }"
-      />
+    </div>
+    <div class="flex flex-col gap-1 pt-1">
+      <p class="text-xs text-muted-foreground truncate">The quick brown fox</p>
+      <p class="text-sm font-medium text-foreground truncate">The quick brown fox</p>
+      <p class="text-base font-semibold text-foreground truncate">The quick brown fox</p>
     </div>
   </div>
 </template>

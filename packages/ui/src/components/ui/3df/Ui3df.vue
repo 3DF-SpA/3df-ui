@@ -1,62 +1,65 @@
 <script setup lang="ts">
-import { useAttrs, computed } from 'vue'
-import { cn } from '../../../lib/utils'
-import type { ClassValue } from 'clsx'
-import { use3dfConfig } from './use-3df-config'
-import Ui3dfRadius from './Ui3dfRadius.vue'
-import Ui3dfBorderOpacity from './Ui3dfBorderOpacity.vue'
-import Ui3dfLetterSpacing from './Ui3dfLetterSpacing.vue'
+import { computed, useAttrs, watch } from 'vue';
+import type { ClassValue } from 'clsx';
+import { cn } from '../../../lib/utils';
+import { use3dfConfig } from './use-3df-config';
+import type { Ui3dfConfig } from './use-3df-config';
+import Ui3dfRadius from './Ui3dfRadius.vue';
+import Ui3dfBorderOpacity from './Ui3dfBorderOpacity.vue';
+import Ui3dfLetterSpacing from './Ui3dfLetterSpacing.vue';
 
-defineOptions({ name: 'Ui3dfCustomizer', inheritAttrs: false })
+defineOptions({ name: 'Ui3dfCustomizer', inheritAttrs: false });
 
-const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue }
-const restAttrs = computed(() => {
-  const { class: _, ...rest } = attrs
-  return rest
-})
+interface Props {
+  title?: string;
+  modelValue?: Partial<Ui3dfConfig>;
+}
 
-const { config, reset } = use3dfConfig()
+const props = withDefaults(defineProps<Props>(), {
+  title: '3DF Customizer',
+});
 
-defineExpose({ config, reset })
+const emit = defineEmits<{
+  'update:modelValue': [config: Ui3dfConfig];
+}>();
+
+const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
+const restAttrs = computed(() => { const { class: _cls, ...rest } = attrs; return rest; });
+
+const { config, reset } = use3dfConfig();
+
+// If consumer passes v-model, sync inward
+watch(() => props.modelValue, (val) => {
+  if (val) Object.assign(config.value, val);
+}, { deep: true });
+
+// Emit outward on any config change
+watch(config, (val) => {
+  emit('update:modelValue', { ...val });
+}, { deep: true });
+
+defineExpose({ config, reset });
 </script>
 
 <template>
   <div
     v-bind="restAttrs"
-    :class="cn('flex flex-col gap-6 p-4 rounded-xl border-ui border-border bg-card text-card-foreground', attrs.class)"
+    :class="cn(
+      'border-ui border-border bg-card text-card-foreground rounded-lg p-4 shadow-sm',
+      'flex flex-col gap-4',
+      attrs.class
+    )"
   >
-    <div class="flex items-center justify-between">
-      <h3 class="text-sm font-semibold">Personalización 3DF</h3>
-      <button
-        @click="reset"
-        class="text-xs text-muted-foreground hover:text-foreground transition-colors"
-      >
-        Resetear
-      </button>
+    <div class="flex items-center gap-2 border-b border-border pb-3">
+      <div class="flex size-6 items-center justify-center rounded-md bg-primary text-[10px] font-black text-primary-foreground leading-none">
+        3F
+      </div>
+      <span class="text-sm font-semibold tracking-tight">{{ title }}</span>
     </div>
-
-    <div class="flex flex-col gap-2">
-      <label class="text-xs font-medium text-muted-foreground">Radio</label>
-      <Ui3dfRadius
-        :model-value="config.radiusStep"
-        @update:model-value="config.radiusStep = $event"
-      />
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label class="text-xs font-medium text-muted-foreground">Opacidad de borde</label>
-      <Ui3dfBorderOpacity
-        :model-value="config.borderOpacity"
-        @update:model-value="config.borderOpacity = $event"
-      />
-    </div>
-
-    <div class="flex flex-col gap-2">
-      <label class="text-xs font-medium text-muted-foreground">Espaciado de letras</label>
-      <Ui3dfLetterSpacing
-        :model-value="config.letterSpacing"
-        @update:model-value="config.letterSpacing = $event"
-      />
-    </div>
+    <slot>
+      <Ui3dfRadius />
+      <Ui3dfBorderOpacity />
+      <Ui3dfLetterSpacing />
+    </slot>
   </div>
 </template>

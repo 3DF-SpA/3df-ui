@@ -1,77 +1,84 @@
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue';
 
-export const CONFIG_VERSION = 1
-export const RADIUS_STEPS = [0, 0.125, 0.25, 0.375, 0.5, 0.75, 1, 1.5, 2] // rem values (9 steps: None→3XL)
-export const RADIUS_LABELS = ['None', 'XS', 'SM', 'MD', 'LG', 'XL', '2XL', '3XL', '3XL+']
+export const CONFIG_VERSION = 1;
+const STORAGE_KEY = '3df:config';
+
+export const RADIUS_STEPS = [
+  { label: 'None', value: '0px' },
+  { label: 'XS', value: '0.25rem' },
+  { label: 'SM', value: '0.5rem' },
+  { label: 'MD', value: '0.75rem' },
+  { label: 'LG', value: '1rem' },
+  { label: 'XL', value: '1.5rem' },
+  { label: '2XL', value: '2rem' },
+  { label: '3XL', value: '3rem' },
+] as const;
 
 export interface Ui3dfConfig {
-  version: number
-  radiusStep: number      // 0-8 index into RADIUS_STEPS
-  borderOpacity: number   // 0-100 (percentage)
-  letterSpacing: number   // 0-25 index (-0.10em to +0.15em)
+  version: number;
+  radiusStep: number;
+  borderOpacity: number;
+  letterSpacing: number;
 }
 
 export const DEFAULT_CONFIG: Ui3dfConfig = {
   version: CONFIG_VERSION,
   radiusStep: 4,
-  borderOpacity: 20,
-  letterSpacing: 10,
+  borderOpacity: 0.2,
+  letterSpacing: 0,
+};
+
+// Singleton module-level state
+const config = ref<Ui3dfConfig>({ ...DEFAULT_CONFIG });
+
+function isSSR(): boolean {
+  return typeof window === 'undefined';
 }
 
-const STORAGE_KEY = '3df:config'
-
-// MODULE-LEVEL singleton refs (shared across all composable instances)
-const config = ref<Ui3dfConfig>({ ...DEFAULT_CONFIG })
-let initialized = false
-
-function applyConfig(cfg: Ui3dfConfig) {
-  if (typeof window === 'undefined') return
-  const radiusRem = RADIUS_STEPS[cfg.radiusStep] ?? 0.5
-  document.documentElement.style.setProperty('--ui-radius', `${radiusRem}rem`)
-  document.documentElement.style.setProperty('--ui-radius-field', `${Math.max(0, radiusRem - 0.125)}rem`)
-  document.documentElement.style.setProperty('--ui-border-opacity', `${cfg.borderOpacity / 100}`)
-  const lsIndex = cfg.letterSpacing ?? 10
-  const lsValue = -0.10 + lsIndex * 0.01
-  document.documentElement.style.setProperty('--ui-letter-spacing', `${lsValue.toFixed(2)}em`)
-}
-
-function saveToStorage(cfg: Ui3dfConfig) {
-  if (typeof window === 'undefined') return
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg))
-  } catch {}
+function applyCSS(cfg: Ui3dfConfig): void {
+  if (isSSR()) return;
+  const radius = RADIUS_STEPS[cfg.radiusStep]?.value ?? '1rem';
+  document.documentElement.style.setProperty('--ui-radius', radius);
+  document.documentElement.style.setProperty('--radius', radius);
+  document.documentElement.style.setProperty('--ui-border-opacity', String(cfg.borderOpacity));
+  document.documentElement.style.setProperty('--ui-letter-spacing', `${cfg.letterSpacing}em`);
 }
 
 function loadFromStorage(): Ui3dfConfig {
-  if (typeof window === 'undefined') return { ...DEFAULT_CONFIG }
+  if (isSSR()) return { ...DEFAULT_CONFIG };
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { ...DEFAULT_CONFIG }
-    const parsed = JSON.parse(raw) as Partial<Ui3dfConfig>
-    if (parsed.version !== CONFIG_VERSION) return { ...DEFAULT_CONFIG }
-    return { ...DEFAULT_CONFIG, ...parsed }
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { ...DEFAULT_CONFIG };
+    const parsed = JSON.parse(raw) as Partial<Ui3dfConfig>;
+    if (parsed.version !== CONFIG_VERSION) return { ...DEFAULT_CONFIG };
+    return { ...DEFAULT_CONFIG, ...parsed };
   } catch {
-    return { ...DEFAULT_CONFIG }
+    return { ...DEFAULT_CONFIG };
   }
 }
 
-// Module-level watcher — runs once across all instances
+function saveToStorage(cfg: Ui3dfConfig): void {
+  if (isSSR()) return;
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg));
+  } catch { /* storage unavailable */ }
+}
+
+// Watch at module level: save + apply on any change
 watch(config, (cfg) => {
-  applyConfig(cfg)
-  saveToStorage(cfg)
-}, { deep: true })
+  saveToStorage(cfg);
+  applyCSS(cfg);
+}, { deep: true });
 
 export function use3dfConfig() {
-  if (!initialized) {
-    initialized = true
-    const saved = loadFromStorage()
-    config.value = saved
-    applyConfig(saved)
+  onMounted(() => {
+    config.value = loadFromStorage();
+    applyCSS(config.value);
+  });
+
+  function reset(): void {
+    config.value = { ...DEFAULT_CONFIG };
   }
 
-  function reset() {
-    config.value = { ...DEFAULT_CONFIG }
-  }
-
-  return { config, reset, DEFAULT_CONFIG, RADIUS_STEPS, RADIUS_LABELS }
+  return { config, reset, RADIUS_STEPS, DEFAULT_CONFIG };
 }

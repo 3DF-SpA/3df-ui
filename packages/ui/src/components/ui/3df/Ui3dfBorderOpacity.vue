@@ -1,76 +1,43 @@
 <script setup lang="ts">
-import { ref, useAttrs, computed } from 'vue'
-import { cn } from '../../../lib/utils'
-import type { ClassValue } from 'clsx'
+import { computed, useAttrs } from 'vue';
+import type { ClassValue } from 'clsx';
+import { cn } from '../../../lib/utils';
+import { use3dfConfig } from './use-3df-config';
 
-defineOptions({ name: 'Ui3dfBorderOpacity', inheritAttrs: false })
+defineOptions({ name: 'Ui3dfBorderOpacity', inheritAttrs: false });
 
-const props = defineProps<{
-  modelValue: number
-}>()
+const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
+const restAttrs = computed(() => { const { class: _cls, ...rest } = attrs; return rest; });
 
-const emit = defineEmits<{
-  'update:modelValue': [value: number]
-}>()
-
-const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue }
-const restAttrs = computed(() => {
-  const { class: _, ...rest } = attrs
-  return rest
-})
-
-const trackRef = ref<HTMLDivElement | null>(null)
-const dragging = ref(false)
-
-function calcValue(clientX: number): number {
-  const track = trackRef.value
-  if (!track) return props.modelValue
-  const rect = track.getBoundingClientRect()
-  const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
-  return Math.round(ratio * 100)
-}
-
-function onPointerDown(e: PointerEvent) {
-  dragging.value = true
-  ;(e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
-  emit('update:modelValue', calcValue(e.clientX))
-}
-
-function onPointerMove(e: PointerEvent) {
-  if (!dragging.value) return
-  emit('update:modelValue', calcValue(e.clientX))
-}
-
-function onPointerUp(e: PointerEvent) {
-  dragging.value = false
-  ;(e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId)
-}
-
-const thumbPercent = computed(() => `${props.modelValue}%`)
+const { config } = use3dfConfig();
+const displayPct = computed(() => Math.round(config.value.borderOpacity * 100));
 </script>
 
 <template>
-  <div v-bind="restAttrs" :class="cn('flex flex-col gap-1.5', attrs.class)">
+  <div v-bind="restAttrs" :class="cn('flex flex-col gap-3', attrs.class)">
     <div class="flex items-center justify-between">
-      <span class="text-xs font-mono text-muted-foreground">{{ modelValue }}%</span>
+      <span class="text-sm font-medium text-foreground">Border Opacity</span>
+      <span class="text-xs font-semibold text-primary">{{ displayPct }}%</span>
     </div>
-    <div
-      ref="trackRef"
-      class="relative h-2 w-full rounded-full bg-secondary cursor-pointer select-none touch-none"
-      @pointerdown="onPointerDown"
-      @pointermove="onPointerMove"
-      @pointerup="onPointerUp"
-    >
-      <!-- filled track -->
-      <div
-        class="absolute inset-y-0 left-0 rounded-full bg-primary"
-        :style="{ width: thumbPercent }"
+    <div class="py-1">
+      <input
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        :value="config.borderOpacity"
+        class="w-full cursor-pointer"
+        style="accent-color: var(--color-primary)"
+        @input="config.borderOpacity = Number(($event.target as HTMLInputElement).value)"
       />
-      <!-- thumb -->
-      <div
-        class="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary ring-2 ring-background shadow-sm transition-shadow hover:shadow-md"
-        :style="{ left: thumbPercent }"
-      />
+    </div>
+    <div class="flex items-center gap-2 pt-1">
+      <div class="h-7 flex-1 border-ui border-border bg-card transition-colors duration-200" />
+      <div class="h-7 flex-1 border-ui border-border bg-muted transition-colors duration-200" />
+      <div class="size-7 shrink-0 border-ui border-border bg-background transition-colors duration-200" />
+      <div class="flex h-7 w-16 shrink-0 items-center justify-center border-ui border-border bg-card transition-colors duration-200">
+        <span class="text-[10px] font-semibold text-foreground">Card</span>
+      </div>
     </div>
   </div>
 </template>
