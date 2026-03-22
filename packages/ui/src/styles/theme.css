@@ -81,7 +81,7 @@
   /* Customization vars (used by composable + components) */
   --ui-radius: 1rem;
   --ui-radius-field: min(var(--ui-radius, 1rem), 1.5rem);
-  --ui-border-opacity: 0.2;
+  --ui-border-opacity: 0.5;
   --ui-letter-spacing: 0em;
   --ui-shadow-blur: 0px;
   --ui-shadow-opacity: 0;
@@ -249,26 +249,31 @@
 @utility border-ui {
   border-width: var(--ui-border-width, 2px);
   border-style: solid;
+  border-color: var(--border);
 }
 
 @utility border-t-ui {
   border-top-width: var(--ui-border-width, 2px);
   border-top-style: solid;
+  border-top-color: var(--border);
 }
 
 @utility border-r-ui {
   border-right-width: var(--ui-border-width, 2px);
   border-right-style: solid;
+  border-right-color: var(--border);
 }
 
 @utility border-b-ui {
   border-bottom-width: var(--ui-border-width, 2px);
   border-bottom-style: solid;
+  border-bottom-color: var(--border);
 }
 
 @utility border-l-ui {
   border-left-width: var(--ui-border-width, 2px);
   border-left-style: solid;
+  border-left-color: var(--border);
 }
 
 @utility rounded-ui-field {

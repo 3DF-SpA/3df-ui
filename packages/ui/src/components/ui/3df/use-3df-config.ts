@@ -24,7 +24,7 @@ export interface Ui3dfConfig {
 export const DEFAULT_CONFIG: Ui3dfConfig = {
   version: CONFIG_VERSION,
   radiusStep: 4,
-  borderOpacity: 0.2,
+  borderOpacity: 0.5,
   letterSpacing: 0,
 };
 
