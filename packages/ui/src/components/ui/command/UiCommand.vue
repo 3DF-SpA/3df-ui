@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, useAttrs, useId } from 'vue';
+import { computed, provide, ref, useAttrs, useId, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -23,7 +23,8 @@ const listId = `command-list-${uid}`;
 
 const emit = defineEmits<{
   select: [value: string];
-}>();
+  'update:selected': [value: string];
+}>(); 
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 const restAttrs = computed(() => {
@@ -127,6 +128,8 @@ provide(COMMAND_KEY, {
   registerItem,
   unregisterItem,
 });
+
+watch(selectedValue, (val) => emit('update:selected', val));
 </script>
 
 <template>

@@ -13,16 +13,19 @@ defineOptions({ name: 'UiCommandDialog', inheritAttrs: false });
 interface UiCommandDialogProps {
   open?: boolean;
   defaultOpen?: boolean;
+  showClose?: boolean;
 }
 
 const props = withDefaults(defineProps<UiCommandDialogProps>(), {
   open: undefined,
   defaultOpen: false,
+  showClose: false,
 });
 
 const emit = defineEmits<{
   'update:open': [value: boolean];
   select: [value: string];
+  'update:selected': [value: string];
 }>();
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
@@ -59,10 +62,10 @@ onBeforeUnmount(() => {
   <UiDialog :open="open" :default-open="defaultOpen" @update:open="onOpenChange">
     <UiDialogContent
       v-bind="restAttrs"
-      :show-close="false"
+      :show-close="showClose"
       :class="cn('overflow-hidden p-0 shadow-lg', attrs.class)"
     >
-      <UiCommand class="[&_[data-command-input-wrapper]]:border-b-ui" @select="onSelect">
+      <UiCommand class="[&_[data-command-input-wrapper]]:border-b-ui" @select="onSelect" @update:selected="(v) => emit('update:selected', v)">
         <slot />
       </UiCommand>
     </UiDialogContent>

@@ -212,8 +212,6 @@ function isActive(fullPath: string) {
           {{ $route.name }}
         </span>
 
-        <div class="flex-1" />
-
         <button
           class="hidden sm:inline-flex items-center gap-2 rounded-md border border-border bg-background px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           @click="commandOpen = true"
@@ -227,6 +225,8 @@ function isActive(fullPath: string) {
             <span class="text-[11px]">⌘</span>K
           </kbd>
         </button>
+
+        <div class="flex-1" />
 
         <LocaleSwitcher />
         <ThemeSwitcher />

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { shallowRef, ref, watch, markRaw, computed, type Component } from 'vue'
+import { useRouter } from 'vue-router'
 import {
   CommandDialog,
   CommandInput,
@@ -8,90 +8,135 @@ import {
   CommandGroup,
   CommandItem,
   CommandEmpty,
-  CommandSeparator,
-} from '@3df-spa/ui';
-import { uiRoutes, chartRoutes } from '@/router';
+} from '@3df-spa/ui'
+import { uiRoutes, chartRoutes } from '@/router'
 
-const props = defineProps<{ open: boolean }>();
-const emit = defineEmits<{ 'update:open': [value: boolean] }>();
+defineOptions({ name: 'CommandPaletteDemo' })
 
-const router = useRouter();
-const search = ref('');
+const props = defineProps<{ open: boolean }>()
+const emit = defineEmits<{ 'update:open': [boolean] }>()
+
+const router = useRouter()
+
+type RouteFactory = () => Promise<{ default: Component }>
+
+const componentMap = new Map<string, RouteFactory>()
+uiRoutes.forEach((r) => {
+  if (r.component && typeof r.component === 'function') {
+    componentMap.set(`/ui/${r.path}`, r.component as RouteFactory)
+  }
+})
+chartRoutes.forEach((r) => {
+  if (r.component && typeof r.component === 'function') {
+    componentMap.set(`/charts/${r.path}`, r.component as RouteFactory)
+  }
+})
 
 interface PaletteItem {
-  name: string;
-  fullPath: string;
-  group: string;
+  name: string
+  fullPath: string
+  group: string
 }
 
 interface PaletteGroup {
-  label: string;
-  items: PaletteItem[];
+  label: string
+  items: PaletteItem[]
 }
 
-function buildGroups(
-  routes: typeof uiRoutes,
-  prefix: string,
-): PaletteGroup[] {
-  const map = new Map<string, PaletteItem[]>();
+function buildGroups(routes: typeof uiRoutes, prefix: string): PaletteGroup[] {
+  const map = new Map<string, PaletteItem[]>()
   for (const r of routes) {
-    const group = (r.meta?.group as string) ?? 'Other';
-    if (!map.has(group)) map.set(group, []);
+    const group = (r.meta?.group as string) ?? 'Other'
+    if (!map.has(group)) map.set(group, [])
     map.get(group)!.push({
       name: r.name as string,
       fullPath: `${prefix}/${r.path}`,
       group,
-    });
+    })
   }
-  return Array.from(map.entries()).map(([label, items]) => ({ label, items }));
+  return Array.from(map.entries()).map(([label, items]) => ({ label, items }))
 }
 
 const allGroups = computed<PaletteGroup[]>(() => [
   ...buildGroups(uiRoutes, '/ui'),
   ...buildGroups(chartRoutes, '/charts'),
-]);
+])
 
-const filteredGroups = computed<PaletteGroup[]>(() => {
-  const q = search.value.trim().toLowerCase();
-  if (!q) return allGroups.value;
-  return allGroups.value
-    .map(g => ({
-      label: g.label,
-      items: g.items.filter(item => item.name.toLowerCase().includes(q)),
-    }))
-    .filter(g => g.items.length > 0);
-});
+// Preview state
+const previewPath = ref('')
+const previewComponent = shallowRef<Component | null>(null)
 
-function select(fullPath: string) {
-  router.push(fullPath);
-  search.value = '';
-  emit('update:open', false);
+watch(previewPath, async (p) => {
+  if (!p) { previewComponent.value = null; return }
+  const factory = componentMap.get(p)
+  if (factory) {
+    try {
+      const mod = await factory()
+      previewComponent.value = markRaw(mod.default)
+    } catch {
+      previewComponent.value = null
+    }
+  } else {
+    previewComponent.value = null
+  }
+})
+
+function onSelect(value: string) {
+  router.push(value)
+  emit('update:open', false)
+  previewPath.value = ''
+  previewComponent.value = null
 }
 
-function onDialogOpenChange(val: boolean) {
-  if (!val) search.value = '';
-  emit('update:open', val);
+function onOpenChange(val: boolean) {
+  emit('update:open', val)
+  if (!val) {
+    previewPath.value = ''
+    previewComponent.value = null
+  }
 }
 </script>
 
 <template>
-  <CommandDialog :open="props.open" @update:open="onDialogOpenChange">
-    <CommandInput v-model="search" placeholder="Buscar componente..." />
-    <CommandList>
-      <CommandEmpty>Sin resultados.</CommandEmpty>
-      <template v-for="(group, idx) in filteredGroups" :key="group.label">
-        <CommandSeparator v-if="idx > 0" />
-        <CommandGroup :heading="group.label">
-          <CommandItem
-            v-for="item in group.items"
-            :key="item.fullPath"
-            :value="item.fullPath"
-            @select="select(item.fullPath)"
+  <CommandDialog
+    :open="props.open"
+    :show-close="true"
+    class="sm:max-w-[860px]"
+    @update:open="onOpenChange"
+    @update:selected="previewPath = $event"
+    @select="onSelect"
+  >
+    <div class="flex h-[500px]">
+      <!-- Lista izquierda -->
+      <div class="flex w-[320px] shrink-0 flex-col border-r border-border">
+        <CommandInput placeholder="Buscar componente..." />
+        <CommandList class="flex-1 overflow-auto">
+          <CommandEmpty>Sin resultados.</CommandEmpty>
+          <CommandGroup
+            v-for="group in allGroups"
+            :key="group.label"
+            :heading="group.label"
           >
-            {{ item.name }}
-          </CommandItem>
-        </CommandGroup>
-      </template>
-    </CommandList>
+            <CommandItem
+              v-for="item in group.items"
+              :key="item.fullPath"
+              :value="item.fullPath"
+              @select="onSelect(item.fullPath)"
+            >
+              {{ item.name }}
+            </CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </div>
+      <!-- Preview derecha -->
+      <div class="flex-1 overflow-auto bg-muted/30">
+        <div v-if="previewComponent" class="h-full overflow-auto p-4">
+          <component :is="previewComponent" />
+        </div>
+        <div v-else class="flex h-full items-center justify-center text-muted-foreground text-sm">
+          <span>Selecciona un componente para ver la preview</span>
+        </div>
+      </div>
+    </div>
   </CommandDialog>
 </template>
