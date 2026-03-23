@@ -84,7 +84,7 @@ function isActive(fullPath: string) {
     >
       
       <div class="flex h-14 items-center gap-2 border-b border-border px-4">
-        <img src="/icons/logo-3df.svg" alt="3DF UI" class="h-10 w-auto" />
+        <img src="/icons/logo-3df.svg" alt="3DF UI" class="h-12 w-auto rounded-lg" />
         <span class="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
           {{ t('layout.playground') }}
         </span>
