@@ -68,8 +68,11 @@ All components use CSS custom properties defined in `theme.css`. Key tokens:
 | `--color-card` | hsl(0 0% 100%) | Card backgrounds |
 | `--ui-border-width` | 2px | All component borders (set 0px for borderless) |
 | `--ui-radius` | 0.625rem | Base border radius (scales all rounded-* variants) |
+| `--ui-border-opacity` | 0.5 | Opacidad global de bordes (controlada por 3df Customizer) |
+| `--ui-letter-spacing` | 0 | Letter spacing global (controlada por 3df Customizer) |
 
 Dark mode: add `.dark` class to `<html>`.
+Dark mode colors (v1.3.0+): `--destructive`, `--warning`, `--success` ajustados para visibilidad en fondos oscuros.
 
 Global customization:
 ```css
@@ -601,21 +604,33 @@ import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem } 
 
 ```vue
 <script setup lang="ts">
-import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@3df-spa/ui'
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandDialog } from '@3df-spa/ui'
+const selected = ref('')
 </script>
 <template>
-  <Command>
-    <CommandInput placeholder="Search..." />
+  <!-- Inline -->
+  <Command @select="(val) => console.log(val)" @update:selected="selected = $event">
+    <CommandInput placeholder="Buscar..." />
     <CommandList>
-      <CommandEmpty>No results.</CommandEmpty>
-      <CommandGroup heading="Suggestions">
-        <CommandItem value="calendar">Calendar</CommandItem>
-        <CommandItem value="settings">Settings</CommandItem>
+      <CommandEmpty>Sin resultados.</CommandEmpty>
+      <CommandGroup heading="Sugerencias">
+        <CommandItem value="calendar">Calendario</CommandItem>
+        <CommandItem value="settings">Ajustes</CommandItem>
       </CommandGroup>
     </CommandList>
   </Command>
+
+  <!-- Dialog (Ctrl+K / ⌘K) -->
+  <CommandDialog v-model:open="open" :show-close="true" @select="onSelect" @update:selected="onHighlight">
+    <!-- mismo contenido -->
+  </CommandDialog>
 </template>
 ```
+
+Command emits: `select` (valor confirmado con Enter/click), `update:selected` (valor en hover/flechas — útil para previews en tiempo real)
+CommandDialog props: `open`, `defaultOpen`, `showClose` (muestra botón X)
+CommandList: NO tiene max-height por defecto — el consumer controla la altura con clase exterior (`class="max-h-[300px]"`)
+Navegación teclado: ↑↓ navegan, Enter selecciona, Home/End van al inicio/fin. Auto-scroll al item activo.
 
 ### Popover
 
@@ -661,23 +676,28 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@3df-s
 </template>
 ```
 
-### Sonner (Toast)
+### Toast (Sonner)
+
+Toast es una implementación **custom** de `@3df-spa/ui`. NO usar `vue-sonner`.
 
 ```vue
 <script setup lang="ts">
-import { Toaster } from '@3df-spa/ui'
-import { toast } from 'vue-sonner'
+import { Toaster, toast } from '@3df-spa/ui'
 </script>
 <template>
-  <!-- Add once in App.vue -->
-  <Toaster />
+  <!-- Añadir una vez en App.vue -->
+  <Toaster position="bottom-right" :max-visible="5" />
 
-  <!-- Trigger anywhere -->
-  <Button @click="toast('File saved!')">Save</Button>
-  <Button @click="toast.error('Something went wrong')">Error</Button>
-  <Button @click="toast.success('Done!')">Success</Button>
+  <!-- Disparar desde cualquier componente -->
+  <Button @click="toast({ title: 'Guardado', variant: 'success' })">Éxito</Button>
+  <Button @click="toast({ title: 'Error', description: 'Algo salió mal', variant: 'error' })">Error</Button>
+  <Button @click="toast({ title: 'Atención', variant: 'warning' })">Warning</Button>
+  <Button @click="toast({ title: 'Info', variant: 'info', duration: 0 })">Info persistente</Button>
 </template>
 ```
+
+toast() opciones: `{ title?, description?, variant ('default'|'success'|'error'|'warning'|'info'), duration (ms, 0=persistente), dismissible, action: { label, onClick } }`
+Toaster props: `position` (top/bottom-left/center/right), `maxVisible` (default: 5)
 
 ### Breadcrumb
 
@@ -1236,6 +1256,87 @@ const paginatedData = computed(() => data.value.slice((page.value - 1) * perPage
 
 ---
 
+## 3df Customizer — Personalización Global
+
+El componente `Ui3df` es un panel de personalización visual que permite al consumidor ajustar la apariencia de toda la librería en tiempo real. Usa el composable `use3dfConfig` que persiste en `localStorage`.
+
+### Setup básico (sin persistencia)
+
+```vue
+<script setup lang="ts">
+import { Ui3df } from '@3df-spa/ui'
+</script>
+<template>
+  <Ui3df />
+</template>
+```
+
+### Setup con persistencia en localStorage (recomendado)
+
+```vue
+<!-- App.vue -->
+<script setup lang="ts">
+import { use3dfConfig } from '@3df-spa/ui'
+// Inicializar UNA sola vez en la raíz — carga config desde localStorage y aplica CSS vars
+use3dfConfig()
+</script>
+```
+
+```vue
+<!-- Donde quieras mostrar el panel -->
+<script setup lang="ts">
+import { Ui3df } from '@3df-spa/ui'
+</script>
+<template>
+  <Ui3df />
+</template>
+```
+
+### Composable use3dfConfig()
+
+```ts
+import { use3dfConfig } from '@3df-spa/ui'
+
+const { config, updateConfig, resetConfig } = use3dfConfig()
+
+// config es un Ref reactivo:
+// {
+//   version: 1,
+//   radiusStep: 4,      // 0-8 (0=sin radius, 8=full)
+//   borderOpacity: 0.5, // 0-1
+//   letterSpacing: 0,   // -2 a 4 (em * 0.01)
+// }
+
+// Actualizar un valor
+updateConfig({ radiusStep: 6 })
+
+// Resetear a valores por defecto
+resetConfig()
+```
+
+### Variables CSS aplicadas
+
+| Config key | CSS var aplicada | Efecto |
+|---|---|---|
+| `radiusStep` | `--ui-radius` | Border radius de todos los componentes |
+| `borderOpacity` | `--ui-border-opacity` | Opacidad de todos los bordes |
+| `letterSpacing` | `--ui-letter-spacing` | Espaciado de letras global |
+
+### Subcomponentes exportados
+
+```ts
+import { Ui3df, Ui3dfRadius, Ui3dfBorderOpacity, Ui3dfLetterSpacing, use3dfConfig } from '@3df-spa/ui'
+```
+
+### Reglas
+
+- Llamar `use3dfConfig()` **una sola vez** en `App.vue` para restaurar config al recargar
+- El singleton Module-level garantiza que todos los componentes compartan la misma instancia
+- SSR-safe: usa `typeof window !== 'undefined'` guard
+- Config versionada (`version: 1`) — preparada para futuras migraciones
+
+---
+
 ## Rules for AI Assistants
 
 1. **Always import from `@3df-spa/ui` or `@3df-spa/charts`** — never from internal paths
@@ -1248,3 +1349,6 @@ const paginatedData = computed(() => data.value.slice((page.value - 1) * perPage
 8. **Toaster** must be placed once in App.vue for `toast()` to work
 9. **Carousel requires `embla-carousel`** peer dependency
 10. **Calendar/DatePicker require `date-fns`** peer dependency
+11. **use3dfConfig()** debe llamarse una sola vez en App.vue si se quiere persistencia de personalización
+12. **Toast** es custom (`@3df-spa/ui`) — NO instalar ni importar `vue-sonner`
+13. **CommandList** no tiene max-height por defecto — añadir clase de altura si se usa fuera de CommandDialog
