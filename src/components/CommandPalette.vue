@@ -128,7 +128,7 @@ function getGroupIcon(group: string): string {
 <template>
   <CommandDialog
     :open="props.open"
-    :show-close="true"
+    :show-close="false"
     class="sm:max-w-[860px]"
     @update:open="onOpenChange"
     @update:selected="previewPath = $event"
@@ -138,7 +138,7 @@ function getGroupIcon(group: string): string {
       <!-- Lista izquierda -->
       <div class="flex w-[320px] shrink-0 flex-col border border-border/60 shadow-sm rounded-lg overflow-hidden">
         <CommandInput placeholder="Buscar componente..." />
-        <CommandList class="flex-1 overflow-auto">
+        <CommandList class="flex-1 overflow-auto max-h-none">
           <CommandEmpty>Sin resultados.</CommandEmpty>
           <CommandGroup
             v-for="group in allGroups"
@@ -186,24 +186,35 @@ function getGroupIcon(group: string): string {
               <span class="font-semibold text-sm">{{ selectedItem?.name }}</span>
               <span class="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">{{ selectedItem?.group }}</span>
             </div>
-            <button
-              class="flex items-center gap-1 text-xs font-medium text-primary hover:underline"
-              @click="onSelect(previewPath)"
-            >
-              Abrir
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                class="w-3 h-3"
+            <div class="flex items-center gap-3">
+              <button
+                class="flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                @click="onSelect(previewPath)"
               >
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
-              </svg>
-            </button>
+                Abrir
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="w-3 h-3"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </button>
+              <button
+                class="rounded-md p-1 opacity-70 hover:opacity-100 transition-opacity"
+                @click="$emit('update:open', false)"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            </div>
           </div>
           <!-- Preview content -->
           <div class="flex-1 overflow-auto p-6">
@@ -214,8 +225,17 @@ function getGroupIcon(group: string): string {
         </template>
         <div
           v-else
-          class="flex h-full flex-col items-center justify-center gap-3 text-center px-8"
+          class="flex h-full flex-col items-center justify-center gap-3 text-center px-8 relative"
         >
+          <button
+            class="absolute top-2 right-2 rounded-md p-1 opacity-70 hover:opacity-100 transition-opacity"
+            @click="$emit('update:open', false)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
           <div class="rounded-full bg-muted p-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"

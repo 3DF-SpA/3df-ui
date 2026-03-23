@@ -131,7 +131,7 @@ function onOverlayClick() {
         @click="onOverlayClick"
       />
 
-      <div class="fixed inset-0 flex items-center justify-center p-4">
+      <div class="fixed inset-0 flex items-center justify-center p-4" @click.self="onOverlayClick">
         <div
           ref="panelRef"
           v-bind="restAttrs"
