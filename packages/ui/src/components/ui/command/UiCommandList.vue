@@ -22,7 +22,7 @@ const restAttrs = computed(() => {
     :id="cmd.listId"
     v-bind="restAttrs"
     role="listbox"
-    :class="cn('max-h-[300px] overflow-x-hidden overflow-y-auto', attrs.class)"
+    :class="cn('overflow-x-hidden overflow-y-auto', attrs.class)"
   >
     <slot />
   </div>

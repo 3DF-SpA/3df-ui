@@ -106,11 +106,11 @@
   --muted-foreground: hsl(240 5% 64.9%);
   --accent: hsl(240 3.7% 15.9%);
   --accent-foreground: hsl(0 0% 98%);
-  --destructive: hsl(0 62.8% 30.6%);
+  --destructive: hsl(0 72% 62%);
   --destructive-foreground: hsl(0 0% 98%);
-  --success: hsl(142 69% 58%);
+  --success: hsl(142 71% 60%);
   --success-foreground: hsl(0 0% 0%);
-  --warning: hsl(38 92% 50%);
+  --warning: hsl(38 95% 62%);
   --warning-foreground: hsl(0 0% 0%);
   --info: hsl(213 94% 68%);
   --info-foreground: hsl(0 0% 0%);

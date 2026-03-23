@@ -131,7 +131,7 @@ function onOverlayClick() {
         @click="onOverlayClick"
       />
 
-      <div class="fixed inset-0 flex items-center justify-center p-4">
+      <div class="fixed inset-0 flex items-center justify-center p-4" @click.self="onOverlayClick">
         <div
           ref="panelRef"
           v-bind="restAttrs"
@@ -156,7 +156,7 @@ function onOverlayClick() {
           <button
             v-if="showClose"
             type="button"
-            class="absolute top-4 right-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-ring disabled:pointer-events-none"
+            class="absolute top-3 right-3 rounded-md p-1 opacity-70 transition-opacity hover:opacity-100 focus-visible:outline-2 focus-visible:outline-ring disabled:pointer-events-none"
             :aria-label="props.closeLabel"
             @click="dialog.close()"
           >

@@ -1,14 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Favicon 64×64: fondo redondeado premium, solo isotipo -->
-  <rect width="64" height="64" rx="13" fill="#0A0A0A"/>
-  <g transform="translate(7, 7) scale(0.565)" stroke-linecap="round" stroke-linejoin="round">
-    <polygon points="21,34 69,34 77,62 45,88 13,62" fill="#FFFFFF"/>
-    <line x1="16" y1="50" x2="74" y2="50" stroke="#0A0A0A" stroke-width="2.5" stroke-linecap="butt"/>
-    <line x1="21" y1="34" x2="10" y2="10" stroke="#FFFFFF" stroke-width="6.5"/>
-    <line x1="10" y1="10" x2="-1" y2="2"  stroke="#FFFFFF" stroke-width="5"/>
-    <line x1="10" y1="10" x2="20" y2="0"  stroke="#FFFFFF" stroke-width="5"/>
-    <line x1="69" y1="34" x2="80" y2="10" stroke="#FFFFFF" stroke-width="6.5"/>
-    <line x1="80" y1="10" x2="91" y2="2"  stroke="#FFFFFF" stroke-width="5"/>
-    <line x1="80" y1="10" x2="70" y2="0"  stroke="#FFFFFF" stroke-width="5"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1799)"><rect width="1000" height="1000" fill="#637b49"></rect><g transform="matrix(5.2631578947368425,0,0,5.2631578947368425,89.4736842105263,-5.684341886080802e-14)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="50 34 156 190" width="156" height="190"><defs>
+    <linearGradient id="coat" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6E8750"></stop>
+      <stop offset="100%" stop-color="#33462B"></stop>
+    </linearGradient>
+    <linearGradient id="face" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E4D3A3"></stop>
+      <stop offset="100%" stop-color="#CBB682"></stop>
+    </linearGradient>
+    <linearGradient id="antlers" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7A4C28"></stop>
+      <stop offset="100%" stop-color="#53331B"></stop>
+    </linearGradient>
+  <clipPath id="SvgjsClipPath1799"><rect width="1000" height="1000" x="0" y="0" rx="200" ry="200"></rect></clipPath></defs><path d="M104 86C93 73 86 59 84 43" fill="none" stroke="url(#antlers)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path><path d="M89 61C76 58 66 52 58 44" fill="none" stroke="url(#antlers)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path><path d="M103 74C93 72 84 67 78 60" fill="none" stroke="url(#antlers)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path><path d="M152 86C163 73 170 59 172 43" fill="none" stroke="url(#antlers)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path><path d="M167 61C180 58 190 52 198 44" fill="none" stroke="url(#antlers)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path><path d="M153 74C163 72 172 67 178 60" fill="none" stroke="url(#antlers)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"></path><path d="M97 99C84 90 74 76 72 58C89 62 103 72 111 89Z" fill="url(#coat)" stroke="#2B2118" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M159 99C172 90 182 76 184 58C167 62 153 72 145 89Z" fill="url(#coat)" stroke="#2B2118" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M96 89C87 84 80 74 79 64C91 68 101 75 107 85Z" fill="#C8928C"></path><path d="M160 89C169 84 176 74 177 64C165 68 155 75 149 85Z" fill="#C8928C"></path><path d="M128 78
+           C146 78 161 86 171 100
+           C180 112 183 128 180 146
+           C175 171 159 196 139 212
+           C135 215 132 218 128 220
+           C124 218 121 215 117 212
+           C97 196 81 171 76 146
+           C73 128 76 112 85 100
+           C95 86 110 78 128 78Z" fill="url(#coat)" stroke="#2B2118" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M128 98
+           C141 98 151 103 157 112
+           C163 121 165 132 162 145
+           C158 165 145 183 128 197
+           C111 183 98 165 94 145
+           C91 132 93 121 99 112
+           C105 103 115 98 128 98Z" fill="url(#face)"></path><path d="M114 144
+           C118 140 123 138 128 138
+           C133 138 138 140 142 144
+           C140 156 135 166 128 174
+           C121 166 116 156 114 144Z" fill="#F1E5C7"></path><path d="M104 118C109 114 115 113 120 115" fill="none" stroke="#2B2118" stroke-width="4.5" stroke-linecap="round"></path><path d="M153 118C148 114 142 113 137 115" fill="none" stroke="#2B2118" stroke-width="4.5" stroke-linecap="round"></path><path d="M108 126C112 123 116 123 120 126" fill="none" stroke="#2B2118" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path><ellipse cx="142" cy="126" rx="6.5" ry="7.8" fill="#FDFDFB"></ellipse><ellipse cx="142" cy="127" rx="4.8" ry="5.6" fill="#2B2118"></ellipse><circle cx="144" cy="124.5" r="1.2" fill="#FFFFFF"></circle><path d="M120 147
+           C123 143 125.5 142 128 142
+           C130.5 142 133 143 136 147
+           C134 152 131 155 128 155
+           C125 155 122 152 120 147Z" fill="#3B2A22"></path><path d="M128 155L128 161" fill="none" stroke="#3B2A22" stroke-width="3.5" stroke-linecap="round" opacity="0.85"></path></svg></g></g></svg>

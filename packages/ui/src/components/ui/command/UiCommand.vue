@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, provide, ref, useAttrs, useId, watch } from 'vue';
+import { computed, nextTick, provide, ref, useAttrs, useId, watch } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
@@ -129,7 +129,12 @@ provide(COMMAND_KEY, {
   unregisterItem,
 });
 
-watch(selectedValue, (val) => emit('update:selected', val));
+watch(selectedValue, async (val) => {
+  emit('update:selected', val);
+  if (!val) return;
+  await nextTick();
+  document.getElementById(itemValueToId(val))?.scrollIntoView({ block: 'nearest' });
+});
 </script>
 
 <template>

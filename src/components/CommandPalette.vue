@@ -95,12 +95,40 @@ function onOpenChange(val: boolean) {
     previewComponent.value = null
   }
 }
+
+// Selected item metadata derived from previewPath
+const selectedItem = computed<{ name: string; group: string } | null>(() => {
+  if (!previewPath.value) return null
+  for (const group of allGroups.value) {
+    const found = group.items.find((i) => i.fullPath === previewPath.value)
+    if (found) return { name: found.name, group: found.group }
+  }
+  return null
+})
+
+// SVG path data for each group icon
+const groupIconMap: Record<string, string> = {
+  General:    'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',
+  Layout:     'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z',
+  Formularios:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM8 13h8M8 17h5M14 2v6h6',
+  Navegación: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
+  Charts:     'M18 20V10M12 20V4M6 20v-6',
+  Feedback:   'M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0',
+  Overlay:    'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
+  Data:       'M12 2C6.48 2 2 4.69 2 8s4.48 6 10 6 10-2.69 10-6-4.48-6-10-6zM2 8v4c0 3.31 4.48 6 10 6s10-2.69 10-6V8M2 12v4c0 3.31 4.48 6 10 6s10-2.69 10-6v-4',
+  Media:      'M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM8.5 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm10.5 7H5l4-5 3 3.5 3-2.5 4 4z',
+  Other:      'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',
+}
+
+function getGroupIcon(group: string): string {
+  return groupIconMap[group] ?? groupIconMap['Other']!
+}
 </script>
 
 <template>
   <CommandDialog
     :open="props.open"
-    :show-close="true"
+    :show-close="false"
     class="sm:max-w-[860px]"
     @update:open="onOpenChange"
     @update:selected="previewPath = $event"
@@ -108,35 +136,142 @@ function onOpenChange(val: boolean) {
   >
     <div class="flex h-[540px] p-3 gap-3">
       <!-- Lista izquierda -->
-      <div class="flex w-[320px] shrink-0 flex-col border border-border rounded-lg overflow-hidden">
+      <div class="flex w-[320px] shrink-0 flex-col border border-border/60 shadow-sm rounded-lg overflow-hidden">
         <CommandInput placeholder="Buscar componente..." />
-        <CommandList class="flex-1 overflow-auto">
+        <CommandList class="flex-1 overflow-auto max-h-none">
           <CommandEmpty>Sin resultados.</CommandEmpty>
           <CommandGroup
             v-for="group in allGroups"
             :key="group.label"
-            :heading="group.label"
           >
+            <!-- Custom group header -->
+            <div class="flex items-center gap-1.5 px-2 pt-3 pb-1">
+              <span class="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground/60">{{ group.label }}</span>
+              <span class="ml-auto text-[10px] tabular-nums text-muted-foreground/40">{{ group.items.length }}</span>
+            </div>
             <CommandItem
               v-for="item in group.items"
               :key="item.fullPath"
               :value="item.fullPath"
+              class="relative flex items-center gap-2 pl-3"
               @select="onSelect(item.fullPath)"
             >
+              <!-- Active pip indicator -->
+              <span
+                v-if="previewPath === item.fullPath"
+                class="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-primary"
+              />
+              <!-- Group icon -->
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                class="w-3.5 h-3.5 shrink-0 opacity-60"
+              >
+                <path :d="getGroupIcon(item.group)" />
+              </svg>
               {{ item.name }}
             </CommandItem>
           </CommandGroup>
         </CommandList>
       </div>
+
       <!-- Preview derecha -->
-      <div class="flex-1 overflow-auto bg-muted/30 rounded-lg">
-        <div v-if="previewComponent" class="h-full overflow-auto p-6">
-          <component :is="previewComponent" />
-        </div>
-        <div v-else class="flex h-full items-center justify-center text-muted-foreground text-sm">
-          <span>Selecciona un componente para ver la preview</span>
+      <div class="flex flex-col flex-1 overflow-hidden bg-gradient-to-br from-background to-muted/40 rounded-lg">
+        <template v-if="previewComponent">
+          <!-- Preview header -->
+          <div class="flex items-center justify-between px-4 py-2.5 border-b border-border/60 bg-background/60 backdrop-blur-sm shrink-0">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-sm">{{ selectedItem?.name }}</span>
+              <span class="rounded-full bg-muted px-2 py-0.5 text-[10px] text-muted-foreground">{{ selectedItem?.group }}</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <button
+                class="flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+                @click="onSelect(previewPath)"
+              >
+                Abrir
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  class="w-3 h-3"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </button>
+              <button
+                class="rounded-md p-1 opacity-70 hover:opacity-100 transition-opacity"
+                @click="$emit('update:open', false)"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <!-- Preview content -->
+          <div class="flex-1 overflow-auto p-6">
+            <Transition name="preview" mode="out-in">
+              <component :is="previewComponent" :key="previewPath" />
+            </Transition>
+          </div>
+        </template>
+        <div
+          v-else
+          class="flex h-full flex-col items-center justify-center gap-3 text-center px-8 relative"
+        >
+          <button
+            class="absolute top-2 right-2 rounded-md p-1 opacity-70 hover:opacity-100 transition-opacity"
+            @click="$emit('update:open', false)"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 12 12" />
+            </svg>
+          </button>
+          <div class="rounded-full bg-muted p-3">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              class="w-6 h-6 text-muted-foreground"
+            >
+              <rect x="3" y="3" width="7" height="7" />
+              <rect x="14" y="3" width="7" height="7" />
+              <rect x="14" y="14" width="7" height="7" />
+              <rect x="3" y="14" width="7" height="7" />
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm font-medium">Selecciona un componente</p>
+            <p class="text-xs text-muted-foreground/60 mt-1">Usa el buscador o navega por grupos</p>
+          </div>
         </div>
       </div>
     </div>
   </CommandDialog>
 </template>
+
+<style scoped>
+.preview-enter-active,
+.preview-leave-active {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.preview-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.preview-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+</style>
