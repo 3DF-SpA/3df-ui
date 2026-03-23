@@ -47,7 +47,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="border-border/60 border-b-ui flex items-center px-3" data-command-input-wrapper>
+  <div class="border-border/60 border-b-ui flex items-center px-4" data-command-input-wrapper>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -72,7 +72,7 @@ onMounted(async () => {
       :placeholder="placeholder"
       :class="
         cn(
-          'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none',
+          'flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none',
           'placeholder:text-muted-foreground',
           'disabled:cursor-not-allowed disabled:opacity-50',
           attrs.class,
