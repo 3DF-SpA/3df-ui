@@ -1394,6 +1394,20 @@ resetConfig()
 import { Ui3df, Ui3dfRadius, Ui3dfBorderOpacity, Ui3dfLetterSpacing, use3dfConfig } from '@3df-spa/ui'
 ```
 
+### Color Presets disponibles (9)
+
+| id | Label |
+|---|---|
+| `default` | Default |
+| `blue` | Blue |
+| `violet` | Violet |
+| `rose` | Rose |
+| `orange` | Orange |
+| `emerald` | Emerald |
+| `cyan` | Cyan |
+| `amber` | Amber |
+| `fuchsia` | Fuchsia |
+
 ### Reglas
 
 - Llamar `use3dfConfig()` **una sola vez** en `App.vue` para restaurar config al recargar

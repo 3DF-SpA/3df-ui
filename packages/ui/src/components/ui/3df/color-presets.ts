@@ -99,4 +99,52 @@ export const COLOR_PRESETS: ColorPreset[] = [
       '--ring': 'hsl(158 64% 52%)',
     },
   },
+  {
+    id: 'cyan',
+    label: 'Cyan',
+    preview: ['#0e7490', '#06b6d4', '#a5f3fc'],
+    previewDark: ['#22d3ee', '#0891b2', '#083344'],
+    varsLight: {
+      '--primary': 'hsl(192 91% 36%)',
+      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--ring': 'hsl(192 91% 36%)',
+    },
+    varsDark: {
+      '--primary': 'hsl(187 85% 53%)',
+      '--primary-foreground': 'hsl(187 50% 7%)',
+      '--ring': 'hsl(187 85% 53%)',
+    },
+  },
+  {
+    id: 'amber',
+    label: 'Amber',
+    preview: ['#92400e', '#f59e0b', '#fde68a'],
+    previewDark: ['#fcd34d', '#d97706', '#451a03'],
+    varsLight: {
+      '--primary': 'hsl(38 92% 50%)',
+      '--primary-foreground': 'hsl(38 50% 7%)',
+      '--ring': 'hsl(38 92% 50%)',
+    },
+    varsDark: {
+      '--primary': 'hsl(43 96% 56%)',
+      '--primary-foreground': 'hsl(43 50% 7%)',
+      '--ring': 'hsl(43 96% 56%)',
+    },
+  },
+  {
+    id: 'fuchsia',
+    label: 'Fuchsia',
+    preview: ['#a21caf', '#d946ef', '#f5d0fe'],
+    previewDark: ['#e879f9', '#c026d3', '#4a044e'],
+    varsLight: {
+      '--primary': 'hsl(295 72% 40%)',
+      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--ring': 'hsl(295 72% 40%)',
+    },
+    varsDark: {
+      '--primary': 'hsl(292 84% 61%)',
+      '--primary-foreground': 'hsl(292 45% 8%)',
+      '--ring': 'hsl(292 84% 61%)',
+    },
+  },
 ];
