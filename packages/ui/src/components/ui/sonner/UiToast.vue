@@ -32,10 +32,10 @@ const icon = computed(() => iconMap[props.toast.variant]);
 const variantClasses = computed(() => {
   const map: Record<string, string> = {
     default: 'bg-card text-foreground',
-    success: 'bg-success/10 text-success',
-    error: 'bg-destructive/10 text-destructive',
-    warning: 'bg-warning/10 text-warning',
-    info: 'bg-info/10 text-info',
+    success: 'bg-success/15 text-success',
+    error: 'bg-destructive/15 text-destructive',
+    warning: 'bg-warning/15 text-warning',
+    info: 'bg-info/15 text-info',
   };
   return map[props.toast.variant] ?? map.default;
 });
@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
   <li
     :class="
       cn(
-        'border-ui border-border pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg px-4 py-3 shadow-lg',
+        'border border-border pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-lg px-4 py-3 shadow-lg',
         'transition-all duration-300 ease-out',
         isVisible && !isLeaving
           ? 'translate-y-0 scale-100 opacity-100'
