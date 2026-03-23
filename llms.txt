@@ -54,31 +54,97 @@ import { resolve } from 'path';
 
 ## Design Tokens
 
-All components use CSS custom properties defined in `theme.css`. Key tokens:
+`theme.css` tiene 4 bloques de configuración:
 
-| Token | Default | Usage |
+### 1. `:root` — Tokens semánticos (light)
+
+Variables CSS base que definen todos los colores en modo claro:
+
+| Token | Valor | Descripción |
 |---|---|---|
-| `--color-primary` | hsl(0 0% 0%) | Primary actions, buttons |
-| `--color-secondary` | hsl(0 0% 94%) | Secondary backgrounds |
-| `--color-muted` | hsl(0 0% 96%) | Subtle backgrounds |
-| `--color-muted-foreground` | hsl(0 0% 45%) | Secondary text |
-| `--color-destructive` | hsl(0 84% 50%) | Errors, delete actions |
-| `--color-border` | hsl(0 0% 85%) | Default borders |
-| `--color-background` | hsl(0 0% 98%) | Page background |
-| `--color-card` | hsl(0 0% 100%) | Card backgrounds |
-| `--ui-border-width` | 2px | All component borders (set 0px for borderless) |
-| `--ui-radius` | 0.625rem | Base border radius (scales all rounded-* variants) |
-| `--ui-border-opacity` | 0.5 | Opacidad global de bordes (controlada por 3df Customizer) |
-| `--ui-letter-spacing` | 0 | Letter spacing global (controlada por 3df Customizer) |
+| `--background` | hsl(0 0% 100%) | Fondo de página |
+| `--foreground` | hsl(240 10% 3.9%) | Texto principal |
+| `--card` | hsl(0 0% 100%) | Fondo de cards |
+| `--primary` | hsl(240 5.9% 10%) | Acciones primarias |
+| `--secondary` | hsl(240 4.8% 95.9%) | Fondos secundarios |
+| `--muted` | hsl(240 4.8% 95.9%) | Fondos sutiles |
+| `--muted-foreground` | hsl(240 3.8% 46.1%) | Texto secundario |
+| `--accent` | hsl(240 4.8% 95.9%) | Hover/highlight |
+| `--destructive` | hsl(0 84.2% 60.2%) | Errores / eliminar |
+| `--success` | hsl(142 76% 36%) | Éxito |
+| `--warning` | hsl(38 92% 50%) | Advertencia |
+| `--info` | hsl(217 91% 60%) | Información |
+| `--border` | hsl(--border-hsl / --ui-border-opacity) | Bordes dinámicos con opacidad |
+| `--ring` | hsl(240 10% 3.9%) | Focus ring |
+| `--radius` | 1rem | Base del sistema de border-radius |
+| `--ui-border-opacity` | 0.5 | Opacidad global de bordes (3df Customizer) |
+| `--ui-radius` | 1rem | Radio controlado por 3df Customizer |
+| `--ui-letter-spacing` | 0em | Letter spacing global (3df Customizer) |
 
-Dark mode: add `.dark` class to `<html>`.
-Dark mode colors (v1.3.0+): `--destructive`, `--warning`, `--success` ajustados para visibilidad en fondos oscuros.
+### 2. `.dark` — Overrides modo oscuro
+
+Añadir clase `.dark` al `<html>` para activar dark mode. Los valores de `:root` se sobreescriben:
+
+```css
+/* Activar dark mode */
+document.documentElement.classList.add('dark')
+```
+
+Cambios clave en dark: `--background: hsl(240 10% 3.9%)`, `--foreground: hsl(0 0% 98%)`, `--destructive: hsl(0 72% 62%)` (ajustado para visibilidad en fondos oscuros), `--success: hsl(142 71% 60%)`, `--warning: hsl(38 95% 62%)`.
+
+### 3. `@theme inline` — Mapeo a utilidades Tailwind
+
+Este bloque convierte todos los tokens semánticos en clases Tailwind utilizables directamente:
+
+**Colores** → clases `bg-*`, `text-*`, `border-*`:
+```
+bg-background    text-foreground      border-border
+bg-card          text-card-foreground
+bg-popover       text-popover-foreground
+bg-primary       text-primary-foreground
+bg-secondary     text-secondary-foreground
+bg-muted         text-muted-foreground
+bg-accent        text-accent-foreground
+bg-destructive   text-destructive-foreground
+bg-success       text-success-foreground
+bg-warning       text-warning-foreground
+bg-info          text-info-foreground
+bg-sidebar       text-sidebar-foreground
+```
+
+**Charts** → `text-chart-1` ... `text-chart-12`, `bg-chart-1` ... `bg-chart-12`
+
+**Radius** → `rounded-sm`, `rounded-md`, `rounded-lg`, `rounded-xl` (escalan desde `--radius`)
+
+**Shadows** → `shadow-2xs`, `shadow-xs`, `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-2xl`, `shadow-inner`
+
+**Fonts** → `font-sans`, `font-serif`, `font-mono`
+
+**Animations** → `animate-fade-in`, `animate-fade-out`, `animate-slide-up`, `animate-slide-down`, `animate-scale-in`, `animate-scale-out`, `animate-shimmer`, `animate-pulse-soft` (ver sección 4)
+
+### 4. `@theme` — Animaciones y durations
+
+Clases de animación disponibles:
+
+| Clase | Descripción |
+|---|---|
+| `animate-fade-in` | Fade entrada suave |
+| `animate-fade-out` | Fade salida |
+| `animate-slide-up` | Slide desde abajo |
+| `animate-slide-down` | Slide desde arriba |
+| `animate-scale-in` | Scale + fade entrada |
+| `animate-scale-out` | Scale + fade salida |
+| `animate-shimmer` | Skeleton shimmer loop |
+| `animate-pulse-soft` | Pulse suave loop |
+
+Duration utilities: `duration-instant` (75ms), `duration-fast` (150ms), `duration-normal` (250ms), `duration-slow` (350ms), `duration-deliberate` (500ms)
 
 Global customization:
 ```css
 :root {
-  --ui-border-width: 1px;  /* thinner borders */
-  --ui-radius: 1rem;       /* rounder corners */
+  --ui-border-width: 1px;  /* bordes más finos */
+  --ui-radius: 1rem;       /* esquinas más redondeadas */
+  --ui-border-opacity: 0.8; /* bordes más visibles */
 }
 ```
 
