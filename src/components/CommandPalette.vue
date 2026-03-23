@@ -106,9 +106,9 @@ function onOpenChange(val: boolean) {
     @update:selected="previewPath = $event"
     @select="onSelect"
   >
-    <div class="flex h-[500px]">
+    <div class="flex h-[540px] p-3 gap-3">
       <!-- Lista izquierda -->
-      <div class="flex w-[320px] shrink-0 flex-col border-r border-border">
+      <div class="flex w-[320px] shrink-0 flex-col border border-border rounded-lg overflow-hidden">
         <CommandInput placeholder="Buscar componente..." />
         <CommandList class="flex-1 overflow-auto">
           <CommandEmpty>Sin resultados.</CommandEmpty>
@@ -129,8 +129,8 @@ function onOpenChange(val: boolean) {
         </CommandList>
       </div>
       <!-- Preview derecha -->
-      <div class="flex-1 overflow-auto bg-muted/30">
-        <div v-if="previewComponent" class="h-full overflow-auto p-4">
+      <div class="flex-1 overflow-auto bg-muted/30 rounded-lg">
+        <div v-if="previewComponent" class="h-full overflow-auto p-6">
           <component :is="previewComponent" />
         </div>
         <div v-else class="flex h-full items-center justify-center text-muted-foreground text-sm">
