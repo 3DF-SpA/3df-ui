@@ -3,7 +3,7 @@ export { default as Ui3dfRadius } from './Ui3dfRadius.vue';
 export { default as Ui3dfBorderOpacity } from './Ui3dfBorderOpacity.vue';
 export { default as Ui3dfLetterSpacing } from './Ui3dfLetterSpacing.vue';
 export { default as Ui3dfColorPreset } from './Ui3dfColorPreset.vue';
-export { use3dfConfig, DEFAULT_CONFIG, RADIUS_STEPS, CONFIG_VERSION, applyColorVars, applyFontVar, config3df } from './use-3df-config';
+export { use3dfConfig, DEFAULT_CONFIG, RADIUS_STEPS, applyColorVars, applyFontVar, config3df } from './use-3df-config';
 export { COLOR_PRESETS } from './color-presets';
 export type { Ui3dfConfig } from './use-3df-config';
 export type { ColorPreset } from './color-presets';

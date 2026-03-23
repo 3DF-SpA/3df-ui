@@ -1,6 +1,5 @@
 import { ref, watchEffect, computed } from 'vue';
-import { config3df } from '@3df-spa/ui';
-import { COLOR_PRESETS } from '@3df-spa/ui';
+import { config3df, COLOR_PRESETS } from '@3df-spa/ui';
 
 export type { ColorPreset } from '@3df-spa/ui';
 export { COLOR_PRESETS };
@@ -49,5 +48,3 @@ export function useTheme() {
   };
 }
 
-export const THEMES = INLINE_PRESETS;
-export type ThemeId = string;
