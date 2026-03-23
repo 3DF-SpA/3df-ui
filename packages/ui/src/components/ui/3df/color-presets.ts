@@ -47,7 +47,7 @@ export const COLOR_PRESETS: ColorPreset[] = [
     },
     varsDark: {
       '--primary': 'hsl(263 70% 65%)',
-      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--primary-foreground': 'hsl(263 40% 8%)',
       '--ring': 'hsl(263 70% 65%)',
     },
   },
@@ -57,13 +57,13 @@ export const COLOR_PRESETS: ColorPreset[] = [
     preview: ['#be123c', '#f43f5e', '#fda4af'],
     previewDark: ['#fb7185', '#e11d48', '#4c0519'],
     varsLight: {
-      '--primary': 'hsl(347 77% 50%)',
+      '--primary': 'hsl(347 77% 43%)',
       '--primary-foreground': 'hsl(0 0% 98%)',
-      '--ring': 'hsl(347 77% 50%)',
+      '--ring': 'hsl(347 77% 43%)',
     },
     varsDark: {
       '--primary': 'hsl(347 77% 62%)',
-      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--primary-foreground': 'hsl(347 40% 8%)',
       '--ring': 'hsl(347 77% 62%)',
     },
   },
@@ -74,12 +74,12 @@ export const COLOR_PRESETS: ColorPreset[] = [
     previewDark: ['#fb923c', '#ea580c', '#431407'],
     varsLight: {
       '--primary': 'hsl(25 95% 53%)',
-      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--primary-foreground': 'hsl(25 50% 8%)',
       '--ring': 'hsl(25 95% 53%)',
     },
     varsDark: {
       '--primary': 'hsl(21 90% 58%)',
-      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--primary-foreground': 'hsl(21 50% 8%)',
       '--ring': 'hsl(21 90% 58%)',
     },
   },
@@ -90,12 +90,12 @@ export const COLOR_PRESETS: ColorPreset[] = [
     previewDark: ['#34d399', '#059669', '#022c22'],
     varsLight: {
       '--primary': 'hsl(160 84% 39%)',
-      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--primary-foreground': 'hsl(160 50% 6%)',
       '--ring': 'hsl(160 84% 39%)',
     },
     varsDark: {
       '--primary': 'hsl(158 64% 52%)',
-      '--primary-foreground': 'hsl(0 0% 98%)',
+      '--primary-foreground': 'hsl(158 50% 6%)',
       '--ring': 'hsl(158 64% 52%)',
     },
   },
