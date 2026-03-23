@@ -1,7 +1,8 @@
 import { onMounted, ref, watch } from 'vue';
 import { COLOR_PRESETS, OVERRIDABLE_PRESET_VARS } from './color-presets';
+import { FONT_OPTIONS } from './font-options';
 
-export const CONFIG_VERSION = 2;
+export const CONFIG_VERSION = 3;
 const STORAGE_KEY = '3df:config';
 
 export const RADIUS_STEPS = [
@@ -21,6 +22,7 @@ export interface Ui3dfConfig {
   borderOpacity: number;
   letterSpacing: number;
   colorPreset: string;
+  fontId: string;
 }
 
 export const DEFAULT_CONFIG: Ui3dfConfig = {
@@ -29,6 +31,7 @@ export const DEFAULT_CONFIG: Ui3dfConfig = {
   borderOpacity: 0.5,
   letterSpacing: 0,
   colorPreset: 'default',
+  fontId: 'inter',
 };
 
 // Singleton module-level state
@@ -47,6 +50,12 @@ export function applyColorVars(presetId: string, isDark: boolean): void {
   Object.entries(vars).forEach(([k, v]) => root.style.setProperty(k, v));
 }
 
+export function applyFontVar(fontId: string): void {
+  if (isSSR()) return;
+  const font = FONT_OPTIONS.find(f => f.id === fontId) ?? FONT_OPTIONS[0]!;
+  document.documentElement.style.setProperty('--font-sans', font.stack);
+}
+
 function applyCSS(cfg: Ui3dfConfig): void {
   if (isSSR()) return;
   const radius = RADIUS_STEPS[cfg.radiusStep]?.value ?? '1rem';
@@ -55,6 +64,7 @@ function applyCSS(cfg: Ui3dfConfig): void {
   document.documentElement.style.setProperty('--ui-border-opacity', String(cfg.borderOpacity));
   document.documentElement.style.setProperty('--ui-letter-spacing', `${cfg.letterSpacing}em`);
   applyColorVars(cfg.colorPreset, document.documentElement.classList.contains('dark'));
+  applyFontVar(cfg.fontId);
 }
 
 function loadFromStorage(): Ui3dfConfig {
