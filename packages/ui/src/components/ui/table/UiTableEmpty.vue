@@ -9,6 +9,7 @@ defineOptions({ name: 'UiTableEmpty', inheritAttrs: false });
 
 interface UiTableEmptyProps {
   colspan?: number;
+  label: string;
 }
 
 withDefaults(defineProps<UiTableEmptyProps>(), {
@@ -18,7 +19,6 @@ withDefaults(defineProps<UiTableEmptyProps>(), {
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
 const restAttrs = computed(() => {
-   
   const { class: _cls, ...rest } = attrs;
   return rest;
 });
@@ -29,7 +29,7 @@ const classes = computed(() => cn('h-24 text-center text-muted-foreground', attr
 <template>
   <tr v-bind="restAttrs">
     <td :colspan="colspan" :class="classes">
-      <slot>No hay resultados.</slot>
+      <slot>{{ label }}</slot>
     </td>
   </tr>
 </template>

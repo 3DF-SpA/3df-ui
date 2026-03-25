@@ -9,6 +9,7 @@ import Ui3dfBorderOpacity from './Ui3dfBorderOpacity.vue';
 import Ui3dfLetterSpacing from './Ui3dfLetterSpacing.vue';
 import Ui3dfColorPreset from './Ui3dfColorPreset.vue';
 import Ui3dfFont from './Ui3dfFont.vue';
+import Ui3dfTheme from './Ui3dfTheme.vue';
 
 defineOptions({ name: 'Ui3dfCustomizer', inheritAttrs: false });
 
@@ -59,6 +60,7 @@ defineExpose({ config, reset });
       <span class="text-sm font-semibold tracking-tight">{{ title }}</span>
     </div>
     <slot>
+      <Ui3dfTheme />
       <Ui3dfColorPreset />
       <Ui3dfFont />
       <Ui3dfRadius />
