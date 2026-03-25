@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useDocPage } from '@/i18n/composables/useDocPage';
-import { Avatar, AvatarFallback, AvatarImage } from '@3df-spa/ui';
+import { Avatar, AvatarFallback, AvatarImage, AvatarGroup } from '@3df-spa/ui';
 import DocCodeBlock from '@/components/docs/DocCodeBlock.vue';
 import DocHeader from '@/components/docs/DocHeader.vue';
 import DocPropsTable from '@/components/docs/DocPropsTable.vue';
@@ -54,12 +54,12 @@ const fallbackCode = `<!-- Imagen rota -->
   <AvatarFallback>MR</AvatarFallback>
 </Avatar>`;
 
-const teamCode = `<div class="flex -space-x-3">
-  <Avatar v-for="member in members" :key="member.name" class="border-background border-ui">
+const teamCode = `<AvatarGroup>
+  <Avatar v-for="member in members" :key="member.name">
     <AvatarImage v-if="member.src" :src="member.src" :alt="member.name" />
     <AvatarFallback>{{ member.initials }}</AvatarFallback>
   </Avatar>
-</div>`;
+</AvatarGroup>`;
 
 const iconFallbackCode = `<Avatar size="lg">
   <AvatarFallback>
@@ -181,12 +181,12 @@ const teamMembers = [
       :description="showcaseDesc('team')"
       :code="teamCode"
     >
-      <div class="flex -space-x-3">
-        <Avatar v-for="member in teamMembers" :key="member.name" class="border-background border-ui">
+      <AvatarGroup>
+        <Avatar v-for="member in teamMembers" :key="member.name">
           <AvatarImage v-if="member.src" :src="member.src" :alt="member.name" />
           <AvatarFallback>{{ member.initials }}</AvatarFallback>
         </Avatar>
-      </div>
+      </AvatarGroup>
     </DocShowcase>
 
     <DocShowcase

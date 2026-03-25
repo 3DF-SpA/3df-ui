@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, provide, ref, useAttrs } from 'vue';
+import { computed, inject, provide, ref, useAttrs } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { AVATAR_KEY, type AvatarSize } from './avatar-types';
+import { AVATAR_GROUP_KEY, AVATAR_KEY, type AvatarSize } from './avatar-types';
 
 defineOptions({ name: 'UiAvatar', inheritAttrs: false });
 
@@ -21,7 +21,12 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const sizeRef = computed(() => props.size);
+const groupCtx = inject(AVATAR_GROUP_KEY, null);
+
+const sizeRef = computed<AvatarSize>(() => {
+  if (props.size !== 'md') return props.size;
+  return groupCtx ? groupCtx.size.value : props.size;
+});
 
 const sizeClasses: Record<AvatarSize, string> = {
   xs: 'h-6 w-6 text-xs',
@@ -39,12 +44,16 @@ provide(AVATAR_KEY, {
   imageError,
   size: sizeRef,
 });
+
+const ringClass = computed(() =>
+  groupCtx && groupCtx.overlap.value ? 'ring-2 ring-background' : '',
+);
 </script>
 
 <template>
   <span
     v-bind="restAttrs"
-    :class="cn('relative flex shrink-0 overflow-hidden rounded-full', sizeClasses[sizeRef], attrs.class)"
+    :class="cn('relative flex shrink-0 overflow-hidden rounded-full', sizeClasses[sizeRef], ringClass, attrs.class)"
   >
     <slot />
   </span>
