@@ -251,7 +251,7 @@ const triggerClasses = computed(() =>
             'bg-popover text-popover-foreground border border-border rounded-md',
             'shadow-md',
             'p-1',
-            'max-h-60 overflow-auto',
+            'max-h-[60dvh] sm:max-h-60 overflow-auto',
           )
         "
       >

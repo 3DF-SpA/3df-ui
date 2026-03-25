@@ -4,8 +4,8 @@ export const alertVariants = cva(
   [
     'relative w-full rounded-lg',
     'border border-border/30 border-l-[3px]',
-    'px-4 py-3 text-sm',
-    '[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-3.5 [&>svg]:size-4 [&>svg]:text-current',
+    'px-3 py-2.5 sm:px-4 sm:py-3 text-sm',
+    '[&>svg]:absolute [&>svg]:left-3 sm:[&>svg]:left-4 [&>svg]:top-3 [&>svg]:size-4 [&>svg]:text-current',
     '[&>svg+div]:translate-y-[-3px] [&>svg~*]:pl-7',
   ].join(' '),
   {

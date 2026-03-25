@@ -15,7 +15,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn('group flex flex-1 list-none items-center justify-center gap-1', attrs.class),
+  cn('group flex flex-1 list-none items-center justify-center gap-1 flex-nowrap', attrs.class),
 );
 </script>
 

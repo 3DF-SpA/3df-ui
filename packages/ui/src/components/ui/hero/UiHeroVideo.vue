@@ -16,6 +16,7 @@ interface Props {
   poster?: string;
   overlay?: 'dark' | 'light' | 'gradient' | 'none';
   overlayOpacity?: number;
+  minHeight?: string;
   compact?: boolean;
 }
 
@@ -78,8 +79,8 @@ function handleAction(action: HeroAction, index: number) {
 <template>
   <section
     v-bind="restAttrs"
-    :class="cn('relative w-full overflow-hidden', attrs.class)"
-    :style="{ minHeight: '500px' }"
+    :class="cn('relative w-full overflow-hidden', !minHeight && 'min-h-[280px] sm:min-h-[400px] md:min-h-[500px]', attrs.class)"
+    :style="minHeight ? { minHeight } : undefined"
   >
     <video
       class="absolute inset-0 h-full w-full object-cover"

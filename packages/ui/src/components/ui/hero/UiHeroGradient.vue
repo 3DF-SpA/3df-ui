@@ -93,12 +93,12 @@ function handleAction(action: HeroAction, index: number) {
   >
     <template v-if="blobs">
       <div
-        class="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full blur-3xl"
+        class="pointer-events-none absolute -top-24 -left-24 hidden h-72 w-72 rounded-full blur-3xl sm:block"
         :style="{ background: blobColors[0] }"
         aria-hidden="true"
       />
       <div
-        class="pointer-events-none absolute -right-24 -bottom-24 h-96 w-96 rounded-full blur-3xl"
+        class="pointer-events-none absolute -right-24 -bottom-24 hidden h-96 w-96 rounded-full blur-3xl sm:block"
         :style="{ background: blobColors[1] }"
         aria-hidden="true"
       />

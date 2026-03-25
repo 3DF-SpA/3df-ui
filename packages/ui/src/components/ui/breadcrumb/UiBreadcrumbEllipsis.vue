@@ -19,7 +19,7 @@ const restAttrs = computed(() => {
     v-bind="restAttrs"
     role="presentation"
     aria-hidden="true"
-    :class="cn('flex h-9 w-9 items-center justify-center', attrs.class)"
+    :class="cn('flex h-9 w-9 min-h-[36px] min-w-[36px] items-center justify-center', attrs.class)"
   >
     <slot>
       <svg

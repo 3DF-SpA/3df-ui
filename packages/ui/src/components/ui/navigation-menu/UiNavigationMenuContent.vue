@@ -22,7 +22,7 @@ const isActive = computed(() => menu.activeValue.value === item.value);
 
 const classes = computed(() =>
   cn(
-    'bg-popover text-popover-foreground rounded-lg border border-border p-4 shadow-lg',
+    'bg-popover text-popover-foreground rounded-lg border border-border p-4 shadow-lg max-w-[calc(100vw-1rem)]',
     attrs.class,
   ),
 );

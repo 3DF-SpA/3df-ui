@@ -78,7 +78,7 @@ function onSelect(value: string) {
           aria-haspopup="listbox"
           :class="
             cn(
-              'border-ui border-input bg-foreground/5 ring-offset-background flex h-10 w-full min-w-[200px] items-center justify-between rounded-md px-3 py-2 text-sm',
+              'border-ui border-input bg-foreground/5 ring-offset-background flex h-10 w-full items-center justify-between rounded-md px-3 py-2 text-sm',
               'hover:bg-accent/50',
               'focus-visible:outline-2 focus-visible:outline-ring',
               !modelValue && 'text-muted-foreground',
@@ -106,7 +106,7 @@ function onSelect(value: string) {
         </button>
       </template>
     </UiPopoverTrigger>
-    <UiPopoverContent align="start" class="min-w-[200px] p-0">
+    <UiPopoverContent align="start" class="w-full min-w-[var(--radix-popover-trigger-width,0px)] p-0">
       <UiCommand>
         <UiCommandInput v-model="search" :placeholder="searchPlaceholder" />
         <UiCommandList>

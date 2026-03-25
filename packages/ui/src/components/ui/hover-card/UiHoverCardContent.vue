@@ -82,7 +82,7 @@ useFloatingLifecycle({
         :style="positionStyle"
         :class="
           cn(
-            'z-50 w-64',
+            'z-50 w-64 max-w-[calc(100vw-1rem)]',
             'bg-popover text-popover-foreground',
             'border border-border rounded-md p-4 shadow-md outline-none',
             attrs.class,

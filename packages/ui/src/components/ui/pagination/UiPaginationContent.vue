@@ -15,7 +15,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn('flex flex-row items-center gap-1', attrs.class),
+  cn('flex flex-row flex-wrap items-center gap-1', attrs.class),
 );
 </script>
 

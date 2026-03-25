@@ -19,6 +19,7 @@ interface Props {
   columns?: 3 | 4 | 5 | 6;
   showNames?: boolean;
   logoHeight?: number;
+  logoHeightMobile?: number;
   grayscale?: boolean;
   heading?: string;
 }
@@ -27,6 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
   columns: 4,
   showNames: false,
   logoHeight: 40,
+  logoHeightMobile: 28,
   grayscale: true,
 });
 
@@ -74,10 +76,25 @@ const gridCols = computed(() => {
         <img
           :src="logo.src"
           :alt="logo.alt ?? logo.name"
+          :style="{ maxHeight: `${logoHeightMobile}px` }"
+          :class="
+            cn(
+              'w-auto object-contain transition-all duration-300 select-none sm:hidden',
+              grayscale &&
+                'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 hover:opacity-100 hover:grayscale-0',
+              !grayscale && 'opacity-70 group-hover:opacity-100 hover:opacity-100',
+            )
+          "
+          loading="lazy"
+          draggable="false"
+        />
+        <img
+          :src="logo.src"
+          :alt="logo.alt ?? logo.name"
           :style="{ maxHeight: `${logoHeight}px` }"
           :class="
             cn(
-              'w-auto object-contain transition-all duration-300 select-none',
+              'w-auto object-contain transition-all duration-300 select-none hidden sm:block',
               grayscale &&
                 'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 hover:opacity-100 hover:grayscale-0',
               !grayscale && 'opacity-70 group-hover:opacity-100 hover:opacity-100',
