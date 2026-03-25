@@ -76,25 +76,11 @@ const gridCols = computed(() => {
         <img
           :src="logo.src"
           :alt="logo.alt ?? logo.name"
-          :style="{ maxHeight: `${logoHeightMobile}px` }"
+          :style="{ '--logo-h': `${logoHeight}px`, '--logo-h-mobile': `${logoHeightMobile}px` }"
           :class="
             cn(
-              'w-auto object-contain transition-all duration-300 select-none sm:hidden',
-              grayscale &&
-                'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 hover:opacity-100 hover:grayscale-0',
-              !grayscale && 'opacity-70 group-hover:opacity-100 hover:opacity-100',
-            )
-          "
-          loading="lazy"
-          draggable="false"
-        />
-        <img
-          :src="logo.src"
-          :alt="logo.alt ?? logo.name"
-          :style="{ maxHeight: `${logoHeight}px` }"
-          :class="
-            cn(
-              'w-auto object-contain transition-all duration-300 select-none hidden sm:block',
+              'w-auto object-contain transition-all duration-300 select-none',
+              '[max-height:var(--logo-h-mobile)] sm:[max-height:var(--logo-h)]',
               grayscale &&
                 'opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 hover:opacity-100 hover:grayscale-0',
               !grayscale && 'opacity-70 group-hover:opacity-100 hover:opacity-100',
