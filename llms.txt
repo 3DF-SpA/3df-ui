@@ -4,7 +4,7 @@
 
 ## Overview
 
-`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles. **v1.3.2**
+`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles. **v1.3.4**
 `@3df-spa/charts` — SVG chart library for Vue 3. Zero external dependencies. 6 chart types.
 
 Both are published publicly to npmjs.org under the `@3df-spa` scope.
@@ -356,6 +356,8 @@ const otp = ref('')
 ```
 
 ### Card
+
+> **UiCard notes:** El root incluye `overflow-hidden min-w-0 w-full` para que `border-radius` clipee correctamente el contenido. Header, Content y Footer usan padding responsive `p-3 sm:p-6`. Title y Description incluyen `break-words` para evitar overflow de texto.
 
 ```vue
 <script setup lang="ts">
@@ -977,6 +979,8 @@ Sub-componentes disponibles:
 - `SidebarTrigger` — Botón para colapsar/expandir el sidebar en desktop.
 - `SidebarMobileTrigger` — Botón hamburger para móvil. Visible solo en breakpoint mobile. Requiere estar dentro de UiSidebarProvider.
 
+> **Border:** El sidebar panel usa `border-r-ui`/`border-l-ui` con `var(--border)` (responde al Customizer, --ui-border-width, --ui-border-opacity). NO usa `border-sidebar-border`. El mobile sheet también tiene borde con `border-r-ui`/`border-l-ui`.
+
 ```vue
 <script setup lang="ts">
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarMobileTrigger } from '@3df-spa/ui'
@@ -1544,6 +1548,18 @@ Selector de tipografía con 4 fuentes (Inter, Plus Jakarta Sans, DM Sans, Outfit
 - El singleton Module-level garantiza que todos los componentes compartan la misma instancia
 - SSR-safe: usa `typeof window !== 'undefined'` guard
 - Config versionada (`version: 1`) — preparada para futuras migraciones
+
+---
+
+## Changelog
+
+### v1.3.4
+- **Sidebar border:** panel usa `border-r-ui`/`border-l-ui` (var(--border), customizer-aware). Eliminado `border-sidebar-border`.
+- **Sidebar mobile sheet:** añadido border con `border-r-ui`/`border-l-ui`.
+- **SidebarMobileTrigger:** nuevo componente exportado desde `@3df/ui`. Botón hamburger solo visible en móvil.
+- **Playground:** layout refactorizado para usar componentes nativos de `@3df/ui` (SidebarProvider, SidebarMenuButton :as=RouterLink, SidebarTrigger, SidebarInset).
+- **Responsive:** 20+ componentes mejorados (Badge, Tabs, Slider, Breadcrumb, Accordion, Banner, Menubar, Pagination, Command, Sonner, etc.).
+- **UiCard:** añadido `overflow-hidden min-w-0 w-full`; padding responsive `p-3 sm:p-6` en Header/Content/Footer; `break-words` en Title/Description.
 
 ---
 
