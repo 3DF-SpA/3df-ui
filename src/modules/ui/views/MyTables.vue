@@ -75,7 +75,7 @@ const emptyCode = `<Table>
     </TableRow>
   </TableHeader>
   <TableBody>
-    <TableEmpty :colspan="3" />
+    <TableEmpty :colspan="3" label="No hay resultados." />
   </TableBody>
 </Table>`;
 
@@ -159,7 +159,7 @@ const anatomyCode = `import {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableEmpty :colspan="3" />
+          <TableEmpty :colspan="3" label="No hay resultados." />
         </TableBody>
       </Table>
     </DocShowcase>

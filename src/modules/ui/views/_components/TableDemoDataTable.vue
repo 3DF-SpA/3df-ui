@@ -197,7 +197,7 @@ const total = computed(() => filtered.value.reduce((sum, r) => sum + r.amount, 0
             <TableCell class="text-right">{{ formatCurrency(inv.amount) }}</TableCell>
           </TableRow>
         </template>
-        <TableEmpty v-else :colspan="6">{{ t('demo.table.noInvoices') }}</TableEmpty>
+        <TableEmpty v-else :colspan="6" :label="t('demo.table.noInvoices')" />
       </TableBody>
       <TableFooter>
         <TableRow>
