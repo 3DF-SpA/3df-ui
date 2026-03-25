@@ -71,14 +71,14 @@ describe('UiCardContent', () => {
 
   it('contiene clases de padding base', () => {
     const wrapper = mount(UiCardContent);
-    expect(wrapper.classes()).toContain('p-6');
+    expect(wrapper.classes()).toContain('p-3');
     expect(wrapper.classes()).toContain('pt-0');
   });
 
   it('hace merge de clase extra', () => {
     const wrapper = mount(UiCardContent, { attrs: { class: 'extra' } });
     expect(wrapper.classes()).toContain('extra');
-    expect(wrapper.classes()).toContain('p-6');
+    expect(wrapper.classes()).toContain('p-3');
   });
 });
 
@@ -100,7 +100,7 @@ describe('UiCardHeader', () => {
   it('contiene clases flex y padding', () => {
     const wrapper = mount(UiCardHeader);
     expect(wrapper.classes()).toContain('flex');
-    expect(wrapper.classes()).toContain('p-6');
+    expect(wrapper.classes()).toContain('p-3');
   });
 
   it('hace merge de clase extra', () => {
