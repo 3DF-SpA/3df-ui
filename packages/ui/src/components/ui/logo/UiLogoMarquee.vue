@@ -16,7 +16,9 @@ interface Props {
   duration?: number;
   hoverDuration?: number;
   logoHeight?: number;
+  logoHeightMobile?: number;
   gap?: number;
+  gapMobile?: number;
   grayscale?: boolean;
   fadeMask?: boolean;
   pauseOnHover?: boolean;
@@ -30,7 +32,9 @@ const props = withDefaults(defineProps<Props>(), {
   duration: 30,
   hoverDuration: 80,
   logoHeight: 40,
+  logoHeightMobile: 28,
   gap: 48,
+  gapMobile: 32,
   grayscale: true,
   fadeMask: true,
   pauseOnHover: false,
@@ -120,7 +124,7 @@ onBeforeUnmount(() => {
       @mouseenter="onHoverEnter"
       @mouseleave="onHoverLeave"
     >
-      <div ref="primaryRef" class="flex w-max items-center" :style="{ gap: `${gap}px` }">
+      <div ref="primaryRef" class="marquee-track flex w-max items-center" :style="{ '--gap': `${gap}px`, '--gap-mobile': `${gapMobile}px` }">
         <div
           v-for="logo in logos"
           :key="`a-${logo.name}`"
@@ -129,9 +133,9 @@ onBeforeUnmount(() => {
           <img
             :src="logo.src"
             :alt="logo.alt ?? logo.name"
-            :style="{ height: `${logoHeight}px`, width: 'auto' }"
+            :style="{ maxHeight: `${logoHeight}px`, height: `${logoHeightMobile}px`, width: 'auto' }"
             :class="
-              cn('object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
+              cn('marquee-logo object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
             "
             loading="lazy"
             draggable="false"
@@ -152,9 +156,9 @@ onBeforeUnmount(() => {
           <img
             :src="logo.src"
             alt=""
-            :style="{ height: `${logoHeight}px`, width: 'auto' }"
+            :style="{ maxHeight: `${logoHeight}px`, height: `${logoHeightMobile}px`, width: 'auto' }"
             :class="
-              cn('object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
+              cn('marquee-logo object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
             "
             loading="lazy"
             draggable="false"
@@ -175,7 +179,7 @@ onBeforeUnmount(() => {
       @mouseenter="onHoverEnter"
       @mouseleave="onHoverLeave"
     >
-      <div ref="reverseRef" class="flex w-max items-center" :style="{ gap: `${gap}px` }">
+      <div ref="reverseRef" class="marquee-track flex w-max items-center" :style="{ '--gap': `${gap}px`, '--gap-mobile': `${gapMobile}px` }">
         <div
           v-for="logo in logos"
           :key="`ra-${logo.name}`"
@@ -184,9 +188,9 @@ onBeforeUnmount(() => {
           <img
             :src="logo.src"
             :alt="logo.alt ?? logo.name"
-            :style="{ height: `${logoHeight}px`, width: 'auto' }"
+            :style="{ maxHeight: `${logoHeight}px`, height: `${logoHeightMobile}px`, width: 'auto' }"
             :class="
-              cn('object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
+              cn('marquee-logo object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
             "
             loading="lazy"
             draggable="false"
@@ -207,9 +211,9 @@ onBeforeUnmount(() => {
           <img
             :src="logo.src"
             alt=""
-            :style="{ height: `${logoHeight}px`, width: 'auto' }"
+            :style="{ maxHeight: `${logoHeight}px`, height: `${logoHeightMobile}px`, width: 'auto' }"
             :class="
-              cn('object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
+              cn('marquee-logo object-contain', grayscale && 'opacity-60 grayscale', !grayscale && 'opacity-80')
             "
             loading="lazy"
             draggable="false"
@@ -237,5 +241,23 @@ onBeforeUnmount(() => {
     black 92%,
     transparent 100%
   );
+}
+
+/* Responsive gap: mobile uses --gap-mobile, sm+ uses --gap */
+.marquee-track {
+  gap: var(--gap-mobile, 32px);
+}
+
+@media (min-width: 640px) {
+  .marquee-track {
+    gap: var(--gap, 48px);
+  }
+}
+
+/* Responsive logo height: mobile inherits height, sm+ uses maxHeight */
+@media (min-width: 640px) {
+  .marquee-logo {
+    height: auto;
+  }
 }
 </style>

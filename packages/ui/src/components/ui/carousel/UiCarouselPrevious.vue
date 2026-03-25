@@ -29,8 +29,8 @@ const restAttrs = computed(() => {
         'hover:bg-accent hover:text-accent-foreground',
         'disabled:pointer-events-none disabled:opacity-50',
         ctx.orientation.value === 'horizontal'
-          ? 'top-1/2 -left-12 -translate-y-1/2'
-          : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
+          ? 'top-1/2 -left-3 -translate-y-1/2 sm:-left-12'
+          : '-top-3 left-1/2 -translate-x-1/2 rotate-90 sm:-top-12',
         attrs.class,
       )
     "

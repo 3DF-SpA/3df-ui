@@ -6,7 +6,7 @@ export const buttonVariants = cva(
     'rounded-md text-sm font-medium',
     'transition-[color,background-color,border-color,box-shadow,transform,filter] duration-200 ease-out',
     'disabled:pointer-events-none disabled:opacity-50',
-    'select-none cursor-pointer',
+    'select-none cursor-pointer touch-manipulation',
     'focus-visible:outline-2 focus-visible:outline-ring',
     'active:scale-[0.97] active:brightness-[0.96] active:duration-100 active:ease-in',
   ].join(' '),

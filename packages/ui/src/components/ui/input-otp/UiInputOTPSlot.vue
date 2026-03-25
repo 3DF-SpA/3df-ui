@@ -30,7 +30,7 @@ const hasFakeCaret = computed(() => isFocused.value && !char.value);
 
 const classes = computed(() =>
   cn(
-    'relative flex h-10 w-10 items-center justify-center',
+    'relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center',
     'border-y-ui border-r-ui border-input bg-background text-sm font-medium text-foreground',
     'transition-all duration-100',
     'first:rounded-l-md first:border-l-ui',

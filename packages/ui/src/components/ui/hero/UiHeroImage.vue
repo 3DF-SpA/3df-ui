@@ -26,7 +26,6 @@ const props = withDefaults(defineProps<Props>(), {
   overlay: 'dark',
   overlayOpacity: 60,
   align: 'center',
-  minHeight: '500px',
   compact: false,
 });
 
@@ -85,8 +84,8 @@ function handleAction(action: HeroAction, index: number) {
 <template>
   <section
     v-bind="restAttrs"
-    :class="cn('relative w-full overflow-hidden', attrs.class)"
-    :style="{ minHeight }"
+    :class="cn('relative w-full overflow-hidden', !minHeight && 'min-h-[280px] sm:min-h-[400px] md:min-h-[500px]', attrs.class)"
+    :style="minHeight ? { minHeight } : undefined"
   >
     <img
       :src="imageSrc"

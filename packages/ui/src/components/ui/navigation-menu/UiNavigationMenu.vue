@@ -93,7 +93,7 @@ const isOpen = computed(() => activeValue.value !== '');
 
 const classes = computed(() =>
   cn(
-    'relative flex max-w-max flex-1 items-center justify-center',
+    'relative flex max-w-max flex-1 items-center justify-center overflow-x-auto',
     isOpen.value ? 'z-50' : 'z-10',
     attrs.class,
   ),

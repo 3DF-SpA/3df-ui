@@ -100,7 +100,7 @@ useFloatingLifecycle({
           'z-50 max-w-[calc(100vw-1rem)] min-w-[8rem]',
           'bg-popover text-popover-foreground',
           'border border-border rounded-md p-1 shadow-lg',
-          'max-h-[var(--dropdown-max-h,20rem)] overflow-auto',
+          'max-h-[60dvh] sm:max-h-[var(--dropdown-max-h,20rem)] overflow-auto',
           'transition-all duration-150',
           isEntering ? 'opacity-100 scale-100 ease-out' : 'opacity-0 scale-[0.97] ease-in',
           attrs.class,

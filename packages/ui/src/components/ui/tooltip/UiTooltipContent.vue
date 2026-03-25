@@ -100,7 +100,7 @@ useFloatingLifecycle({
       :style="positionStyle"
       :class="
         cn(
-          'z-50 max-w-xs',
+          'z-50 max-w-xs max-w-[calc(100vw-1rem)]',
           'bg-popover text-popover-foreground',
           'border border-border rounded-md px-3 py-1.5 text-sm shadow-md',
           'transition-all duration-100',
