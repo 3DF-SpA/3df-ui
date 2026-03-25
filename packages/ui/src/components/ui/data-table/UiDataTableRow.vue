@@ -4,16 +4,20 @@ import { computed, useAttrs } from 'vue';
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { tableRowVariants } from './table-variants';
+import { dataTableRowVariants } from './data-table-variants';
 
-defineOptions({ name: 'UiTableRow', inheritAttrs: false });
+defineOptions({ name: 'UiDataTableRow', inheritAttrs: false });
 
-interface UiTableRowProps {
+interface UiDataTableRowProps {
   variant?: 'default' | 'selected' | 'striped';
+  selected?: boolean;
+  hoverable?: boolean;
 }
 
-const props = withDefaults(defineProps<UiTableRowProps>(), {
+const props = withDefaults(defineProps<UiDataTableRowProps>(), {
   variant: 'default',
+  selected: false,
+  hoverable: true,
 });
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
@@ -23,13 +27,16 @@ const restAttrs = computed(() => {
   return rest;
 });
 
+const resolvedVariant = computed(() => (props.selected ? 'selected' : props.variant));
+
 const classes = computed(() =>
-  cn(tableRowVariants({ variant: props.variant }), attrs.class),
+  cn(dataTableRowVariants({ variant: resolvedVariant.value, hoverable: props.hoverable }), attrs.class),
 );
 </script>
 
 <template>
   <tr v-bind="restAttrs" :class="classes">
     <slot />
+    <slot name="actions" />
   </tr>
 </template>

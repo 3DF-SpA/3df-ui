@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { computed, inject, useAttrs } from 'vue';
+import { type ComputedRef, computed, inject, useAttrs } from 'vue';
 
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { tableHeadVariants } from './table-variants';
+import { dataTableHeadVariants } from './data-table-variants';
 
-defineOptions({ name: 'UiTableHead', inheritAttrs: false });
+defineOptions({ name: 'UiDataTableHead', inheritAttrs: false });
 
-interface UiTableHeadProps {
+interface UiDataTableHeadProps {
   align?: 'left' | 'center' | 'right';
   sortable?: boolean;
   sortDirection?: 'asc' | 'desc' | null;
 }
 
-const props = withDefaults(defineProps<UiTableHeadProps>(), {
+const props = withDefaults(defineProps<UiDataTableHeadProps>(), {
   align: 'left',
   sortable: false,
   sortDirection: null,
@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<UiTableHeadProps>(), {
 
 const emit = defineEmits<{ click: [] }>();
 
-const tableSize = inject<{ value: string }>('tableSize', { value: 'default' });
+const dtStickyHeader = inject<ComputedRef<boolean>>('dtStickyHeader', computed(() => false));
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
@@ -33,8 +33,11 @@ const restAttrs = computed(() => {
 
 const classes = computed(() =>
   cn(
-    tableHeadVariants({ align: props.align }),
-    props.sortable && 'cursor-pointer select-none',
+    dataTableHeadVariants({
+      align: props.align,
+      sortable: props.sortable,
+      sticky: dtStickyHeader.value,
+    }),
     attrs.class,
   ),
 );
@@ -49,7 +52,7 @@ function handleClick() {
     <span class="inline-flex items-center gap-1">
       <slot />
       <template v-if="sortable">
-        <!-- asc -->
+        <!-- asc: ChevronUp -->
         <svg
           v-if="sortDirection === 'asc'"
           xmlns="http://www.w3.org/2000/svg"
@@ -61,11 +64,11 @@ function handleClick() {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="shrink-0"
+          class="shrink-0 transition-transform duration-150"
         >
           <path d="m18 15-6-6-6 6" />
         </svg>
-        <!-- desc -->
+        <!-- desc: ChevronDown -->
         <svg
           v-else-if="sortDirection === 'desc'"
           xmlns="http://www.w3.org/2000/svg"
@@ -77,11 +80,11 @@ function handleClick() {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="shrink-0"
+          class="shrink-0 transition-transform duration-150"
         >
           <path d="m6 9 6 6 6-6" />
         </svg>
-        <!-- unsorted -->
+        <!-- unsorted: ChevronsUpDown -->
         <svg
           v-else
           xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +96,7 @@ function handleClick() {
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="shrink-0 opacity-50"
+          class="shrink-0 opacity-40 transition-opacity duration-150"
         >
           <path d="m7 15 5 5 5-5" />
           <path d="m7 9 5-5 5 5" />

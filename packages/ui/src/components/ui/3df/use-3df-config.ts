@@ -2,7 +2,7 @@ import { onMounted, ref, watch } from 'vue';
 import { COLOR_PRESETS, OVERRIDABLE_PRESET_VARS } from './color-presets';
 import { FONT_OPTIONS } from './font-options';
 
-export const CONFIG_VERSION = 3;
+export const CONFIG_VERSION = 4;
 const STORAGE_KEY = '3df:config';
 
 export const RADIUS_STEPS = [
@@ -16,6 +16,8 @@ export const RADIUS_STEPS = [
   { label: '3XL', value: '3rem' },
 ] as const;
 
+export type Theme = 'light' | 'dark' | 'system';
+
 export interface Ui3dfConfig {
   version: number;
   radiusStep: number;
@@ -23,6 +25,7 @@ export interface Ui3dfConfig {
   letterSpacing: number;
   colorPreset: string;
   fontId: string;
+  theme: Theme;
 }
 
 export const DEFAULT_CONFIG: Ui3dfConfig = {
@@ -32,6 +35,7 @@ export const DEFAULT_CONFIG: Ui3dfConfig = {
   letterSpacing: 0,
   colorPreset: 'default',
   fontId: 'inter',
+  theme: 'system' as Theme,
 };
 
 // Singleton module-level state
@@ -39,6 +43,34 @@ export const config3df = ref<Ui3dfConfig>({ ...DEFAULT_CONFIG });
 
 function isSSR(): boolean {
   return typeof window === 'undefined';
+}
+
+let _mqRef: MediaQueryList | null = null;
+let _mqHandler: ((e: MediaQueryListEvent) => void) | null = null;
+
+export function applyTheme(theme: Theme): void {
+  if (isSSR()) return;
+  // Limpiar listener anterior
+  if (_mqRef && _mqHandler) {
+    _mqRef.removeEventListener('change', _mqHandler);
+    _mqRef = null;
+    _mqHandler = null;
+  }
+  if (theme === 'light') {
+    document.documentElement.classList.remove('dark');
+  } else if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    _mqRef = window.matchMedia('(prefers-color-scheme: dark)');
+    _mqHandler = (e: MediaQueryListEvent) => {
+      if (e.matches) document.documentElement.classList.add('dark');
+      else document.documentElement.classList.remove('dark');
+    };
+    _mqRef.addEventListener('change', _mqHandler);
+    // Aplicar inmediatamente
+    if (_mqRef.matches) document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
+  }
 }
 
 export function applyColorVars(presetId: string, isDark: boolean): void {
@@ -93,6 +125,12 @@ watch(config3df, (cfg) => {
   applyCSS(cfg);
 }, { deep: true });
 
+// Watch theme changes at module level
+watch(
+  () => config3df.value.theme,
+  (theme) => applyTheme(theme),
+);
+
 // Re-apply color vars when dark mode class changes (e.g., from useTheme toggling .dark)
 if (typeof window !== 'undefined') {
   const darkObserver = new MutationObserver(() => {
@@ -105,11 +143,12 @@ export function use3dfConfig() {
   onMounted(() => {
     config3df.value = loadFromStorage();
     applyCSS(config3df.value);
+    applyTheme(config3df.value.theme);
   });
 
   function reset(): void {
     config3df.value = { ...DEFAULT_CONFIG };
   }
 
-  return { config: config3df, reset, RADIUS_STEPS, DEFAULT_CONFIG };
+  return { config: config3df, reset, RADIUS_STEPS, DEFAULT_CONFIG, applyTheme };
 }

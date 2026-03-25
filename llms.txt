@@ -877,6 +877,86 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCap
 </template>
 ```
 
+**Componentes y props:**
+- `Table`: `variant` ('default'|'bordered'|'ghost'), `size` ('sm'|'default'|'lg'), `rounded` (boolean), `stickyHeader` (boolean)
+- `TableRow`: `variant` ('default'|'selected'|'striped')
+- `TableHead`: `sortable` (boolean), `sortDirection` ('asc'|'desc'|null), `align` ('left'|'center'|'right')
+- `TableCell`: `align` ('left'|'center'|'right'), `numeric` (boolean)
+- `TableEmpty`: `label` (string, **requerida** — sin default)
+
+---
+
+### DataTable
+
+Tabla funcional avanzada para datos interactivos.
+
+**Componentes:**
+- `DataTable` — wrapper card con `border-ui border-border bg-card`. Props: `variant` ('default'|'bordered'|'striped'|'ghost'), `size` ('sm'|'default'|'lg'), `rounded` (boolean), `stickyHeader` (boolean), `loading` (boolean), `skeletonRows` (number, default 5). Provee contexto `{ size, variant }` a hijos via provide/inject.
+- `DataTableHead` — cabecera con sorting animado (íconos SVG inline). Props: `sortable` (boolean), `sortDirection` ('asc'|'desc'|null), `align` ('left'|'center'|'right'). Emite `click` para sorting. Sticky cuando `stickyHeader` en contexto.
+- `DataTableRow` — fila seleccionable. Props: `selected` (boolean → `bg-primary/10`), `variant`. Slot `#actions`.
+- `DataTableCell` — celda. Props: `align`, `numeric` (boolean), `mono` (boolean), `truncate` (boolean, max-w 200px).
+- `DataTableSkeleton` — skeleton de carga. Props: `rows` (number), `columns` (number, default 4). Usa `animate-pulse bg-muted`.
+
+**Uso básico:**
+```vue
+<script setup lang="ts">
+import { DataTable, DataTableHead, DataTableRow, DataTableCell } from '@3df-spa/ui'
+</script>
+<template>
+  <DataTable variant="bordered" size="default" :loading="isLoading" :skeleton-rows="5">
+    <thead>
+      <tr>
+        <DataTableHead sortable :sort-direction="sort.name" @click="toggleSort('name')">Name</DataTableHead>
+        <DataTableHead align="right">Amount</DataTableHead>
+      </tr>
+    </thead>
+    <tbody>
+      <DataTableRow v-for="row in rows" :key="row.id" :selected="selected.includes(row.id)">
+        <DataTableCell>{{ row.name }}</DataTableCell>
+        <DataTableCell align="right" numeric>{{ row.amount }}</DataTableCell>
+      </DataTableRow>
+    </tbody>
+  </DataTable>
+</template>
+```
+
+---
+
+### PanelTable
+
+Tabla visual para dashboards y KPIs con acentos de color.
+
+**Componentes:**
+- `PanelTable` — siempre envuelto en card (`bg-card border-ui border-border`). Props: `accent` ('default'|'primary'|'success'|'warning'|'destructive'|'info'), `size` ('sm'|'default'|'lg'), `divided` (boolean — `divide-y divide-border` en tbody), `rounded` (boolean, default true). Provee contexto `{ accent, size, divided }`.
+- `PanelTableHead` — cabecera con fondo de acento, `text-xs uppercase tracking-wider font-semibold`. Inject accent del contexto.
+- `PanelTableRow` — fila con hover elevado (`hover:translate-x-0.5 hover:shadow-sm`) y barra lateral de acento (`border-l-ui`).
+- `PanelTableCell` — celda con slots `#default`, `#badge`, `#avatar`. Inject size del contexto.
+
+**Uso básico:**
+```vue
+<script setup lang="ts">
+import { PanelTable, PanelTableHead, PanelTableRow, PanelTableCell } from '@3df-spa/ui'
+</script>
+<template>
+  <PanelTable accent="primary" divided>
+    <thead>
+      <tr>
+        <PanelTableHead>User</PanelTableHead>
+        <PanelTableHead>Status</PanelTableHead>
+      </tr>
+    </thead>
+    <tbody>
+      <PanelTableRow v-for="user in users" :key="user.id">
+        <PanelTableCell>{{ user.name }}</PanelTableCell>
+        <PanelTableCell>
+          <template #badge><Badge>{{ user.status }}</Badge></template>
+        </PanelTableCell>
+      </PanelTableRow>
+    </tbody>
+  </PanelTable>
+</template>
+```
+
 ### Sidebar
 
 ```vue
@@ -1389,10 +1469,29 @@ resetConfig()
 | `letterSpacing` | `--ui-letter-spacing` | Espaciado de letras global |
 | fontId | --font-sans | Tipografía global (Inter / Plus Jakarta Sans / DM Sans / Outfit) |
 
+### Controles del panel
+
+| **Control** | **Descripción** | **Implementación** |
+|---|---|---|
+| **Radius** | Nivel de redondez de bordes (0–8) | `--ui-radius` CSS var |
+| **Border Opacity** | Opacidad de todos los bordes (0–1) | `--ui-border-opacity` CSS var |
+| **Letter Spacing** | Espaciado de letras global (−2 a 4) | `--ui-letter-spacing` CSS var |
+| **Font** | Tipografía global (Inter / Plus Jakarta Sans / DM Sans / Outfit) | `--font-sans` CSS var |
+| **Color Preset** | Paleta de color activa (9 presets) | Variables HSL en `:root` |
+| **Theme** | Modo de color: Light / Dark / System | `document.documentElement.classList` (dark) |
+
+> El selector **System** escucha `prefers-color-scheme` vía `MediaQueryList` y cambia automáticamente cuando el sistema operativo alterna entre claro y oscuro. La preferencia se persiste en `localStorage` con el resto de la configuración. `applyTheme(theme)` es una función exportada del paquete para uso programático.
+
 ### Subcomponentes exportados
 
 ```ts
-import { Ui3df, Ui3dfRadius, Ui3dfBorderOpacity, Ui3dfLetterSpacing, Ui3dfFont, FONT_OPTIONS, use3dfConfig } from '@3df-spa/ui'
+import { Ui3df, Ui3dfRadius, Ui3dfBorderOpacity, Ui3dfLetterSpacing, Ui3dfFont, Ui3dfTheme, FONT_OPTIONS, use3dfConfig } from '@3df-spa/ui'
+```
+
+`Ui3dfTheme` está disponible como componente independiente para insertar únicamente el selector de tema sin el panel completo:
+
+```vue
+import { Ui3dfTheme } from '@3df-spa/ui'
 ```
 
 ### Color Presets disponibles (9)

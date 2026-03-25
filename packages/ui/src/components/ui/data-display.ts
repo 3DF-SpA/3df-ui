@@ -20,6 +20,22 @@ export { default as TableHead } from './table/UiTableHead.vue';
 export { default as TableCell } from './table/UiTableCell.vue';
 export { default as TableCaption } from './table/UiTableCaption.vue';
 export { default as TableEmpty } from './table/UiTableEmpty.vue';
+export * from './table/table-variants';
+
+/** Tabla avanzada con sorting, skeleton y contexto compartido. */
+export { default as DataTable } from './data-table/UiDataTable.vue';
+export { default as DataTableHead } from './data-table/UiDataTableHead.vue';
+export { default as DataTableRow } from './data-table/UiDataTableRow.vue';
+export { default as DataTableCell } from './data-table/UiDataTableCell.vue';
+export { default as DataTableSkeleton } from './data-table/UiDataTableSkeleton.vue';
+export * from './data-table/data-table-variants';
+
+/** Tabla panel con acentos de color, filas animadas y contexto de tamaño. */
+export { default as PanelTable } from './panel-table/UiPanelTable.vue';
+export { default as PanelTableHead } from './panel-table/UiPanelTableHead.vue';
+export { default as PanelTableRow } from './panel-table/UiPanelTableRow.vue';
+export { default as PanelTableCell } from './panel-table/UiPanelTableCell.vue';
+export * from './panel-table/panel-table-variants';
 
 /** Placeholder animado para contenido en carga. */
 export { default as Skeleton } from './skeleton/UiSkeleton.vue';
