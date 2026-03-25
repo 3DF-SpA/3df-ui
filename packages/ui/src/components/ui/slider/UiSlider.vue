@@ -162,7 +162,7 @@ watch(
     @pointerup="onPointerUp"
     @keydown="onKeydown"
   >
-    <div class="bg-secondary relative h-1.5 w-full overflow-hidden rounded-full">
+    <div class="bg-secondary relative h-2 sm:h-1.5 w-full overflow-hidden rounded-full">
       <div
         class="bg-primary absolute h-full rounded-full transition-[width] duration-75 ease-out"
         :style="{ width: `${percentage}%` }"
@@ -170,9 +170,9 @@ watch(
     </div>
 
     <div
-      class="bg-background border-ui border-border absolute block size-4 rounded-full shadow-md transition-[transform,box-shadow] duration-200 hover:scale-110"
+      class="bg-background border-ui border-border absolute block size-5 sm:size-4 rounded-full shadow-md transition-[transform,box-shadow] duration-200 hover:scale-110"
       :class="[isDragging ? 'ring-ring/40 scale-110 shadow-md ring-[3px]' : 'shadow-sm']"
-      :style="{ left: `calc(${percentage}% - 8px)` }"
+      :style="{ left: `calc(${percentage}% - 10px)` }"
     />
   </div>
 </template>

@@ -73,7 +73,7 @@ function onTransitionEnd() {
     :class="cn('transition-[height] duration-200 ease-in-out', attrs.class)"
     @transitionend="onTransitionEnd"
   >
-    <div class="pt-0 pb-4 text-sm">
+    <div class="pt-0 pb-4 sm:pb-5 text-sm">
       <slot />
     </div>
   </div>

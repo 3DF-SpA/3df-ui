@@ -33,7 +33,7 @@ const safeHref = computed(() => (props.href ? sanitizeHref(props.href) : undefin
     :is="tag"
     v-bind="restAttrs"
     :href="safeHref"
-    :class="cn('text-muted-foreground transition-colors hover:text-foreground', attrs.class)"
+    :class="cn('text-muted-foreground min-w-0 transition-colors hover:text-foreground', attrs.class)"
   >
     <slot />
   </component>
