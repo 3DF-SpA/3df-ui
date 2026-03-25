@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<UiTableHeadProps>(), {
 
 const emit = defineEmits<{ click: [] }>();
 
-const tableSize = inject<{ value: string }>('tableSize', { value: 'default' });
+const _tableSize = inject<{ value: string }>('tableSize', { value: 'default' });
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 
