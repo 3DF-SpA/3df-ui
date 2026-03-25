@@ -56,6 +56,7 @@ defineExpose(ctx);
 <template>
   <div
     class="group/sidebar-wrapper flex min-h-svh w-full"
+    style="touch-action: pan-y;"
     :data-side="ctx.side.value"
     :data-variant="ctx.variant.value"
     :data-collapsible="ctx.state.value === 'collapsed' ? ctx.collapsible.value : ''"

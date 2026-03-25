@@ -24,7 +24,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn('text-lg font-semibold leading-none tracking-tight', attrs.class),
+  cn('text-lg font-semibold leading-none tracking-tight break-words', attrs.class),
 );
 </script>
 

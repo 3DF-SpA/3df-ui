@@ -15,7 +15,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const classes = computed(() => cn('flex flex-col gap-1.5 p-6', attrs.class));
+const classes = computed(() => cn('flex flex-col gap-1.5 p-3 sm:p-6', attrs.class));
 </script>
 
 <template>

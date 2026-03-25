@@ -15,7 +15,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const classes = computed(() => cn('text-sm text-muted-foreground', attrs.class));
+const classes = computed(() => cn('text-sm text-muted-foreground break-words', attrs.class));
 </script>
 
 <template>

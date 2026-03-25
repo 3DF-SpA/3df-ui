@@ -94,7 +94,7 @@ const showMobileOverlay = computed(() => ctx.isMobile.value && ctx.openMobile.va
 
 const mobileSheetClasses = computed(() =>
   cn(
-    'fixed inset-y-0 z-50 flex h-svh w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground shadow-xl',
+    'fixed inset-y-0 z-50 flex h-svh w-(--sidebar-width-mobile) flex-col bg-sidebar text-sidebar-foreground shadow-xl',
     ctx.side.value === 'left' ? 'left-0' : 'right-0',
   ),
 );
@@ -140,9 +140,12 @@ const mobileSheetClasses = computed(() =>
       <Transition :name="ctx.side.value === 'left' ? 'sidebar-sheet-left' : 'sidebar-sheet-right'">
         <aside
           v-if="showMobileOverlay"
+          id="ui-sidebar-sheet"
           :class="mobileSheetClasses"
           data-sidebar="sidebar"
           data-mobile="true"
+          role="dialog"
+          aria-modal="true"
         >
           <div class="flex h-full w-full flex-col overflow-y-auto">
             <slot />
