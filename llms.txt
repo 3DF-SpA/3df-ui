@@ -4,7 +4,7 @@
 
 ## Overview
 
-`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles.
+`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles. **v1.3.2**
 `@3df-spa/charts` — SVG chart library for Vue 3. Zero external dependencies. 6 chart types.
 
 Both are published publicly to npmjs.org under the `@3df-spa` scope.
@@ -998,8 +998,9 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter,
       <SidebarFooter>Footer</SidebarFooter>
     </Sidebar>
     <main>
-      <!-- SidebarTrigger para desktop, SidebarMobileTrigger para móvil -->
+      <!-- SidebarTrigger: colapsa/expande el sidebar en desktop -->
       <SidebarTrigger />
+      <!-- SidebarMobileTrigger: botón hamburger, solo visible en móvil, va en topbar/navbar -->
       <SidebarMobileTrigger />
       <!-- page content -->
     </main>

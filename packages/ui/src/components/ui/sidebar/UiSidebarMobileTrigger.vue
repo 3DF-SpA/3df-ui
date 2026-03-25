@@ -18,7 +18,7 @@ const restAttrs = computed(() => {
 
 const classes = computed(() =>
   cn(
-    'inline-flex size-9 items-center justify-center rounded-md text-foreground/70 hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-2 focus-visible:outline-ring touch-manipulation',
+    'inline-flex size-9 items-center justify-center rounded-md text-foreground/70 hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-2 focus-visible:outline-ring touch-manipulation cursor-pointer',
     attrs.class,
   ),
 );
@@ -39,8 +39,11 @@ const classes = computed(() =>
     <slot>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="size-5 shrink-0"
+        width="24"
+        height="24"
         viewBox="0 0 24 24"
+        class="size-5 shrink-0"
+        aria-hidden="true"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
