@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/icons/logo-3df.svg" alt="3DF UI" height="128" style="border-radius: 9999px;" />
+  <img src="./public/icons/logo-3df.svg" alt="3DF UI" width="100%" />
 </p>
 
 <h1 align="center">3DF UI</h1>
