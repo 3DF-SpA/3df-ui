@@ -5,7 +5,7 @@ export const badgeVariants = cva(
     'inline-flex items-center gap-1.5 shadow-sm',
     'rounded-[var(--badge-radius,var(--radius-sm))] text-xs font-semibold',
     'transition-colors duration-200',
-    'select-none max-w-full',
+    'select-none max-w-full touch-manipulation',
     'focus-visible:outline-2 focus-visible:outline-ring',
     '[&>svg]:size-3 [&>svg]:pointer-events-none [&>svg]:shrink-0',
   ].join(' '),

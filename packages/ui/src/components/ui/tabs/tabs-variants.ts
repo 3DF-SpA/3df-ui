@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 export const tabsTriggerVariants = cva(
   [
-    'inline-flex items-center justify-center whitespace-nowrap text-sm font-medium',
+    'inline-flex items-center justify-center whitespace-nowrap shrink-0 text-sm font-medium',
     'transition-all duration-200 ease-out',
     'disabled:pointer-events-none disabled:opacity-50',
     'focus-visible:outline-2 focus-visible:outline-ring',

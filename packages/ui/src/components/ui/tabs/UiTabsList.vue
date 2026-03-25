@@ -24,9 +24,9 @@ const restAttrs = computed(() => {
     :aria-orientation="ctx.orientation"
     :class="
       cn(
-        'inline-flex items-center',
+        'flex items-center',
         ctx.orientation === 'horizontal'
-          ? 'border-b-ui border-border'
+          ? 'w-full overflow-x-auto border-b-ui border-border'
           : 'flex-col border-r-ui border-border',
         attrs.class,
       )

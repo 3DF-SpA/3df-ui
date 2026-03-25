@@ -130,7 +130,7 @@ provide(CAROUSEL_KEY, {
     role="region"
     aria-roledescription="carousel"
     tabindex="0"
-    :class="cn('relative', attrs.class)"
+    :class="cn('relative w-full', attrs.class)"
     @keydown="onKeydown"
   >
     <slot />

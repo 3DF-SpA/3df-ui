@@ -5,7 +5,7 @@ export const itemVariants = cva(
     'relative flex w-full items-center gap-3',
     'rounded-md px-3 py-2 text-sm',
     'outline-none transition-[color,background-color,border-color,box-shadow,transform,filter] duration-200 ease-out',
-    'select-none cursor-pointer',
+    'select-none cursor-pointer touch-manipulation',
     'active:scale-[0.98] active:brightness-[0.97] active:duration-100 active:ease-in',
   ].join(' '),
   {

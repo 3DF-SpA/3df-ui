@@ -66,7 +66,7 @@ provide(COLLAPSIBLE_KEY, {
     v-bind="restAttrs"
     :data-state="isOpen ? 'open' : 'closed'"
     :data-disabled="disabled ? '' : undefined"
-    :class="cn(attrs.class)"
+    :class="cn('w-full', attrs.class)"
   >
     <slot :open="isOpen" />
   </div>

@@ -16,7 +16,7 @@ const restAttrs = computed(() => {
 });
 
 const classes = computed(() =>
-  cn('animate-pulse-soft rounded-md bg-muted', attrs.class),
+  cn('animate-pulse-soft rounded-md bg-muted min-w-0', attrs.class),
 );
 </script>
 

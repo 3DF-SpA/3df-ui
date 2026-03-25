@@ -36,7 +36,7 @@ function onClick() {
       :disabled="item.disabled.value"
       :class="
         cn(
-          'flex flex-1 items-center justify-between py-4 text-sm font-medium',
+          'flex flex-1 items-center justify-between py-4 sm:py-5 text-sm font-medium',
           'transition-all duration-200 ease-out',
           'active:scale-[0.98] active:brightness-[0.97] active:duration-100 active:ease-in',
           'hover:underline',

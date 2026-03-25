@@ -17,7 +17,7 @@ const restAttrs = computed(() => {
 <template>
   <li
     v-bind="restAttrs"
-    :class="cn('inline-flex items-center gap-1.5', attrs.class)"
+    :class="cn('inline-flex items-center gap-1.5 min-w-0', attrs.class)"
   >
     <slot />
   </li>

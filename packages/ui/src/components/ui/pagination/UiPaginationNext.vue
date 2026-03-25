@@ -26,7 +26,7 @@ const restAttrs = computed(() => {
 
 const classes = computed(() =>
   cn(
-    'inline-flex h-8 items-center justify-center gap-1 rounded-md px-2 text-xs font-medium',
+    'inline-flex h-9 sm:h-8 items-center justify-center gap-1 rounded-md px-2 text-xs font-medium',
     'transition-colors duration-200',
     'hover:bg-accent hover:text-accent-foreground',
     'focus-visible:outline-2 focus-visible:outline-ring',

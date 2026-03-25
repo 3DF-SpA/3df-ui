@@ -26,7 +26,7 @@ const restAttrs = computed(() => {
     :data-state="ctx.isOpen.value ? 'open' : 'closed'"
     :data-disabled="ctx.disabled.value ? '' : undefined"
     :disabled="ctx.disabled.value"
-    :class="cn(attrs.class)"
+    :class="cn('touch-manipulation min-h-[2.5rem] w-full', attrs.class)"
     @click="ctx.toggle()"
   >
     <slot :open="ctx.isOpen.value" />

@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 
 export const bannerVariants = cva(
   [
-    'relative flex w-full items-center gap-3 px-4 py-3 text-sm',
+    'relative flex w-full items-center gap-3 px-4 py-3 sm:px-6 text-sm',
     'transition-[opacity,transform] duration-300 ease-out',
   ].join(' '),
   {
