@@ -63,9 +63,7 @@ const gapClasses = computed(() => {
 const sidebarClasses = computed(() => {
   const base = cn(
     'fixed inset-y-0 z-10 flex h-svh flex-col bg-sidebar text-sidebar-foreground transition-[left,right,width,padding] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]',
-    ctx.side.value === 'left'
-      ? 'left-0 border-r-ui border-sidebar-border'
-      : 'right-0 border-l-ui border-sidebar-border',
+    ctx.side.value === 'left' ? 'left-0 border-r-ui' : 'right-0 border-l-ui',
   );
 
   const width =
@@ -95,7 +93,7 @@ const showMobileOverlay = computed(() => ctx.isMobile.value && ctx.openMobile.va
 const mobileSheetClasses = computed(() =>
   cn(
     'fixed inset-y-0 z-50 flex h-svh w-(--sidebar-width-mobile) flex-col bg-sidebar text-sidebar-foreground shadow-xl',
-    ctx.side.value === 'left' ? 'left-0' : 'right-0',
+    ctx.side.value === 'left' ? 'left-0 border-r-ui' : 'right-0 border-l-ui',
   ),
 );
 </script>
