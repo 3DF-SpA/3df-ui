@@ -959,9 +959,27 @@ import { PanelTable, PanelTableHead, PanelTableRow, PanelTableCell } from '@3df-
 
 ### Sidebar
 
+Sub-componentes disponibles:
+- `SidebarProvider` — Proveedor de contexto. Envuelve todo el layout.
+- `Sidebar` — El panel lateral. Props: `side` (left|right), `variant` (sidebar|floating|inset), `collapsible` (offcanvas|icon|none).
+- `SidebarHeader` — Cabecera del sidebar. `shrink-0` para no comprimirse en móvil.
+- `SidebarFooter` — Pie del sidebar. `shrink-0` para no comprimirse en móvil.
+- `SidebarContent` — Área de contenido con scroll.
+- `SidebarGroup` / `SidebarGroupLabel` / `SidebarGroupContent` — Agrupación de items.
+- `SidebarMenu` / `SidebarMenuItem` / `SidebarMenuButton` — Menú de navegación.
+- `SidebarMenuSub` / `SidebarMenuSubItem` / `SidebarMenuSubButton` — Sub-menús anidados.
+- `SidebarMenuBadge` — Badge numérico en items de menú.
+- `SidebarMenuAction` — Acción secundaria en item de menú.
+- `SidebarMenuSkeleton` — Skeleton de carga para items de menú.
+- `SidebarSeparator` — Separador visual.
+- `SidebarRail` — Rail estrecho para colapso tipo icon.
+- `SidebarInset` — Área de contenido principal para layout tipo inset.
+- `SidebarTrigger` — Botón para colapsar/expandir el sidebar en desktop.
+- `SidebarMobileTrigger` — Botón hamburger para móvil. Visible solo en breakpoint mobile. Requiere estar dentro de UiSidebarProvider.
+
 ```vue
 <script setup lang="ts">
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from '@3df-spa/ui'
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarMobileTrigger } from '@3df-spa/ui'
 </script>
 <template>
   <SidebarProvider>
@@ -980,7 +998,9 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter,
       <SidebarFooter>Footer</SidebarFooter>
     </Sidebar>
     <main>
+      <!-- SidebarTrigger para desktop, SidebarMobileTrigger para móvil -->
       <SidebarTrigger />
+      <SidebarMobileTrigger />
       <!-- page content -->
     </main>
   </SidebarProvider>
@@ -1343,7 +1363,7 @@ function submit() {
 ### Dashboard layout with sidebar
 ```vue
 <script setup lang="ts">
-import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger } from '@3df-spa/ui'
+import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarMobileTrigger } from '@3df-spa/ui'
 </script>
 <template>
   <SidebarProvider>
@@ -1358,6 +1378,7 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem,
     </Sidebar>
     <main class="flex-1 p-6">
       <SidebarTrigger class="mb-4" />
+      <SidebarMobileTrigger class="mb-4" />
       <slot />
     </main>
   </SidebarProvider>

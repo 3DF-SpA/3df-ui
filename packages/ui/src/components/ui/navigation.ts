@@ -27,6 +27,7 @@ export type {
   SidebarContext,
 } from './sidebar/sidebar-types';
 export { SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON, SIDEBAR_WIDTH_MOBILE } from './sidebar/sidebar-types';
+export { default as SidebarMobileTrigger } from './sidebar/UiSidebarMobileTrigger.vue';
 export { default as Pagination } from './pagination/UiPagination.vue';
 export { default as PaginationContent } from './pagination/UiPaginationContent.vue';
 export { default as PaginationItem } from './pagination/UiPaginationItem.vue';
