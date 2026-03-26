@@ -51,31 +51,31 @@ function handleAction(action: HeroAction, index: number) {
 <template>
   <section
     v-bind="restAttrs"
-    :class="cn('relative w-full', compact ? 'py-16 md:py-20' : 'py-24 md:py-32', attrs.class)"
+    :class="cn('relative w-full', compact ? 'py-16 md:py-20' : 'py-14 md:py-32', attrs.class)"
   >
     <div
       :class="
         cn(
-          'mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-8',
+          'mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-6 sm:gap-10 lg:grid-cols-2 lg:gap-16 lg:px-8',
           reverse && 'lg:[direction:rtl]',
         )
       "
     >
-      <div :class="cn('flex flex-col gap-6', reverse && 'lg:[direction:ltr]')">
+      <div :class="cn('flex flex-col items-center gap-6 text-center lg:items-start lg:text-left', reverse && 'lg:[direction:ltr]')">
         <slot name="headline">
-          <h1 v-if="headline" class="text-foreground text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 v-if="headline" class="text-foreground text-3xl font-bold tracking-tight leading-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
             {{ headline }}
           </h1>
         </slot>
 
         <slot name="description">
-          <p v-if="description" class="text-muted-foreground max-w-xl text-lg">
+          <p v-if="description" class="text-muted-foreground max-w-xl text-sm text-pretty sm:text-base md:text-lg">
             {{ description }}
           </p>
         </slot>
 
         <slot name="actions">
-          <div v-if="actions?.length" class="mt-2 flex flex-wrap gap-4">
+          <div v-if="actions?.length" class="mt-2 flex flex-wrap justify-center gap-4 lg:justify-start">
             <component
               :is="action.href ? 'a' : 'button'"
               v-for="(action, i) in actions"

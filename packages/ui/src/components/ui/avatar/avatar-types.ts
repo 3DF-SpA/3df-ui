@@ -9,3 +9,10 @@ export interface AvatarContext {
 }
 
 export const AVATAR_KEY: InjectionKey<AvatarContext> = Symbol('avatar');
+
+export interface AvatarGroupContext {
+  overlap: Ref<boolean>;
+  size: Ref<AvatarSize>;
+}
+
+export const AVATAR_GROUP_KEY: InjectionKey<AvatarGroupContext> = Symbol('avatar-group');

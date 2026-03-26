@@ -66,8 +66,9 @@ export { default as EmptyState } from './empty-state/UiEmptyState.vue';
 export { default as Avatar } from './avatar/UiAvatar.vue';
 export { default as AvatarImage } from './avatar/UiAvatarImage.vue';
 export { default as AvatarFallback } from './avatar/UiAvatarFallback.vue';
-export { AVATAR_KEY } from './avatar/avatar-types';
-export type { AvatarContext, AvatarSize } from './avatar/avatar-types';
+export { default as AvatarGroup } from './avatar/UiAvatarGroup.vue';
+export { AVATAR_KEY, AVATAR_GROUP_KEY } from './avatar/avatar-types';
+export type { AvatarContext, AvatarSize, AvatarGroupContext } from './avatar/avatar-types';
 
 /** Alerta informativa con variantes: default, destructive, success, warning, info. */
 export { default as Alert } from './alert/UiAlert.vue';

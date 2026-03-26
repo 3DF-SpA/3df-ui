@@ -106,7 +106,7 @@ function handleAction(action: HeroAction, index: number) {
       :class="
         cn(
           'relative z-10 mx-auto flex max-w-4xl flex-col gap-6 px-6 lg:px-8',
-          compact ? 'py-20 md:py-24' : 'py-32 md:py-40 lg:py-48',
+          compact ? 'py-20 md:py-24' : 'py-20 md:py-40 lg:py-48',
           alignClass,
         )
       "
@@ -114,7 +114,7 @@ function handleAction(action: HeroAction, index: number) {
       <slot name="headline">
         <h1
           v-if="headline"
-          :class="cn('text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl', textColor)"
+          :class="cn('text-3xl font-bold tracking-tight leading-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl', textColor)"
         >
           {{ headline }}
         </h1>
@@ -125,7 +125,7 @@ function handleAction(action: HeroAction, index: number) {
           v-if="description"
           :class="
             cn(
-              'max-w-2xl text-lg sm:text-xl',
+              'max-w-2xl text-base text-pretty sm:text-lg md:text-xl',
               subtextColor,
               align === 'center' && 'mx-auto',
               align === 'right' && 'ml-auto',

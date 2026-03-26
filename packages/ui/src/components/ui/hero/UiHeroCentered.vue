@@ -85,7 +85,7 @@ function handleAction(action: HeroAction, index: number) {
       :class="
         cn(
           'relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center lg:px-8',
-          compact ? 'py-20 md:py-24' : 'py-28 md:py-36 lg:py-44',
+          compact ? 'py-20 md:py-24' : 'py-16 md:py-36 lg:py-44',
         )
       "
     >
@@ -118,7 +118,7 @@ function handleAction(action: HeroAction, index: number) {
       <slot name="headline">
         <h1
           v-if="headline"
-          class="text-foreground text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl"
+          class="text-foreground text-3xl font-bold tracking-tight leading-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
         >
           <template v-if="headlineParts?.highlight">
             {{ headlineParts.before
@@ -132,7 +132,7 @@ function handleAction(action: HeroAction, index: number) {
       </slot>
 
       <slot name="description">
-        <p v-if="description" class="text-muted-foreground mx-auto max-w-2xl text-lg sm:text-xl">
+        <p v-if="description" class="text-muted-foreground mx-auto max-w-2xl text-base text-pretty sm:text-lg md:text-xl">
           {{ description }}
         </p>
       </slot>
