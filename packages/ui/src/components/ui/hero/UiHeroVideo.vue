@@ -105,21 +105,21 @@ function handleAction(action: HeroAction, index: number) {
       :class="
         cn(
           'relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center lg:px-8',
-          compact ? 'py-20 md:py-24' : 'py-32 md:py-40 lg:py-48',
+          compact ? 'py-20 md:py-24' : 'py-20 md:py-40 lg:py-48',
         )
       "
     >
       <slot name="headline">
         <h1
           v-if="headline"
-          class="text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl"
+          class="text-3xl font-bold tracking-tight leading-tight text-balance text-white sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
         >
           {{ headline }}
         </h1>
       </slot>
 
       <slot name="description">
-        <p v-if="description" class="mx-auto max-w-2xl text-lg text-white/80 sm:text-xl">
+        <p v-if="description" class="mx-auto max-w-2xl text-base text-pretty text-white/80 sm:text-lg md:text-xl">
           {{ description }}
         </p>
       </slot>

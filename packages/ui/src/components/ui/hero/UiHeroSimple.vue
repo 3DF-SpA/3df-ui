@@ -57,14 +57,14 @@ function handleAction(action: HeroAction, index: number) {
   <section
     v-bind="restAttrs"
     :class="
-      cn('relative w-full', compact ? 'py-16 md:py-20' : 'py-24 md:py-32 lg:py-40', attrs.class)
+      cn('relative w-full', compact ? 'py-16 md:py-20' : 'py-14 md:py-32 lg:py-40', attrs.class)
     "
   >
     <div :class="cn('mx-auto flex max-w-4xl flex-col gap-6 px-6 lg:px-8', alignClass)">
       <slot name="headline">
         <h1
           v-if="headline"
-          class="text-foreground text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl"
+          class="text-foreground text-3xl font-bold tracking-tight leading-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl"
         >
           {{ headline }}
         </h1>
@@ -75,7 +75,7 @@ function handleAction(action: HeroAction, index: number) {
           v-if="description"
           :class="
             cn(
-              'text-muted-foreground max-w-2xl text-lg sm:text-xl',
+              'text-muted-foreground max-w-2xl text-base text-pretty sm:text-lg md:text-xl',
               align === 'center' && 'mx-auto',
               align === 'right' && 'ml-auto',
             )

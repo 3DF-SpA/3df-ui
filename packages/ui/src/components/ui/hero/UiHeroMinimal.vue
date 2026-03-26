@@ -71,7 +71,7 @@ function handleAction(action: HeroAction, index: number) {
       <slot name="headline">
         <h1
           v-if="headline"
-          class="text-foreground text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl"
+          class="text-foreground text-2xl font-semibold tracking-tight leading-tight text-balance sm:text-3xl md:text-4xl lg:text-5xl"
         >
           {{ headline }}
         </h1>
@@ -82,7 +82,7 @@ function handleAction(action: HeroAction, index: number) {
           v-if="description"
           :class="
             cn(
-              'text-muted-foreground max-w-xl text-base sm:text-lg',
+              'text-muted-foreground max-w-xl text-sm text-pretty sm:text-base md:text-lg',
               align === 'center' && 'mx-auto',
               align === 'right' && 'ml-auto',
             )

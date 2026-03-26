@@ -257,7 +257,7 @@ export default {
       duration: 'Duración',
       viewLogs: 'Ver logs',
       documentation: 'Documentación',
-      docDescription: 'Aprende a usar @3df-spa/ui con guías y ejemplos.',
+      docDescription: "Aprende a usar {'@'}3df-spa/ui con guías y ejemplos.",
       docDescriptionFull: 'Guías completas, API reference y ejemplos interactivos para cada componente.',
       learnWithGuides: 'Guías y ejemplos.',
       cardWithContentOnly: 'Una card puede tener solo contenido, sin header ni footer. Usa',
@@ -859,13 +859,13 @@ export default {
       narrowPopover: 'Popover angosto.',
       largeWidth: 'Grande (w-96)',
       widePanel: 'Panel amplio',
-      widePanelDesc: 'El ancho default es <code>w-72</code> pero puedes sobrescribirlo con cualquier clase de Tailwind via la prop <code>class</code>.',
+      widePanelDesc: 'El ancho default es w-72 pero puedes sobrescribirlo con cualquier clase de Tailwind via la prop class.',
     },
     hoverCard: {
       hoverAlignStart: 'Hover aquí (align start)',
-      alignStartDesc: 'Este card está alineado al <strong>inicio</strong> del trigger. Útil para elementos al borde izquierdo.',
+      alignStartDesc: 'Este card está alineado al inicio del trigger. Útil para elementos al borde izquierdo.',
       hoverAlignEnd: 'Hover aquí (align end)',
-      alignEndDesc: 'Este card está alineado al <strong>final</strong> del trigger. Ideal para elementos al borde derecho.',
+      alignEndDesc: 'Este card está alineado al final del trigger. Ideal para elementos al borde derecho.',
       hoverSideTop: 'Hover aquí (side top)',
       topPositionDesc: 'Contenido posicionado arriba del trigger con auto-flip si no hay espacio.',
       hoverFastDelays: 'Hover aquí (delays rápidos)',
@@ -1003,6 +1003,7 @@ export default {
     Charts: 'Charts',
     Otros: 'Otros',
     other: 'Otros',
+    Configuración: 'Configuración',
   },
   table: {
     title: 'Props',
@@ -1127,7 +1128,7 @@ export default {
       description: 'Secciones hero para landing pages. 6 variantes: simple, split, imagen de fondo, gradiente, centrado con badge, y minimalista.',
       props: {
         label: 'Texto del botón de acción.',
-        href: 'URL del enlace. Si se omite, renderiza un <button>.',
+        href: 'URL del enlace. Si se omite, renderiza un button element.',
         external: 'Abre el enlace en una nueva pestaña.',
         variant: 'Variante visual del botón.',
         headline: 'Título principal del hero.',
@@ -1221,7 +1222,7 @@ export default {
         setApi: 'Evento emitido con la instancia de Embla para control programático.',
       },
       showcases: {
-        basicApi: { title: 'Básico con API', description: 'Usa @set-api para obtener la instancia de Embla y rastrear el slide actual.' },
+        basicApi: { title: 'Básico con API', description: "Usa {'@'}set-api para obtener la instancia de Embla y rastrear el slide actual." },
         multiSlide: { title: 'Múltiples slides visibles', description: 'Usa basis-1/3 en CarouselItem para mostrar varios slides a la vez.' },
         vertical: { title: 'Orientación vertical', description: 'Desplazamiento vertical con orientation=\'vertical\'.' },
         loop: { title: 'Con loop infinito', description: 'Habilita loop: true en opts para ciclo continuo.' },
@@ -1359,7 +1360,7 @@ export default {
       description: 'Campo de selección con búsqueda integrada para listas de opciones.',
       props: {
         modelValue: 'Valor seleccionado (v-model).',
-        options: 'Array de opciones { value, label, disabled? }.',
+        options: "Array de opciones {'{ value, label, disabled? }'}.",
         placeholder: 'Texto del botón cuando no hay selección.',
         searchPlaceholder: 'Placeholder del campo de búsqueda.',
         emptyMessage: 'Mensaje cuando no hay resultados.',
@@ -1442,7 +1443,7 @@ export default {
     breadcrumb: {
       description: 'Navegación jerárquica que muestra la ubicación actual del usuario dentro de la estructura del sitio.',
       props: {
-        href: 'URL del enlace. Si se proporciona y as no está definido, renderiza como <a>.',
+        href: 'URL del enlace. Si se proporciona y as no está definido, renderiza como un elemento ancla.',
         as: 'Elemento HTML o componente a renderizar. Toma precedencia sobre href.',
       },
       showcases: {
@@ -1488,7 +1489,7 @@ export default {
       anatomy: 'Anatomía',
     },
     pagination: {
-      description: 'Sistema de paginación con patrón compound component. Semántica <nav> y accesibilidad ARIA completa.',
+      description: 'Sistema de paginación con patrón compound component. Semántica nav y accesibilidad ARIA completa.',
       props: {
         isActive: 'Marca la página como activa. Aplica aria-current=\'page\'.',
         as: 'Elemento HTML o componente a renderizar.',
@@ -1514,9 +1515,9 @@ export default {
       refArrowsOnlyDesc: 'Slots vacíos en Previous/Next para mostrar solo iconos.',
       refDisabledState: '5. Estado disabled',
       refDisabledStateDesc: 'Todos los elementos deshabilitados.',
-      refWrapperDesc: 'Wrapper <code>&lt;nav&gt;</code> con aria-label',
-      refContentDesc: 'Lista <code>&lt;ul&gt;</code> contenedora',
-      refItemDesc: 'Elemento <code>&lt;li&gt;</code> individual',
+      refWrapperDesc: 'Wrapper nav con aria-label',
+      refContentDesc: 'Lista ul contenedora',
+      refItemDesc: 'Elemento li individual',
       refLinkDesc: 'Botón de página con aria-current',
       refPreviousDesc: 'Botón «Anterior» con icono chevron',
       refNextDesc: 'Botón «Siguiente» con icono chevron',
