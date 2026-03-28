@@ -4,7 +4,6 @@ import { type Component, computed, useAttrs } from 'vue';
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { useSidebar } from './use-sidebar';
 
 defineOptions({ name: 'UiSidebarMenuButton', inheritAttrs: false });
 
@@ -24,8 +23,6 @@ const props = withDefaults(
     tooltip: undefined,
   },
 );
-
-const ctx = useSidebar();
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 const restAttrs = computed(() => {
@@ -51,20 +48,11 @@ const classes = computed(() =>
     props.isActive && 'bg-sidebar-accent text-sidebar-accent-foreground font-medium',
     sizeClasses[props.size] ?? sizeClasses.default,
     '[&>span:last-child]:truncate',
-    'group-data-[collapsible=icon]/sidebar-wrapper:!size-8 group-data-[collapsible=icon]/sidebar-wrapper:!p-2',
-    'group-data-[collapsible=icon]/sidebar-wrapper:justify-center',
-    'group-data-[collapsible=icon]/sidebar-wrapper:[&>*:not(:first-child)]:hidden',
     attrs.class,
   ),
 );
 
-const showTooltip = computed(
-  () =>
-    props.tooltip &&
-    ctx.collapsible.value === 'icon' &&
-    ctx.state.value === 'collapsed' &&
-    !ctx.isMobile.value,
-);
+const showTooltip = computed(() => !!props.tooltip);
 </script>
 
 <template>

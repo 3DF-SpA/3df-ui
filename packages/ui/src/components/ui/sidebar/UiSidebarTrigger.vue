@@ -3,11 +3,12 @@ import { computed, useAttrs } from 'vue';
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { useSidebar } from './use-sidebar';
 
 defineOptions({ name: 'UiSidebarTrigger', inheritAttrs: false });
 
-const ctx = useSidebar();
+const emit = defineEmits<{
+  toggle: [];
+}>();
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
 const restAttrs = computed(() => {
@@ -21,10 +22,6 @@ const classes = computed(() =>
     attrs.class,
   ),
 );
-
-function onClick() {
-  ctx.toggleSidebar();
-}
 </script>
 
 <template>
@@ -32,9 +29,9 @@ function onClick() {
     v-bind="restAttrs"
     type="button"
     data-sidebar="trigger"
-    :aria-label="ctx.open.value ? 'Close sidebar' : 'Open sidebar'"
+    aria-label="Toggle sidebar"
     :class="classes"
-    @click="onClick"
+    @click="emit('toggle')"
   >
     <slot>
       <svg

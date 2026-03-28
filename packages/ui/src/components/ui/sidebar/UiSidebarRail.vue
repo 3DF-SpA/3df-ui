@@ -7,6 +7,10 @@ import { useSidebar } from './use-sidebar';
 
 defineOptions({ name: 'UiSidebarRail', inheritAttrs: false });
 
+const emit = defineEmits<{
+  toggle: [];
+}>();
+
 const ctx = useSidebar();
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
@@ -27,13 +31,13 @@ const classes = computed(() =>
 );
 
 function onClick() {
-  ctx.toggleSidebar();
+  emit('toggle');
 }
 
 function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Enter' || e.key === ' ') {
     e.preventDefault();
-    ctx.toggleSidebar();
+    emit('toggle');
   }
 }
 </script>
@@ -42,7 +46,7 @@ function onKeydown(e: KeyboardEvent) {
   <div
     v-bind="restAttrs"
     :class="classes"
-    :aria-label="ctx.open.value ? 'Colapsar sidebar' : 'Expandir sidebar'"
+    aria-label="Toggle sidebar"
     role="button"
     tabindex="0"
     data-sidebar="rail"

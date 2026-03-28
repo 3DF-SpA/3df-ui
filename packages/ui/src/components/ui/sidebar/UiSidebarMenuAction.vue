@@ -26,7 +26,6 @@ const classes = computed(() =>
     'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
     'focus-visible:outline-2 focus-visible:outline-ring',
     '[&>svg]:size-4 [&>svg]:shrink-0',
-    'group-data-[collapsible=icon]/sidebar-wrapper:hidden',
     props.showOnHover &&
       'peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 md:opacity-0',
     attrs.class,

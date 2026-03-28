@@ -19,15 +19,18 @@ export { default as SidebarMenuSkeleton } from './sidebar/UiSidebarMenuSkeleton.
 export { default as SidebarSeparator } from './sidebar/UiSidebarSeparator.vue';
 export { default as SidebarRail } from './sidebar/UiSidebarRail.vue';
 export { default as SidebarInset } from './sidebar/UiSidebarInset.vue';
-export { useSidebar } from './sidebar/use-sidebar';
 export type {
   SidebarSide,
   SidebarVariant,
   SidebarCollapsible,
+  /** @deprecated Use CollapsibleSidebarContext */
   SidebarContext,
+  CollapsibleSidebarContext,
+  BaseSidebarContext,
 } from './sidebar/sidebar-types';
-export { SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON, SIDEBAR_WIDTH_MOBILE } from './sidebar/sidebar-types';
-export { default as SidebarMobileTrigger } from './sidebar/UiSidebarMobileTrigger.vue';
+export { SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON, BASE_SIDEBAR_INJECTION_KEY } from './sidebar/sidebar-types';
+export { useSidebar, createBaseSidebarContext, createCollapsibleSidebarContext } from './sidebar/use-sidebar';
+
 export { default as Pagination } from './pagination/UiPagination.vue';
 export { default as PaginationContent } from './pagination/UiPaginationContent.vue';
 export { default as PaginationItem } from './pagination/UiPaginationItem.vue';

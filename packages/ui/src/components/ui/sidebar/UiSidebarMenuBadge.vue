@@ -17,7 +17,6 @@ const classes = computed(() =>
   cn(
     'pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 flex h-5 min-w-5 select-none items-center justify-center rounded-full px-1 text-[10px] font-medium tabular-nums',
     'bg-sidebar-primary text-sidebar-primary-foreground',
-    'group-data-[collapsible=icon]/sidebar-wrapper:hidden',
     attrs.class,
   ),
 );
