@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { mount } from '@vue/test-utils';
 
 import UiSidebarProvider from '../UiSidebarProvider.vue';
@@ -9,21 +9,6 @@ import UiSidebarHeader from '../UiSidebarHeader.vue';
 import UiSidebarMenu from '../UiSidebarMenu.vue';
 import UiSidebarMenuButton from '../UiSidebarMenuButton.vue';
 import UiSidebarMenuItem from '../UiSidebarMenuItem.vue';
-import UiSidebarTrigger from '../UiSidebarTrigger.vue';
-
-// matchMedia no existe en jsdom → simulamos pantalla de escritorio (matches: true → isMobile: false)
-beforeEach(() => {
-  vi.stubGlobal(
-    'matchMedia',
-    vi.fn().mockImplementation((query: string) => ({
-      matches: true,
-      media: query,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-    })),
-  );
-});
 
 // Helper: monta cualquier template dentro de UiSidebarProvider
 function mountWithProvider(innerSlot: string, providerProps: Record<string, unknown> = {}) {
@@ -31,10 +16,8 @@ function mountWithProvider(innerSlot: string, providerProps: Record<string, unkn
     props: providerProps,
     slots: { default: innerSlot },
     global: {
-      stubs: { Teleport: true },
       components: {
         UiSidebar,
-        UiSidebarTrigger,
         UiSidebarHeader,
         UiSidebarContent,
         UiSidebarFooter,
@@ -58,19 +41,18 @@ describe('UiSidebarProvider', () => {
     expect(wrapper.element.tagName.toLowerCase()).toBe('div');
   });
 
-  it('data-state es "expanded" por defecto', () => {
+  it('data-variant es "sidebar" por defecto', () => {
     const wrapper = mount(UiSidebarProvider, {
       slots: { default: '<div>slot</div>' },
     });
-    expect(wrapper.attributes('data-state')).toBe('expanded');
+    expect(wrapper.attributes('data-variant')).toBe('sidebar');
   });
 
-  it('data-state es "collapsed" cuando defaultOpen=false', () => {
+  it('data-side es "left" por defecto', () => {
     const wrapper = mount(UiSidebarProvider, {
-      props: { defaultOpen: false },
       slots: { default: '<div>slot</div>' },
     });
-    expect(wrapper.attributes('data-state')).toBe('collapsed');
+    expect(wrapper.attributes('data-side')).toBe('left');
   });
 });
 
@@ -78,52 +60,19 @@ describe('UiSidebarProvider', () => {
 // UiSidebar
 // ─────────────────────────────────────────────────────────────────────────────
 describe('UiSidebar', () => {
-  it('renderiza un <aside> en modo escritorio dentro del Provider', () => {
+  it('renderiza un <aside> dentro del Provider', () => {
     const wrapper = mountWithProvider('<UiSidebar><div>contenido</div></UiSidebar>');
     expect(wrapper.find('aside').exists()).toBe(true);
   });
 
-  it('<aside> tiene data-state="expanded" por defecto', () => {
+  it('<aside> tiene data-variant="sidebar" por defecto', () => {
     const wrapper = mountWithProvider('<UiSidebar><div>contenido</div></UiSidebar>');
-    expect(wrapper.find('aside').attributes('data-state')).toBe('expanded');
+    expect(wrapper.find('aside').attributes('data-variant')).toBe('sidebar');
   });
 
-  it('collapsible="none" renderiza un <div> directo sin <aside>', () => {
-    const wrapper = mountWithProvider(
-      '<UiSidebar collapsible="none"><div>sin animación</div></UiSidebar>',
-    );
-    expect(wrapper.find('aside').exists()).toBe(false);
-    expect(wrapper.text()).toContain('sin animación');
-  });
-});
-
-// ─────────────────────────────────────────────────────────────────────────────
-// UiSidebarTrigger
-// ─────────────────────────────────────────────────────────────────────────────
-describe('UiSidebarTrigger', () => {
-  it('renderiza un <button> con data-sidebar="trigger"', () => {
-    const wrapper = mountWithProvider('<UiSidebarTrigger />');
-    const btn = wrapper.find('[data-sidebar="trigger"]');
-    expect(btn.exists()).toBe(true);
-    expect(btn.element.tagName.toLowerCase()).toBe('button');
-  });
-
-  it('aria-label inicial es "Close sidebar" (sidebar abierto por defecto)', () => {
-    const wrapper = mountWithProvider('<UiSidebarTrigger />');
-    expect(wrapper.find('[data-sidebar="trigger"]').attributes('aria-label')).toBe('Close sidebar');
-  });
-
-  it('click alterna el estado: aria-label pasa a "Open sidebar"', async () => {
-    const wrapper = mountWithProvider('<UiSidebarTrigger />');
-    await wrapper.find('[data-sidebar="trigger"]').trigger('click');
-    expect(wrapper.find('[data-sidebar="trigger"]').attributes('aria-label')).toBe('Open sidebar');
-  });
-
-  it('click actualiza data-state del Provider de "expanded" a "collapsed"', async () => {
-    const wrapper = mountWithProvider('<UiSidebarTrigger />');
-    expect(wrapper.attributes('data-state')).toBe('expanded');
-    await wrapper.find('[data-sidebar="trigger"]').trigger('click');
-    expect(wrapper.attributes('data-state')).toBe('collapsed');
+  it('<aside> tiene data-side="left" por defecto', () => {
+    const wrapper = mountWithProvider('<UiSidebar><div>contenido</div></UiSidebar>');
+    expect(wrapper.find('aside').attributes('data-side')).toBe('left');
   });
 });
 

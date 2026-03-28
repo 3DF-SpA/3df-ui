@@ -1,30 +1,55 @@
-import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, inject, onBeforeUnmount, onMounted, provide, ref } from 'vue';
 
 import {
+  BASE_SIDEBAR_INJECTION_KEY,
   SIDEBAR_INJECTION_KEY,
-  SIDEBAR_MOBILE_BREAKPOINT,
+  type BaseSidebarContext,
+  type CollapsibleSidebarContext,
   type SidebarCollapsible,
-  type SidebarContext,
   type SidebarSide,
   type SidebarVariant,
 } from './sidebar-types';
 
-export function useSidebar(): SidebarContext {
-  const ctx = inject(SIDEBAR_INJECTION_KEY, null);
+export function useSidebar(): BaseSidebarContext {
+  const ctx = inject(BASE_SIDEBAR_INJECTION_KEY, null);
   if (!ctx) {
     throw new Error('[UiSidebar] useSidebar() debe usarse dentro de un <SidebarProvider>.');
   }
   return ctx;
 }
 
-export interface CreateSidebarOptions {
+// ─── Base (non-collapsible) context ──────────────────────────────────────────
+
+export interface CreateBaseSidebarOptions {
+  side?: SidebarSide;
+  variant?: SidebarVariant;
+}
+
+export function createBaseSidebarContext(
+  options: CreateBaseSidebarOptions = {},
+): BaseSidebarContext {
+  const { side: initialSide = 'left', variant: initialVariant = 'sidebar' } = options;
+
+  const side = ref<SidebarSide>(initialSide);
+  const variant = ref<SidebarVariant>(initialVariant);
+
+  const ctx: BaseSidebarContext = { side, variant };
+  provide(BASE_SIDEBAR_INJECTION_KEY, ctx);
+  return ctx;
+}
+
+// ─── Collapsible context (future variant) ────────────────────────────────────
+
+export interface CreateCollapsibleSidebarOptions {
   defaultOpen?: boolean;
   side?: SidebarSide;
   variant?: SidebarVariant;
   collapsible?: SidebarCollapsible;
 }
 
-export function createSidebarContext(options: CreateSidebarOptions = {}): SidebarContext {
+export function createCollapsibleSidebarContext(
+  options: CreateCollapsibleSidebarOptions = {},
+): CollapsibleSidebarContext {
   const {
     defaultOpen = true,
     side: initialSide = 'left',
@@ -33,32 +58,11 @@ export function createSidebarContext(options: CreateSidebarOptions = {}): Sideba
   } = options;
 
   const open = ref(defaultOpen);
-  const openMobile = ref(false);
-  const isMobile = ref(false);
   const side = ref<SidebarSide>(initialSide);
   const variant = ref<SidebarVariant>(initialVariant);
   const collapsible = ref<SidebarCollapsible>(initialCollapsible);
 
   const state = computed<'expanded' | 'collapsed'>(() => (open.value ? 'expanded' : 'collapsed'));
-
-  let mql: MediaQueryList | undefined;
-
-  function onMediaChange(e: MediaQueryListEvent | MediaQueryList) {
-    isMobile.value = !e.matches;
-    if (isMobile.value) {
-      openMobile.value = false;
-    }
-  }
-
-  onMounted(() => {
-    mql = window.matchMedia(`(min-width: ${SIDEBAR_MOBILE_BREAKPOINT}px)`);
-    isMobile.value = !mql.matches;
-    mql.addEventListener('change', onMediaChange as EventListener);
-  });
-
-  onBeforeUnmount(() => {
-    mql?.removeEventListener('change', onMediaChange as EventListener);
-  });
 
   function onKeydown(e: KeyboardEvent) {
     if ((e.metaKey || e.ctrlKey) && e.key === 'b') {
@@ -73,36 +77,26 @@ export function createSidebarContext(options: CreateSidebarOptions = {}): Sideba
     open.value = value;
   }
 
-  function setOpenMobile(value: boolean) {
-    openMobile.value = value;
-  }
-
   function toggleSidebar() {
-    if (isMobile.value) {
-      openMobile.value = !openMobile.value;
-    } else {
-      open.value = !open.value;
-    }
+    open.value = !open.value;
   }
 
-  watch(openMobile, (val) => {
-    document.body.style.overflow = val ? 'hidden' : '';
-  });
-
-  onBeforeUnmount(() => {
-    document.body.style.overflow = '';
-  });
-
-  return {
+  const ctx: CollapsibleSidebarContext = {
     state,
     open,
-    isMobile,
-    openMobile,
     side,
     variant,
     collapsible,
     setOpen,
-    setOpenMobile,
     toggleSidebar,
   };
+
+  // Provide to both keys so all base components work inside a collapsible provider too
+  provide(BASE_SIDEBAR_INJECTION_KEY, ctx);
+  provide(SIDEBAR_INJECTION_KEY, ctx);
+  return ctx;
 }
+
+/** @deprecated Use createCollapsibleSidebarContext. Kept for backward compatibility. */
+export const createSidebarContext = createCollapsibleSidebarContext;
+export type CreateSidebarOptions = CreateCollapsibleSidebarOptions;

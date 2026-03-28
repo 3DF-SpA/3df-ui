@@ -403,6 +403,9 @@ export default {
       security: 'Security',
       notifications: 'Notifications',
       integrations: 'Integrations',
+      documentation: 'Documentation',
+      support: 'Support',
+      whatsNew: "What's new",
     },
     empty: {
       noResults: 'No results found',

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs, watch } from 'vue';
 
+
 import type { ClassValue } from 'clsx';
 
 import { cn } from '../../../lib/utils';
-import { useSidebar } from './use-sidebar';
 
 defineOptions({ name: 'UiSidebarMenuSub', inheritAttrs: false });
 
@@ -19,7 +19,6 @@ const emit = defineEmits<{
   'update:open': [value: boolean];
 }>();
 
-const ctx = useSidebar();
 const isOpen = ref(props.open);
 
 watch(
@@ -27,10 +26,6 @@ watch(
   (val) => {
     isOpen.value = val;
   },
-);
-
-const isIconCollapsed = computed(
-  () => ctx.collapsible.value === 'icon' && ctx.state.value === 'collapsed' && !ctx.isMobile.value,
 );
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
@@ -44,7 +39,6 @@ const classes = computed(() =>
     'ml-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l-ui border-sidebar-border pl-2.5',
     'transition-[max-height,opacity] duration-200 ease-in-out overflow-hidden',
     isOpen.value ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0',
-    isIconCollapsed.value && 'hidden',
     attrs.class,
   ),
 );

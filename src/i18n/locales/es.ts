@@ -399,6 +399,9 @@ export default {
       security: 'Seguridad',
       notifications: 'Notificaciones',
       integrations: 'Integraciones',
+      documentation: 'Documentación',
+      support: 'Soporte',
+      whatsNew: 'Novedades',
     },
     empty: {
       noResults: 'No se encontraron resultados',
