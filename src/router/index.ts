@@ -26,6 +26,7 @@ const uiRoutes = [
   { path: 'tabs', name: 'Tabs', component: () => import('@/modules/ui/views/MyTabs.vue'), meta: { group: 'Layout' } },
 
   { path: 'input', name: 'Input / Textarea', component: () => import('@/modules/ui/views/MyForms.vue'), meta: { group: 'Formularios' } },
+  { path: 'checkbox', name: 'Checkbox', component: () => import('@/modules/ui/views/MyCheckbox.vue'), meta: { group: 'Formularios' } },
   { path: 'combobox', name: 'Combobox', component: () => import('@/modules/ui/views/MyCombobox.vue'), meta: { group: 'Formularios' } },
   { path: 'datepicker', name: 'DatePicker', component: () => import('@/modules/ui/views/MyDatePicker.vue'), meta: { group: 'Formularios' } },
   { path: 'slider', name: 'Slider', component: () => import('@/modules/ui/views/MySlider.vue'), meta: { group: 'Formularios' } },

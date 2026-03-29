@@ -4,6 +4,49 @@ All notable changes to `@3df-spa/ui` are documented here.
 
 ---
 
+## [1.5.1] — 2026-03-29
+
+### Fixed
+
+#### Combobox — Dropdown Requires Two Clicks to Open
+- **File:** `packages/ui/src/composables/use-floating-lifecycle.ts`
+- **Problem:** The first click on a `Combobox` trigger opened the dropdown and immediately closed it, making the user click a second time for it to actually stay open.
+- **Root Cause:** A race condition in `useFloatingLifecycle`. When the dropdown first renders via `v-if`, `positionStyle` starts as an empty object (no `position: fixed`), so the element is placed in normal document flow at the bottom of `<body>`. `UiCommand` has a `watch(visibleValues, { immediate: true })` that auto-selects the first visible item, which then calls `scrollIntoView({ block: 'nearest' })` to scroll it into view. Because the dropdown was outside the viewport (at the bottom of the body), `scrollIntoView` triggered a window scroll. The scroll event fired the `useFloatingLifecycle` scroll handler, which called `closeFn()` and closed the dropdown — all before the user perceived anything. On the second click, `positionStyle` had already been calculated from the first open cycle (Vue reactive state persists across `v-if` unmount/remount), so the dropdown rendered in the correct viewport position, no scroll occurred, and it stayed open.
+- **Fix:** Wrapped scroll and resize listener registration in `setTimeout(0)` inside `useFloatingLifecycle`. This ensures any scroll triggered during the initial render macro-task (including `scrollIntoView` from `UiCommand`) fires *before* the listeners are active. A guard `if (!options.isOpen.value) return;` inside the timeout prevents adding listeners if the dropdown was closed immediately. `onBeforeUnmount` now also calls `clearTimeout(scrollListenerTimeout)` to prevent memory leaks.
+- **Pattern note:** This matches the existing `setTimeout(0)` guard already used for click-outside listeners in `UiCombobox.vue` and `UiPopover.vue`.
+
+#### Combobox — Complete Rewrite as Self-Contained Component
+- **File:** `packages/ui/src/components/ui/combobox/UiCombobox.vue`
+- **Problem:** The previous implementation relied on `UiPopoverTrigger` which had its own open/close toggle. This double-toggle architecture caused conflicts and was fragile.
+- **Fix:** `UiCombobox` is now fully self-contained. It manages its own `isOpen` state, uses `useFloatingPosition` + `useFloatingLifecycle` for positioning, and renders the dropdown via `Teleport to="body"`. The trigger is a plain `<button @click="toggle">` with no nested popover primitives.
+- **New props:** `searchPlaceholder` (string, default `'Search...'`) and `emptyMessage` (string, default `'No results found.'`).
+- **Disabled options:** The `options` array now accepts `{ value, label, disabled?: boolean }` — individual options can be disabled.
+- **Dropdown width:** The dropdown `min-width` is set dynamically to match the trigger's `offsetWidth`, preventing narrower-than-trigger dropdowns.
+- **Animation:** Enter/leave transitions via `isEntering` ref — `scale-[0.97] opacity-0` → `scale-100 opacity-100` over 150 ms.
+
+#### Checkbox — Invisible When Unchecked
+- **File:** `packages/ui/src/components/ui/checkbox/UiCheckbox.vue`
+- **Problem:** The checkbox was completely invisible against the page background when in the unchecked state — consumers could not see where to click.
+- **Root Cause:** The `inputClasses` computed used `bg-background`, which is identical to the page background color in all themes (light, dark, and 3df). The checkbox blended in completely; only the border was supposed to be visible, but the overall perception was that nothing was there.
+- **Fix:** Changed `bg-background` → `bg-foreground/5` (5 % opacity of the foreground color). This is the same tint used by `UiInput` and provides a clearly visible but subtle fill that contrasts against all backgrounds without looking heavy. In light mode this renders as a very light gray; in dark and 3df themes it renders as a soft white tint.
+
+### Added
+
+#### Checkbox — `size` Prop
+- **File:** `packages/ui/src/components/ui/checkbox/UiCheckbox.vue`
+- **What:** New `size` prop with three values:
+  - `sm` — `size-3.5` (14 px) for dense lists or compact form layouts
+  - `default` — `size-4` (16 px, unchanged default)
+  - `lg` — `size-5` (20 px) for touch-friendly or prominent checkboxes
+- **Scope:** The size is applied uniformly to the wrapper `<span>`, the `<input>`, and both SVG overlays (checkmark and indeterminate dash), so proportions remain consistent at every size.
+- **Backward compatible:** Existing usage with no `size` prop continues to render at `size-4` (default).
+
+#### Checkbox — Demo Page in Playground
+- **Files:** `src/modules/ui/views/MyCheckbox.vue`, `src/router/index.ts`, `src/i18n/locales/en.ts`, `src/i18n/locales/es.ts`
+- **What:** Added a full demo page for `Checkbox` in the playground, under the *Formularios* sidebar group. The page demonstrates: basic usage with `Label`, all states (unchecked / checked / indeterminate / disabled), all three sizes, the indeterminate select-all pattern, and a notification preferences form mock-up.
+
+---
+
 ## [1.5.0] — 2026-03-29
 
 ### Added

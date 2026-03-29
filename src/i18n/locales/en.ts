@@ -1361,6 +1361,22 @@ export default {
         complete: { title: 'Complete Form', description: 'Example form combining all components.' },
       },
     },
+    checkbox: {
+      title: 'Checkbox',
+      description: 'Accessible checkbox with checked, indeterminate and disabled states. Pairs with Label for accessible forms.',
+      props: {
+        modelValue: 'Checked state (v-model).',
+        indeterminate: 'Indeterminate state — shows a dash instead of a checkmark.',
+        size: 'Visual size: sm, default or lg.',
+      },
+      showcases: {
+        basic: { title: 'Basic Usage', description: 'Checkbox linked to a Label via matching id / for attributes.' },
+        states: { title: 'All States', description: 'Unchecked, checked, indeterminate, disabled unchecked and disabled checked.' },
+        sizes: { title: 'Sizes', description: 'Three size variants: sm, default and lg.' },
+        indeterminate: { title: 'Indeterminate — Select All', description: 'Parent checkbox reflects mixed state when children are partially selected.' },
+        group: { title: 'In a Form — Notification Preferences', description: 'Practical example of checkboxes in a settings card.' },
+      },
+    },
     combobox: {
       title: 'Combobox',
       description: 'Selection field with integrated search for option lists.',
