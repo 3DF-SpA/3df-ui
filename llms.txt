@@ -786,22 +786,10 @@ Emits: `update:open`, `select(item: CommandPaletteItem)`, `update:selected(item:
 **Comportamiento:**
 - El primer ítem se auto-selecciona al abrir (activa la vista previa inmediatamente)
 - Filtrado interno: busca en `item.value + item.label + group.label + item.keywords`
+- Los grupos sin resultados se ocultan automáticamente al filtrar (no aparecen headers vacíos)
 - `⌘K` / `Ctrl+K` abre/cierra (heredado de CommandDialog)
 - Al seleccionar (`Enter` o click) se emite `@select` y se cierra automáticamente
-
-
-
-```vue
-<script setup lang="ts">
-import { Popover, PopoverTrigger, PopoverContent } from '@3df-spa/ui'
-</script>
-<template>
-  <Popover>
-    <PopoverTrigger as-child><Button>Open</Button></PopoverTrigger>
-    <PopoverContent>Content inside popover.</PopoverContent>
-  </Popover>
-</template>
-```
+- Footer con hints de teclado: `↑↓` navegar · `↵` seleccionar · `esc` cerrar
 
 ### HoverCard
 
@@ -1639,6 +1627,13 @@ Selector de tipografía con 4 fuentes (Inter, Plus Jakarta Sans, DM Sans, Outfit
 
 ## Changelog
 
+### v1.4.6
+- **CardContent padding:** removed hardcoded `pt-0`/`sm:pt-0` from default classes. `CardContent` now uses full `p-3 sm:p-6` padding by default. Cards with a `CardHeader` above can override with `class="pt-0"`.
+- **CommandPalette Enter fix:** `onSelectItem` now correctly resolves items selected via the Enter key. Previously, `UiCommand` emitted the internal `searchableValue` string on Enter (e.g. `/ui/button Button Navegación`) instead of the original `item.value`, causing `findItem()` to return `null` and navigation to silently fail. Fixed with a dual-lookup: `findItem(value) ?? searchableToItem.get(value)`.
+- **CommandPalette empty groups:** groups with no visible items are now automatically hidden during search (`v-show="isGroupVisible(group)"`). Group headers no longer appear as orphaned labels when all their items are filtered out.
+- **CommandPalette keyboard hints footer:** added a footer bar at the bottom of the dialog with `↑↓` navigate · `↵` select · `esc` close keyboard hints.
+- **CommandPalette search sync:** `localSearch` ref added and synced via `v-model` on `UiCommandInput` to power the group visibility logic independently of internal UiCommand state.
+
 ### v1.4.2
 - **CommandPalette:** nuevo componente de alto nivel (`CommandPalette`) exportado desde `@3df/ui`. Layout de panel dividido con lista agrupada + slot `#preview` totalmente personalizable.
 - **CommandPaletteItem / CommandPaletteGroup:** tipos TypeScript exportados para tipar los datos del consumer.
@@ -1675,8 +1670,9 @@ Selector de tipografía con 4 fuentes (Inter, Plus Jakarta Sans, DM Sans, Outfit
 6. **Charts need a height** — always add a height class (e.g., `class="h-64"`) to chart components
 7. **TooltipProvider** must wrap all Tooltip usage (place once high in the component tree)
 8. **Toaster** must be placed once in App.vue for `toast()` to work
-9. **Carousel requires `embla-carousel`** peer dependency
-10. **Calendar/DatePicker require `date-fns`** peer dependency
+9. **Carousel requires `embla-carousel`** — included automatically as a dependency of `@3df-spa/ui`, no manual install needed
+10. **Calendar/DatePicker require `date-fns`** — included automatically as a dependency of `@3df-spa/ui`, no manual install needed
 11. **use3dfConfig()** debe llamarse una sola vez en App.vue si se quiere persistencia de personalización
 12. **Toast** es custom (`@3df-spa/ui`) — NO instalar ni importar `vue-sonner`
 13. **CommandList** no tiene max-height por defecto — añadir clase de altura si se usa fuera de CommandDialog
+14. **Peer dependencies are bundled** — `@3df-spa/ui` ships `embla-carousel` and `date-fns` as regular dependencies. Consumers do NOT need to install them separately.

@@ -15,7 +15,7 @@ const restAttrs = computed(() => {
   return rest;
 });
 
-const classes = computed(() => cn('p-3 pt-0 sm:p-6 sm:pt-0', attrs.class));
+const classes = computed(() => cn('p-3 sm:p-6', attrs.class));
 </script>
 
 <template>

@@ -67,6 +67,7 @@ function onOpenChange(val: boolean) {
   emit('update:open', val);
   if (!val) {
     selectedItem.value = null;
+    localSearch.value = '';
     emit('update:selected', null);
   }
 }
@@ -78,11 +79,20 @@ function onSelectedChange(searchableVal: string) {
   emit('update:selected', found);
 }
 
-// @select emits the original item.value
+// @select emits the original item.value OR the full searchableValue (from Enter key)
 function onSelectItem(value: string) {
-  const item = findItem(value);
+  const item = findItem(value) ?? searchableToItem.value.get(value) ?? null;
   if (item) emit('select', item);
   close();
+}
+
+const localSearch = ref('');
+
+function isGroupVisible(group: CommandPaletteGroup): boolean {
+  if (!localSearch.value) return true;
+  return group.items.some((item) =>
+    buildSearchable(item, group).toLowerCase().includes(localSearch.value.toLowerCase()),
+  );
 }
 
 watch(
@@ -104,58 +114,61 @@ watch(
     @update:selected="onSelectedChange"
     @select="onSelectItem"
   >
-    <div class="flex h-[540px] p-3 gap-3">
+    <div class="flex flex-col">
+      <div class="flex h-[540px] p-3 gap-3">
       <!-- Left panel: search + grouped list -->
       <div
         class="flex w-[320px] shrink-0 flex-col border border-border/60 shadow-sm rounded-lg overflow-hidden"
       >
-        <UiCommandInput :placeholder="searchPlaceholder" />
+        <UiCommandInput :placeholder="searchPlaceholder" v-model="localSearch" />
         <UiCommandList class="flex-1 overflow-auto max-h-none sm:max-h-none">
           <UiCommandEmpty>
             <slot name="empty">No results found.</slot>
           </UiCommandEmpty>
 
-          <UiCommandGroup v-for="group in groups" :key="group.label">
-            <!-- Group header -->
-            <div class="flex items-center gap-1.5 px-2 pt-3 pb-1">
-              <span
-                class="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground/60"
-              >
-                {{ group.label }}
-              </span>
-              <span class="ml-auto text-[10px] tabular-nums text-muted-foreground/40">
-                {{ group.items.length }}
-              </span>
-            </div>
-
-            <UiCommandItem
-              v-for="item in group.items"
-              :key="item.value"
-              :value="item.value"
-              :keywords="[item.label, group.label, ...(item.keywords ?? [])]"
-              class="relative flex items-center gap-2 pl-3"
-              @select="onSelectItem(item.value)"
-            >
-              <slot name="item" :item="item" :group="group" :is-selected="selectedItem?.value === item.value">
-                <!-- Active pip indicator -->
+          <template v-for="group in groups" :key="group.label">
+            <UiCommandGroup v-show="isGroupVisible(group)">
+              <!-- Group header -->
+              <div class="flex items-center gap-1.5 px-2 pt-3 pb-1">
                 <span
-                  v-if="selectedItem?.value === item.value"
-                  class="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-primary"
-                />
-                <!-- Icon: item.icon → group.icon → default -->
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  class="w-3.5 h-3.5 shrink-0 opacity-60"
+                  class="text-[10px] uppercase tracking-widest font-semibold text-muted-foreground/60"
                 >
-                  <path :d="item.icon ?? group.icon ?? DEFAULT_ITEM_ICON" />
-                </svg>
-                {{ item.label }}
-              </slot>
-            </UiCommandItem>
-          </UiCommandGroup>
+                  {{ group.label }}
+                </span>
+                <span class="ml-auto text-[10px] tabular-nums text-muted-foreground/40">
+                  {{ group.items.length }}
+                </span>
+              </div>
+
+              <UiCommandItem
+                v-for="item in group.items"
+                :key="item.value"
+                :value="item.value"
+                :keywords="[item.label, group.label, ...(item.keywords ?? [])]"
+                class="relative flex items-center gap-2 pl-3"
+                @select="onSelectItem(item.value)"
+              >
+                <slot name="item" :item="item" :group="group" :is-selected="selectedItem?.value === item.value">
+                  <!-- Active pip indicator -->
+                  <span
+                    v-if="selectedItem?.value === item.value"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-primary"
+                  />
+                  <!-- Icon: item.icon → group.icon → default -->
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    class="w-3.5 h-3.5 shrink-0 opacity-60"
+                  >
+                    <path :d="item.icon ?? group.icon ?? DEFAULT_ITEM_ICON" />
+                  </svg>
+                  {{ item.label }}
+                </slot>
+              </UiCommandItem>
+            </UiCommandGroup>
+          </template>
         </UiCommandList>
       </div>
 
@@ -204,6 +217,22 @@ watch(
             </div>
           </div>
         </slot>
+      </div>
+      </div>
+      <!-- Keyboard hints footer -->
+      <div class="flex items-center gap-4 px-4 py-2 border-t border-border/40 text-[11px] text-muted-foreground/70 select-none">
+        <span class="flex items-center gap-1.5">
+          <kbd class="inline-flex items-center justify-center rounded border border-border/60 bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-none">↑↓</kbd>
+          navegar
+        </span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="inline-flex items-center justify-center rounded border border-border/60 bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-none">↵</kbd>
+          seleccionar
+        </span>
+        <span class="flex items-center gap-1.5">
+          <kbd class="inline-flex items-center justify-center rounded border border-border/60 bg-muted px-1.5 py-0.5 font-mono text-[10px] leading-none">esc</kbd>
+          cerrar
+        </span>
       </div>
     </div>
   </UiCommandDialog>

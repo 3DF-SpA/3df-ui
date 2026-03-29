@@ -123,7 +123,7 @@ const hoverCode = `<Card class="cursor-pointer transition-shadow hover:shadow-md
 </Card>`;
 
 const contentOnlyCode = `<Card>
-  <CardContent class="pt-6">
+  <CardContent>
     <p>Card with content only, no header or footer.</p>
   </CardContent>
 </Card>`;
@@ -294,11 +294,9 @@ const anatomyCode = `import {
     <DocShowcase :title="showcaseTitle('contentOnly')" :code="contentOnlyCode">
       <div class="grid max-w-md gap-4">
         <Card>
-          <CardContent class="pt-6">
+          <CardContent>
             <p class="text-sm">
               {{ t('demo.cards.cardWithContentOnly') }}
-              <code class="bg-muted rounded px-1 py-0.5 text-xs">class="pt-6"</code>
-              {{ t('demo.cards.paddingNote') }}
             </p>
           </CardContent>
         </Card>
