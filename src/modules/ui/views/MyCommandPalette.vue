@@ -95,9 +95,13 @@ const paletteProps = computed<PropItem[]>(() => [
   { name: 'item.keywords',     type: 'string[]',                  default: '[]',         description: propDesc('itemKeywords') },
 ]);
 
+// Used in code snippet strings to avoid HTML parser / linter issues with <script> tags
+const OPEN_SCRIPT = '<script' + ' setup>'
+const CLOSE_SCRIPT = '</' + 'script>'
+
 // ── Code snippets ─────────────────────────────────────────────────────────────
 
-const basicCode = `<script setup>
+const basicCode = `${OPEN_SCRIPT}
 import { ref } from 'vue'
 import { CommandPalette } from '@3df/ui'
 import type { CommandPaletteGroup, CommandPaletteItem } from '@3df/ui'
@@ -125,7 +129,7 @@ const groups: CommandPaletteGroup[] = [
 function onSelect(item: CommandPaletteItem) {
   console.log('selected:', item.value)
 }
-<\/script>
+${CLOSE_SCRIPT}
 
 <template>
   <button @click="open = true">Open Palette</button>
