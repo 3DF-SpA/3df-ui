@@ -1548,6 +1548,24 @@ export default {
         commandDialog: { title: 'Command Dialog (⌘K / Ctrl+K)' },
       },
     },
+    commandPalette: {
+      description: 'High-level command palette with split-panel layout: grouped search list on the left and a custom preview panel on the right. Built on top of Command primitives.',
+      props: {
+        open: 'Open/closed state (v-model:open).',
+        groups: 'Array of groups, each with a label, optional icon (SVG path), and items.',
+        searchPlaceholder: 'Placeholder text for the search input.',
+        groupLabel: 'Display name for the group header.',
+        groupIcon: 'SVG path used as icon for all items in the group.',
+        itemValue: 'Unique identifier for the item. Passed to @select.',
+        itemLabel: 'Display text, also used for search filtering.',
+        itemIcon: 'SVG path to override the group icon for this specific item.',
+        itemKeywords: 'Extra search keywords beyond label and group name.',
+      },
+      showcases: {
+        basic: { title: 'Basic Usage' },
+        customPreview: { title: 'Custom Preview Panel' },
+      },
+    },
     dialog: {
       description: 'Modal window that interrupts the user to confirm an action or display important information.',
       props: {

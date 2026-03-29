@@ -227,8 +227,11 @@ function isActive(fullPath: string) {
 
         <div class="flex-1" />
 
-        <!-- Search — junto al locale switcher -->
-        <div class="relative hidden sm:flex items-center">
+        <!-- Search — abre el command palette -->
+        <button
+          class="relative hidden sm:flex h-8 w-44 items-center gap-2 rounded-md border border-border bg-background pl-8 pr-3 text-xs text-muted-foreground transition-colors hover:bg-accent lg:w-56"
+          @click="commandOpen = true"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="pointer-events-none absolute left-2.5 size-3.5 text-muted-foreground"
@@ -241,13 +244,11 @@ function isActive(fullPath: string) {
             <circle cx="11" cy="11" r="8" />
             <path d="m21 21-4.35-4.35" />
           </svg>
-          <input
-            v-model="searchQuery"
-            type="search"
-            :placeholder="t('layout.search')"
-            class="h-8 w-44 rounded-md border border-border bg-background pl-8 pr-3 text-xs text-foreground placeholder:text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring lg:w-56"
-          />
-        </div>
+          <span class="flex-1 text-left">{{ t('layout.search') }}</span>
+          <kbd class="pointer-events-none hidden select-none items-center gap-0.5 rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground sm:inline-flex">
+            <span class="text-[11px]">⌘</span>K
+          </kbd>
+        </button>
 
         <LocaleSwitcher />
         <ThemeSwitcher />
