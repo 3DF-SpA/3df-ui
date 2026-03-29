@@ -4,7 +4,7 @@
 
 ## Overview
 
-`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles. **v1.3.4**
+`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles. **v1.5.0**
 `@3df-spa/charts` — SVG chart library for Vue 3. Zero external dependencies. 6 chart types.
 
 Both are published publicly to npmjs.org under the `@3df-spa` scope.
@@ -248,14 +248,29 @@ const value = ref('')
 <script setup lang="ts">
 import { Checkbox, Label } from '@3df-spa/ui'
 const checked = ref(false)
+const indeterminate = ref(false)
 </script>
 <template>
+  <!-- Basic usage -->
   <div class="flex items-center gap-2">
-    <Checkbox id="terms" v-model:checked="checked" />
+    <Checkbox id="terms" v-model="checked" />
     <Label for="terms">Accept terms</Label>
   </div>
+
+  <!-- Indeterminate (select-all pattern) -->
+  <Checkbox v-model="checked" :indeterminate="indeterminate" />
+
+  <!-- Sizes -->
+  <Checkbox size="sm" v-model="checked" />
+  <Checkbox size="default" v-model="checked" />
+  <Checkbox size="lg" v-model="checked" />
+
+  <!-- Disabled -->
+  <Checkbox v-model="checked" disabled />
 </template>
 ```
+
+Checkbox props: `modelValue` (boolean, default `false`), `indeterminate` (boolean, default `false`), `size` (`sm` | `default` | `lg`, default `'default'`). Passes any native `<input type="checkbox">` attribute (e.g. `disabled`, `id`, `name`). Unchecked state uses `bg-foreground/5` so it is always visible against any background.
 
 ### Switch
 
@@ -302,12 +317,21 @@ const value = ref('')
 const options = [
   { value: 'react', label: 'React' },
   { value: 'vue', label: 'Vue' },
+  { value: 'angular', label: 'Angular', disabled: true },
 ]
 </script>
 <template>
-  <Combobox v-model="value" :options="options" placeholder="Search framework..." />
+  <Combobox
+    v-model="value"
+    :options="options"
+    placeholder="Select framework..."
+    search-placeholder="Search..."
+    empty-message="No results found."
+  />
 </template>
 ```
+
+Combobox props: `modelValue` (string), `options` (array of `{ value: string; label: string; disabled?: boolean }`), `placeholder` (string, default `'Select option...'`), `searchPlaceholder` (string, default `'Search...'`), `emptyMessage` (string, default `'No results found.'`). Self-contained component — no extra wrappers needed. Opens on single click, dismisses on outside click or Escape.
 
 ### DatePicker
 
@@ -1646,6 +1670,16 @@ Selector de tipografía con 4 fuentes (Inter, Plus Jakarta Sans, DM Sans, Outfit
 ---
 
 ## Changelog
+
+### v1.5.1
+- **Combobox single-click fix:** dropdown now opens reliably on the first click. Root cause was a race condition in `useFloatingLifecycle` — `UiCommand`'s auto-`scrollIntoView` on first render fired a scroll event that triggered the close handler before the dropdown settled. Fixed by wrapping scroll/resize listener registration in `setTimeout(0)` (same guard pattern as click-outside), ensuring any scroll from initial render fires before listeners are active.
+- **Checkbox visibility fix:** unchecked checkbox was invisible against the page background because it used `bg-background`. Changed to `bg-foreground/5` (same tint as `UiInput`) so the checkbox border and fill area are always visible on any background color or theme.
+
+### v1.5.0
+- **Theme `3df`:** nuevo tema de color alternativo `light`/`dark`. Aplica clase `.theme-3df` al `<html>` para activar una paleta de verde bosque oscuro (`--color-primary: hsl(150 40% 30%)`). Disponible vía `use3dfConfig()` con `theme: '3df'` o `applyTheme('3df')`. El 3DF Customizer expone un selector de 4 opciones: Light ☀️ · Dark 🌙 · System 🖥️ · 3DF 🌿.
+- **Checkbox `size` prop:** añadido prop `size` con valores `sm` (`size-3.5`), `default` (`size-4`), `lg` (`size-5`). Escalado uniforme del wrapper, el input y los overlays SVG.
+- **Checkbox `indeterminate` prop:** estado indeterminado (guión horizontal) para patrones de selección parcial / select-all.
+- **Combobox rewrite:** componente reescrito como auto-contenido (`useFloatingPosition` + `useFloatingLifecycle` + Teleport). Elimina dependencia interna de `UiPopoverTrigger`. El ancho del dropdown se ajusta al trigger (`triggerWidth`). Soporte para `disabled` por opción individual.
 
 ### v1.4.6
 - **CardContent padding:** removed hardcoded `pt-0`/`sm:pt-0` from default classes. `CardContent` now uses full `p-3 sm:p-6` padding by default. Cards with a `CardHeader` above can override with `class="pt-0"`.

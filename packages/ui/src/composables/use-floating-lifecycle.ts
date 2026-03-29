@@ -21,6 +21,8 @@ export function useFloatingLifecycle(options: FloatingLifecycleOptions) {
 
   const scrollHandler = options.onScrollClose ?? buildDefaultScrollHandler(options);
 
+  let scrollListenerTimeout: ReturnType<typeof setTimeout> | undefined;
+
   watch(
     () => options.isOpen.value,
     async (open) => {
@@ -29,9 +31,18 @@ export function useFloatingLifecycle(options: FloatingLifecycleOptions) {
         options.updatePosition();
         await nextTick();
         options.updatePosition();
-        if (scrollHandler) window.addEventListener('scroll', scrollHandler, true);
-        window.addEventListener('resize', onResize);
+        // Delay scroll/resize listener by one macrotask so that any scroll events
+        // triggered by the initial render (e.g. UiCommand auto-selecting and calling
+        // scrollIntoView on the first item) fire before our close-on-scroll handler
+        // is active.
+        clearTimeout(scrollListenerTimeout);
+        scrollListenerTimeout = setTimeout(() => {
+          if (!options.isOpen.value) return;
+          if (scrollHandler) window.addEventListener('scroll', scrollHandler, true);
+          window.addEventListener('resize', onResize);
+        }, 0);
       } else {
+        clearTimeout(scrollListenerTimeout);
         if (scrollHandler) window.removeEventListener('scroll', scrollHandler, true);
         window.removeEventListener('resize', onResize);
       }
@@ -39,6 +50,7 @@ export function useFloatingLifecycle(options: FloatingLifecycleOptions) {
   );
 
   onBeforeUnmount(() => {
+    clearTimeout(scrollListenerTimeout);
     if (scrollHandler) window.removeEventListener('scroll', scrollHandler, true);
     window.removeEventListener('resize', onResize);
     if (rafId) cancelAnimationFrame(rafId);

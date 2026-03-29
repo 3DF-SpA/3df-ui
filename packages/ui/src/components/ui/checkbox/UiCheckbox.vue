@@ -7,14 +7,18 @@ import { cn } from '../../../lib/utils';
 
 defineOptions({ name: 'UiCheckbox', inheritAttrs: false });
 
+type CheckboxSize = 'sm' | 'default' | 'lg';
+
 interface UiCheckboxProps {
   modelValue?: boolean;
   indeterminate?: boolean;
+  size?: CheckboxSize;
 }
 
 const props = withDefaults(defineProps<UiCheckboxProps>(), {
   modelValue: false,
   indeterminate: false,
+  size: 'default',
 });
 
 const emit = defineEmits<{
@@ -28,9 +32,18 @@ const restAttrs = computed(() => {
   return rest;
 });
 
+const sizeMap: Record<CheckboxSize, string> = {
+  sm: 'size-3.5',
+  default: 'size-4',
+  lg: 'size-5',
+};
+
+const sizeClass = computed(() => sizeMap[props.size]);
+
 const wrapperClasses = computed(() =>
   cn(
-    'group relative inline-flex size-4 shrink-0',
+    'group relative inline-flex shrink-0',
+    sizeClass.value,
     'transition-transform duration-200 active:scale-[0.85] active:duration-100',
     attrs.class,
   ),
@@ -38,14 +51,14 @@ const wrapperClasses = computed(() =>
 
 const inputClasses = computed(() =>
   cn(
-    [
-      'peer size-4 shrink-0 cursor-pointer appearance-none',
-      'rounded-sm border-ui border-input bg-background',
-      'transition-[background-color,border-color,box-shadow] duration-150',
-      'disabled:pointer-events-none disabled:opacity-50',
-      'focus-visible:outline-2 focus-visible:outline-ring focus-visible:border-ring',
-      'checked:bg-primary checked:border-primary',
-    ].join(' '),
+    'peer cursor-pointer appearance-none shrink-0',
+    sizeClass.value,
+    'rounded-sm border-ui border-input bg-foreground/5',
+    'transition-[background-color,border-color,box-shadow] duration-150',
+    'hover:border-primary/70',
+    'disabled:pointer-events-none disabled:opacity-50',
+    'focus-visible:outline-2 focus-visible:outline-ring focus-visible:border-ring',
+    'checked:bg-primary checked:border-primary',
   ),
 );
 
@@ -68,7 +81,8 @@ function onChange(event: Event) {
 
     <svg
       :class="[
-        'pointer-events-none absolute inset-0 size-4',
+        'pointer-events-none absolute inset-0',
+        sizeClass,
         'transition-transform duration-150 ease-out',
         props.modelValue ? 'scale-100' : 'scale-0',
       ]"
@@ -92,7 +106,8 @@ function onChange(event: Event) {
 
     <svg
       v-if="props.indeterminate && !props.modelValue"
-      class="pointer-events-none absolute inset-0 size-4"
+      class="pointer-events-none absolute inset-0"
+      :class="sizeClass"
       viewBox="0 0 16 16"
       fill="none"
       aria-hidden="true"

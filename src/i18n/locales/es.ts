@@ -1357,6 +1357,22 @@ export default {
         complete: { title: 'Formulario completo', description: 'Ejemplo de formulario combinando todos los componentes.' },
       },
     },
+    checkbox: {
+      title: 'Checkbox',
+      description: 'Casilla de verificación accesible con estados checked, indeterminado y deshabilitado. Se combina con Label para formularios accesibles.',
+      props: {
+        modelValue: 'Estado checked (v-model).',
+        indeterminate: 'Estado indeterminado — muestra un guión en lugar de un tilde.',
+        size: 'Tamaño visual: sm, default o lg.',
+      },
+      showcases: {
+        basic: { title: 'Uso básico', description: 'Checkbox vinculado a un Label mediante atributos id / for coincidentes.' },
+        states: { title: 'Todos los estados', description: 'Sin marcar, marcado, indeterminado, deshabilitado sin marcar y deshabilitado marcado.' },
+        sizes: { title: 'Tamaños', description: 'Tres variantes de tamaño: sm, default y lg.' },
+        indeterminate: { title: 'Indeterminado — Seleccionar todo', description: 'El checkbox padre refleja el estado mixto cuando los hijos están parcialmente seleccionados.' },
+        group: { title: 'En un formulario — Preferencias de notificación', description: 'Ejemplo práctico de checkboxes en una tarjeta de configuración.' },
+      },
+    },
     combobox: {
       title: 'Combobox',
       description: 'Campo de selección con búsqueda integrada para listas de opciones.',
