@@ -117,7 +117,7 @@ provide(MENUBAR_KEY, {
     role="menubar"
     :class="
       cn(
-        'flex h-9 sm:h-8 items-center space-x-1 rounded-md border-ui border-border bg-card p-1 shadow-sm overflow-x-auto max-w-full',
+        'flex h-9 sm:h-8 items-center space-x-1 rounded-md border-ui border-border bg-muted p-1 shadow-sm overflow-x-auto max-w-full [&::-webkit-scrollbar]:hidden [scrollbar-width:none]',
         attrs.class,
       )
     "
