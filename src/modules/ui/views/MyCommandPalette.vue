@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, shallowRef, markRaw, type Component } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import { CommandPalette } from '@3df-spa/ui';
 import type { CommandPaletteGroup, CommandPaletteItem } from '@3df-spa/ui';
 
