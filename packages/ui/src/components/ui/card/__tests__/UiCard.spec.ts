@@ -72,7 +72,7 @@ describe('UiCardContent', () => {
   it('contiene clases de padding base', () => {
     const wrapper = mount(UiCardContent);
     expect(wrapper.classes()).toContain('p-3');
-    expect(wrapper.classes()).toContain('pt-0');
+    expect(wrapper.classes()).toContain('sm:p-6');
   });
 
   it('hace merge de clase extra', () => {
