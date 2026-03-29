@@ -4,6 +4,34 @@ All notable changes to `@3df-spa/ui` are documented here.
 
 ---
 
+## [1.5.2] — 2026-03-29
+
+### Fixed
+
+#### Menubar — Scroll Arrows Visible on Windows / Chrome
+- **File:** `packages/ui/src/components/ui/menubar/UiMenubar.vue`
+- **Problem:** On Windows browsers (and some macOS configurations), the `Menubar` component displayed native scrollbar arrows (▲▼ stepper buttons) at the right edge of the bar. These appeared even when no horizontal scrolling was needed, cluttering the UI and looking unintentional.
+- **Root Cause:** The `overflow-x-auto` class on the root element enables horizontal scrolling as a fallback when menu items overflow the available width. This is intentional and necessary. However, all Chromium-based browsers on Windows render their native scrollbar with arrow buttons by default, and `overflow-x-auto` is enough to trigger that rendering even when the scrollbar is not actively needed.
+- **Fix:** Added `[&::-webkit-scrollbar]:hidden` (hides the entire WebKit scrollbar element, including its arrow buttons, on Chrome/Safari/Edge) and `[scrollbar-width:none]` (Firefox equivalent). The overflow behavior is preserved — content can still be scrolled programmatically or via trackpad/touch — but the scrollbar UI (arrows, track, thumb) is no longer visible. This is the same technique used by scrollable panels throughout the library.
+
+#### Menubar — Background Invisible in Dark Mode
+- **File:** `packages/ui/src/components/ui/menubar/UiMenubar.vue`
+- **Problem:** In dark mode, the `Menubar` had no visible background. It appeared as floating text labels (`File`, `Edit`, `View`, etc.) against the page background with no bar, container, or border visible behind them.
+- **Root Cause:** The menubar used `bg-card` as its background color. In the dark theme, `--card` is defined as `hsl(240 10% 3.9%)` — which is **identical** to `--background: hsl(240 10% 3.9%)`. Since both surface and page are the same color, the menubar blended completely into the page. The `border-ui border-border` border was also very subtle at 50% opacity against a same-color background, providing minimal visual separation.
+- **Fix:** Changed `bg-card` → `bg-muted`. In dark mode, `--muted: hsl(240 3.7% 15.9%)` is a meaningfully elevated surface compared to the dark background, making the menubar clearly visible. In light mode, `--muted: hsl(240 4.8% 95.9%)` renders as a soft gray — consistent with native OS-style menu bars. In the `3df` theme, `--muted: hsl(145 12% 15%)` provides appropriate forest-tinted contrast. The existing `border-ui border-border` border remains and is now clearly visible on top of the elevated surface.
+
+#### Input / Textarea — Border Not Visible
+- **Files:** `packages/ui/src/components/ui/input/input-variants.ts`, `packages/ui/src/components/ui/textarea/UiTextarea.vue`
+- **Problem:** `Input` and `Textarea` components appeared to have no visible border, making it impossible to distinguish them from the surrounding page content, especially in light mode.
+- **Root Cause:** Both components used `border-ui border-input`. The `border-ui` custom `@utility` sets `border-width: var(--ui-border-width, 2px)`, which reads a CSS variable. The `border-input` color utility references `--color-input` which internally resolves to `hsl(var(--input-hsl) / var(--ui-border-opacity, 0.5))` — another CSS variable for opacity. The `3DF Customizer` allows consumers to change both `--ui-border-width` and `--ui-border-opacity` globally. If the consumer (or the playground) had customized these variables to lower values, the border would become invisible or very faint. By contrast, `UiCard` uses `border border-border/28` where the opacity modifier `/28` is hardcoded via Tailwind's `color-mix()` — it does **not** read from any CSS variable, so it is always visible regardless of customizer state.
+- **Fix:** Changed `border-ui border-input` → `border border-border/50` on both `Input` and `Textarea`. This matches the `UiCard` pattern:
+  - `border` — standard Tailwind 1 px border, not controlled by any CSS variable, always rendered
+  - `border-border/50` — uses the semantic `--border` color at a hardcoded 50 % opacity via `color-mix()`, ensuring visibility across all themes (light, dark, 3df) and regardless of any customizer override
+  - 50 % opacity (vs card's 28 %) gives form inputs slightly more visual prominence than panel borders, which is appropriate UX for interactive fields
+- **Also fixed:** `Textarea` received the same fix for consistency, since it previously shared the identical `border-ui border-input` pattern.
+
+---
+
 ## [1.5.1] — 2026-03-29
 
 ### Fixed
