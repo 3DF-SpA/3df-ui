@@ -104,6 +104,8 @@ export { default as CommandShortcut } from './command/UiCommandShortcut.vue';
 export { default as CommandSeparator } from './command/UiCommandSeparator.vue';
 export { COMMAND_KEY } from './command/command-types';
 export type { CommandContext } from './command/command-types';
+export { default as CommandPalette } from './command-palette/UiCommandPalette.vue';
+export type { CommandPaletteItem, CommandPaletteGroup } from './command-palette/command-palette-types';
 export { default as Toaster } from './sonner/UiToaster.vue';
 export { toast } from './sonner/toast-state';
 export type { Toast, ToastVariant, ToastPosition, ToastInput } from './sonner/toast-state';

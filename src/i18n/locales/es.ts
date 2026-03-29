@@ -1544,6 +1544,24 @@ export default {
         commandDialog: { title: 'Command Dialog (⌘K / Ctrl+K)' },
       },
     },
+    commandPalette: {
+      description: 'Paleta de comandos con panel dividido: lista de búsqueda agrupada a la izquierda y panel de vista previa personalizable a la derecha. Construida sobre los primitivos Command.',
+      props: {
+        open: 'Estado abierto/cerrado (v-model:open).',
+        groups: 'Array de grupos, cada uno con label, icon opcional (SVG path) e items.',
+        searchPlaceholder: 'Placeholder del input de búsqueda.',
+        groupLabel: 'Nombre visible del grupo.',
+        groupIcon: 'SVG path usado como icono para todos los ítems del grupo.',
+        itemValue: 'Identificador único del ítem. Se pasa en @select.',
+        itemLabel: 'Texto visible, también usado para el filtro de búsqueda.',
+        itemIcon: 'SVG path para sobreescribir el icono del grupo en este ítem.',
+        itemKeywords: 'Keywords de búsqueda adicionales más allá del label y nombre del grupo.',
+      },
+      showcases: {
+        basic: { title: 'Uso básico' },
+        customPreview: { title: 'Panel de vista previa personalizado' },
+      },
+    },
     dialog: {
       description: 'Ventana modal que interrumpe al usuario para confirmar una acción o mostrar información importante.',
       props: {

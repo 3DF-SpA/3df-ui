@@ -37,6 +37,7 @@ const uiRoutes = [
   { path: 'menubar', name: 'Menubar', component: () => import('@/modules/ui/views/MyMenubar.vue'), meta: { group: 'Navegación' } },
   { path: 'pagination', name: 'Pagination', component: () => import('@/modules/ui/views/MyPagination.vue'), meta: { group: 'Navegación' } },
   { path: 'command', name: 'Command', component: () => import('@/modules/ui/views/MyCommand.vue'), meta: { group: 'Navegación' } },
+  { path: 'command-palette', name: 'CommandPalette', component: () => import('@/modules/ui/views/MyCommandPalette.vue'), meta: { group: 'Navegación' } },
 
   { path: 'dialog', name: 'Dialog', component: () => import('@/modules/ui/views/MyDialog.vue'), meta: { group: 'Overlay' } },
   { path: 'drawer', name: 'Drawer', component: () => import('@/modules/ui/views/MyDrawer.vue'), meta: { group: 'Overlay' } },

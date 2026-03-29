@@ -135,6 +135,13 @@ watch(selectedValue, async (val) => {
   await nextTick();
   document.getElementById(itemValueToId(val))?.scrollIntoView({ block: 'nearest' });
 });
+
+// Auto-selecciona el primer item visible cuando no hay nada seleccionado
+watch(visibleValues, (vals) => {
+  if (vals.length > 0 && !vals.includes(selectedValue.value)) {
+    selectedValue.value = vals[0]!;
+  }
+}, { immediate: true });
 </script>
 
 <template>
