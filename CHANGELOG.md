@@ -4,7 +4,39 @@ All notable changes to `@3df-spa/ui` are documented here.
 
 ---
 
-## [1.4.6] — 2026-03-29
+## [1.5.0] — 2026-03-29
+
+### Added
+
+#### `3df` Theme Mode — Forest Green Dark Theme
+- **Files:** `packages/ui/src/styles/theme.css`, `packages/ui/src/components/ui/3df/use-3df-config.ts`, `packages/ui/src/components/ui/3df/Ui3dfTheme.vue`, `src/composables/useTheme.ts`, `src/components/ThemeSwitcher.vue`
+- **What:** Introduces a new first-class theme mode called `'3df'` — a full forest green dark theme with its own complete CSS variable palette. This is a standalone theme comparable to `light` and `dark`, not a color preset override.
+- **Activation:** Adds class `.theme-3df` to `document.documentElement`. All semantic tokens are redefined within this class selector.
+- **Color palette highlights:**
+  - `--background: hsl(145 20% 7%)` — near-black with a deep green tint
+  - `--foreground: hsl(145 8% 92%)` — light cream with a subtle green tint
+  - `--card / --popover: hsl(145 18% 10%)` — slightly elevated dark green surfaces
+  - `--primary: hsl(145 50% 45%)` — forest green, used for buttons, active states, focus rings
+  - `--ring: hsl(145 50% 45%)` — focus ring matches primary
+  - `--muted: hsl(145 12% 15%)` — dark forest muted backgrounds
+  - `--accent: hsl(145 15% 18%)` — hover/highlight surfaces
+  - All `--chart-*` colors re-tuned for green-tinted dark backgrounds
+  - Sidebar tokens adapted to forest palette
+  - Shadow opacities increased for dark-surface legibility
+
+- **`@custom-variant theme-3df`** added to `theme.css` so Tailwind utility variants (e.g. `theme-3df:bg-card`) work automatically for consumers using the theme.
+
+- **`Theme` type updated:** `'light' | 'dark' | 'system' | '3df'` in `use-3df-config.ts`. `applyTheme()` now removes both `.dark` and `.theme-3df` before applying the requested mode, preventing class conflicts.
+
+- **`applyColorVars` isDark detection updated:** The MutationObserver and `applyCSS()` now check for both `.dark` AND `.theme-3df` when determining whether to use dark-variant preset colors, so color presets render correctly on top of the 3df theme.
+
+- **`Ui3dfTheme.vue`:** Added 4th option `{ value: '3df', label: '3DF', icon: 'leaf' }` with a leaf SVG icon. Grid changed from 3 to 4 columns to accommodate the new option.
+
+- **Playground (`useTheme.ts`, `ThemeSwitcher.vue`):** `BaseMode` extended to `'light' | 'dark' | '3df'`. A 3DF button with leaf icon added to the navbar ThemeSwitcher dropdown.
+
+---
+
+## [1.4.6]— 2026-03-29
 
 ### Fixed
 

@@ -16,7 +16,7 @@ export const RADIUS_STEPS = [
   { label: '3XL', value: '3rem' },
 ] as const;
 
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark' | 'system' | '3df';
 
 export interface Ui3dfConfig {
   version: number;
@@ -50,27 +50,28 @@ let _mqHandler: ((e: MediaQueryListEvent) => void) | null = null;
 
 export function applyTheme(theme: Theme): void {
   if (isSSR()) return;
-  // Limpiar listener anterior
   if (_mqRef && _mqHandler) {
     _mqRef.removeEventListener('change', _mqHandler);
     _mqRef = null;
     _mqHandler = null;
   }
-  if (theme === 'light') {
-    document.documentElement.classList.remove('dark');
-  } else if (theme === 'dark') {
+  // Clear all theme classes before applying
+  document.documentElement.classList.remove('dark', 'theme-3df');
+  if (theme === 'dark') {
     document.documentElement.classList.add('dark');
-  } else {
+  } else if (theme === '3df') {
+    document.documentElement.classList.add('theme-3df');
+  } else if (theme === 'system') {
     _mqRef = window.matchMedia('(prefers-color-scheme: dark)');
     _mqHandler = (e: MediaQueryListEvent) => {
       if (e.matches) document.documentElement.classList.add('dark');
       else document.documentElement.classList.remove('dark');
     };
     _mqRef.addEventListener('change', _mqHandler);
-    // Aplicar inmediatamente
     if (_mqRef.matches) document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
   }
+  // 'light' = no class
 }
 
 export function applyColorVars(presetId: string, isDark: boolean): void {
@@ -95,7 +96,7 @@ function applyCSS(cfg: Ui3dfConfig): void {
   document.documentElement.style.setProperty('--radius', radius);
   document.documentElement.style.setProperty('--ui-border-opacity', String(cfg.borderOpacity));
   document.documentElement.style.setProperty('--ui-letter-spacing', `${cfg.letterSpacing}em`);
-  applyColorVars(cfg.colorPreset, document.documentElement.classList.contains('dark'));
+  applyColorVars(cfg.colorPreset, document.documentElement.classList.contains('dark') || document.documentElement.classList.contains('theme-3df'));
   applyFontVar(cfg.fontId);
 }
 
@@ -134,7 +135,8 @@ watch(
 // Re-apply color vars when dark mode class changes (e.g., from useTheme toggling .dark)
 if (typeof window !== 'undefined') {
   const darkObserver = new MutationObserver(() => {
-    applyColorVars(config3df.value.colorPreset, document.documentElement.classList.contains('dark'));
+    const isDark = document.documentElement.classList.contains('dark') || document.documentElement.classList.contains('theme-3df');
+    applyColorVars(config3df.value.colorPreset, isDark);
   });
   darkObserver.observe(document.documentElement, { attributeFilter: ['class'] });
 }

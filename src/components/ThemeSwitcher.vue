@@ -7,7 +7,7 @@ const isOpen = ref(false);
 
 const activePreset = computed(() => INLINE_PRESETS.find(p => p.id === currentPreset.value) ?? INLINE_PRESETS[0]!);
 const activePreview = computed(() =>
-  currentMode.value === 'dark' ? activePreset.value.previewDark : activePreset.value.preview
+  currentMode.value === 'dark' || currentMode.value === '3df' ? activePreset.value.previewDark : activePreset.value.preview
 );
 </script>
 
@@ -67,6 +67,22 @@ const activePreview = computed(() =>
             <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
           </svg>
           Dark
+        </button>
+        <!-- 3DF -->
+        <button
+          :class="[
+            'inline-flex flex-1 items-center justify-center gap-1.5 rounded-md border py-1.5 text-xs font-medium transition-colors',
+            currentMode === '3df'
+              ? 'border-primary bg-primary/10 text-foreground'
+              : 'border-border text-muted-foreground hover:bg-accent hover:text-foreground',
+          ]"
+          @click="setMode('3df')"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+          3DF
         </button>
       </div>
 

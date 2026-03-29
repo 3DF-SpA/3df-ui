@@ -1,4 +1,5 @@
 @custom-variant dark (&:where(.dark, .dark *));
+@custom-variant theme-3df (&:where(.theme-3df, .theme-3df *));
 
 /* Auto-register compiled components as Tailwind source.
    Resolved relative to THIS file → ../../dist = packages/ui/dist/.
@@ -148,6 +149,67 @@
   --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.40), 0 8px 10px -6px hsl(0 0% 0% / 0.28);
   --shadow-2xl: 0 25px 50px -12px hsl(0 0% 0% / 0.55);
   --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.20);
+}
+
+.theme-3df {
+  color-scheme: dark;
+
+  --background: hsl(145 20% 7%);
+  --foreground: hsl(145 8% 92%);
+  --card: hsl(145 18% 10%);
+  --card-foreground: hsl(145 8% 92%);
+  --popover: hsl(145 18% 10%);
+  --popover-foreground: hsl(145 8% 92%);
+  --primary: hsl(145 50% 45%);
+  --primary-foreground: hsl(145 20% 5%);
+  --secondary: hsl(145 15% 16%);
+  --secondary-foreground: hsl(145 8% 90%);
+  --muted: hsl(145 12% 15%);
+  --muted-foreground: hsl(145 8% 55%);
+  --accent: hsl(145 15% 18%);
+  --accent-foreground: hsl(145 8% 90%);
+  --destructive: hsl(0 68% 60%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --success: hsl(145 60% 55%);
+  --success-foreground: hsl(145 20% 5%);
+  --warning: hsl(38 90% 58%);
+  --warning-foreground: hsl(38 50% 8%);
+  --info: hsl(205 80% 58%);
+  --info-foreground: hsl(0 0% 98%);
+  --border-hsl: 145 15% 30%;
+  --input-hsl: 145 15% 30%;
+  --ring: hsl(145 50% 45%);
+
+  --sidebar: var(--background);
+  --sidebar-foreground: hsl(145 8% 90%);
+  --sidebar-primary: hsl(145 50% 45%);
+  --sidebar-primary-foreground: hsl(145 20% 5%);
+  --sidebar-accent: hsl(145 15% 16%);
+  --sidebar-accent-foreground: hsl(145 8% 90%);
+  --sidebar-border: hsl(145 15% 18%);
+  --sidebar-ring: hsl(145 50% 45%);
+
+  --chart-1: hsl(145 55% 48%);
+  --chart-2: hsl(170 45% 42%);
+  --chart-3: hsl(120 40% 40%);
+  --chart-4: hsl(35 70% 55%);
+  --chart-5: hsl(195 60% 52%);
+  --chart-6: hsl(265 50% 58%);
+  --chart-7: hsl(340 55% 55%);
+  --chart-8: hsl(55 75% 55%);
+  --chart-9: hsl(15 70% 55%);
+  --chart-10: hsl(230 55% 58%);
+  --chart-11: hsl(100 50% 50%);
+  --chart-12: hsl(0 65% 55%);
+
+  --shadow-2xs: 0 1px 0 0 hsl(0 0% 0% / 0.15);
+  --shadow-xs: 0 1px 2px 0 hsl(0 0% 0% / 0.25);
+  --shadow-sm: 0 1px 3px 0 hsl(0 0% 0% / 0.30), 0 1px 2px -1px hsl(0 0% 0% / 0.25);
+  --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.32), 0 2px 4px -2px hsl(0 0% 0% / 0.24);
+  --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.38), 0 4px 6px -4px hsl(0 0% 0% / 0.26);
+  --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.45), 0 8px 10px -6px hsl(0 0% 0% / 0.32);
+  --shadow-2xl: 0 25px 50px -12px hsl(0 0% 0% / 0.60);
+  --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.25);
 }
 
 @theme inline {

@@ -7,7 +7,7 @@ export { COLOR_PRESETS };
 // Backward-compat alias
 export const INLINE_PRESETS = COLOR_PRESETS;
 
-export type BaseMode = 'light' | 'dark';
+export type BaseMode = 'light' | 'dark' | '3df';
 
 const STORAGE_MODE = '3df-ui-mode';
 
@@ -20,7 +20,7 @@ function stored<T extends string>(key: string, fallback: T, valid: T[]): T {
 }
 
 const currentMode = ref<BaseMode>(
-  stored('3df-ui-mode', 'light', ['light', 'dark'])
+  stored('3df-ui-mode', 'light', ['light', 'dark', '3df'])
 );
 
 // currentPreset now derived from use3dfConfig singleton
@@ -28,10 +28,11 @@ const currentPreset = computed(() => config3df.value.colorPreset);
 
 watchEffect(() => {
   const root = document.documentElement;
+  root.classList.remove('dark', 'theme-3df');
   if (currentMode.value === 'dark') {
     root.classList.add('dark');
-  } else {
-    root.classList.remove('dark');
+  } else if (currentMode.value === '3df') {
+    root.classList.add('theme-3df');
   }
   try {
     localStorage.setItem(STORAGE_MODE, currentMode.value);

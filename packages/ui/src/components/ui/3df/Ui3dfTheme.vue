@@ -10,13 +10,14 @@ defineOptions({ name: 'Ui3dfTheme', inheritAttrs: false });
 interface ThemeOption {
   value: Theme;
   label: string;
-  icon: 'sun' | 'moon' | 'monitor';
+  icon: 'sun' | 'moon' | 'monitor' | 'leaf';
 }
 
 const THEME_OPTIONS: ThemeOption[] = [
   { value: 'light', label: 'Light', icon: 'sun' },
   { value: 'dark', label: 'Dark', icon: 'moon' },
   { value: 'system', label: 'System', icon: 'monitor' },
+  { value: '3df', label: '3DF', icon: 'leaf' },
 ];
 
 const attrs = useAttrs() as Record<string, unknown> & { class?: ClassValue };
@@ -32,7 +33,7 @@ function select(value: Theme): void {
 <template>
   <div v-bind="restAttrs" :class="cn('flex flex-col gap-2', attrs.class)">
     <span class="text-xs font-medium text-muted-foreground uppercase tracking-wide">Theme</span>
-    <div class="grid grid-cols-3 gap-1.5">
+    <div class="grid grid-cols-4 gap-1.5">
       <button
         v-for="opt in THEME_OPTIONS"
         :key="opt.value"
@@ -57,9 +58,14 @@ function select(value: Theme): void {
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
         </svg>
         <!-- Monitor icon -->
-        <svg v-else class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg v-else-if="opt.icon === 'monitor'" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="3" width="20" height="14" rx="2"/>
           <path d="M8 21h8M12 17v4"/>
+        </svg>
+        <!-- Leaf icon (3df theme) -->
+        <svg v-else-if="opt.icon === 'leaf'" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+          <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
         </svg>
         {{ opt.label }}
       </button>

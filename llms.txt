@@ -92,6 +92,19 @@ document.documentElement.classList.add('dark')
 
 Cambios clave en dark: `--background: hsl(240 10% 3.9%)`, `--foreground: hsl(0 0% 98%)`, `--destructive: hsl(0 72% 62%)` (ajustado para visibilidad en fondos oscuros), `--success: hsl(142 71% 60%)`, `--warning: hsl(38 95% 62%)`.
 
+### 2b. `.theme-3df` — Tema Forest (modo oscuro verde bosque)
+
+Tema completo alternativo al modo `dark`. Aplica clase `.theme-3df` al `<html>`. Define una paleta de verde bosque oscuro en toda la interfaz.
+
+```css
+/* Activar tema 3DF */
+document.documentElement.classList.add('theme-3df')
+```
+
+Colores principales: `--background: hsl(145 20% 7%)` (negro-verdoso), `--foreground: hsl(145 8% 92%)` (crema), `--primary: hsl(145 50% 45%)` (verde bosque), `--ring: hsl(145 50% 45%)`.
+
+El tema se activa vía `use3dfConfig()` con `theme: '3df'` o programáticamente con `applyTheme('3df')`.
+
 ### 3. `@theme inline` — Mapeo a utilidades Tailwind
 
 Este bloque convierte todos los tokens semánticos en clases Tailwind utilizables directamente:
@@ -1547,10 +1560,13 @@ const { config, updateConfig, resetConfig } = use3dfConfig()
 
 // config es un Ref reactivo:
 // {
-//   version: 1,
-//   radiusStep: 4,      // 0-8 (0=sin radius, 8=full)
+//   version: 4,
+//   radiusStep: 4,      // 0-7 (índice en RADIUS_STEPS)
 //   borderOpacity: 0.5, // 0-1
-//   letterSpacing: 0,   // -2 a 4 (em * 0.01)
+//   letterSpacing: 0,   // em offset
+//   colorPreset: 'default', // id del preset de color
+//   fontId: 'inter',    // id del font option
+//   theme: 'system',    // 'light' | 'dark' | 'system' | '3df'
 // }
 
 // Actualizar un valor
@@ -1578,9 +1594,11 @@ resetConfig()
 | **Letter Spacing** | Espaciado de letras global (−2 a 4) | `--ui-letter-spacing` CSS var |
 | **Font** | Tipografía global (Inter / Plus Jakarta Sans / DM Sans / Outfit) | `--font-sans` CSS var |
 | **Color Preset** | Paleta de color activa (9 presets) | Variables HSL en `:root` |
-| **Theme** | Modo de color: Light / Dark / System | `document.documentElement.classList` (dark) |
+| **Theme** | Modo de color: Light / Dark / System / **3DF** | `document.documentElement.classList` (dark / theme-3df) |
 
-> El selector **System** escucha `prefers-color-scheme` vía `MediaQueryList` y cambia automáticamente cuando el sistema operativo alterna entre claro y oscuro. La preferencia se persiste en `localStorage` con el resto de la configuración. `applyTheme(theme)` es una función exportada del paquete para uso programático.
+> El selector **System** escucha `prefers-color-scheme` vía `MediaQueryList` y cambia automáticamente cuando el sistema operativo alterna entre claro y oscuro. El selector **3DF** aplica el tema forest verde oscuro (clase `.theme-3df` en `<html>`). La preferencia se persiste en `localStorage` con el resto de la configuración. `applyTheme(theme)` es una función exportada del paquete para uso programático.
+
+**Tipo `Theme`:** `'light' | 'dark' | 'system' | '3df'`
 
 ### Subcomponentes exportados
 
@@ -1593,6 +1611,8 @@ import { Ui3df, Ui3dfRadius, Ui3dfBorderOpacity, Ui3dfLetterSpacing, Ui3dfFont, 
 ```vue
 import { Ui3dfTheme } from '@3df-spa/ui'
 ```
+
+El selector de tema muestra 4 opciones: Light (☀️), Dark (🌙), System (🖥️), 3DF (🌿 forest verde oscuro).
 
 ### Color Presets disponibles (9)
 
