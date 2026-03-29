@@ -699,8 +699,97 @@ Command emits: `select` (valor confirmado con Enter/click), `update:selected` (v
 CommandDialog props: `open`, `defaultOpen`, `showClose` (muestra botón X)
 CommandList: NO tiene max-height por defecto — el consumer controla la altura con clase exterior (`class="max-h-[300px]"`)
 Navegación teclado: ↑↓ navegan, Enter selecciona, Home/End van al inicio/fin. Auto-scroll al item activo.
+Auto-selección: el primer ítem visible se selecciona automáticamente al abrir el Command.
 
-### Popover
+### CommandPalette
+
+Componente de alto nivel construido sobre los primitivos `Command`. Layout de panel dividido: lista agrupada con búsqueda a la izquierda + panel de vista previa personalizable a la derecha.
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { CommandPalette } from '@3df-spa/ui'
+import type { CommandPaletteItem, CommandPaletteGroup } from '@3df-spa/ui'
+
+const open = ref(false)
+
+const groups: CommandPaletteGroup[] = [
+  {
+    label: 'General',
+    icon: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4...', // SVG path data
+    items: [
+      { value: 'button', label: 'Button' },
+      { value: 'badge',  label: 'Badge',  keywords: ['tag', 'chip'] },
+    ],
+  },
+  {
+    label: 'Layout',
+    items: [
+      { value: 'card',      label: 'Card'      },
+      { value: 'accordion', label: 'Accordion' },
+    ],
+  },
+]
+
+function onSelect(item: CommandPaletteItem) {
+  router.push(`/docs/${item.value}`)
+}
+</script>
+
+<template>
+  <button @click="open = true">Search ⌘K</button>
+
+  <CommandPalette
+    v-model:open="open"
+    :groups="groups"
+    search-placeholder="Search components..."
+    @update:selected="loadPreview"
+    @select="onSelect"
+  >
+    <!-- #preview slot: full control of the right panel -->
+    <template #preview="{ item, close }">
+      <div v-if="item" class="flex flex-col h-full">
+        <div class="flex items-center justify-between px-4 py-3 border-b border-border/60 shrink-0">
+          <span class="font-semibold">{{ item.label }}</span>
+          <button @click="close">✕</button>
+        </div>
+        <div class="flex-1 overflow-auto p-6">
+          <!-- render whatever preview content you need -->
+          <component :is="previewComponent" />
+        </div>
+      </div>
+      <!-- empty state when nothing is selected -->
+      <div v-else class="flex h-full items-center justify-center text-muted-foreground text-sm">
+        Select an item to preview
+      </div>
+    </template>
+  </CommandPalette>
+</template>
+```
+
+Props: `open` (v-model), `groups: CommandPaletteGroup[]`, `searchPlaceholder` (default: `'Search...'`)
+Emits: `update:open`, `select(item: CommandPaletteItem)`, `update:selected(item: CommandPaletteItem | null)`
+
+**CommandPaletteGroup:** `{ label: string, icon?: string, items: CommandPaletteItem[] }`
+**CommandPaletteItem:** `{ value: string, label: string, icon?: string, keywords?: string[], [key: string]: unknown }`
+- `value` — identificador único, pasado en `@select`
+- `label` — texto visible y buscable
+- `icon` — SVG path para sobreescribir el icono del grupo en ese ítem
+- `keywords` — términos extra de búsqueda (además de `label` y `group.label`)
+- Campos extra libres: el consumer puede añadir cualquier dato que necesite (e.g., `description`, `href`, `group`)
+
+**Slots:**
+- `#preview` → `{ item: CommandPaletteItem | null, close: () => void }` — panel derecho completo
+- `#item` → `{ item, group, isSelected }` — render custom de cada ítem en la lista
+- `#empty` — contenido cuando ningún ítem coincide con la búsqueda
+
+**Comportamiento:**
+- El primer ítem se auto-selecciona al abrir (activa la vista previa inmediatamente)
+- Filtrado interno: busca en `item.value + item.label + group.label + item.keywords`
+- `⌘K` / `Ctrl+K` abre/cierra (heredado de CommandDialog)
+- Al seleccionar (`Enter` o click) se emite `@select` y se cierra automáticamente
+
+
 
 ```vue
 <script setup lang="ts">
@@ -962,10 +1051,10 @@ import { PanelTable, PanelTableHead, PanelTableRow, PanelTableCell } from '@3df-
 ### Sidebar
 
 Sub-componentes disponibles:
-- `SidebarProvider` — Proveedor de contexto. Envuelve todo el layout.
-- `Sidebar` — El panel lateral. Props: `side` (left|right), `variant` (sidebar|floating|inset), `collapsible` (offcanvas|icon|none).
-- `SidebarHeader` — Cabecera del sidebar. `shrink-0` para no comprimirse en móvil.
-- `SidebarFooter` — Pie del sidebar. `shrink-0` para no comprimirse en móvil.
+- `SidebarProvider` — Proveedor de contexto. Envuelve todo el layout. Props: `side` (left|right), `variant` (sidebar|floating|inset).
+- `Sidebar` — El panel lateral. Props: `side` (left|right), `variant` (sidebar|floating|inset). **Sin collapsible** — es un flex child estático (`shrink-0 h-svh`). El consumer gestiona el comportamiento mobile.
+- `SidebarHeader` — Cabecera del sidebar.
+- `SidebarFooter` — Pie del sidebar.
 - `SidebarContent` — Área de contenido con scroll.
 - `SidebarGroup` / `SidebarGroupLabel` / `SidebarGroupContent` — Agrupación de items.
 - `SidebarMenu` / `SidebarMenuItem` / `SidebarMenuButton` — Menú de navegación.
@@ -974,16 +1063,18 @@ Sub-componentes disponibles:
 - `SidebarMenuAction` — Acción secundaria en item de menú.
 - `SidebarMenuSkeleton` — Skeleton de carga para items de menú.
 - `SidebarSeparator` — Separador visual.
-- `SidebarRail` — Rail estrecho para colapso tipo icon.
+- `SidebarRail` — Rail estrecho. Emite evento `toggle` que el consumer puede usar.
 - `SidebarInset` — Área de contenido principal para layout tipo inset.
-- `SidebarTrigger` — Botón para colapsar/expandir el sidebar en desktop.
-- `SidebarMobileTrigger` — Botón hamburger para móvil. Visible solo en breakpoint mobile. Requiere estar dentro de UiSidebarProvider.
+- `SidebarTrigger` — Botón que emite evento `toggle`. El consumer decide la lógica de colapso.
 
-> **Border:** El sidebar panel usa `border-r-ui`/`border-l-ui` con `var(--border)` (responde al Customizer, --ui-border-width, --ui-border-opacity). NO usa `border-sidebar-border`. El mobile sheet también tiene borde con `border-r-ui`/`border-l-ui`.
+> **Color:** `--sidebar` referencia `var(--background)` por defecto — el sidebar coincide con el fondo del tema automáticamente.
+> **Layout:** el `Sidebar` es un flex child en-flujo (no `position: fixed`). El `SidebarInset` toma el espacio restante con `flex-1`. Para sidebar derecho, el `<Sidebar>` debe colocarse después del `<SidebarInset>` en el template.
+> **Mobile:** el componente NO gestiona mobile internamente. Para ocultar en móvil usa `class="hidden lg:flex"` en `<Sidebar>` y añade tu propio Sheet/drawer con la navegación.
+> **Border:** usa `border-r-ui`/`border-l-ui` (responde a `--ui-border-width`).
 
 ```vue
 <script setup lang="ts">
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarMobileTrigger } from '@3df-spa/ui'
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset } from '@3df/ui'
 </script>
 <template>
   <SidebarProvider>
@@ -1001,13 +1092,9 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter,
       </SidebarContent>
       <SidebarFooter>Footer</SidebarFooter>
     </Sidebar>
-    <main>
-      <!-- SidebarTrigger: colapsa/expande el sidebar en desktop -->
-      <SidebarTrigger />
-      <!-- SidebarMobileTrigger: botón hamburger, solo visible en móvil, va en topbar/navbar -->
-      <SidebarMobileTrigger />
+    <SidebarInset>
       <!-- page content -->
-    </main>
+    </SidebarInset>
   </SidebarProvider>
 </template>
 ```
@@ -1368,10 +1455,11 @@ function submit() {
 ### Dashboard layout with sidebar
 ```vue
 <script setup lang="ts">
-import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarTrigger, SidebarMobileTrigger } from '@3df-spa/ui'
+import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarInset } from '@3df/ui'
 </script>
 <template>
   <SidebarProvider>
+    <!-- On mobile/tablet: hide with class="hidden lg:flex" and add your own hamburger + Sheet -->
     <Sidebar>
       <SidebarContent>
         <SidebarMenu>
@@ -1381,11 +1469,9 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarMenu, SidebarMenuItem,
         </SidebarMenu>
       </SidebarContent>
     </Sidebar>
-    <main class="flex-1 p-6">
-      <SidebarTrigger class="mb-4" />
-      <SidebarMobileTrigger class="mb-4" />
+    <SidebarInset>
       <slot />
-    </main>
+    </SidebarInset>
   </SidebarProvider>
 </template>
 ```
@@ -1552,6 +1638,22 @@ Selector de tipografía con 4 fuentes (Inter, Plus Jakarta Sans, DM Sans, Outfit
 ---
 
 ## Changelog
+
+### v1.4.2
+- **CommandPalette:** nuevo componente de alto nivel (`CommandPalette`) exportado desde `@3df/ui`. Layout de panel dividido con lista agrupada + slot `#preview` totalmente personalizable.
+- **CommandPaletteItem / CommandPaletteGroup:** tipos TypeScript exportados para tipar los datos del consumer.
+- **UiCommand auto-selección:** el primer ítem visible se selecciona automáticamente al abrir (`watch(visibleValues)`).
+- **CommandList altura:** corregido bug donde `sm:max-h-[20rem]` limitaba la altura aunque el consumer pasara `max-h-none`. Ahora se requiere `sm:max-h-none` para override completo.
+- **Demo:** añadida ruta `/ui/command-palette` con ejemplo live, tabla de slots y tabla de props.
+
+### v1.4.1
+- **Sidebar color:** `--sidebar` referencia `var(--background)` — el sidebar siempre coincide con el fondo del tema.
+- **Sidebar layout:** eliminado `position: fixed`. El sidebar es ahora un flex child en-flujo (`shrink-0 h-svh`), corrigiendo el bug donde cubría el contenido.
+- **Sidebar sin mobile:** eliminada toda la lógica mobile interna (Sheet, Teleport, matchMedia, body.overflow). `SidebarMobileTrigger` eliminado. El consumer gestiona mobile a su manera.
+- **Sidebar sin collapsible en base:** nueva arquitectura `BaseSidebarContext` (solo `side` + `variant`). El collapsible queda para una futura variante dedicada.
+- **SidebarTrigger / SidebarRail:** ahora emiten evento `toggle` en lugar de gestionar estado interno.
+- **Playground:** sidebar oculto en tablet/mobile (`hidden lg:flex`), hamburger + Sheet para navegación mobile, search movido al navbar.
+- **i18n:** añadidas keys `demo.nav.documentation`, `demo.nav.support`, `demo.nav.whatsNew` en `en` y `es`.
 
 ### v1.3.4
 - **Sidebar border:** panel usa `border-r-ui`/`border-l-ui` (var(--border), customizer-aware). Eliminado `border-sidebar-border`.
