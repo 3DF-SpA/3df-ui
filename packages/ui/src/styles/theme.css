@@ -344,6 +344,13 @@
   border-radius: var(--ui-radius-field);
 }
 
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 
 body {
   letter-spacing: var(--ui-letter-spacing, 0em);
