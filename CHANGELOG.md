@@ -4,7 +4,19 @@ All notable changes to `@3df-spa/ui` are documented here.
 
 ---
 
-## [1.5.4] — 2026-03-30
+## [1.5.5] — 2026-03-30
+
+### Fixed
+
+#### Menubar — Flechas de Scroll Eliminadas Definitivamente
+- **Problema raíz:** `overflow-x-auto` en el contenedor raíz de `UiMenubar` hacía que los navegadores en Windows (Chrome, Edge) renderizaran flechas de scroll nativas (▲▼) en el borde derecho del componente, incluso cuando el contenido no desbordaba.
+- **Por qué los intentos anteriores fallaron (v1.5.2–1.5.4):** Las soluciones anteriores usaban `[&::-webkit-scrollbar]:hidden` (clases arbitrarias de Tailwind) y luego `@utility scrollbar-hide`. Ambas dependen de que el compilador de Tailwind del consumidor detecte y genere el CSS correspondiente al escanear los archivos `dist/` de la librería — un proceso no garantizado, especialmente con pseudo-elementos de scrollbar en Tailwind v4.
+- **Solución definitiva:** Se reemplazó `overflow-x-auto` por `overflow-hidden` directamente en `UiMenubar.vue`. Dado que `UiMenubarContent` usa `Teleport to="body"`, los menús desplegables no se ven afectados por el `overflow` del elemento raíz. No hay scrollbar → no hay flechas → funciona en 100% de navegadores sin depender de compilación de CSS del consumidor.
+- **Consumer action:** `pnpm update @3df-spa/ui` — no se requieren cambios en el código del consumidor.
+
+---
+
+
 
 ### Fixed
 
