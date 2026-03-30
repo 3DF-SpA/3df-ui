@@ -4,6 +4,28 @@ All notable changes to `@3df-spa/ui` are documented here.
 
 ---
 
+## [1.5.3] — 2026-03-30
+
+### Fixed
+
+#### Menubar — Scrollbar Arrows Still Visible in Consumer Builds
+- **Files:** `packages/ui/src/styles/theme.css`, `packages/ui/src/components/ui/menubar/UiMenubar.vue`
+- **Problem:** After v1.5.2, consumers who updated the package still saw native browser scrollbar arrows (▲▼) on the right edge of the `Menubar`, even though the fix appeared to work correctly in the library's own playground.
+- **Root Cause:** The v1.5.2 fix used Tailwind CSS arbitrary classes: `[&::-webkit-scrollbar]:hidden` and `[scrollbar-width:none]`. These arbitrary classes work in the playground because Tailwind scans the source `.vue` files directly. However, when a consumer installs the package and runs their own Tailwind build, Tailwind scans the compiled `dist/` files. Arbitrary classes containing CSS pseudo-elements (like `::-webkit-scrollbar`) are not reliably extracted from compiled JavaScript bundles by Tailwind's content scanner — they require the CSS to already be present in the output.
+- **Fix:** Replaced the arbitrary classes approach with a proper `@utility scrollbar-hide` declaration added directly to `packages/ui/src/styles/theme.css`:
+  ```css
+  @utility scrollbar-hide {
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  ```
+  This compiles the `scrollbar-hide` CSS directly into the package's distributed stylesheet (`dist/style.css`). The CSS is now always present when a consumer imports the theme — no re-scanning or re-compilation needed on their end. `UiMenubar.vue` now uses the class `scrollbar-hide` instead of the two arbitrary classes.
+- **Consumer action required:** Just update to v1.5.3 — `pnpm update @3df-spa/ui`. No code changes needed in their app.
+
+---
+
 ## [1.5.2] — 2026-03-29
 
 ### Fixed
