@@ -4,7 +4,7 @@
 
 ## Overview
 
-`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles. **v1.5.0**
+`@3df-spa/ui` — Vue 3 component library with 199+ components. TypeScript strict, Tailwind CSS v4, zero scoped styles. **v1.5.5**
 `@3df-spa/charts` — SVG chart library for Vue 3. Zero external dependencies. 6 chart types.
 
 Both are published publicly to npmjs.org under the `@3df-spa` scope.
@@ -33,7 +33,7 @@ pnpm add embla-carousel
 
 ### Option A — Pre-compiled CSS (recommended, no Tailwind needed)
 ```css
-@import '@3df-spa/ui/styles.css';
+@import '@3df-spa/ui/index.css';
 ```
 
 ### Option B — With your own Tailwind CSS v4
@@ -169,7 +169,7 @@ Global customization:
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import '@3df-spa/ui/styles.css' // or theme.css with Option B
+import '@3df-spa/ui/index.css' // or theme.css with Option B
 
 createApp(App).mount('#app')
 ```
@@ -1207,6 +1207,14 @@ import { Kbd } from '@3df-spa/ui'
 
 All imports from `@3df-spa/charts`. Zero external dependencies (Vue peer only).
 
+> ⚠️ **CSS Required for Chart Colors:** Charts use CSS custom properties (`--color-chart-1` through `--color-chart-12`) defined in `@3df-spa/ui`'s theme. You MUST import the CSS in your app entry point:
+> ```ts
+> import '@3df-spa/ui/index.css'   // Option A — pre-compiled (recommended)
+> // OR
+> import '@3df-spa/ui/theme.css'   // Option B — with your own Tailwind CSS v4
+> ```
+> Without this import, charts will render without colors (dark/black fill on light backgrounds).
+
 ### Core Concepts
 
 Every chart uses `UiChartContainer` as the wrapper (provides responsive width/height via ResizeObserver). The `config` prop maps series keys to labels and colors. Data is an array of row objects.
@@ -1214,8 +1222,15 @@ Every chart uses `UiChartContainer` as the wrapper (provides responsive width/he
 ```ts
 import type { ChartConfig } from '@3df-spa/charts'
 
+// Use CSS variables (recommended) — colors come from @3df-spa/ui theme
 const config: ChartConfig = {
-  sales: { label: 'Sales', color: 'hsl(215 20% 42%)' },
+  sales:   { label: 'Sales',   color: 'var(--color-chart-1)' },
+  revenue: { label: 'Revenue', color: 'var(--color-chart-2)' },
+}
+
+// Or use hardcoded HSL values (works without CSS import)
+const configStatic: ChartConfig = {
+  sales:   { label: 'Sales',   color: 'hsl(215 20% 42%)' },
   revenue: { label: 'Revenue', color: 'hsl(170 25% 38%)' },
 }
 ```
