@@ -4,6 +4,16 @@ All notable changes to `@3df-spa/ui` are documented here.
 
 ---
 
+## [1.5.4] — 2026-03-30
+
+### Fixed
+
+#### Menubar — Scrollbar Fix Not Applied in Published v1.5.3
+- **What:** Re-release of the `scrollbar-hide` fix. The v1.5.3 package was published with a missing cherry-pick — the `@utility scrollbar-hide` declaration and its usage in `UiMenubar` were committed on a feature branch but not present in the main branch at publish time. This patch ensures the fix is included correctly.
+- **Consumer action:** `pnpm update @3df-spa/ui` — no code changes needed.
+
+---
+
 ## [1.5.3] — 2026-03-30
 
 ### Fixed
