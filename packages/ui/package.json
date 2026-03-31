@@ -1,6 +1,6 @@
 {
   "name": "@3df-spa/ui",
-  "version": "1.5.5",
+  "version": "1.5.6",
   "description": "Vue 3 component library — TypeScript strict, Tailwind CSS v4, accessible, zero-runtime",
   "keywords": [
     "vue",

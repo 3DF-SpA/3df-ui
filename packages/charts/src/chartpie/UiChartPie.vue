@@ -71,6 +71,15 @@ const slices = computed(() => resolveSlices(props.data, props.index, props.confi
 const visibleSlices = computed(() => slices.value.filter((s) => !hiddenSlices.value.has(s.key)));
 const total = computed(() => visibleSlices.value.reduce((sum, s) => sum + s.value, 0));
 
+// Resolve CSS variable colors (e.g. var(--color-chart-1)) to concrete HSL values
+// before they reach SVG gradient stop-color attributes, which don't support var() reliably.
+const resolvedSlices = computed(() =>
+  visibleSlices.value.map((s) => ({
+    ...s,
+    color: resolveColor(s.color, rootRef.value ?? undefined),
+  })),
+);
+
 const hoveredKey = ref<string | null>(null);
 
 const fmtValue = computed(
@@ -111,7 +120,7 @@ function onSliceLeave() {
               arcs: computeArcs(
                 w,
                 h,
-                visibleSlices,
+                resolvedSlices,
                 total,
                 animProgress,
                 radiusFraction,

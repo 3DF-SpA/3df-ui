@@ -4,6 +4,20 @@ All notable changes to `@3df-spa/ui` are documented here.
 
 ---
 
+## [1.5.6] — 2026-03-31
+
+### Fixed
+
+#### Charts — UiChartPie y UiChartScatter: Colores No Resueltos en SVG
+
+- **Problema:** Los charts `UiChartPie` (Pie / Donut) se mostraban completamente en blanco para el consumidor, y los puntos de `UiChartScatter` aparecían invisibles o con colores incorrectos.
+- **Causa raíz:** Los colores de la configuración (`var(--color-chart-1)`, etc.) se pasaban directamente a atributos de presentación SVG sin resolverse primero. En SVG, los atributos de presentación como `stop-color` dentro de `<radialGradient>` **no soportan CSS custom properties de forma confiable** — el browser los ignora silenciosamente, dejando el gradiente sin color y el `fill="url(#grad)"` del path sin relleno visible.
+- **Fix `UiChartPie.vue`:** Se agrega un computed `resolvedSlices` que llama `resolveColor(color, rootRef.value)` en cada slice **antes** de pasar los datos a `computeArcs()`. Los gradientes reciben valores HSL concretos (ej: `hsl(145 55% 48%)`) en lugar de `var(--color-chart-1)`.
+- **Fix `UiChartScatter.vue`:** `computePoints()` ahora usa `resolvedColors.value[seriesKey]` (resuelto en `onMounted`) en lugar del `s.color` raw al construir cada punto SVG.
+- **Consumer action:** `pnpm update @3df-spa/charts` — no se requieren cambios de código.
+
+---
+
 ## [1.5.5] — 2026-03-30
 
 ### Fixed

@@ -251,7 +251,7 @@ function computePoints(w: number, h: number): ScatterPoint[] {
         rawX,
         rawY,
         rawSize,
-        color: s.color,
+        color: resolvedColors.value[seriesKey] ?? s.color,
         shape: s.shape ?? 'circle',
       });
     }
