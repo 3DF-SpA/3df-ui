@@ -8,7 +8,7 @@
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind-v4-38bdf8)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6)](https://www.typescriptlang.org)
 
-A private design system built for internal 3DF projects. Every component uses `<script setup lang="ts">`, CVA variants, and `cn()` (clsx + tailwind-merge) — no scoped styles, no `!important`, full `class` override support out of the box.
+Open source design system by 3DF SpA. Every component uses `<script setup lang="ts">`, CVA variants, and `cn()` (clsx + tailwind-merge) — no scoped styles, no `!important`, full `class` override support out of the box.
 
 ---
 

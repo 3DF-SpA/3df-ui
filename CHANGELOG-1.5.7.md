@@ -1,6 +1,29 @@
-# Changelog — Release 1.5.7 / Charts 1.5.2
+# Changelog — Releases 1.5.7 · 1.5.8 / Charts 1.5.2
 
-**Fecha:** 2026-04-02
+**Última actualización:** 2026-04-02
+
+---
+
+## @3df-spa/ui — v1.5.8
+
+### Documentation
+
+#### Fix: descripción del paquete corregida en README
+
+**Problema:** La descripción introductoria del README publicado en npm decía `"A private design system built for internal 3DF projects"`. Esto es incorrecto — el paquete está publicado como público en npm (`"access": "public"`) y el repositorio es abierto en GitHub.
+
+**Fix:** La línea fue reemplazada por:
+
+> `Open source design system by 3DF SpA.`
+
+**Archivo modificado:** `packages/ui/README.md`
+
+**Versiones bumped:**
+
+| Paquete | Versión anterior | Nueva versión |
+|---------|-----------------|---------------|
+| `@3df-spa/ui` (`packages/ui/package.json`) | `1.5.7` | `1.5.8` |
+| Raíz workspace (`package.json`) | `1.5.7` | `1.5.8` |
 
 ---
 
