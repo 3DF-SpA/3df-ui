@@ -70,6 +70,11 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/demo',
+      name: 'demo-zone',
+      component: () => import('@/views/DemoZone.vue'),
+    },
+    {
       path: '/',
       component: AppLayout,
       children: [
