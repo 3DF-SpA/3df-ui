@@ -338,6 +338,17 @@ function isActive(fullPath: string) {
           </kbd>
         </button>
 
+        <RouterLink
+          to="/demo"
+          class="hidden sm:flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          Demo
+        </RouterLink>
+
         <LocaleSwitcher />
         <ThemeSwitcher />
 

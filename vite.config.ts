@@ -11,6 +11,7 @@ export default defineConfig({
   plugins: [vue(), vueDevTools(), tailwindcss()],
   resolve: {
     alias: {
+      'vue': 'vue/dist/vue.esm-bundler.js',
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@3df/ui/theme.css': fileURLToPath(new URL('./packages/ui/src/styles/theme.css', import.meta.url)),
       '@3df-spa/ui/theme.css': fileURLToPath(new URL('./packages/ui/src/styles/theme.css', import.meta.url)),
